@@ -83,7 +83,7 @@ melos:
         - melos exec -- dart format .
         - melos exec -- dart fix --apply
       packageFilters:
-        dirExists: lib
+        dirExists: lib-
     generate:
       name: Build generated files
       description: Generate *.g.dart / *.freezed.dart files
