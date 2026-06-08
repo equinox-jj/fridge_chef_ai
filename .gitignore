@@ -34,6 +34,10 @@ migrate_working_dir/
 /coverage/
 pubspec.lock
 .env
+firebase.json
+google-services.json
+GoogleService-Info.plist
+firebase_options.dart
 
 # Symbolication related
 app.*.symbols
