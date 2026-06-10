@@ -1,7 +1,11 @@
+import 'package:core/components/button/app_submit_button.dart';
+import 'package:core/components/card/app_card.dart';
+import 'package:core/components/text/app_inline_link.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
+import 'package:core/utils/validators.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -40,22 +44,9 @@ class _ForgotPasswordCardState extends State<ForgotPasswordCard> {
     );
   }
 
-  String? _validateEmail(String? value) {
-    final String email = value?.trim() ?? '';
-    if (email.isEmpty) return 'Enter your email';
-    final bool valid = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
-    return valid ? null : 'Enter a valid email';
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surfaceCard,
-        borderRadius: BorderRadius.all(AppRadius.brXl),
-        boxShadow: AppShadows.xl,
-      ),
-      padding: const EdgeInsets.all(AppSpacing.s5),
+    return AppCard(
       child: Form(
         key: _formKey,
         child: Column(
@@ -82,7 +73,7 @@ class _ForgotPasswordCardState extends State<ForgotPasswordCard> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
               autofillHints: const <String>[AutofillHints.email],
-              validator: _validateEmail,
+              validator: Validators.email,
               onFieldSubmitted: (_) => _submit(),
               decoration: const InputDecoration(
                 labelText: 'Email',
@@ -98,62 +89,20 @@ class _ForgotPasswordCardState extends State<ForgotPasswordCard> {
                 final bool isLoading = state.forgotPasswordStatus == BlocStatus.loading;
                 final bool isCoolingDown = state.resendCountdown > 0;
 
-                return SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    onPressed: isLoading || isCoolingDown ? null : _submit,
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(
-                        AppLayout.tapTarget,
-                      ),
-                    ),
-                    icon: isLoading
-                        ? const SizedBox.shrink()
-                        : const Icon(
-                            Icons.mark_email_read_outlined,
-                            size: AppTextSize.h3,
-                          ),
-                    label: isLoading
-                        ? const SizedBox(
-                            width: AppSpacing.s5,
-                            height: AppSpacing.s5,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.5,
-                              color: AppColors.onPrimary,
-                            ),
-                          )
-                        : Text(
-                            isCoolingDown ? 'Resend in ${state.resendCountdown}s' : 'Send reset code',
-                          ),
-                  ),
+                return AppSubmitButton(
+                  label: isCoolingDown ? 'Resend in ${state.resendCountdown}s' : 'Send reset code',
+                  icon: Icons.mark_email_read_outlined,
+                  isLoading: isLoading,
+                  onPressed: isCoolingDown ? null : _submit,
                 );
               },
             ),
             const SizedBox(height: AppSpacing.s4),
             Center(
-              child: Text.rich(
-                TextSpan(
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: AppColors.textMuted,
-                  ),
-                  children: <InlineSpan>[
-                    const TextSpan(text: 'Remember your password? '),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: GestureDetector(
-                        onTap: () => context.read<AppNavigator>().toSignIn(),
-                        child: Text(
-                          'Sign in',
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: AppFontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+              child: AppInlineLink(
+                text: 'Remember your password? ',
+                linkLabel: 'Sign in',
+                onTap: () => context.read<AppNavigator>().toSignIn(),
               ),
             ),
           ],

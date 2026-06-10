@@ -5,4 +5,4 @@
 /// `StatefulShellRoute` over the scan, recipes and profile branches.
 library;
 
-export 'presentation/pages/dashboard/dashboard_shell.dart';
+export 'presentation/pages/dashboard_shell.dart';

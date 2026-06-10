@@ -1,7 +1,10 @@
+import 'package:core/components/button/app_submit_button.dart';
+import 'package:core/components/card/app_card.dart';
+import 'package:core/components/text/app_inline_link.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
-import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
+import 'package:core/utils/validators.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -43,34 +46,9 @@ class _SignUpCardState extends State<SignUpCard> {
     );
   }
 
-  String? _validateName(String? value) {
-    if ((value?.trim() ?? '').isEmpty) return 'Enter your name';
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    final String email = value?.trim() ?? '';
-    if (email.isEmpty) return 'Enter your email';
-    final bool valid = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
-    return valid ? null : 'Enter a valid email';
-  }
-
-  String? _validatePassword(String? value) {
-    final String password = value ?? '';
-    if (password.isEmpty) return 'Enter a password';
-    if (password.length < 6) return 'At least 6 characters';
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surfaceCard,
-        borderRadius: BorderRadius.all(AppRadius.brXl),
-        boxShadow: AppShadows.xl,
-      ),
-      padding: const EdgeInsets.all(AppSpacing.s5),
+    return AppCard(
       child: Form(
         key: _formKey,
         child: Column(
@@ -82,7 +60,10 @@ class _SignUpCardState extends State<SignUpCard> {
               textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.next,
               autofillHints: const <String>[AutofillHints.name],
-              validator: _validateName,
+              validator: (String? value) => Validators.required(
+                value,
+                'Enter your name',
+              ),
               decoration: const InputDecoration(
                 labelText: 'Name',
                 hintText: 'Jane Doe',
@@ -95,7 +76,7 @@ class _SignUpCardState extends State<SignUpCard> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               autofillHints: const <String>[AutofillHints.email],
-              validator: _validateEmail,
+              validator: Validators.email,
               decoration: const InputDecoration(
                 labelText: 'Email',
                 hintText: 'you@example.com',
@@ -111,7 +92,7 @@ class _SignUpCardState extends State<SignUpCard> {
                   obscureText: obscurePassword,
                   textInputAction: TextInputAction.done,
                   autofillHints: const <String>[AutofillHints.newPassword],
-                  validator: _validatePassword,
+                  validator: Validators.password,
                   onFieldSubmitted: (_) => _submit(),
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -132,59 +113,19 @@ class _SignUpCardState extends State<SignUpCard> {
               builder: (BuildContext context, SignUpState state) {
                 final bool isLoading = state.signUpStatus == BlocStatus.loading;
 
-                return SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    onPressed: isLoading ? null : _submit,
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(
-                        AppLayout.tapTarget,
-                      ),
-                    ),
-                    icon: isLoading
-                        ? const SizedBox.shrink()
-                        : const Icon(
-                            Icons.person_add_alt_1,
-                            size: AppTextSize.h3,
-                          ),
-                    label: isLoading
-                        ? const SizedBox(
-                            width: AppSpacing.s5,
-                            height: AppSpacing.s5,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.5,
-                              color: AppColors.onPrimary,
-                            ),
-                          )
-                        : const Text('Create account'),
-                  ),
+                return AppSubmitButton(
+                  label: 'Create account',
+                  icon: Icons.person_add_alt_1,
+                  isLoading: isLoading,
+                  onPressed: _submit,
                 );
               },
             ),
             const SizedBox(height: AppSpacing.s4),
-            Text.rich(
-              TextSpan(
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: AppColors.textMuted,
-                ),
-                children: <InlineSpan>[
-                  const TextSpan(text: 'Already have an account? '),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: GestureDetector(
-                      onTap: () => context.read<AppNavigator>().toSignIn(),
-                      child: Text(
-                        'Sign in',
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: AppFontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.center,
+            AppInlineLink(
+              text: 'Already have an account? ',
+              linkLabel: 'Sign in',
+              onTap: () => context.read<AppNavigator>().toSignIn(),
             ),
           ],
         ),

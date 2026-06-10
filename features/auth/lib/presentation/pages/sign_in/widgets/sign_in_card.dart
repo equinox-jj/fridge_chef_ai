@@ -1,7 +1,11 @@
+import 'package:core/components/button/app_submit_button.dart';
+import 'package:core/components/card/app_card.dart';
+import 'package:core/components/text/app_inline_link.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
+import 'package:core/utils/validators.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -42,27 +46,9 @@ class _SignInCardState extends State<SignInCard> {
     );
   }
 
-  String? _validateEmail(String? value) {
-    final String email = value?.trim() ?? '';
-    if (email.isEmpty) return 'Enter your email';
-    final bool valid = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
-    return valid ? null : 'Enter a valid email';
-  }
-
-  String? _validatePassword(String? value) {
-    if ((value ?? '').isEmpty) return 'Enter your password';
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surfaceCard,
-        borderRadius: .all(AppRadius.brXl),
-        boxShadow: AppShadows.xl,
-      ),
-      padding: const .all(AppSpacing.s5),
+    return AppCard(
       child: Form(
         key: _formKey,
         child: Column(
@@ -73,7 +59,7 @@ class _SignInCardState extends State<SignInCard> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               autofillHints: const <String>[AutofillHints.email],
-              validator: _validateEmail,
+              validator: Validators.email,
               decoration: const InputDecoration(
                 labelText: 'Email',
                 hintText: 'you@example.com',
@@ -89,7 +75,7 @@ class _SignInCardState extends State<SignInCard> {
                   obscureText: obscurePassword,
                   textInputAction: TextInputAction.done,
                   autofillHints: const <String>[AutofillHints.password],
-                  validator: _validatePassword,
+                  validator: Validators.password,
                   onFieldSubmitted: (_) => _submit(),
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -124,59 +110,19 @@ class _SignInCardState extends State<SignInCard> {
               builder: (BuildContext context, SignInState state) {
                 final bool isLoading = state.signInStatus == BlocStatus.loading;
 
-                return SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    onPressed: isLoading ? null : _submit,
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(
-                        AppLayout.tapTarget,
-                      ),
-                    ),
-                    icon: isLoading
-                        ? const SizedBox.shrink()
-                        : const Icon(
-                            Icons.login,
-                            size: AppTextSize.h3,
-                          ),
-                    label: isLoading
-                        ? const SizedBox(
-                            width: AppSpacing.s5,
-                            height: AppSpacing.s5,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.5,
-                              color: AppColors.onPrimary,
-                            ),
-                          )
-                        : const Text('Sign in'),
-                  ),
+                return AppSubmitButton(
+                  label: 'Sign in',
+                  icon: Icons.login,
+                  isLoading: isLoading,
+                  onPressed: _submit,
                 );
               },
             ),
             const SizedBox(height: AppSpacing.s4),
-            Text.rich(
-              TextSpan(
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: AppColors.textMuted,
-                ),
-                children: <InlineSpan>[
-                  const TextSpan(text: 'New here? '),
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: GestureDetector(
-                      onTap: () => context.read<AppNavigator>().toSignUp(),
-                      child: Text(
-                        'Create an account',
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: AppFontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              textAlign: .center,
+            AppInlineLink(
+              text: 'New here? ',
+              linkLabel: 'Create an account',
+              onTap: () => context.read<AppNavigator>().toSignUp(),
             ),
           ],
         ),
