@@ -35,11 +35,11 @@ class FridgeScanRepositoryImpl implements FridgeScanRepository {
       );
 
       // 4. Batch-persist the detected ingredients against the scan.
-      final List<IngredientModel> ingredients =
-          await _remoteDataSource.insertIngredients(
-        scanId: scan.id ?? '',
-        items: analysis.ingredients,
-      );
+      final List<IngredientModel> ingredients = await _remoteDataSource
+          .insertIngredients(
+            scanId: scan.id ?? '',
+            items: analysis.ingredients,
+          );
 
       return Right<Failure, ScanResultEntity>(
         ScanResultEntity(

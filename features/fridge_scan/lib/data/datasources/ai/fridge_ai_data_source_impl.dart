@@ -11,13 +11,14 @@ import 'fridge_ai_data_source.dart';
 
 class FridgeAiDataSourceImpl implements FridgeAiDataSource {
   FridgeAiDataSourceImpl({GenerativeModel? model})
-      : _model = model ??
-            FirebaseAI.googleAI().generativeModel(
-              model: _modelName,
-              generationConfig: GenerationConfig(
-                responseMimeType: 'application/json',
-              ),
-            );
+    : _model =
+          model ??
+          FirebaseAI.googleAI().generativeModel(
+            model: _modelName,
+            generationConfig: GenerationConfig(
+              responseMimeType: 'application/json',
+            ),
+          );
 
   final GenerativeModel _model;
 

@@ -24,6 +24,8 @@ dependencies:
     path: features/onboarding
   dashboard:
     path: features/dashboard
+  fridge_scan:
+    path: features/fridge_scan
 
 dev_dependencies:
   flutter_test:

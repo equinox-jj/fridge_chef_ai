@@ -5,6 +5,8 @@ import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
+import 'injector.dart';
+import 'router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  configureDependencies();
 
   runApp(const MainApp());
 }
@@ -25,6 +28,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router();
+    return MaterialApp.router(
+      title: 'Fridge Chef AI',
+      debugShowCheckedModeBanner: false,
+      routerConfig: getIt<AppRouter>().config,
+    );
   }
 }

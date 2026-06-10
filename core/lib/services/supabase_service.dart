@@ -12,6 +12,14 @@ class SupabaseService {
   /// Exposes the underlying [SupabaseClient].
   SupabaseClient get client => _client;
 
+  /// The currently authenticated session, or `null` when signed out.
+  Session? get currentSession => _client.auth.currentSession;
+
+  /// Emits on every authentication state change (sign-in, sign-out, refresh).
+  ///
+  /// Used as the router's refresh trigger so navigation reacts to auth changes.
+  Stream<AuthState> get authStateChanges => _client.auth.onAuthStateChange;
+
   /// Wraps an asynchronous Supabase operation, catches exceptions,
   /// maps them to [AppException], and rethrows.
   Future<T> safeCall<T>(Future<T> Function() call) async {
