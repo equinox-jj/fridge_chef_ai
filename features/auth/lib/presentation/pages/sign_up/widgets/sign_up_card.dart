@@ -4,28 +4,30 @@ import 'package:core/theme/theme.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../cubit/sign_in_cubit.dart';
-import '../cubit/sign_in_state.dart';
+import '../cubit/sign_up_cubit.dart';
+import '../cubit/sign_up_state.dart';
 
-/// The floating white card holding the credential form.
+/// The floating white card holding the registration form.
 ///
-/// Mirrors `.fs-login__card`: email + password fields, a full-width primary
-/// action and the "create an account" link.
-class SignInCard extends StatefulWidget {
-  const SignInCard({super.key});
+/// Mirrors the sign-in card with an extra name field: name + email + password,
+/// a full-width primary action and the "sign in" link.
+class SignUpCard extends StatefulWidget {
+  const SignUpCard({super.key});
 
   @override
-  State<SignInCard> createState() => _SignInCardState();
+  State<SignUpCard> createState() => _SignUpCardState();
 }
 
-class _SignInCardState extends State<SignInCard> {
+class _SignUpCardState extends State<SignUpCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -34,10 +36,16 @@ class _SignInCardState extends State<SignInCard> {
   void _submit() {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    context.read<SignInCubit>().signIn(
+    context.read<SignUpCubit>().signUp(
+      name: _nameController.text.trim(),
       email: _emailController.text.trim(),
       password: _passwordController.text,
     );
+  }
+
+  String? _validateName(String? value) {
+    if ((value?.trim() ?? '').isEmpty) return 'Enter your name';
+    return null;
   }
 
   String? _validateEmail(String? value) {
@@ -48,7 +56,9 @@ class _SignInCardState extends State<SignInCard> {
   }
 
   String? _validatePassword(String? value) {
-    if ((value ?? '').isEmpty) return 'Enter your password';
+    final String password = value ?? '';
+    if (password.isEmpty) return 'Enter a password';
+    if (password.length < 6) return 'At least 6 characters';
     return null;
   }
 
@@ -57,15 +67,29 @@ class _SignInCardState extends State<SignInCard> {
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.surfaceCard,
-        borderRadius: .all(AppRadius.brXl),
+        borderRadius: BorderRadius.all(AppRadius.brXl),
         boxShadow: AppShadows.xl,
       ),
-      padding: const .all(AppSpacing.s5),
+      padding: const EdgeInsets.all(AppSpacing.s5),
       child: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            TextFormField(
+              controller: _nameController,
+              keyboardType: TextInputType.name,
+              textCapitalization: TextCapitalization.words,
+              textInputAction: TextInputAction.next,
+              autofillHints: const <String>[AutofillHints.name],
+              validator: _validateName,
+              decoration: const InputDecoration(
+                labelText: 'Name',
+                hintText: 'Jane Doe',
+                prefixIcon: Icon(Icons.person_outline),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.s4),
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -83,7 +107,7 @@ class _SignInCardState extends State<SignInCard> {
               controller: _passwordController,
               obscureText: _obscurePassword,
               textInputAction: TextInputAction.done,
-              autofillHints: const <String>[AutofillHints.password],
+              autofillHints: const <String>[AutofillHints.newPassword],
               validator: _validatePassword,
               onFieldSubmitted: (_) => _submit(),
               decoration: InputDecoration(
@@ -100,9 +124,9 @@ class _SignInCardState extends State<SignInCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.s4),
-            BlocBuilder<SignInCubit, SignInState>(
-              builder: (BuildContext context, SignInState state) {
-                final bool isLoading = state is SignInLoading;
+            BlocBuilder<SignUpCubit, SignUpState>(
+              builder: (BuildContext context, SignUpState state) {
+                final bool isLoading = state is SignUpLoading;
 
                 return SizedBox(
                   width: double.infinity,
@@ -116,7 +140,7 @@ class _SignInCardState extends State<SignInCard> {
                     icon: isLoading
                         ? const SizedBox.shrink()
                         : const Icon(
-                            Icons.login,
+                            Icons.person_add_alt_1,
                             size: AppTextSize.h3,
                           ),
                     label: isLoading
@@ -128,7 +152,7 @@ class _SignInCardState extends State<SignInCard> {
                               color: AppColors.onPrimary,
                             ),
                           )
-                        : const Text('Sign in'),
+                        : const Text('Create account'),
                   ),
                 );
               },
@@ -140,13 +164,13 @@ class _SignInCardState extends State<SignInCard> {
                   color: AppColors.textMuted,
                 ),
                 children: <InlineSpan>[
-                  const TextSpan(text: 'New here? '),
+                  const TextSpan(text: 'Already have an account? '),
                   WidgetSpan(
                     alignment: PlaceholderAlignment.middle,
                     child: GestureDetector(
-                      onTap: () => context.read<AppNavigator>().toSignUp(),
+                      onTap: () => context.read<AppNavigator>().toSignIn(),
                       child: Text(
-                        'Create an account',
+                        'Sign in',
                         style: context.textTheme.bodySmall?.copyWith(
                           color: AppColors.primary,
                           fontWeight: AppFontWeight.bold,
@@ -156,7 +180,7 @@ class _SignInCardState extends State<SignInCard> {
                   ),
                 ],
               ),
-              textAlign: .center,
+              textAlign: TextAlign.center,
             ),
           ],
         ),

@@ -1,9 +1,8 @@
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/network/failure.dart';
-import 'package:core/router/app_route.dart';
+import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 import 'cubit/sign_in_cubit.dart';
@@ -67,7 +66,7 @@ class SignInPage extends StatelessWidget {
   void _onStateChanged(BuildContext context, SignInState state) {
     switch (state) {
       case SignInSuccess():
-        context.goNamed(AppRoute.dashboardName);
+        context.read<AppNavigator>().toDashboard();
         break;
       case SignInError(:final Failure failure):
         AppSnackbar.error(

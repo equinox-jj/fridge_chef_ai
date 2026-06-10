@@ -1,10 +1,10 @@
 /// Single source of truth for every route's `name` and `path`.
 ///
 /// These constants are referenced by each feature's `@TypedGoRoute`
-/// annotations (so the generated routes stay in sync) and by any
-/// cross-feature navigation via `context.goNamed(AppRoute.dashboardName)`.
-/// Routing by name means a feature never has to depend on another feature's
-/// route classes, keeping the packages decoupled.
+/// annotations (so the generated routes stay in sync) and by the router's
+/// redirect guard, which matches against paths. Features navigate through the
+/// [AppNavigator] abstraction rather than touching routes directly, so the
+/// feature packages stay decoupled from one another.
 abstract final class AppRoute {
   const AppRoute._();
 
@@ -17,10 +17,10 @@ abstract final class AppRoute {
   static const String signInPath = '/sign-in';
 
   static const String signUpName = 'signUp';
-  static const String signUpPath = '/sign-up';
+  static const String signUpPath = 'sign-up';
 
   static const String forgotPasswordName = 'forgotPassword';
-  static const String forgotPasswordPath = '/forgot-password';
+  static const String forgotPasswordPath = 'forgot-password';
 
   // ── Dashboard ───────────────────────────────────────────────────────────
   static const String dashboardName = 'dashboard';

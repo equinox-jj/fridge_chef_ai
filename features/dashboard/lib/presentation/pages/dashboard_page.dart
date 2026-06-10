@@ -1,5 +1,5 @@
-import 'package:core/router/app_route.dart';
-import 'package:dependencies/go_router/go_router.dart';
+import 'package:core/router/app_navigator.dart';
+import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -11,7 +11,7 @@ class DashboardPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Dashboard')),
       body: Center(
         child: FilledButton.icon(
-          onPressed: () => context.goNamed(AppRoute.fridgeScanName),
+          onPressed: () => context.read<AppNavigator>().toFridgeScan(),
           icon: const Icon(Icons.camera_alt_outlined),
           label: const Text('Scan my fridge'),
         ),
