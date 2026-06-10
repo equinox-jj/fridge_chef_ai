@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../extensions/context_ext.dart';
 import '../../theme/theme.dart';
 
 /// Semantic kind of an [AppSnackbar], driving its icon and accent color.
@@ -15,20 +16,52 @@ enum AppSnackbarType { success, error, warning, info }
 /// AppSnackbar.error(context, 'Something went wrong');
 /// ```
 abstract final class AppSnackbar {
-  static void success(BuildContext context, String message, {String? title}) =>
-      _show(context, AppSnackbarType.success, message, title);
+  static void success(
+    BuildContext context,
+    String message, {
+    String? title,
+  }) => _show(
+    context,
+    AppSnackbarType.success,
+    message,
+    title,
+  );
 
-  static void error(BuildContext context, String message, {String? title}) =>
-      _show(context, AppSnackbarType.error, message, title);
+  static void error(
+    BuildContext context,
+    String message, {
+    String? title,
+  }) => _show(
+    context,
+    AppSnackbarType.error,
+    message,
+    title,
+  );
 
-  static void warning(BuildContext context, String message, {String? title}) =>
-      _show(context, AppSnackbarType.warning, message, title);
+  static void warning(
+    BuildContext context,
+    String message, {
+    String? title,
+  }) => _show(
+    context,
+    AppSnackbarType.warning,
+    message,
+    title,
+  );
 
-  static void info(BuildContext context, String message, {String? title}) =>
-      _show(context, AppSnackbarType.info, message, title);
+  static void info(
+    BuildContext context,
+    String message, {
+    String? title,
+  }) => _show(
+    context,
+    AppSnackbarType.info,
+    message,
+    title,
+  );
 
   static void _show(BuildContext context, AppSnackbarType type, String message, String? title) {
-    ScaffoldMessenger.of(context)
+    context.scaffoldMessenger
       ..hideCurrentSnackBar()
       ..showSnackBar(build(type, message, title: title));
   }
@@ -102,19 +135,39 @@ abstract final class AppSnackbar {
   static _SnackbarStyle _styleFor(AppSnackbarType type) {
     switch (type) {
       case AppSnackbarType.success:
-        return const _SnackbarStyle(Icons.check_circle_rounded, AppColors.success, AppColors.successTint);
+        return const _SnackbarStyle(
+          Icons.check_circle_rounded,
+          AppColors.success,
+          AppColors.successTint,
+        );
       case AppSnackbarType.error:
-        return const _SnackbarStyle(Icons.error_rounded, AppColors.danger, AppColors.dangerTint);
+        return const _SnackbarStyle(
+          Icons.error_rounded,
+          AppColors.danger,
+          AppColors.dangerTint,
+        );
       case AppSnackbarType.warning:
-        return const _SnackbarStyle(Icons.warning_rounded, AppColors.action, AppColors.actionTint);
+        return const _SnackbarStyle(
+          Icons.warning_rounded,
+          AppColors.action,
+          AppColors.actionTint,
+        );
       case AppSnackbarType.info:
-        return const _SnackbarStyle(Icons.info_rounded, AppColors.info, AppColors.infoTint);
+        return const _SnackbarStyle(
+          Icons.info_rounded,
+          AppColors.info,
+          AppColors.infoTint,
+        );
     }
   }
 }
 
 class _SnackbarStyle {
-  const _SnackbarStyle(this.icon, this.accent, this.tint);
+  const _SnackbarStyle(
+    this.icon,
+    this.accent,
+    this.tint,
+  );
 
   final IconData icon;
   final Color accent;

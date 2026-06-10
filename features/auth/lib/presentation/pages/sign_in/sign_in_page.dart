@@ -1,3 +1,4 @@
+import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/network/failure.dart';
 import 'package:core/router/app_route.dart';
 import 'package:core/theme/theme.dart';
@@ -67,13 +68,15 @@ class SignInPage extends StatelessWidget {
     switch (state) {
       case SignInSuccess():
         context.goNamed(AppRoute.dashboardName);
+        break;
       case SignInError(:final Failure failure):
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(content: Text(failure.message)),
-          );
+        AppSnackbar.error(
+          context,
+          failure.message,
+        );
+        break;
       case SignInInitial():
+        break;
       case SignInLoading():
         break;
     }
