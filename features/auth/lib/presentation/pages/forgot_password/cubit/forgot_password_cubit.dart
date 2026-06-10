@@ -15,6 +15,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     final Either<Failure, Unit> result = await _forgotPassword(
       ForgotPasswordParams(email: email),
     );
+    // Guard against the page being disposed mid-request (closing this cubit).
+    if (isClosed) return;
     emit(
       result.fold(
         (Failure failure) => ForgotPasswordState.error(failure),

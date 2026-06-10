@@ -2,7 +2,7 @@ import 'package:core/router/app_route.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 
-import 'presentation/pages/dashboard_page.dart';
+import 'presentation/pages/dashboard/dashboard_page.dart';
 
 part 'dashboard_routes.g.dart';
 

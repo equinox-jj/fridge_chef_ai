@@ -1,3 +1,4 @@
+import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/network/failure.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
@@ -7,7 +8,7 @@ import '../../../../domain/usecases/sign_in_usecase.dart';
 import 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit(this._signIn) : super(const SignInState.initial());
+  SignInCubit(this._signIn) : super(const SignInState());
 
   final SignInUseCase _signIn;
 
@@ -15,7 +16,11 @@ class SignInCubit extends Cubit<SignInState> {
     required String email,
     required String password,
   }) async {
-    emit(const SignInState.loading());
+    emit(
+      state.copyWith(
+        signInStatus: BlocStatus.loading,
+      ),
+    );
 
     final Either<Failure, UserEntity> result = await _signIn(
       SignInParams(
@@ -24,11 +29,23 @@ class SignInCubit extends Cubit<SignInState> {
       ),
     );
 
+    if (isClosed) return;
+
     emit(
       result.fold(
-        (Failure failure) => SignInState.error(failure),
-        (UserEntity user) => SignInState.success(user),
+        (Failure l) => state.copyWith(
+          signInStatus: BlocStatus.error,
+          signInFailure: l,
+        ),
+        (UserEntity r) => state.copyWith(
+          signInStatus: BlocStatus.success,
+          signInResponse: r,
+        ),
       ),
     );
+  }
+
+  void toggleObscurePassword() {
+    emit(state.copyWith(obscurePassword: !state.obscurePassword));
   }
 }

@@ -1,5 +1,5 @@
 import 'package:core/components/snackbar/app_snackbar.dart';
-import 'package:core/constants/network/failure.dart';
+import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
 import 'package:dependencies/bloc/bloc.dart';
@@ -21,6 +21,7 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<SignInCubit, SignInState>(
+        listenWhen: (SignInState previous, SignInState current) => previous.signInStatus != current.signInStatus,
         listener: _onStateChanged,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -64,20 +65,17 @@ class SignInPage extends StatelessWidget {
   }
 
   void _onStateChanged(BuildContext context, SignInState state) {
-    switch (state) {
-      case SignInSuccess():
+    switch (state.signInStatus) {
+      case BlocStatus.success:
         context.read<AppNavigator>().toDashboard();
         break;
-      case SignInError(:final Failure failure):
+      case BlocStatus.error:
         AppSnackbar.error(
           context,
-          failure.message,
+          state.signInFailure?.message ?? '',
         );
         break;
-      case SignInInitial():
-        break;
-      case SignInLoading():
-        break;
+      default:
     }
   }
 }

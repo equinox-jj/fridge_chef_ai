@@ -1,3 +1,4 @@
+import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
@@ -22,7 +23,6 @@ class _SignInCardState extends State<SignInCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -33,7 +33,9 @@ class _SignInCardState extends State<SignInCard> {
 
   void _submit() {
     FocusScope.of(context).unfocus();
+
     if (!(_formKey.currentState?.validate() ?? false)) return;
+
     context.read<SignInCubit>().signIn(
       email: _emailController.text.trim(),
       password: _passwordController.text,
@@ -79,30 +81,34 @@ class _SignInCardState extends State<SignInCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.s4),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: _obscurePassword,
-              textInputAction: TextInputAction.done,
-              autofillHints: const <String>[AutofillHints.password],
-              validator: _validatePassword,
-              onFieldSubmitted: (_) => _submit(),
-              decoration: InputDecoration(
-                labelText: 'Password',
-                prefixIcon: const Icon(Icons.lock_outline),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+            BlocSelector<SignInCubit, SignInState, bool>(
+              selector: (SignInState state) => state.obscurePassword,
+              builder: (BuildContext context, bool obscurePassword) {
+                return TextFormField(
+                  controller: _passwordController,
+                  obscureText: obscurePassword,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const <String>[AutofillHints.password],
+                  validator: _validatePassword,
+                  onFieldSubmitted: (_) => _submit(),
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                      ),
+                      onPressed: () => context.read<SignInCubit>().toggleObscurePassword(),
+                    ),
                   ),
-                  onPressed: () => setState(
-                    () => _obscurePassword = !_obscurePassword,
-                  ),
-                ),
-              ),
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.s4),
             BlocBuilder<SignInCubit, SignInState>(
+              buildWhen: (SignInState previous, SignInState current) => previous.signInStatus != current.signInStatus,
               builder: (BuildContext context, SignInState state) {
-                final bool isLoading = state is SignInLoading;
+                final bool isLoading = state.signInStatus == BlocStatus.loading;
 
                 return SizedBox(
                   width: double.infinity,

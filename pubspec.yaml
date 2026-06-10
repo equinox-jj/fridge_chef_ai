@@ -26,6 +26,10 @@ dependencies:
     path: features/dashboard
   fridge_scan:
     path: features/fridge_scan
+  recipes:
+    path: features/recipes
+  profile:
+    path: features/profile
 
 dev_dependencies:
   flutter_test:

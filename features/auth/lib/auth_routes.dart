@@ -19,20 +19,7 @@ part 'auth_routes.g.dart';
 /// `@TypedGoRoute`s declared in this library.
 List<RouteBase> get authRoutes => $appRoutes;
 
-@TypedGoRoute<SignInRoute>(
-  path: AppRoute.signInPath,
-  name: AppRoute.signInName,
-  routes: <TypedRoute<RouteData>>[
-    TypedGoRoute<SignUpRoute>(
-      path: AppRoute.signUpPath,
-      name: AppRoute.signUpName,
-    ),
-    TypedGoRoute<ForgotPasswordRoute>(
-      path: AppRoute.forgotPasswordPath,
-      name: AppRoute.forgotPasswordName,
-    ),
-  ],
-)
+@TypedGoRoute<SignInRoute>(path: AppRoute.signInPath, name: AppRoute.signInName)
 class SignInRoute extends GoRouteData with $SignInRoute {
   const SignInRoute();
 
@@ -45,6 +32,10 @@ class SignInRoute extends GoRouteData with $SignInRoute {
   }
 }
 
+@TypedGoRoute<SignUpRoute>(
+  path: AppRoute.signUpPath,
+  name: AppRoute.signUpName,
+)
 class SignUpRoute extends GoRouteData with $SignUpRoute {
   const SignUpRoute();
 
@@ -57,6 +48,10 @@ class SignUpRoute extends GoRouteData with $SignUpRoute {
   }
 }
 
+@TypedGoRoute<ForgotPasswordRoute>(
+  path: AppRoute.forgotPasswordPath,
+  name: AppRoute.forgotPasswordName,
+)
 class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
   const ForgotPasswordRoute();
 

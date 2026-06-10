@@ -1,3 +1,4 @@
+import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
@@ -23,7 +24,6 @@ class _SignUpCardState extends State<SignUpCard> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -103,30 +103,34 @@ class _SignUpCardState extends State<SignUpCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.s4),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: _obscurePassword,
-              textInputAction: TextInputAction.done,
-              autofillHints: const <String>[AutofillHints.newPassword],
-              validator: _validatePassword,
-              onFieldSubmitted: (_) => _submit(),
-              decoration: InputDecoration(
-                labelText: 'Password',
-                prefixIcon: const Icon(Icons.lock_outline),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+            BlocSelector<SignUpCubit, SignUpState, bool>(
+              selector: (SignUpState state) => state.obscurePassword,
+              builder: (BuildContext context, bool obscurePassword) {
+                return TextFormField(
+                  controller: _passwordController,
+                  obscureText: obscurePassword,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const <String>[AutofillHints.newPassword],
+                  validator: _validatePassword,
+                  onFieldSubmitted: (_) => _submit(),
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                      ),
+                      onPressed: () => context.read<SignUpCubit>().toggleObscurePassword(),
+                    ),
                   ),
-                  onPressed: () => setState(
-                    () => _obscurePassword = !_obscurePassword,
-                  ),
-                ),
-              ),
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.s4),
             BlocBuilder<SignUpCubit, SignUpState>(
+              buildWhen: (SignUpState previous, SignUpState current) => previous.signUpStatus != current.signUpStatus,
               builder: (BuildContext context, SignUpState state) {
-                final bool isLoading = state is SignUpLoading;
+                final bool isLoading = state.signUpStatus == BlocStatus.loading;
 
                 return SizedBox(
                   width: double.infinity,

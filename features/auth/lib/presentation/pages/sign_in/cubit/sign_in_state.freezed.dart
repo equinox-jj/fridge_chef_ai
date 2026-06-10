@@ -14,30 +14,76 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SignInState {
 
-
+ BlocStatus get signInStatus; Failure? get signInFailure; UserEntity? get signInResponse; bool get obscurePassword;
+/// Create a copy of SignInState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SignInStateCopyWith<SignInState> get copyWith => _$SignInStateCopyWithImpl<SignInState>(this as SignInState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInState&&(identical(other.signInStatus, signInStatus) || other.signInStatus == signInStatus)&&(identical(other.signInFailure, signInFailure) || other.signInFailure == signInFailure)&&(identical(other.signInResponse, signInResponse) || other.signInResponse == signInResponse)&&(identical(other.obscurePassword, obscurePassword) || other.obscurePassword == obscurePassword));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,signInStatus,signInFailure,signInResponse,obscurePassword);
 
 @override
 String toString() {
-  return 'SignInState()';
+  return 'SignInState(signInStatus: $signInStatus, signInFailure: $signInFailure, signInResponse: $signInResponse, obscurePassword: $obscurePassword)';
 }
 
 
 }
 
 /// @nodoc
-class $SignInStateCopyWith<$Res>  {
-$SignInStateCopyWith(SignInState _, $Res Function(SignInState) __);
+abstract mixin class $SignInStateCopyWith<$Res>  {
+  factory $SignInStateCopyWith(SignInState value, $Res Function(SignInState) _then) = _$SignInStateCopyWithImpl;
+@useResult
+$Res call({
+ BlocStatus signInStatus, Failure? signInFailure, UserEntity? signInResponse, bool obscurePassword
+});
+
+
+$UserEntityCopyWith<$Res>? get signInResponse;
+
+}
+/// @nodoc
+class _$SignInStateCopyWithImpl<$Res>
+    implements $SignInStateCopyWith<$Res> {
+  _$SignInStateCopyWithImpl(this._self, this._then);
+
+  final SignInState _self;
+  final $Res Function(SignInState) _then;
+
+/// Create a copy of SignInState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? signInStatus = null,Object? signInFailure = freezed,Object? signInResponse = freezed,Object? obscurePassword = null,}) {
+  return _then(_self.copyWith(
+signInStatus: null == signInStatus ? _self.signInStatus : signInStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,signInFailure: freezed == signInFailure ? _self.signInFailure : signInFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,signInResponse: freezed == signInResponse ? _self.signInResponse : signInResponse // ignore: cast_nullable_to_non_nullable
+as UserEntity?,obscurePassword: null == obscurePassword ? _self.obscurePassword : obscurePassword // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+/// Create a copy of SignInState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserEntityCopyWith<$Res>? get signInResponse {
+    if (_self.signInResponse == null) {
+    return null;
+  }
+
+  return $UserEntityCopyWith<$Res>(_self.signInResponse!, (value) {
+    return _then(_self.copyWith(signInResponse: value));
+  });
+}
 }
 
 
@@ -55,14 +101,11 @@ extension SignInStatePatterns on SignInState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SignInInitial value)?  initial,TResult Function( SignInLoading value)?  loading,TResult Function( SignInSuccess value)?  success,TResult Function( SignInError value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SignInState value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case SignInInitial() when initial != null:
-return initial(_that);case SignInLoading() when loading != null:
-return loading(_that);case SignInSuccess() when success != null:
-return success(_that);case SignInError() when error != null:
-return error(_that);case _:
+case _SignInState() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -80,14 +123,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SignInInitial value)  initial,required TResult Function( SignInLoading value)  loading,required TResult Function( SignInSuccess value)  success,required TResult Function( SignInError value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SignInState value)  $default,){
 final _that = this;
 switch (_that) {
-case SignInInitial():
-return initial(_that);case SignInLoading():
-return loading(_that);case SignInSuccess():
-return success(_that);case SignInError():
-return error(_that);}
+case _SignInState():
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -101,14 +141,11 @@ return error(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SignInInitial value)?  initial,TResult? Function( SignInLoading value)?  loading,TResult? Function( SignInSuccess value)?  success,TResult? Function( SignInError value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SignInState value)?  $default,){
 final _that = this;
 switch (_that) {
-case SignInInitial() when initial != null:
-return initial(_that);case SignInLoading() when loading != null:
-return loading(_that);case SignInSuccess() when success != null:
-return success(_that);case SignInError() when error != null:
-return error(_that);case _:
+case _SignInState() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -125,13 +162,10 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( UserEntity user)?  success,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus signInStatus,  Failure? signInFailure,  UserEntity? signInResponse,  bool obscurePassword)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case SignInInitial() when initial != null:
-return initial();case SignInLoading() when loading != null:
-return loading();case SignInSuccess() when success != null:
-return success(_that.user);case SignInError() when error != null:
-return error(_that.failure);case _:
+case _SignInState() when $default != null:
+return $default(_that.signInStatus,_that.signInFailure,_that.signInResponse,_that.obscurePassword);case _:
   return orElse();
 
 }
@@ -149,13 +183,10 @@ return error(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( UserEntity user)  success,required TResult Function( Failure failure)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus signInStatus,  Failure? signInFailure,  UserEntity? signInResponse,  bool obscurePassword)  $default,) {final _that = this;
 switch (_that) {
-case SignInInitial():
-return initial();case SignInLoading():
-return loading();case SignInSuccess():
-return success(_that.user);case SignInError():
-return error(_that.failure);}
+case _SignInState():
+return $default(_that.signInStatus,_that.signInFailure,_that.signInResponse,_that.obscurePassword);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -169,13 +200,10 @@ return error(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( UserEntity user)?  success,TResult? Function( Failure failure)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus signInStatus,  Failure? signInFailure,  UserEntity? signInResponse,  bool obscurePassword)?  $default,) {final _that = this;
 switch (_that) {
-case SignInInitial() when initial != null:
-return initial();case SignInLoading() when loading != null:
-return loading();case SignInSuccess() when success != null:
-return success(_that.user);case SignInError() when error != null:
-return error(_that.failure);case _:
+case _SignInState() when $default != null:
+return $default(_that.signInStatus,_that.signInFailure,_that.signInResponse,_that.obscurePassword);case _:
   return null;
 
 }
@@ -186,127 +214,69 @@ return error(_that.failure);case _:
 /// @nodoc
 
 
-class SignInInitial implements SignInState {
-  const SignInInitial();
+class _SignInState implements SignInState {
+  const _SignInState({this.signInStatus = BlocStatus.initial, this.signInFailure, this.signInResponse, this.obscurePassword = false});
   
 
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInInitial);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'SignInState.initial()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class SignInLoading implements SignInState {
-  const SignInLoading();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInLoading);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'SignInState.loading()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class SignInSuccess implements SignInState {
-  const SignInSuccess(this.user);
-  
-
- final  UserEntity user;
+@override@JsonKey() final  BlocStatus signInStatus;
+@override final  Failure? signInFailure;
+@override final  UserEntity? signInResponse;
+@override@JsonKey() final  bool obscurePassword;
 
 /// Create a copy of SignInState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$SignInSuccessCopyWith<SignInSuccess> get copyWith => _$SignInSuccessCopyWithImpl<SignInSuccess>(this, _$identity);
+_$SignInStateCopyWith<_SignInState> get copyWith => __$SignInStateCopyWithImpl<_SignInState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInSuccess&&(identical(other.user, user) || other.user == user));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignInState&&(identical(other.signInStatus, signInStatus) || other.signInStatus == signInStatus)&&(identical(other.signInFailure, signInFailure) || other.signInFailure == signInFailure)&&(identical(other.signInResponse, signInResponse) || other.signInResponse == signInResponse)&&(identical(other.obscurePassword, obscurePassword) || other.obscurePassword == obscurePassword));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user);
+int get hashCode => Object.hash(runtimeType,signInStatus,signInFailure,signInResponse,obscurePassword);
 
 @override
 String toString() {
-  return 'SignInState.success(user: $user)';
+  return 'SignInState(signInStatus: $signInStatus, signInFailure: $signInFailure, signInResponse: $signInResponse, obscurePassword: $obscurePassword)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $SignInSuccessCopyWith<$Res> implements $SignInStateCopyWith<$Res> {
-  factory $SignInSuccessCopyWith(SignInSuccess value, $Res Function(SignInSuccess) _then) = _$SignInSuccessCopyWithImpl;
-@useResult
+abstract mixin class _$SignInStateCopyWith<$Res> implements $SignInStateCopyWith<$Res> {
+  factory _$SignInStateCopyWith(_SignInState value, $Res Function(_SignInState) _then) = __$SignInStateCopyWithImpl;
+@override @useResult
 $Res call({
- UserEntity user
+ BlocStatus signInStatus, Failure? signInFailure, UserEntity? signInResponse, bool obscurePassword
 });
 
 
-$UserEntityCopyWith<$Res> get user;
+@override $UserEntityCopyWith<$Res>? get signInResponse;
 
 }
 /// @nodoc
-class _$SignInSuccessCopyWithImpl<$Res>
-    implements $SignInSuccessCopyWith<$Res> {
-  _$SignInSuccessCopyWithImpl(this._self, this._then);
+class __$SignInStateCopyWithImpl<$Res>
+    implements _$SignInStateCopyWith<$Res> {
+  __$SignInStateCopyWithImpl(this._self, this._then);
 
-  final SignInSuccess _self;
-  final $Res Function(SignInSuccess) _then;
+  final _SignInState _self;
+  final $Res Function(_SignInState) _then;
 
 /// Create a copy of SignInState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
-  return _then(SignInSuccess(
-null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as UserEntity,
+@override @pragma('vm:prefer-inline') $Res call({Object? signInStatus = null,Object? signInFailure = freezed,Object? signInResponse = freezed,Object? obscurePassword = null,}) {
+  return _then(_SignInState(
+signInStatus: null == signInStatus ? _self.signInStatus : signInStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,signInFailure: freezed == signInFailure ? _self.signInFailure : signInFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,signInResponse: freezed == signInResponse ? _self.signInResponse : signInResponse // ignore: cast_nullable_to_non_nullable
+as UserEntity?,obscurePassword: null == obscurePassword ? _self.obscurePassword : obscurePassword // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -314,78 +284,15 @@ as UserEntity,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$UserEntityCopyWith<$Res> get user {
-  
-  return $UserEntityCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
+$UserEntityCopyWith<$Res>? get signInResponse {
+    if (_self.signInResponse == null) {
+    return null;
+  }
+
+  return $UserEntityCopyWith<$Res>(_self.signInResponse!, (value) {
+    return _then(_self.copyWith(signInResponse: value));
   });
 }
-}
-
-/// @nodoc
-
-
-class SignInError implements SignInState {
-  const SignInError(this.failure);
-  
-
- final  Failure failure;
-
-/// Create a copy of SignInState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$SignInErrorCopyWith<SignInError> get copyWith => _$SignInErrorCopyWithImpl<SignInError>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignInError&&(identical(other.failure, failure) || other.failure == failure));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,failure);
-
-@override
-String toString() {
-  return 'SignInState.error(failure: $failure)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $SignInErrorCopyWith<$Res> implements $SignInStateCopyWith<$Res> {
-  factory $SignInErrorCopyWith(SignInError value, $Res Function(SignInError) _then) = _$SignInErrorCopyWithImpl;
-@useResult
-$Res call({
- Failure failure
-});
-
-
-
-
-}
-/// @nodoc
-class _$SignInErrorCopyWithImpl<$Res>
-    implements $SignInErrorCopyWith<$Res> {
-  _$SignInErrorCopyWithImpl(this._self, this._then);
-
-  final SignInError _self;
-  final $Res Function(SignInError) _then;
-
-/// Create a copy of SignInState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
-  return _then(SignInError(
-null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
-as Failure,
-  ));
-}
-
-
 }
 
 // dart format on

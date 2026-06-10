@@ -1,0 +1,35 @@
+include: package:flutter_lints/flutter.yaml
+
+formatter:
+  trailing_commas: preserve
+  page_width: 120
+
+linter:
+  rules:
+    - avoid_print
+    - always_declare_return_types
+    - prefer_single_quotes
+    - always_specify_types
+    - avoid_empty_else
+    - avoid_futureor_void
+    - use_null_aware_elements
+    - use_named_constants
+    - prefer_relative_imports
+    - avoid_unused_constructor_parameters
+    - always_put_required_named_parameters_first
+    - await_only_futures
+    - unnecessary_async
+    - sort_constructors_first
+    - sort_child_properties_last
+    - sort_unnamed_constructors_first
+    - prefer_null_aware_method_calls
+    - prefer_null_aware_operators
+    - prefer_if_null_operators
+    - unnecessary_await_in_return
+    - avoid_returning_null_for_void
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/generated/**"

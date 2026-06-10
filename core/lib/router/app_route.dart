@@ -17,10 +17,10 @@ abstract final class AppRoute {
   static const String signInPath = '/sign-in';
 
   static const String signUpName = 'signUp';
-  static const String signUpPath = 'sign-up';
+  static const String signUpPath = '/sign-up';
 
   static const String forgotPasswordName = 'forgotPassword';
-  static const String forgotPasswordPath = 'forgot-password';
+  static const String forgotPasswordPath = '/forgot-password';
 
   // ── Dashboard ───────────────────────────────────────────────────────────
   static const String dashboardName = 'dashboard';

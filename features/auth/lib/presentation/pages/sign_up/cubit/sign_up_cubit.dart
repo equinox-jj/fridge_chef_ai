@@ -1,3 +1,4 @@
+import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/network/failure.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
@@ -7,7 +8,7 @@ import '../../../../domain/usecases/sign_up_usecase.dart';
 import 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(this._signUp) : super(const SignUpState.initial());
+  SignUpCubit(this._signUp) : super(const SignUpState());
 
   final SignUpUseCase _signUp;
 
@@ -16,15 +17,37 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String email,
     required String password,
   }) async {
-    emit(const SignUpState.loading());
-    final Either<Failure, UserEntity> result = await _signUp(
-      SignUpParams(name: name, email: email, password: password),
-    );
     emit(
-      result.fold(
-        (Failure failure) => SignUpState.error(failure),
-        (UserEntity user) => SignUpState.success(user),
+      state.copyWith(
+        signUpStatus: BlocStatus.loading,
       ),
     );
+
+    final Either<Failure, UserEntity> result = await _signUp(
+      SignUpParams(
+        name: name,
+        email: email,
+        password: password,
+      ),
+    );
+
+    if (isClosed) return;
+
+    emit(
+      result.fold(
+        (Failure l) => state.copyWith(
+          signUpStatus: BlocStatus.error,
+          signUpFailure: l,
+        ),
+        (UserEntity r) => state.copyWith(
+          signUpStatus: BlocStatus.success,
+          signUpResponse: r,
+        ),
+      ),
+    );
+  }
+
+  void toggleObscurePassword() {
+    emit(state.copyWith(obscurePassword: !state.obscurePassword));
   }
 }

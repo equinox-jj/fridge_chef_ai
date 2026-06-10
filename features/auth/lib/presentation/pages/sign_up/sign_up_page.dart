@@ -1,5 +1,5 @@
 import 'package:core/components/snackbar/app_snackbar.dart';
-import 'package:core/constants/network/failure.dart';
+import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/theme.dart';
 import 'package:dependencies/bloc/bloc.dart';
@@ -21,6 +21,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<SignUpCubit, SignUpState>(
+        listenWhen: (SignUpState previous, SignUpState current) => previous.signUpStatus != current.signUpStatus,
         listener: _onStateChanged,
         child: DecoratedBox(
           decoration: const BoxDecoration(
@@ -38,24 +39,20 @@ class SignUpPage extends StatelessWidget {
           child: SafeArea(
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                return SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                    child: const Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        AppSpacing.s7,
-                        AppSpacing.s0,
-                        AppSpacing.s7,
-                        AppSpacing.s8,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: <Widget>[
-                            Expanded(child: LoginHero()),
-                            SignUpCard(),
-                          ],
-                        ),
-                      ),
+                return ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      AppSpacing.s7,
+                      AppSpacing.s0,
+                      AppSpacing.s7,
+                      AppSpacing.s8,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(child: LoginHero()),
+                        SignUpCard(),
+                      ],
                     ),
                   ),
                 );
@@ -68,20 +65,17 @@ class SignUpPage extends StatelessWidget {
   }
 
   void _onStateChanged(BuildContext context, SignUpState state) {
-    switch (state) {
-      case SignUpSuccess():
+    switch (state.signUpStatus) {
+      case BlocStatus.success:
         context.read<AppNavigator>().toDashboard();
         break;
-      case SignUpError(:final Failure failure):
+      case BlocStatus.error:
         AppSnackbar.error(
           context,
-          failure.message,
+          state.signUpFailure?.message ?? '',
         );
         break;
-      case SignUpInitial():
-        break;
-      case SignUpLoading():
-        break;
+      default:
     }
   }
 }
