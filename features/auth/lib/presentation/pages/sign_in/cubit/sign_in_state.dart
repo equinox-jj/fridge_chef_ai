@@ -12,6 +12,6 @@ sealed class SignInState with _$SignInState {
     @Default(BlocStatus.initial) BlocStatus signInStatus,
     Failure? signInFailure,
     UserEntity? signInResponse,
-    @Default(false) bool obscurePassword,
+    @Default(true) bool obscurePassword,
   }) = _SignInState;
 }

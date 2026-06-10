@@ -21,7 +21,7 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<SignUpCubit, SignUpState>(
-        listenWhen: (SignUpState previous, SignUpState current) => previous.signUpStatus != current.signUpStatus,
+        listenWhen: (SignUpState p, SignUpState c) => p.signUpStatus != c.signUpStatus,
         listener: _onStateChanged,
         child: DecoratedBox(
           decoration: const BoxDecoration(

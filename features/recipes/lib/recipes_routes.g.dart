@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dashboard_routes.dart';
+part of 'recipes_routes.dart';
 
 // **************************************************************************
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [$dashboardRoute];
+List<RouteBase> get $appRoutes => [$recipesRoute];
 
-RouteBase get $dashboardRoute => GoRouteData.$route(
-  path: '/dashboard',
-  name: 'dashboard',
-  factory: $DashboardRoute._fromState,
+RouteBase get $recipesRoute => GoRouteData.$route(
+  path: '/recipes',
+  name: 'recipes',
+  factory: $RecipesRoute._fromState,
 );
 
-mixin $DashboardRoute on GoRouteData {
-  static DashboardRoute _fromState(GoRouterState state) => const DashboardRoute();
+mixin $RecipesRoute on GoRouteData {
+  static RecipesRoute _fromState(GoRouterState state) => const RecipesRoute();
 
   @override
-  String get location => GoRouteData.$location('/dashboard');
+  String get location => GoRouteData.$location('/recipes');
 
   @override
   void go(BuildContext context) => context.go(location);

@@ -104,9 +104,23 @@ class _SignInCardState extends State<SignInCard> {
                 );
               },
             ),
+            const SizedBox(height: AppSpacing.s2),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () => context.read<AppNavigator>().toForgotPassword(),
+                child: Text(
+                  'Forgot password?',
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: AppFontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: AppSpacing.s4),
             BlocBuilder<SignInCubit, SignInState>(
-              buildWhen: (SignInState previous, SignInState current) => previous.signInStatus != current.signInStatus,
+              buildWhen: (SignInState p, SignInState c) => p.signInStatus != c.signInStatus,
               builder: (BuildContext context, SignInState state) {
                 final bool isLoading = state.signInStatus == BlocStatus.loading;
 

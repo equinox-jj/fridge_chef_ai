@@ -14,30 +14,63 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ForgotPasswordState {
 
-
+ BlocStatus get forgotPasswordStatus; Failure? get forgotPasswordFailure; int get resendCountdown;
+/// Create a copy of ForgotPasswordState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ForgotPasswordStateCopyWith<ForgotPasswordState> get copyWith => _$ForgotPasswordStateCopyWithImpl<ForgotPasswordState>(this as ForgotPasswordState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordState&&(identical(other.forgotPasswordStatus, forgotPasswordStatus) || other.forgotPasswordStatus == forgotPasswordStatus)&&(identical(other.forgotPasswordFailure, forgotPasswordFailure) || other.forgotPasswordFailure == forgotPasswordFailure)&&(identical(other.resendCountdown, resendCountdown) || other.resendCountdown == resendCountdown));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,forgotPasswordStatus,forgotPasswordFailure,resendCountdown);
 
 @override
 String toString() {
-  return 'ForgotPasswordState()';
+  return 'ForgotPasswordState(forgotPasswordStatus: $forgotPasswordStatus, forgotPasswordFailure: $forgotPasswordFailure, resendCountdown: $resendCountdown)';
 }
 
 
 }
 
 /// @nodoc
-class $ForgotPasswordStateCopyWith<$Res>  {
-$ForgotPasswordStateCopyWith(ForgotPasswordState _, $Res Function(ForgotPasswordState) __);
+abstract mixin class $ForgotPasswordStateCopyWith<$Res>  {
+  factory $ForgotPasswordStateCopyWith(ForgotPasswordState value, $Res Function(ForgotPasswordState) _then) = _$ForgotPasswordStateCopyWithImpl;
+@useResult
+$Res call({
+ BlocStatus forgotPasswordStatus, Failure? forgotPasswordFailure, int resendCountdown
+});
+
+
+
+
+}
+/// @nodoc
+class _$ForgotPasswordStateCopyWithImpl<$Res>
+    implements $ForgotPasswordStateCopyWith<$Res> {
+  _$ForgotPasswordStateCopyWithImpl(this._self, this._then);
+
+  final ForgotPasswordState _self;
+  final $Res Function(ForgotPasswordState) _then;
+
+/// Create a copy of ForgotPasswordState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? forgotPasswordStatus = null,Object? forgotPasswordFailure = freezed,Object? resendCountdown = null,}) {
+  return _then(_self.copyWith(
+forgotPasswordStatus: null == forgotPasswordStatus ? _self.forgotPasswordStatus : forgotPasswordStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,forgotPasswordFailure: freezed == forgotPasswordFailure ? _self.forgotPasswordFailure : forgotPasswordFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,resendCountdown: null == resendCountdown ? _self.resendCountdown : resendCountdown // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
 }
 
 
@@ -55,14 +88,11 @@ extension ForgotPasswordStatePatterns on ForgotPasswordState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ForgotPasswordInitial value)?  initial,TResult Function( ForgotPasswordLoading value)?  loading,TResult Function( ForgotPasswordSuccess value)?  success,TResult Function( ForgotPasswordError value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ForgotPasswordState value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case ForgotPasswordInitial() when initial != null:
-return initial(_that);case ForgotPasswordLoading() when loading != null:
-return loading(_that);case ForgotPasswordSuccess() when success != null:
-return success(_that);case ForgotPasswordError() when error != null:
-return error(_that);case _:
+case _ForgotPasswordState() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -80,14 +110,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ForgotPasswordInitial value)  initial,required TResult Function( ForgotPasswordLoading value)  loading,required TResult Function( ForgotPasswordSuccess value)  success,required TResult Function( ForgotPasswordError value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ForgotPasswordState value)  $default,){
 final _that = this;
 switch (_that) {
-case ForgotPasswordInitial():
-return initial(_that);case ForgotPasswordLoading():
-return loading(_that);case ForgotPasswordSuccess():
-return success(_that);case ForgotPasswordError():
-return error(_that);}
+case _ForgotPasswordState():
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -101,14 +128,11 @@ return error(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ForgotPasswordInitial value)?  initial,TResult? Function( ForgotPasswordLoading value)?  loading,TResult? Function( ForgotPasswordSuccess value)?  success,TResult? Function( ForgotPasswordError value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ForgotPasswordState value)?  $default,){
 final _that = this;
 switch (_that) {
-case ForgotPasswordInitial() when initial != null:
-return initial(_that);case ForgotPasswordLoading() when loading != null:
-return loading(_that);case ForgotPasswordSuccess() when success != null:
-return success(_that);case ForgotPasswordError() when error != null:
-return error(_that);case _:
+case _ForgotPasswordState() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -125,13 +149,10 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case ForgotPasswordInitial() when initial != null:
-return initial();case ForgotPasswordLoading() when loading != null:
-return loading();case ForgotPasswordSuccess() when success != null:
-return success();case ForgotPasswordError() when error != null:
-return error(_that.failure);case _:
+case _ForgotPasswordState() when $default != null:
+return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown);case _:
   return orElse();
 
 }
@@ -149,13 +170,10 @@ return error(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function( Failure failure)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown)  $default,) {final _that = this;
 switch (_that) {
-case ForgotPasswordInitial():
-return initial();case ForgotPasswordLoading():
-return loading();case ForgotPasswordSuccess():
-return success();case ForgotPasswordError():
-return error(_that.failure);}
+case _ForgotPasswordState():
+return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -169,13 +187,10 @@ return error(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function( Failure failure)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown)?  $default,) {final _that = this;
 switch (_that) {
-case ForgotPasswordInitial() when initial != null:
-return initial();case ForgotPasswordLoading() when loading != null:
-return loading();case ForgotPasswordSuccess() when success != null:
-return success();case ForgotPasswordError() when error != null:
-return error(_that.failure);case _:
+case _ForgotPasswordState() when $default != null:
+return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown);case _:
   return null;
 
 }
@@ -186,139 +201,45 @@ return error(_that.failure);case _:
 /// @nodoc
 
 
-class ForgotPasswordInitial implements ForgotPasswordState {
-  const ForgotPasswordInitial();
+class _ForgotPasswordState implements ForgotPasswordState {
+  const _ForgotPasswordState({this.forgotPasswordStatus = BlocStatus.initial, this.forgotPasswordFailure, this.resendCountdown = 0});
   
 
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordInitial);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'ForgotPasswordState.initial()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class ForgotPasswordLoading implements ForgotPasswordState {
-  const ForgotPasswordLoading();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordLoading);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'ForgotPasswordState.loading()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class ForgotPasswordSuccess implements ForgotPasswordState {
-  const ForgotPasswordSuccess();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordSuccess);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'ForgotPasswordState.success()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class ForgotPasswordError implements ForgotPasswordState {
-  const ForgotPasswordError(this.failure);
-  
-
- final  Failure failure;
+@override@JsonKey() final  BlocStatus forgotPasswordStatus;
+@override final  Failure? forgotPasswordFailure;
+@override@JsonKey() final  int resendCountdown;
 
 /// Create a copy of ForgotPasswordState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ForgotPasswordErrorCopyWith<ForgotPasswordError> get copyWith => _$ForgotPasswordErrorCopyWithImpl<ForgotPasswordError>(this, _$identity);
+_$ForgotPasswordStateCopyWith<_ForgotPasswordState> get copyWith => __$ForgotPasswordStateCopyWithImpl<_ForgotPasswordState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordError&&(identical(other.failure, failure) || other.failure == failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForgotPasswordState&&(identical(other.forgotPasswordStatus, forgotPasswordStatus) || other.forgotPasswordStatus == forgotPasswordStatus)&&(identical(other.forgotPasswordFailure, forgotPasswordFailure) || other.forgotPasswordFailure == forgotPasswordFailure)&&(identical(other.resendCountdown, resendCountdown) || other.resendCountdown == resendCountdown));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,failure);
+int get hashCode => Object.hash(runtimeType,forgotPasswordStatus,forgotPasswordFailure,resendCountdown);
 
 @override
 String toString() {
-  return 'ForgotPasswordState.error(failure: $failure)';
+  return 'ForgotPasswordState(forgotPasswordStatus: $forgotPasswordStatus, forgotPasswordFailure: $forgotPasswordFailure, resendCountdown: $resendCountdown)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ForgotPasswordErrorCopyWith<$Res> implements $ForgotPasswordStateCopyWith<$Res> {
-  factory $ForgotPasswordErrorCopyWith(ForgotPasswordError value, $Res Function(ForgotPasswordError) _then) = _$ForgotPasswordErrorCopyWithImpl;
-@useResult
+abstract mixin class _$ForgotPasswordStateCopyWith<$Res> implements $ForgotPasswordStateCopyWith<$Res> {
+  factory _$ForgotPasswordStateCopyWith(_ForgotPasswordState value, $Res Function(_ForgotPasswordState) _then) = __$ForgotPasswordStateCopyWithImpl;
+@override @useResult
 $Res call({
- Failure failure
+ BlocStatus forgotPasswordStatus, Failure? forgotPasswordFailure, int resendCountdown
 });
 
 
@@ -326,19 +247,21 @@ $Res call({
 
 }
 /// @nodoc
-class _$ForgotPasswordErrorCopyWithImpl<$Res>
-    implements $ForgotPasswordErrorCopyWith<$Res> {
-  _$ForgotPasswordErrorCopyWithImpl(this._self, this._then);
+class __$ForgotPasswordStateCopyWithImpl<$Res>
+    implements _$ForgotPasswordStateCopyWith<$Res> {
+  __$ForgotPasswordStateCopyWithImpl(this._self, this._then);
 
-  final ForgotPasswordError _self;
-  final $Res Function(ForgotPasswordError) _then;
+  final _ForgotPasswordState _self;
+  final $Res Function(_ForgotPasswordState) _then;
 
 /// Create a copy of ForgotPasswordState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
-  return _then(ForgotPasswordError(
-null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
-as Failure,
+@override @pragma('vm:prefer-inline') $Res call({Object? forgotPasswordStatus = null,Object? forgotPasswordFailure = freezed,Object? resendCountdown = null,}) {
+  return _then(_ForgotPasswordState(
+forgotPasswordStatus: null == forgotPasswordStatus ? _self.forgotPasswordStatus : forgotPasswordStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,forgotPasswordFailure: freezed == forgotPasswordFailure ? _self.forgotPasswordFailure : forgotPasswordFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,resendCountdown: null == resendCountdown ? _self.resendCountdown : resendCountdown // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

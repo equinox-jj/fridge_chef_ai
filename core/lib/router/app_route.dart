@@ -22,11 +22,14 @@ abstract final class AppRoute {
   static const String forgotPasswordName = 'forgotPassword';
   static const String forgotPasswordPath = '/forgot-password';
 
-  // ── Dashboard ───────────────────────────────────────────────────────────
-  static const String dashboardName = 'dashboard';
-  static const String dashboardPath = '/dashboard';
-
-  // ── Fridge scan ─────────────────────────────────────────────────────────
+  // ── Main shell tabs (hosted by the dashboard bottom navigation) ──────────
+  // The scan tab doubles as the app's post-login home.
   static const String fridgeScanName = 'fridgeScan';
   static const String fridgeScanPath = '/fridge-scan';
+
+  static const String recipesName = 'recipes';
+  static const String recipesPath = '/recipes';
+
+  static const String profileName = 'profile';
+  static const String profilePath = '/profile';
 }

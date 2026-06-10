@@ -1,9 +1,10 @@
 import 'package:auth/auth_routes.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:dashboard/dashboard_routes.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart';
 import 'package:onboarding/onboarding_routes.dart';
+import 'package:profile/profile_routes.dart';
+import 'package:recipes/recipes_routes.dart';
 
 /// Concrete [AppNavigator] living in the app layer.
 ///
@@ -26,11 +27,18 @@ class AppNavigatorImpl implements AppNavigator {
   void toSignUp() => _router.push(const SignUpRoute().location);
 
   @override
-  void toForgotPassword() => _router.go(const ForgotPasswordRoute().location);
+  void toForgotPassword() => _router.push(const ForgotPasswordRoute().location);
 
+  // The scan tab is the shell's default branch, so it doubles as "home".
   @override
-  void toDashboard() => _router.go(const DashboardRoute().location);
+  void toDashboard() => _router.go(const FridgeScanRoute().location);
 
   @override
   void toFridgeScan() => _router.go(const FridgeScanRoute().location);
+
+  @override
+  void toRecipes() => _router.go(const RecipesRoute().location);
+
+  @override
+  void toProfile() => _router.go(const ProfileRoute().location);
 }

@@ -12,6 +12,6 @@ sealed class SignUpState with _$SignUpState {
     @Default(BlocStatus.initial) BlocStatus signUpStatus,
     Failure? signUpFailure,
     UserEntity? signUpResponse,
-    @Default(false) bool obscurePassword,
+    @Default(true) bool obscurePassword,
   }) = _SignUpState;
 }

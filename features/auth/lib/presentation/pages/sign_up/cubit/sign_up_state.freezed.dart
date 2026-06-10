@@ -215,7 +215,7 @@ return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_tha
 
 
 class _SignUpState implements SignUpState {
-  const _SignUpState({this.signUpStatus = BlocStatus.initial, this.signUpFailure, this.signUpResponse, this.obscurePassword = false});
+  const _SignUpState({this.signUpStatus = BlocStatus.initial, this.signUpFailure, this.signUpResponse, this.obscurePassword = true});
   
 
 @override@JsonKey() final  BlocStatus signUpStatus;

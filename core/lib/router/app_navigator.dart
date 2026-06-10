@@ -24,9 +24,15 @@ abstract interface class AppNavigator {
   /// Replaces the stack with the forgot-password screen.
   void toForgotPassword();
 
-  /// Replaces the stack with the dashboard.
+  /// Enters the main app shell, landing on its default (scan) tab.
   void toDashboard();
 
-  /// Replaces the stack with the fridge-scan screen.
+  /// Switches to the scan tab of the main shell.
   void toFridgeScan();
+
+  /// Switches to the recipes tab of the main shell.
+  void toRecipes();
+
+  /// Switches to the profile tab of the main shell.
+  void toProfile();
 }

@@ -6,17 +6,16 @@ void main() {
   group('authGuardRedirect', () {
     group('when signed out', () {
       test('redirects protected routes to sign-in', () {
-        expect(
-          authGuardRedirect(isLoggedIn: false, location: AppRoute.dashboardPath),
-          AppRoute.signInPath,
-        );
-        expect(
-          authGuardRedirect(
-            isLoggedIn: false,
-            location: AppRoute.fridgeScanPath,
-          ),
-          AppRoute.signInPath,
-        );
+        for (final String path in <String>[
+          AppRoute.fridgeScanPath,
+          AppRoute.recipesPath,
+          AppRoute.profilePath,
+        ]) {
+          expect(
+            authGuardRedirect(isLoggedIn: false, location: path),
+            AppRoute.signInPath,
+          );
+        }
       });
 
       test('allows public routes', () {
@@ -32,7 +31,7 @@ void main() {
     });
 
     group('when signed in', () {
-      test('redirects auth pages to dashboard', () {
+      test('redirects auth pages to home (scan tab)', () {
         for (final String path in <String>[
           AppRoute.signInPath,
           AppRoute.signUpPath,
@@ -40,23 +39,22 @@ void main() {
         ]) {
           expect(
             authGuardRedirect(isLoggedIn: true, location: path),
-            AppRoute.dashboardPath,
+            AppRoute.fridgeScanPath,
           );
         }
       });
 
       test('allows protected routes', () {
-        expect(
-          authGuardRedirect(isLoggedIn: true, location: AppRoute.dashboardPath),
-          isNull,
-        );
-        expect(
-          authGuardRedirect(
-            isLoggedIn: true,
-            location: AppRoute.fridgeScanPath,
-          ),
-          isNull,
-        );
+        for (final String path in <String>[
+          AppRoute.fridgeScanPath,
+          AppRoute.recipesPath,
+          AppRoute.profilePath,
+        ]) {
+          expect(
+            authGuardRedirect(isLoggedIn: true, location: path),
+            isNull,
+          );
+        }
       });
     });
   });

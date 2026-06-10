@@ -128,7 +128,7 @@ class _SignUpCardState extends State<SignUpCard> {
             ),
             const SizedBox(height: AppSpacing.s4),
             BlocBuilder<SignUpCubit, SignUpState>(
-              buildWhen: (SignUpState previous, SignUpState current) => previous.signUpStatus != current.signUpStatus,
+              buildWhen: (SignUpState p, SignUpState c) => p.signUpStatus != c.signUpStatus,
               builder: (BuildContext context, SignUpState state) {
                 final bool isLoading = state.signUpStatus == BlocStatus.loading;
 

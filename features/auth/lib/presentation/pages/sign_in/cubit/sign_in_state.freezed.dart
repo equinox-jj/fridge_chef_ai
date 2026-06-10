@@ -215,7 +215,7 @@ return $default(_that.signInStatus,_that.signInFailure,_that.signInResponse,_tha
 
 
 class _SignInState implements SignInState {
-  const _SignInState({this.signInStatus = BlocStatus.initial, this.signInFailure, this.signInResponse, this.obscurePassword = false});
+  const _SignInState({this.signInStatus = BlocStatus.initial, this.signInFailure, this.signInResponse, this.obscurePassword = true});
   
 
 @override@JsonKey() final  BlocStatus signInStatus;
