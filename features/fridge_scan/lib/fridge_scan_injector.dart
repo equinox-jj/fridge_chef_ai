@@ -1,6 +1,5 @@
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
-import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 
 import 'data/datasources/ai/fridge_ai_data_source.dart';
 import 'data/datasources/ai/fridge_ai_data_source_impl.dart';
@@ -16,13 +15,6 @@ import 'presentation/pages/scan/bloc/scan_bloc.dart';
 /// Call this after `Supabase.initialize(...)` and `Firebase.initializeApp(...)`
 /// have completed.
 void initFridgeScanInjector(GetIt getIt) {
-  // Shared Supabase service — registered here only if no other feature has.
-  if (!getIt.isRegistered<SupabaseService>()) {
-    getIt.registerLazySingleton<SupabaseService>(
-      () => SupabaseService(Supabase.instance.client),
-    );
-  }
-
   getIt
     // Data sources
     ..registerLazySingleton<FridgeScanRemoteDataSource>(

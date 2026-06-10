@@ -5,7 +5,6 @@ import 'package:core/router/go_router_refresh_stream.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dashboard/dashboard_routes.dart' show dashboardRoutes;
 import 'package:dependencies/go_router/go_router.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart' show fridgeScanRoutes;
 import 'package:onboarding/onboarding_routes.dart' show onboardingRoutes;
 
@@ -26,7 +25,7 @@ class AppRouter {
     refreshListenable: GoRouterRefreshStream(
       _supabaseService.authStateChanges,
     ),
-    redirect: (BuildContext context, GoRouterState state) => authGuardRedirect(
+    redirect: (_, GoRouterState state) => authGuardRedirect(
       isLoggedIn: _supabaseService.currentSession != null,
       location: state.matchedLocation,
     ),

@@ -17,13 +17,13 @@ void configureDependencies() {
     () => SupabaseService(Supabase.instance.client),
   );
 
-  // Feature modules register their own data sources, repositories, use cases
-  // and blocs/cubits.
-  initAuthInjector(getIt);
-  initFridgeScanInjector(getIt);
-
   // Router depends on the shared Supabase service for its auth guard.
   getIt.registerLazySingleton<AppRouter>(
     () => AppRouter(getIt<SupabaseService>()),
   );
+
+  // Feature modules register their own data sources, repositories, use cases
+  // and blocs/cubits.
+  initAuthInjector(getIt);
+  initFridgeScanInjector(getIt);
 }

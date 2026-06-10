@@ -1,6 +1,5 @@
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
-import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 
 import 'data/datasources/remote/auth_remote_data_source.dart';
 import 'data/datasources/remote/auth_remote_data_source_impl.dart';
@@ -19,13 +18,6 @@ import 'presentation/pages/sign_up/cubit/sign_up_cubit.dart';
 ///
 /// Call this after `Supabase.initialize(...)` has completed.
 void initAuthInjector(GetIt getIt) {
-  // Shared Supabase service — registered here only if no other feature has.
-  if (!getIt.isRegistered<SupabaseService>()) {
-    getIt.registerLazySingleton<SupabaseService>(
-      () => SupabaseService(Supabase.instance.client),
-    );
-  }
-
   getIt
     // Data source
     ..registerLazySingleton<AuthRemoteDataSource>(
