@@ -81,9 +81,7 @@ abstract final class AppTheme {
       colorScheme: scheme,
       fontFamily: AppFontFamily.body,
       textTheme: textTheme,
-      scaffoldBackgroundColor: isLight
-          ? AppColors.surfaceCanvas
-          : scheme.surface,
+      scaffoldBackgroundColor: isLight ? AppColors.surfaceCanvas : scheme.surface,
       splashFactory: InkSparkle.splashFactory,
       focusColor: AppColors.focusRing,
       dividerTheme: DividerThemeData(
@@ -107,7 +105,7 @@ abstract final class AppTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         clipBehavior: Clip.antiAlias,
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.brMd),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(AppRadius.brMd)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -115,26 +113,26 @@ abstract final class AppTheme {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
         border: OutlineInputBorder(
-          borderRadius: AppRadius.brMd,
+          borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: AppRadius.brMd,
+          borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: AppRadius.brMd,
+          borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(
             color: scheme.primary,
             width: AppBorderWidth.thick,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.brMd,
+          borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.brMd,
+          borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(
             color: scheme.error,
             width: AppBorderWidth.thick,
@@ -161,19 +159,19 @@ abstract final class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: scheme.primary,
           textStyle: textTheme.labelLarge,
-          shape: const RoundedRectangleBorder(borderRadius: AppRadius.brFull),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme.primary,
         foregroundColor: scheme.onPrimary,
         elevation: 2,
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.brLg),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brLg)),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: isLight ? AppColors.surfaceSunken : scheme.surface,
         side: BorderSide(color: scheme.outlineVariant),
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.brFull),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
         labelStyle: textTheme.labelLarge,
       ),
       bottomSheetTheme: const BottomSheetThemeData(
@@ -183,11 +181,11 @@ abstract final class AppTheme {
         ),
       ),
       dialogTheme: const DialogThemeData(
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.brLg),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brLg)),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.brSm),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brSm)),
         backgroundColor: scheme.inverseSurface,
         contentTextStyle: textTheme.bodyMedium?.copyWith(
           color: scheme.onInverseSurface,
@@ -207,7 +205,7 @@ abstract final class AppTheme {
       minimumSize: const Size(0, AppLayout.tapTarget),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       textStyle: textTheme.labelLarge,
-      shape: const RoundedRectangleBorder(borderRadius: AppRadius.brFull),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
     );
   }
 }

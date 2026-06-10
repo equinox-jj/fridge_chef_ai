@@ -16,9 +16,14 @@ class SignInCubit extends Cubit<SignInState> {
     required String password,
   }) async {
     emit(const SignInState.loading());
+
     final Either<Failure, UserEntity> result = await _signIn(
-      SignInParams(email: email, password: password),
+      SignInParams(
+        email: email,
+        password: password,
+      ),
     );
+
     emit(
       result.fold(
         (Failure failure) => SignInState.error(failure),

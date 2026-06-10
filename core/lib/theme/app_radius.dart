@@ -12,13 +12,13 @@ abstract final class AppRadius {
   static const double xxl = 34;
   static const double full = 999; // pills, FAB, avatars
 
-  static const BorderRadius brXs = BorderRadius.all(Radius.circular(xs));
-  static const BorderRadius brSm = BorderRadius.all(Radius.circular(sm));
-  static const BorderRadius brMd = BorderRadius.all(Radius.circular(md));
-  static const BorderRadius brLg = BorderRadius.all(Radius.circular(lg));
-  static const BorderRadius brXl = BorderRadius.all(Radius.circular(xl));
-  static const BorderRadius brXxl = BorderRadius.all(Radius.circular(xxl));
-  static const BorderRadius brFull = BorderRadius.all(Radius.circular(full));
+  static const Radius brXs = Radius.circular(xs);
+  static const Radius brSm = Radius.circular(sm);
+  static const Radius brMd = Radius.circular(md);
+  static const Radius brLg = Radius.circular(lg);
+  static const Radius brXl = Radius.circular(xl);
+  static const Radius brXxl = Radius.circular(xxl);
+  static const Radius brFull = Radius.circular(full);
 }
 
 /// Border (stroke) widths.
