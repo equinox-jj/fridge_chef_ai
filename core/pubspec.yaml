@@ -20,3 +20,48 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
+  assets:
+    - assets/icons/
+    - assets/fonts/
+    - assets/images/
+  fonts:
+    - family: Bricolage Grotesque
+      fonts:
+        - asset: assets/fonts/Bricolage_Grotesque/BricolageGrotesque-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Bricolage_Grotesque/BricolageGrotesque-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Bricolage_Grotesque/BricolageGrotesque-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Bricolage_Grotesque/BricolageGrotesque-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Bricolage_Grotesque/BricolageGrotesque-ExtraBold.ttf
+          weight: 800
+    - family: Plus Jakarta Sans
+      fonts:
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Plus_Jakarta_Sans/PlusJakartaSans-ExtraBold.ttf
+          weight: 800
+    - family: JetBrains Mono
+      fonts:
+        - asset: assets/fonts/JetBrains_Mono/JetBrainsMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/JetBrains_Mono/JetBrainsMono-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/JetBrains_Mono/JetBrainsMono-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/JetBrains_Mono/JetBrainsMono-Bold.ttf
+          weight: 700

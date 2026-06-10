@@ -1,4 +1,5 @@
 import 'package:core/constants/env/env.dart';
+import 'package:core/theme/theme.dart';
 import 'package:core/utils/app_utils.dart';
 import 'package:dependencies/firebase/firebase_core.dart';
 import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
@@ -30,6 +31,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Fridge Chef AI',
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       routerConfig: getIt<AppRouter>().config,
     );
   }

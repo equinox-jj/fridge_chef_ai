@@ -1,6 +1,4 @@
-abstract class SupabaseTable {
-  const SupabaseTable._();
-
+abstract final class SupabaseTable {
   static const String fridgeScansTable = 'fridge_scans';
   static const String ingredientsTable = 'ingredients';
   static const String recipeIngredientsTable = 'recipe_ingredients';
