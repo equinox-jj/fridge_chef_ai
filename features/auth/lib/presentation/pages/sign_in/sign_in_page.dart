@@ -20,6 +20,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocListener<SignInCubit, SignInState>(
         listenWhen: (SignInState p, SignInState c) => p.signInStatus != c.signInStatus,
         listener: _onStateChanged,

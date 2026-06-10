@@ -20,6 +20,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocListener<SignUpCubit, SignUpState>(
         listenWhen: (SignUpState p, SignUpState c) => p.signUpStatus != c.signUpStatus,
         listener: _onStateChanged,

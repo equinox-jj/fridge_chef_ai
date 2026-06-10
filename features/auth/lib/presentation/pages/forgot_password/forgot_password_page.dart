@@ -17,6 +17,7 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
         listenWhen: (ForgotPasswordState p, ForgotPasswordState c) => p.forgotPasswordStatus != c.forgotPasswordStatus,
         listener: _onStateChanged,
