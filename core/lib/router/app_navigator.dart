@@ -9,7 +9,7 @@
 /// *how*:
 ///
 /// ```dart
-/// GetIt.instance<AppNavigator>().toDashboard();
+/// Getit.I<AppNavigator>().toDashboard();
 /// ```
 abstract interface class AppNavigator {
   /// Replaces the stack with the onboarding screen.

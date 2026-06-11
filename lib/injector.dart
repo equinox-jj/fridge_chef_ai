@@ -12,7 +12,7 @@ import 'router/app_navigator_impl.dart';
 import 'router/app_router.dart';
 
 /// The app-wide service locator.
-final GetIt getIt = GetIt.instance;
+final GetIt getIt = GetIt.I;
 
 /// Wires every dependency the app needs. Call once after Supabase/Firebase
 /// have been initialised and before `runApp`.

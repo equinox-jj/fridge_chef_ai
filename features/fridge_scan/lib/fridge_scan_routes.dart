@@ -30,7 +30,7 @@ class HomeRoute extends GoRouteData with $HomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<HomeBloc>(
-      create: (_) => GetIt.instance<HomeBloc>(),
+      create: (_) => GetIt.I<HomeBloc>(),
       child: const HomePage(),
     );
   }
@@ -42,7 +42,7 @@ class FridgeScanRoute extends GoRouteData with $FridgeScanRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ScanBloc>(
-      create: (_) => GetIt.instance<ScanBloc>(),
+      create: (_) => GetIt.I<ScanBloc>(),
       child: const ScanPage(),
     );
   }

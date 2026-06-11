@@ -26,7 +26,7 @@ class SignInRoute extends GoRouteData with $SignInRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<SignInCubit>(
-      create: (_) => GetIt.instance<SignInCubit>(),
+      create: (_) => GetIt.I<SignInCubit>(),
       child: const SignInPage(),
     );
   }
@@ -42,7 +42,7 @@ class SignUpRoute extends GoRouteData with $SignUpRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<SignUpCubit>(
-      create: (_) => GetIt.instance<SignUpCubit>(),
+      create: (_) => GetIt.I<SignUpCubit>(),
       child: const SignUpPage(),
     );
   }
@@ -58,7 +58,7 @@ class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ForgotPasswordCubit>(
-      create: (_) => GetIt.instance<ForgotPasswordCubit>(),
+      create: (_) => GetIt.I<ForgotPasswordCubit>(),
       child: const ForgotPasswordPage(),
     );
   }
