@@ -206,30 +206,62 @@ String toString() {
 /// @nodoc
 mixin _$HomeState {
 
-
+ String? get userName; List<ScanResultEntity> get recentScans;
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>(this as HomeState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.userName, userName) || other.userName == userName)&&const DeepCollectionEquality().equals(other.recentScans, recentScans));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,userName,const DeepCollectionEquality().hash(recentScans));
 
 @override
 String toString() {
-  return 'HomeState()';
+  return 'HomeState(userName: $userName, recentScans: $recentScans)';
 }
 
 
 }
 
 /// @nodoc
-class $HomeStateCopyWith<$Res>  {
-$HomeStateCopyWith(HomeState _, $Res Function(HomeState) __);
+abstract mixin class $HomeStateCopyWith<$Res>  {
+  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
+@useResult
+$Res call({
+ String? userName, List<ScanResultEntity> recentScans
+});
+
+
+
+
+}
+/// @nodoc
+class _$HomeStateCopyWithImpl<$Res>
+    implements $HomeStateCopyWith<$Res> {
+  _$HomeStateCopyWithImpl(this._self, this._then);
+
+  final HomeState _self;
+  final $Res Function(HomeState) _then;
+
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? userName = freezed,Object? recentScans = null,}) {
+  return _then(_self.copyWith(
+userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String?,recentScans: null == recentScans ? _self.recentScans : recentScans // ignore: cast_nullable_to_non_nullable
+as List<ScanResultEntity>,
+  ));
+}
+
 }
 
 
@@ -311,10 +343,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function()?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? userName,  List<ScanResultEntity> recentScans)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default();case _:
+return $default(_that.userName,_that.recentScans);case _:
   return orElse();
 
 }
@@ -332,10 +364,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function()  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? userName,  List<ScanResultEntity> recentScans)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default();case _:
+return $default(_that.userName,_that.recentScans);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -352,10 +384,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function()?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? userName,  List<ScanResultEntity> recentScans)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default();case _:
+return $default(_that.userName,_that.recentScans);case _:
   return null;
 
 }
@@ -367,32 +399,74 @@ return $default();case _:
 
 
 class _HomeState implements HomeState {
-  const _HomeState();
+  const _HomeState({this.userName, final  List<ScanResultEntity> recentScans = const <ScanResultEntity>[]}): _recentScans = recentScans;
   
 
+@override final  String? userName;
+ final  List<ScanResultEntity> _recentScans;
+@override@JsonKey() List<ScanResultEntity> get recentScans {
+  if (_recentScans is EqualUnmodifiableListView) return _recentScans;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_recentScans);
+}
 
 
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.userName, userName) || other.userName == userName)&&const DeepCollectionEquality().equals(other._recentScans, _recentScans));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,userName,const DeepCollectionEquality().hash(_recentScans));
 
 @override
 String toString() {
-  return 'HomeState()';
+  return 'HomeState(userName: $userName, recentScans: $recentScans)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
+  factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
+@override @useResult
+$Res call({
+ String? userName, List<ScanResultEntity> recentScans
+});
 
 
+
+
+}
+/// @nodoc
+class __$HomeStateCopyWithImpl<$Res>
+    implements _$HomeStateCopyWith<$Res> {
+  __$HomeStateCopyWithImpl(this._self, this._then);
+
+  final _HomeState _self;
+  final $Res Function(_HomeState) _then;
+
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? userName = freezed,Object? recentScans = null,}) {
+  return _then(_HomeState(
+userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String?,recentScans: null == recentScans ? _self._recentScans : recentScans // ignore: cast_nullable_to_non_nullable
+as List<ScanResultEntity>,
+  ));
+}
+
+
+}
 
 // dart format on
