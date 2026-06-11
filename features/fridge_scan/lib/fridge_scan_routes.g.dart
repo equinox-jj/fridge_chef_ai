@@ -15,8 +15,7 @@ RouteBase get $fridgeScanRoute => GoRouteData.$route(
 );
 
 mixin $FridgeScanRoute on GoRouteData {
-  static FridgeScanRoute _fromState(GoRouterState state) =>
-      const FridgeScanRoute();
+  static FridgeScanRoute _fromState(GoRouterState state) => const FridgeScanRoute();
 
   @override
   String get location => GoRouteData.$location('/fridge-scan');
@@ -28,8 +27,7 @@ mixin $FridgeScanRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);

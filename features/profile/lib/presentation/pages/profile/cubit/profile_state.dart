@@ -5,7 +5,7 @@ import 'package:dependencies/freezed_annotation/freezed_annotation.dart';
 part 'profile_state.freezed.dart';
 
 @freezed
-sealed class ProfileState with _$ProfileState {
+abstract class ProfileState with _$ProfileState {
   const factory ProfileState({
     @Default(BlocStatus.initial) BlocStatus signOutStatus,
     Failure? signOutFailure,

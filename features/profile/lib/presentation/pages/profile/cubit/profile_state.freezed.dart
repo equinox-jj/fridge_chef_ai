@@ -113,7 +113,10 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _ProfileState():
-return $default(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -172,7 +175,10 @@ return $default(_that.signOutStatus,_that.signOutFailure);case _:
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus signOutStatus,  Failure? signOutFailure)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileState():
-return $default(_that.signOutStatus,_that.signOutFailure);}
+return $default(_that.signOutStatus,_that.signOutFailure);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

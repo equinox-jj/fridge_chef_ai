@@ -127,7 +127,10 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -186,7 +189,10 @@ return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_tha
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse,  bool obscurePassword)  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_that.obscurePassword);}
+return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_that.obscurePassword);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

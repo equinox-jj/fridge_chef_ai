@@ -14,6 +14,5 @@ abstract class IngredientModel with _$IngredientModel {
     @JsonKey(name: 'category') String? category,
   }) = _IngredientModel;
 
-  factory IngredientModel.fromJson(Map<String, dynamic> json) =>
-      _$IngredientModelFromJson(json);
+  factory IngredientModel.fromJson(Map<String, dynamic> json) => _$IngredientModelFromJson(json);
 }

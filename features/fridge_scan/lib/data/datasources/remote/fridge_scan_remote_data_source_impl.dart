@@ -25,8 +25,7 @@ class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
   Future<String> uploadImage(Uint8List bytes) {
     return _supabaseService.safeCall(() async {
       final String userId = _requireUserId();
-      final String path =
-          '$userId/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final String path = '$userId/${DateTime.now().millisecondsSinceEpoch}.jpg';
       await _client.storage
           .from(_bucket)
           .uploadBinary(

@@ -76,10 +76,7 @@ If you can see no food, return an empty array [].
       if (decoded is! List) {
         throw const FormatException('Expected a JSON array of ingredients.');
       }
-      return decoded
-          .whereType<Map<String, dynamic>>()
-          .map(IngredientModel.fromJson)
-          .toList();
+      return decoded.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).toList();
     } on FormatException catch (e) {
       throw ServerException('Could not read ingredients from the image: $e');
     }

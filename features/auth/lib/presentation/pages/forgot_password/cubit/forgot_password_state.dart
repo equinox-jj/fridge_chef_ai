@@ -5,7 +5,7 @@ import 'package:dependencies/freezed_annotation/freezed_annotation.dart';
 part 'forgot_password_state.freezed.dart';
 
 @freezed
-sealed class ForgotPasswordState with _$ForgotPasswordState {
+abstract class ForgotPasswordState with _$ForgotPasswordState {
   const factory ForgotPasswordState({
     @Default(BlocStatus.initial) BlocStatus forgotPasswordStatus,
     Failure? forgotPasswordFailure,

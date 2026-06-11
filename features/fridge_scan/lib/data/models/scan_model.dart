@@ -13,6 +13,5 @@ abstract class ScanModel with _$ScanModel {
     @JsonKey(name: 'scanned_at') DateTime? scannedAt,
   }) = _ScanModel;
 
-  factory ScanModel.fromJson(Map<String, dynamic> json) =>
-      _$ScanModelFromJson(json);
+  factory ScanModel.fromJson(Map<String, dynamic> json) => _$ScanModelFromJson(json);
 }

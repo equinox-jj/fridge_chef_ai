@@ -7,7 +7,7 @@ import '../../../../domain/entities/user_entity.dart';
 part 'sign_in_state.freezed.dart';
 
 @freezed
-sealed class SignInState with _$SignInState {
+abstract class SignInState with _$SignInState {
   const factory SignInState({
     @Default(BlocStatus.initial) BlocStatus signInStatus,
     Failure? signInFailure,

@@ -55,11 +55,11 @@ extension ScanEventPatterns on ScanEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ScanConfirmed value)?  confirmed,TResult Function( ScanReset value)?  reset,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ScanConfirmed value)?  confirmed,TResult Function( _ScanReset value)?  reset,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case ScanConfirmed() when confirmed != null:
-return confirmed(_that);case ScanReset() when reset != null:
+case _ScanConfirmed() when confirmed != null:
+return confirmed(_that);case _ScanReset() when reset != null:
 return reset(_that);case _:
   return orElse();
 
@@ -78,12 +78,15 @@ return reset(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ScanConfirmed value)  confirmed,required TResult Function( ScanReset value)  reset,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ScanConfirmed value)  confirmed,required TResult Function( _ScanReset value)  reset,}){
 final _that = this;
 switch (_that) {
-case ScanConfirmed():
-return confirmed(_that);case ScanReset():
-return reset(_that);}
+case _ScanConfirmed():
+return confirmed(_that);case _ScanReset():
+return reset(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -97,11 +100,11 @@ return reset(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ScanConfirmed value)?  confirmed,TResult? Function( ScanReset value)?  reset,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ScanConfirmed value)?  confirmed,TResult? Function( _ScanReset value)?  reset,}){
 final _that = this;
 switch (_that) {
-case ScanConfirmed() when confirmed != null:
-return confirmed(_that);case ScanReset() when reset != null:
+case _ScanConfirmed() when confirmed != null:
+return confirmed(_that);case _ScanReset() when reset != null:
 return reset(_that);case _:
   return null;
 
@@ -121,8 +124,8 @@ return reset(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( XFile file)?  confirmed,TResult Function()?  reset,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case ScanConfirmed() when confirmed != null:
-return confirmed(_that.file);case ScanReset() when reset != null:
+case _ScanConfirmed() when confirmed != null:
+return confirmed(_that.file);case _ScanReset() when reset != null:
 return reset();case _:
   return orElse();
 
@@ -143,9 +146,12 @@ return reset();case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( XFile file)  confirmed,required TResult Function()  reset,}) {final _that = this;
 switch (_that) {
-case ScanConfirmed():
-return confirmed(_that.file);case ScanReset():
-return reset();}
+case _ScanConfirmed():
+return confirmed(_that.file);case _ScanReset():
+return reset();case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -161,8 +167,8 @@ return reset();}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( XFile file)?  confirmed,TResult? Function()?  reset,}) {final _that = this;
 switch (_that) {
-case ScanConfirmed() when confirmed != null:
-return confirmed(_that.file);case ScanReset() when reset != null:
+case _ScanConfirmed() when confirmed != null:
+return confirmed(_that.file);case _ScanReset() when reset != null:
 return reset();case _:
   return null;
 
@@ -174,8 +180,8 @@ return reset();case _:
 /// @nodoc
 
 
-class ScanConfirmed implements ScanEvent {
-  const ScanConfirmed(this.file);
+class _ScanConfirmed implements ScanEvent {
+  const _ScanConfirmed(this.file);
   
 
  final  XFile file;
@@ -184,13 +190,13 @@ class ScanConfirmed implements ScanEvent {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ScanConfirmedCopyWith<ScanConfirmed> get copyWith => _$ScanConfirmedCopyWithImpl<ScanConfirmed>(this, _$identity);
+_$ScanConfirmedCopyWith<_ScanConfirmed> get copyWith => __$ScanConfirmedCopyWithImpl<_ScanConfirmed>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanConfirmed&&(identical(other.file, file) || other.file == file));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanConfirmed&&(identical(other.file, file) || other.file == file));
 }
 
 
@@ -206,8 +212,8 @@ String toString() {
 }
 
 /// @nodoc
-abstract mixin class $ScanConfirmedCopyWith<$Res> implements $ScanEventCopyWith<$Res> {
-  factory $ScanConfirmedCopyWith(ScanConfirmed value, $Res Function(ScanConfirmed) _then) = _$ScanConfirmedCopyWithImpl;
+abstract mixin class _$ScanConfirmedCopyWith<$Res> implements $ScanEventCopyWith<$Res> {
+  factory _$ScanConfirmedCopyWith(_ScanConfirmed value, $Res Function(_ScanConfirmed) _then) = __$ScanConfirmedCopyWithImpl;
 @useResult
 $Res call({
  XFile file
@@ -218,17 +224,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$ScanConfirmedCopyWithImpl<$Res>
-    implements $ScanConfirmedCopyWith<$Res> {
-  _$ScanConfirmedCopyWithImpl(this._self, this._then);
+class __$ScanConfirmedCopyWithImpl<$Res>
+    implements _$ScanConfirmedCopyWith<$Res> {
+  __$ScanConfirmedCopyWithImpl(this._self, this._then);
 
-  final ScanConfirmed _self;
-  final $Res Function(ScanConfirmed) _then;
+  final _ScanConfirmed _self;
+  final $Res Function(_ScanConfirmed) _then;
 
 /// Create a copy of ScanEvent
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? file = null,}) {
-  return _then(ScanConfirmed(
+  return _then(_ScanConfirmed(
 null == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
 as XFile,
   ));
@@ -240,8 +246,8 @@ as XFile,
 /// @nodoc
 
 
-class ScanReset implements ScanEvent {
-  const ScanReset();
+class _ScanReset implements ScanEvent {
+  const _ScanReset();
   
 
 
@@ -251,7 +257,7 @@ class ScanReset implements ScanEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanReset);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanReset);
 }
 
 
@@ -272,30 +278,76 @@ String toString() {
 /// @nodoc
 mixin _$ScanState {
 
-
+ BlocStatus get scanState; Failure? get scanFailure; ScanEntity? get scanResponse; List<IngredientEntity>? get ingredientsResponse;
+/// Create a copy of ScanState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScanStateCopyWith<ScanState> get copyWith => _$ScanStateCopyWithImpl<ScanState>(this as ScanState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanState&&(identical(other.scanState, scanState) || other.scanState == scanState)&&(identical(other.scanFailure, scanFailure) || other.scanFailure == scanFailure)&&(identical(other.scanResponse, scanResponse) || other.scanResponse == scanResponse)&&const DeepCollectionEquality().equals(other.ingredientsResponse, ingredientsResponse));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,scanState,scanFailure,scanResponse,const DeepCollectionEquality().hash(ingredientsResponse));
 
 @override
 String toString() {
-  return 'ScanState()';
+  return 'ScanState(scanState: $scanState, scanFailure: $scanFailure, scanResponse: $scanResponse, ingredientsResponse: $ingredientsResponse)';
 }
 
 
 }
 
 /// @nodoc
-class $ScanStateCopyWith<$Res>  {
-$ScanStateCopyWith(ScanState _, $Res Function(ScanState) __);
+abstract mixin class $ScanStateCopyWith<$Res>  {
+  factory $ScanStateCopyWith(ScanState value, $Res Function(ScanState) _then) = _$ScanStateCopyWithImpl;
+@useResult
+$Res call({
+ BlocStatus scanState, Failure? scanFailure, ScanEntity? scanResponse, List<IngredientEntity>? ingredientsResponse
+});
+
+
+$ScanEntityCopyWith<$Res>? get scanResponse;
+
+}
+/// @nodoc
+class _$ScanStateCopyWithImpl<$Res>
+    implements $ScanStateCopyWith<$Res> {
+  _$ScanStateCopyWithImpl(this._self, this._then);
+
+  final ScanState _self;
+  final $Res Function(ScanState) _then;
+
+/// Create a copy of ScanState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? scanState = null,Object? scanFailure = freezed,Object? scanResponse = freezed,Object? ingredientsResponse = freezed,}) {
+  return _then(_self.copyWith(
+scanState: null == scanState ? _self.scanState : scanState // ignore: cast_nullable_to_non_nullable
+as BlocStatus,scanFailure: freezed == scanFailure ? _self.scanFailure : scanFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,scanResponse: freezed == scanResponse ? _self.scanResponse : scanResponse // ignore: cast_nullable_to_non_nullable
+as ScanEntity?,ingredientsResponse: freezed == ingredientsResponse ? _self.ingredientsResponse : ingredientsResponse // ignore: cast_nullable_to_non_nullable
+as List<IngredientEntity>?,
+  ));
+}
+/// Create a copy of ScanState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScanEntityCopyWith<$Res>? get scanResponse {
+    if (_self.scanResponse == null) {
+    return null;
+  }
+
+  return $ScanEntityCopyWith<$Res>(_self.scanResponse!, (value) {
+    return _then(_self.copyWith(scanResponse: value));
+  });
+}
 }
 
 
@@ -313,14 +365,11 @@ extension ScanStatePatterns on ScanState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ScanInitial value)?  initial,TResult Function( ScanLoading value)?  loading,TResult Function( ScanDone value)?  done,TResult Function( ScanError value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( ScanInitial value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case ScanInitial() when initial != null:
-return initial(_that);case ScanLoading() when loading != null:
-return loading(_that);case ScanDone() when done != null:
-return done(_that);case ScanError() when error != null:
-return error(_that);case _:
+case ScanInitial() when $default != null:
+return $default(_that);case _:
   return orElse();
 
 }
@@ -338,14 +387,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ScanInitial value)  initial,required TResult Function( ScanLoading value)  loading,required TResult Function( ScanDone value)  done,required TResult Function( ScanError value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( ScanInitial value)  $default,){
 final _that = this;
 switch (_that) {
 case ScanInitial():
-return initial(_that);case ScanLoading():
-return loading(_that);case ScanDone():
-return done(_that);case ScanError():
-return error(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -359,14 +408,11 @@ return error(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ScanInitial value)?  initial,TResult? Function( ScanLoading value)?  loading,TResult? Function( ScanDone value)?  done,TResult? Function( ScanError value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( ScanInitial value)?  $default,){
 final _that = this;
 switch (_that) {
-case ScanInitial() when initial != null:
-return initial(_that);case ScanLoading() when loading != null:
-return loading(_that);case ScanDone() when done != null:
-return done(_that);case ScanError() when error != null:
-return error(_that);case _:
+case ScanInitial() when $default != null:
+return $default(_that);case _:
   return null;
 
 }
@@ -383,13 +429,10 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( ScanEntity scan,  List<IngredientEntity> ingredients)?  done,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case ScanInitial() when initial != null:
-return initial();case ScanLoading() when loading != null:
-return loading();case ScanDone() when done != null:
-return done(_that.scan,_that.ingredients);case ScanError() when error != null:
-return error(_that.failure);case _:
+case ScanInitial() when $default != null:
+return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
   return orElse();
 
 }
@@ -407,13 +450,13 @@ return error(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( ScanEntity scan,  List<IngredientEntity> ingredients)  done,required TResult Function( Failure failure)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)  $default,) {final _that = this;
 switch (_that) {
 case ScanInitial():
-return initial();case ScanLoading():
-return loading();case ScanDone():
-return done(_that.scan,_that.ingredients);case ScanError():
-return error(_that.failure);}
+return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -427,13 +470,10 @@ return error(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( ScanEntity scan,  List<IngredientEntity> ingredients)?  done,TResult? Function( Failure failure)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)?  $default,) {final _that = this;
 switch (_that) {
-case ScanInitial() when initial != null:
-return initial();case ScanLoading() when loading != null:
-return loading();case ScanDone() when done != null:
-return done(_that.scan,_that.ingredients);case ScanError() when error != null:
-return error(_that.failure);case _:
+case ScanInitial() when $default != null:
+return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
   return null;
 
 }
@@ -445,134 +485,76 @@ return error(_that.failure);case _:
 
 
 class ScanInitial implements ScanState {
-  const ScanInitial();
+  const ScanInitial({this.scanState = BlocStatus.initial, this.scanFailure, this.scanResponse, final  List<IngredientEntity>? ingredientsResponse}): _ingredientsResponse = ingredientsResponse;
   
 
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanInitial);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'ScanState.initial()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class ScanLoading implements ScanState {
-  const ScanLoading();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanLoading);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'ScanState.loading()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class ScanDone implements ScanState {
-  const ScanDone(this.scan, final  List<IngredientEntity> ingredients): _ingredients = ingredients;
-  
-
- final  ScanEntity scan;
- final  List<IngredientEntity> _ingredients;
- List<IngredientEntity> get ingredients {
-  if (_ingredients is EqualUnmodifiableListView) return _ingredients;
+@override@JsonKey() final  BlocStatus scanState;
+@override final  Failure? scanFailure;
+@override final  ScanEntity? scanResponse;
+ final  List<IngredientEntity>? _ingredientsResponse;
+@override List<IngredientEntity>? get ingredientsResponse {
+  final value = _ingredientsResponse;
+  if (value == null) return null;
+  if (_ingredientsResponse is EqualUnmodifiableListView) return _ingredientsResponse;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_ingredients);
+  return EqualUnmodifiableListView(value);
 }
 
 
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ScanDoneCopyWith<ScanDone> get copyWith => _$ScanDoneCopyWithImpl<ScanDone>(this, _$identity);
+$ScanInitialCopyWith<ScanInitial> get copyWith => _$ScanInitialCopyWithImpl<ScanInitial>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanDone&&(identical(other.scan, scan) || other.scan == scan)&&const DeepCollectionEquality().equals(other._ingredients, _ingredients));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanInitial&&(identical(other.scanState, scanState) || other.scanState == scanState)&&(identical(other.scanFailure, scanFailure) || other.scanFailure == scanFailure)&&(identical(other.scanResponse, scanResponse) || other.scanResponse == scanResponse)&&const DeepCollectionEquality().equals(other._ingredientsResponse, _ingredientsResponse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,scan,const DeepCollectionEquality().hash(_ingredients));
+int get hashCode => Object.hash(runtimeType,scanState,scanFailure,scanResponse,const DeepCollectionEquality().hash(_ingredientsResponse));
 
 @override
 String toString() {
-  return 'ScanState.done(scan: $scan, ingredients: $ingredients)';
+  return 'ScanState(scanState: $scanState, scanFailure: $scanFailure, scanResponse: $scanResponse, ingredientsResponse: $ingredientsResponse)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ScanDoneCopyWith<$Res> implements $ScanStateCopyWith<$Res> {
-  factory $ScanDoneCopyWith(ScanDone value, $Res Function(ScanDone) _then) = _$ScanDoneCopyWithImpl;
-@useResult
+abstract mixin class $ScanInitialCopyWith<$Res> implements $ScanStateCopyWith<$Res> {
+  factory $ScanInitialCopyWith(ScanInitial value, $Res Function(ScanInitial) _then) = _$ScanInitialCopyWithImpl;
+@override @useResult
 $Res call({
- ScanEntity scan, List<IngredientEntity> ingredients
+ BlocStatus scanState, Failure? scanFailure, ScanEntity? scanResponse, List<IngredientEntity>? ingredientsResponse
 });
 
 
-$ScanEntityCopyWith<$Res> get scan;
+@override $ScanEntityCopyWith<$Res>? get scanResponse;
 
 }
 /// @nodoc
-class _$ScanDoneCopyWithImpl<$Res>
-    implements $ScanDoneCopyWith<$Res> {
-  _$ScanDoneCopyWithImpl(this._self, this._then);
+class _$ScanInitialCopyWithImpl<$Res>
+    implements $ScanInitialCopyWith<$Res> {
+  _$ScanInitialCopyWithImpl(this._self, this._then);
 
-  final ScanDone _self;
-  final $Res Function(ScanDone) _then;
+  final ScanInitial _self;
+  final $Res Function(ScanInitial) _then;
 
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? scan = null,Object? ingredients = null,}) {
-  return _then(ScanDone(
-null == scan ? _self.scan : scan // ignore: cast_nullable_to_non_nullable
-as ScanEntity,null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
-as List<IngredientEntity>,
+@override @pragma('vm:prefer-inline') $Res call({Object? scanState = null,Object? scanFailure = freezed,Object? scanResponse = freezed,Object? ingredientsResponse = freezed,}) {
+  return _then(ScanInitial(
+scanState: null == scanState ? _self.scanState : scanState // ignore: cast_nullable_to_non_nullable
+as BlocStatus,scanFailure: freezed == scanFailure ? _self.scanFailure : scanFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,scanResponse: freezed == scanResponse ? _self.scanResponse : scanResponse // ignore: cast_nullable_to_non_nullable
+as ScanEntity?,ingredientsResponse: freezed == ingredientsResponse ? _self._ingredientsResponse : ingredientsResponse // ignore: cast_nullable_to_non_nullable
+as List<IngredientEntity>?,
   ));
 }
 
@@ -580,78 +562,15 @@ as List<IngredientEntity>,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ScanEntityCopyWith<$Res> get scan {
-  
-  return $ScanEntityCopyWith<$Res>(_self.scan, (value) {
-    return _then(_self.copyWith(scan: value));
+$ScanEntityCopyWith<$Res>? get scanResponse {
+    if (_self.scanResponse == null) {
+    return null;
+  }
+
+  return $ScanEntityCopyWith<$Res>(_self.scanResponse!, (value) {
+    return _then(_self.copyWith(scanResponse: value));
   });
 }
-}
-
-/// @nodoc
-
-
-class ScanError implements ScanState {
-  const ScanError(this.failure);
-  
-
- final  Failure failure;
-
-/// Create a copy of ScanState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ScanErrorCopyWith<ScanError> get copyWith => _$ScanErrorCopyWithImpl<ScanError>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanError&&(identical(other.failure, failure) || other.failure == failure));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,failure);
-
-@override
-String toString() {
-  return 'ScanState.error(failure: $failure)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ScanErrorCopyWith<$Res> implements $ScanStateCopyWith<$Res> {
-  factory $ScanErrorCopyWith(ScanError value, $Res Function(ScanError) _then) = _$ScanErrorCopyWithImpl;
-@useResult
-$Res call({
- Failure failure
-});
-
-
-
-
-}
-/// @nodoc
-class _$ScanErrorCopyWithImpl<$Res>
-    implements $ScanErrorCopyWith<$Res> {
-  _$ScanErrorCopyWithImpl(this._self, this._then);
-
-  final ScanError _self;
-  final $Res Function(ScanError) _then;
-
-/// Create a copy of ScanState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
-  return _then(ScanError(
-null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
-as Failure,
-  ));
-}
-
-
 }
 
 // dart format on
