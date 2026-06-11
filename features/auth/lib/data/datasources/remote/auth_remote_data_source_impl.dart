@@ -63,11 +63,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> signOut() {
-    return _supabaseService.safeCall(() => _client.auth.signOut());
-  }
-
-  @override
   Future<void> forgotPassword({required String email}) {
     return _supabaseService.safeCall(
       () => _client.auth.resetPasswordForEmail(email),

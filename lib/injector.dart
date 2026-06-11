@@ -5,6 +5,7 @@ import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 import 'package:fridge_scan/fridge_scan_injector.dart';
+import 'package:profile/profile_injector.dart';
 
 import 'router/app_navigator_impl.dart';
 import 'router/app_router.dart';
@@ -36,4 +37,5 @@ void configureDependencies() {
   // and blocs/cubits.
   initAuthInjector(getIt);
   initFridgeScanInjector(getIt);
+  initProfileInjector(getIt);
 }

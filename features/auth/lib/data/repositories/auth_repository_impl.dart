@@ -45,14 +45,6 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signOut() {
-    return _guard(() async {
-      await _remoteDataSource.signOut();
-      return unit;
-    });
-  }
-
-  @override
   Future<Either<Failure, Unit>> forgotPassword({required String email}) {
     return _guard(() async {
       await _remoteDataSource.forgotPassword(email: email);

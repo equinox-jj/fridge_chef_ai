@@ -8,7 +8,6 @@ import 'domain/repositories/auth_repository.dart';
 import 'domain/usecases/forgot_password_usecase.dart';
 import 'domain/usecases/get_current_user_usecase.dart';
 import 'domain/usecases/sign_in_usecase.dart';
-import 'domain/usecases/sign_out_usecase.dart';
 import 'domain/usecases/sign_up_usecase.dart';
 import 'presentation/pages/forgot_password/cubit/forgot_password_cubit.dart';
 import 'presentation/pages/sign_in/cubit/sign_in_cubit.dart';
@@ -33,9 +32,6 @@ void initAuthInjector(GetIt getIt) {
     )
     ..registerLazySingleton<SignUpUseCase>(
       () => SignUpUseCase(getIt<AuthRepository>()),
-    )
-    ..registerLazySingleton<SignOutUseCase>(
-      () => SignOutUseCase(getIt<AuthRepository>()),
     )
     ..registerLazySingleton<ForgotPasswordUseCase>(
       () => ForgotPasswordUseCase(getIt<AuthRepository>()),

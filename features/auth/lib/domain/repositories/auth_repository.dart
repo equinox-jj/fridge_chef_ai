@@ -19,9 +19,6 @@ abstract class AuthRepository {
     required String password,
   });
 
-  /// Signs the current user out.
-  Future<Either<Failure, Unit>> signOut();
-
   /// Sends a password-reset email to [email].
   Future<Either<Failure, Unit>> forgotPassword({required String email});
 

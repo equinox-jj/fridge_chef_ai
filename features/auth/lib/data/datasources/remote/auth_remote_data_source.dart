@@ -18,9 +18,6 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
-  /// Clears the current session.
-  Future<void> signOut();
-
   /// Sends a password-reset email to [email].
   Future<void> forgotPassword({required String email});
 
