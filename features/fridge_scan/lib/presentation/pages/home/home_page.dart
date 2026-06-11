@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: null, // TODO(home): open notifications once that screen exists.
+            onPressed: () {},
             icon: const Icon(Icons.notifications_none_rounded),
             tooltip: 'Notifications',
           ),
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: AppSpacing.s6,
                 children: <Widget>[
-                  HomeGreeting(name: state.userName),
+                  HomeGreeting(name: state.userProfile?.name),
                   ScanFridgeCard(onTap: () => _openScanSheet(context)),
                   _RecentScansSection(scans: state.recentScans),
                 ],

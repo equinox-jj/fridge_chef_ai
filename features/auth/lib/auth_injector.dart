@@ -1,11 +1,15 @@
+import 'package:core/database/app_database.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 
+import 'data/datasources/local/auth_local_data_source.dart';
+import 'data/datasources/local/auth_local_data_source_impl.dart';
 import 'data/datasources/remote/auth_remote_data_source.dart';
 import 'data/datasources/remote/auth_remote_data_source_impl.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'domain/repositories/auth_repository.dart';
 import 'domain/usecases/forgot_password_usecase.dart';
+import 'domain/usecases/get_cached_user_usecase.dart';
 import 'domain/usecases/get_current_user_usecase.dart';
 import 'domain/usecases/sign_in_usecase.dart';
 import 'domain/usecases/sign_up_usecase.dart';
@@ -18,13 +22,19 @@ import 'presentation/pages/sign_up/cubit/sign_up_cubit.dart';
 /// Call this after `Supabase.initialize(...)` has completed.
 void initAuthInjector(GetIt getIt) {
   getIt
-    // Data source
+    // Data sources
     ..registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(getIt<SupabaseService>()),
     )
+    ..registerLazySingleton<AuthLocalDataSource>(
+      () => AuthLocalDataSourceImpl(getIt<AppDatabase>()),
+    )
     // Repository
     ..registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(getIt<AuthRemoteDataSource>()),
+      () => AuthRepositoryImpl(
+        getIt<AuthRemoteDataSource>(),
+        getIt<AuthLocalDataSource>(),
+      ),
     )
     // Use cases
     ..registerLazySingleton<SignInUseCase>(
@@ -38,6 +48,9 @@ void initAuthInjector(GetIt getIt) {
     )
     ..registerLazySingleton<GetCurrentUserUseCase>(
       () => GetCurrentUserUseCase(getIt<AuthRepository>()),
+    )
+    ..registerLazySingleton<GetCachedUserUseCase>(
+      () => GetCachedUserUseCase(getIt<AuthRepository>()),
     )
     // Cubits
     ..registerFactory<SignInCubit>(

@@ -1,4 +1,5 @@
 import 'package:auth/auth_injector.dart';
+import 'package:core/database/app_database.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/services/permission_service.dart';
@@ -23,6 +24,12 @@ void configureDependencies() {
     () => SupabaseService(Supabase.instance.client),
   );
   getIt.registerLazySingleton<PermissionService>(PermissionService.new);
+
+  // Shared local database — features access it through their own data sources.
+  getIt.registerLazySingleton<AppDatabase>(
+    AppDatabase.new,
+    dispose: (AppDatabase db) => db.close(),
+  );
 
   // Router depends on the shared Supabase service for its auth guard.
   getIt.registerLazySingleton<AppRouter>(

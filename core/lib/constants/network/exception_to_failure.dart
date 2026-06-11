@@ -13,6 +13,7 @@ extension AppExceptionToFailure on AppException {
       EmailNotConfirmedException() => EmailNotConfirmedFailure(message),
       TooManyRequestsException() => TooManyRequestsFailure(message),
       NetworkException() => NetworkFailure(message),
+      CacheException() => CacheFailure(message),
       ServerException() => ServerFailure(message),
       _ => UnknownFailure(message),
     };

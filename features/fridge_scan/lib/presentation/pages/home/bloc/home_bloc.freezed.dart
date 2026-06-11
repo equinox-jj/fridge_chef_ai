@@ -206,7 +206,7 @@ String toString() {
 /// @nodoc
 mixin _$HomeState {
 
- String? get userName; List<ScanResultEntity> get recentScans;
+ UserProfile? get userProfile; List<ScanResultEntity> get recentScans;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -217,16 +217,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.userName, userName) || other.userName == userName)&&const DeepCollectionEquality().equals(other.recentScans, recentScans));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.userProfile, userProfile) || other.userProfile == userProfile)&&const DeepCollectionEquality().equals(other.recentScans, recentScans));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userName,const DeepCollectionEquality().hash(recentScans));
+int get hashCode => Object.hash(runtimeType,userProfile,const DeepCollectionEquality().hash(recentScans));
 
 @override
 String toString() {
-  return 'HomeState(userName: $userName, recentScans: $recentScans)';
+  return 'HomeState(userProfile: $userProfile, recentScans: $recentScans)';
 }
 
 
@@ -237,11 +237,11 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- String? userName, List<ScanResultEntity> recentScans
+ UserProfile? userProfile, List<ScanResultEntity> recentScans
 });
 
 
-
+$UserProfileCopyWith<$Res>? get userProfile;
 
 }
 /// @nodoc
@@ -254,14 +254,26 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userName = freezed,Object? recentScans = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userProfile = freezed,Object? recentScans = null,}) {
   return _then(_self.copyWith(
-userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
-as String?,recentScans: null == recentScans ? _self.recentScans : recentScans // ignore: cast_nullable_to_non_nullable
+userProfile: freezed == userProfile ? _self.userProfile : userProfile // ignore: cast_nullable_to_non_nullable
+as UserProfile?,recentScans: null == recentScans ? _self.recentScans : recentScans // ignore: cast_nullable_to_non_nullable
 as List<ScanResultEntity>,
   ));
 }
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserProfileCopyWith<$Res>? get userProfile {
+    if (_self.userProfile == null) {
+    return null;
+  }
 
+  return $UserProfileCopyWith<$Res>(_self.userProfile!, (value) {
+    return _then(_self.copyWith(userProfile: value));
+  });
+}
 }
 
 
@@ -343,10 +355,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? userName,  List<ScanResultEntity> recentScans)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.userName,_that.recentScans);case _:
+return $default(_that.userProfile,_that.recentScans);case _:
   return orElse();
 
 }
@@ -364,10 +376,10 @@ return $default(_that.userName,_that.recentScans);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? userName,  List<ScanResultEntity> recentScans)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.userName,_that.recentScans);case _:
+return $default(_that.userProfile,_that.recentScans);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -384,10 +396,10 @@ return $default(_that.userName,_that.recentScans);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? userName,  List<ScanResultEntity> recentScans)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.userName,_that.recentScans);case _:
+return $default(_that.userProfile,_that.recentScans);case _:
   return null;
 
 }
@@ -399,10 +411,10 @@ return $default(_that.userName,_that.recentScans);case _:
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.userName, final  List<ScanResultEntity> recentScans = const <ScanResultEntity>[]}): _recentScans = recentScans;
+  const _HomeState({this.userProfile, final  List<ScanResultEntity> recentScans = const <ScanResultEntity>[]}): _recentScans = recentScans;
   
 
-@override final  String? userName;
+@override final  UserProfile? userProfile;
  final  List<ScanResultEntity> _recentScans;
 @override@JsonKey() List<ScanResultEntity> get recentScans {
   if (_recentScans is EqualUnmodifiableListView) return _recentScans;
@@ -421,16 +433,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.userName, userName) || other.userName == userName)&&const DeepCollectionEquality().equals(other._recentScans, _recentScans));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.userProfile, userProfile) || other.userProfile == userProfile)&&const DeepCollectionEquality().equals(other._recentScans, _recentScans));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userName,const DeepCollectionEquality().hash(_recentScans));
+int get hashCode => Object.hash(runtimeType,userProfile,const DeepCollectionEquality().hash(_recentScans));
 
 @override
 String toString() {
-  return 'HomeState(userName: $userName, recentScans: $recentScans)';
+  return 'HomeState(userProfile: $userProfile, recentScans: $recentScans)';
 }
 
 
@@ -441,11 +453,11 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? userName, List<ScanResultEntity> recentScans
+ UserProfile? userProfile, List<ScanResultEntity> recentScans
 });
 
 
-
+@override $UserProfileCopyWith<$Res>? get userProfile;
 
 }
 /// @nodoc
@@ -458,15 +470,27 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userName = freezed,Object? recentScans = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userProfile = freezed,Object? recentScans = null,}) {
   return _then(_HomeState(
-userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
-as String?,recentScans: null == recentScans ? _self._recentScans : recentScans // ignore: cast_nullable_to_non_nullable
+userProfile: freezed == userProfile ? _self.userProfile : userProfile // ignore: cast_nullable_to_non_nullable
+as UserProfile?,recentScans: null == recentScans ? _self._recentScans : recentScans // ignore: cast_nullable_to_non_nullable
 as List<ScanResultEntity>,
   ));
 }
 
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserProfileCopyWith<$Res>? get userProfile {
+    if (_self.userProfile == null) {
+    return null;
+  }
 
+  return $UserProfileCopyWith<$Res>(_self.userProfile!, (value) {
+    return _then(_self.copyWith(userProfile: value));
+  });
+}
 }
 
 // dart format on

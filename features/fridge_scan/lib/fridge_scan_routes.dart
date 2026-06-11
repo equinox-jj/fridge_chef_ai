@@ -30,7 +30,7 @@ class HomeRoute extends GoRouteData with $HomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<HomeBloc>(
-      create: (_) => GetIt.I<HomeBloc>(),
+      create: (_) => GetIt.I<HomeBloc>()..add(const HomeEvent.started()),
       child: const HomePage(),
     );
   }

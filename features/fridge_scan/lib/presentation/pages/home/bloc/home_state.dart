@@ -3,7 +3,7 @@ part of 'home_bloc.dart';
 @freezed
 abstract class HomeState with _$HomeState {
   const factory HomeState({
-    String? userName,
+    UserProfile? userProfile,
     @Default(<ScanResultEntity>[]) List<ScanResultEntity> recentScans,
   }) = _HomeState;
 }

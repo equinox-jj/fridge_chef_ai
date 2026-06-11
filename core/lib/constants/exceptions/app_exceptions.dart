@@ -20,6 +20,13 @@ class NetworkException extends AppException {
   ]);
 }
 
+class CacheException extends AppException {
+  const CacheException([
+    super.message = 'A local storage error occurred.',
+    super.code = 'cache_error',
+  ]);
+}
+
 class InvalidCredentialsException extends AppException {
   const InvalidCredentialsException([
     super.message = 'Invalid email or password.',

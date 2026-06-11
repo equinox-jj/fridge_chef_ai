@@ -6,17 +6,24 @@ import 'package:core/constants/network/failure.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/scan_result_entity.dart';
+import '../../domain/entities/user_profile.dart';
 import '../../domain/repositories/fridge_scan_repository.dart';
 import '../datasources/ai/fridge_ai_data_source.dart';
+import '../datasources/local/fridge_scan_local_data_source.dart';
 import '../datasources/remote/fridge_scan_remote_data_source.dart';
-import '../models/ingredient_model.dart';
 import '../mapper/scan_mapper.dart';
+import '../models/ingredient_model.dart';
 import '../models/scan_model.dart';
 
 class FridgeScanRepositoryImpl implements FridgeScanRepository {
-  FridgeScanRepositoryImpl(this._remoteDataSource, this._aiDataSource);
+  FridgeScanRepositoryImpl(
+    this._remoteDataSource,
+    this._localDataSource,
+    this._aiDataSource,
+  );
 
   final FridgeScanRemoteDataSource _remoteDataSource;
+  final FridgeScanLocalDataSource _localDataSource;
   final FridgeAiDataSource _aiDataSource;
 
   @override
@@ -48,6 +55,16 @@ class FridgeScanRepositoryImpl implements FridgeScanRepository {
       );
     } on AppException catch (e) {
       return Left<Failure, ScanResultEntity>(e.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserProfile?>> getUserProfile() async {
+    try {
+      final UserProfile? profile = await _localDataSource.getUserProfile();
+      return Right<Failure, UserProfile?>(profile);
+    } on AppException catch (e) {
+      return Left<Failure, UserProfile?>(e.toFailure());
     }
   }
 }

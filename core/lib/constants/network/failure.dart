@@ -17,6 +17,13 @@ class NetworkFailure extends Failure {
   ]);
 }
 
+class CacheFailure extends Failure {
+  const CacheFailure([
+    super.message = 'A local storage error occurred.',
+    super.code = 'cache_error',
+  ]);
+}
+
 class InvalidCredentialsFailure extends Failure {
   const InvalidCredentialsFailure([
     super.message = 'Invalid email or password.',

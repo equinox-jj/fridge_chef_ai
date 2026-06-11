@@ -24,4 +24,9 @@ abstract class AuthRepository {
 
   /// Returns the current session's user, or `null` when not signed in.
   Future<Either<Failure, UserEntity?>> getCurrentUser();
+
+  /// Returns the locally cached profile, or `null` when nothing is cached.
+  ///
+  /// Reads only from local storage — never hits the network.
+  Future<Either<Failure, UserEntity?>> getCachedUser();
 }
