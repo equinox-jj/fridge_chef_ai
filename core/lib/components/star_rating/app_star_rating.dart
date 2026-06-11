@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_spacing.dart';
+import '../../theme/app_typography.dart';
 
 /// Glyph size preset for an [AppStarRating].
 enum AppStarRatingSize { sm, md, lg }

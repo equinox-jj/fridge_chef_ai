@@ -1,5 +1,8 @@
 import 'package:core/extensions/context_ext.dart';
-import 'package:core/theme/theme.dart';
+import 'package:core/theme/app_colors.dart';
+import 'package:core/theme/app_radius.dart';
+import 'package:core/theme/app_spacing.dart';
+import 'package:core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 
 /// The branded hero block that sits above the sign-in card.

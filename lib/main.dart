@@ -1,6 +1,6 @@
 import 'package:core/constants/env/env.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/theme/theme.dart';
+import 'package:core/theme/app_theme.dart';
 import 'package:core/utils/app_utils.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/firebase/firebase_core.dart';

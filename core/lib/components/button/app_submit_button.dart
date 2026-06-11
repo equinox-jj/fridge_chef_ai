@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_layout.dart';
+import '../../theme/app_spacing.dart';
+import '../../theme/app_typography.dart';
 
 /// A full-width [FilledButton] for the primary action of a form.
 ///

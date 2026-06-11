@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_motion.dart';
+import '../../theme/app_radius.dart';
+import '../../theme/app_shadows.dart';
 
 /// An on/off toggle for settings rows.
 ///

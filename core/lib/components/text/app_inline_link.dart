@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../extensions/context_ext.dart';
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_typography.dart';
 
 /// A line of muted [text] followed by a tappable [linkLabel].
 ///
@@ -30,7 +31,11 @@ class AppInlineLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? baseStyle = textStyle ?? context.textTheme.bodySmall?.copyWith(color: AppColors.textMuted);
+    final TextStyle? baseStyle =
+        textStyle ??
+        context.textTheme.bodySmall?.copyWith(
+          color: AppColors.textMuted,
+        );
     final TextStyle? resolvedLinkStyle =
         linkStyle ??
         context.textTheme.bodySmall?.copyWith(

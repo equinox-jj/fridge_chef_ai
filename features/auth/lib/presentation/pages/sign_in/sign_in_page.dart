@@ -1,7 +1,8 @@
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/theme/theme.dart';
+import 'package:core/theme/app_colors.dart';
+import 'package:core/theme/app_spacing.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 

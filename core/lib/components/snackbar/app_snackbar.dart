@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../extensions/context_ext.dart';
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_font_family.dart';
+import '../../theme/app_radius.dart';
+import '../../theme/app_spacing.dart';
+import '../../theme/app_typography.dart';
 
 /// Semantic kind of an [AppSnackbar], driving its icon and accent color.
 enum AppSnackbarType { success, error, warning, info }
@@ -60,7 +64,12 @@ abstract final class AppSnackbar {
     title,
   );
 
-  static void _show(BuildContext context, AppSnackbarType type, String message, String? title) {
+  static void _show(
+    BuildContext context,
+    AppSnackbarType type,
+    String message,
+    String? title,
+  ) {
     context.scaffoldMessenger
       ..hideCurrentSnackBar()
       ..showSnackBar(build(type, message, title: title));
@@ -97,7 +106,11 @@ abstract final class AppSnackbar {
               color: style.tint,
               borderRadius: const BorderRadius.all(AppRadius.brMd),
             ),
-            child: Icon(style.icon, color: style.accent, size: AppTextSize.h2),
+            child: Icon(
+              style.icon,
+              color: style.accent,
+              size: AppTextSize.h2,
+            ),
           ),
           Expanded(
             child: Column(

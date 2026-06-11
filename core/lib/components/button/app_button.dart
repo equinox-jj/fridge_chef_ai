@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_font_family.dart';
+import '../../theme/app_motion.dart';
+import '../../theme/app_radius.dart';
+import '../../theme/app_shadows.dart';
+import '../../theme/app_spacing.dart';
+import '../../theme/app_typography.dart';
 
 /// Visual style of an [AppButton].
 ///

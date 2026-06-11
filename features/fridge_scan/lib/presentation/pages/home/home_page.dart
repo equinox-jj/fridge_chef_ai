@@ -1,6 +1,6 @@
-import 'package:core/router/app_navigator.dart';
-import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/pick_image_source_sheet.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,7 +11,9 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Home')),
       floatingActionButton: FloatingActionButton.small(
         child: Icon(Icons.camera_alt_rounded),
-        onPressed: () => context.read<AppNavigator>().toFridgeScan(),
+        onPressed: () => PickImageSourceSheet.openSheet(
+          context,
+        ),
       ),
       body: const Center(child: Text('Home')),
     );

@@ -3,7 +3,7 @@ import 'package:core/components/card/app_card.dart';
 import 'package:core/components/text/app_inline_link.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/theme/theme.dart';
+import 'package:core/theme/app_spacing.dart';
 import 'package:core/utils/validators.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';

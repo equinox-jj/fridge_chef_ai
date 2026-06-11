@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_font_family.dart';
+import '../../theme/app_motion.dart';
+import '../../theme/app_radius.dart';
+import '../../theme/app_spacing.dart';
+import '../../theme/app_typography.dart';
 
 /// Selected-state accent for an [AppChoiceChip].
 enum AppChoiceChipTone { green, ai }
@@ -108,7 +113,12 @@ class _AppChoiceChipState extends State<AppChoiceChip> {
                   mainAxisSize: MainAxisSize.min,
                   spacing: AppSpacing.s2 - 1,
                   children: <Widget>[
-                    if (widget.icon != null) Icon(widget.icon, size: AppTextSize.base, color: fg),
+                    if (widget.icon != null)
+                      Icon(
+                        widget.icon,
+                        size: AppTextSize.base,
+                        color: fg,
+                      ),
                     Text(
                       widget.label,
                       style: TextStyle(
