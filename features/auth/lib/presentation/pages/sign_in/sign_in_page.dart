@@ -6,9 +6,9 @@ import 'package:core/theme/app_spacing.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/auth_hero_section.dart';
 import 'cubit/sign_in_cubit.dart';
 import 'cubit/sign_in_state.dart';
-import 'widgets/login_hero.dart';
 import 'widgets/sign_in_card.dart';
 
 /// Sign-in screen — the green gradient hero with a floating credential card.
@@ -52,7 +52,7 @@ class SignInPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Expanded(child: LoginHero()),
+                        Expanded(child: AuthHeroSection()),
                         SignInCard(),
                       ],
                     ),

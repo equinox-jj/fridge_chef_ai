@@ -1,4 +1,4 @@
-import 'package:core/components/button/app_button.dart';
+import 'package:core/components/button/app_submit_button.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
@@ -27,11 +27,10 @@ class ProfilePage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   const Spacer(),
-                  AppButton(
+                  AppSubmitButton(
                     label: 'Sign Out',
                     icon: Icons.logout_rounded,
-                    variant: AppButtonVariant.danger,
-                    block: true,
+                    isLoading: isLoading,
                     onPressed: isLoading ? null : () => context.read<ProfileCubit>().signOut(),
                   ),
                 ],

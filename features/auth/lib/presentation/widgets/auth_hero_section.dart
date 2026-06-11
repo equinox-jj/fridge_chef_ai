@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 ///
 /// a translucent app mark, the
 /// display headline and a muted supporting line, all on the green gradient.
-class LoginHero extends StatelessWidget {
-  const LoginHero({super.key});
+class AuthHeroSection extends StatelessWidget {
+  const AuthHeroSection({super.key});
 
   @override
   Widget build(BuildContext context) {

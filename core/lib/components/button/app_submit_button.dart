@@ -26,25 +26,27 @@ class AppSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: FilledButton.icon(
-        onPressed: isLoading ? null : onPressed,
-        style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(AppLayout.tapTarget),
-        ),
-        icon: isLoading ? const SizedBox.shrink() : Icon(icon, size: AppTextSize.h3),
-        label: isLoading
-            ? const SizedBox(
-                width: AppSpacing.s5,
-                height: AppSpacing.s5,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  color: AppColors.onPrimary,
-                ),
-              )
-            : Text(label),
+    return FilledButton.icon(
+      onPressed: isLoading ? null : onPressed,
+      style: FilledButton.styleFrom(
+        minimumSize: const Size.fromHeight(AppLayout.tapTarget),
       ),
+      icon: isLoading
+          ? const SizedBox.shrink()
+          : Icon(
+              icon,
+              size: AppTextSize.h3,
+            ),
+      label: isLoading
+          ? const SizedBox(
+              width: AppSpacing.s5,
+              height: AppSpacing.s5,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                color: AppColors.onPrimary,
+              ),
+            )
+          : Text(label),
     );
   }
 }

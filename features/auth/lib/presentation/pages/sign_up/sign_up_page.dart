@@ -6,7 +6,7 @@ import 'package:core/theme/app_spacing.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../sign_in/widgets/login_hero.dart';
+import '../../widgets/auth_hero_section.dart';
 import 'cubit/sign_up_cubit.dart';
 import 'cubit/sign_up_state.dart';
 import 'widgets/sign_up_card.dart';
@@ -52,7 +52,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Expanded(child: LoginHero()),
+                        Expanded(child: AuthHeroSection()),
                         SignUpCard(),
                       ],
                     ),

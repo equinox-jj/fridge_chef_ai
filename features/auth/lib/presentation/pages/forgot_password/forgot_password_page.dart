@@ -5,7 +5,7 @@ import 'package:core/theme/app_spacing.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../sign_in/widgets/login_hero.dart';
+import '../../widgets/auth_hero_section.dart';
 import 'cubit/forgot_password_cubit.dart';
 import 'cubit/forgot_password_state.dart';
 import 'widgets/forgot_password_card.dart';
@@ -49,7 +49,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Expanded(child: LoginHero()),
+                        Expanded(child: AuthHeroSection()),
                         ForgotPasswordCard(),
                       ],
                     ),
