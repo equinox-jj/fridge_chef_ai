@@ -7,7 +7,7 @@ void main() {
     group('when signed out', () {
       test('redirects protected routes to sign-in', () {
         for (final String path in <String>[
-          AppRoute.fridgeScanPath,
+          AppRoute.homePath,
           AppRoute.recipesPath,
           AppRoute.profilePath,
         ]) {
@@ -39,14 +39,14 @@ void main() {
         ]) {
           expect(
             authGuardRedirect(isLoggedIn: true, location: path),
-            AppRoute.fridgeScanPath,
+            AppRoute.homePath,
           );
         }
       });
 
       test('allows protected routes', () {
         for (final String path in <String>[
-          AppRoute.fridgeScanPath,
+          AppRoute.homePath,
           AppRoute.recipesPath,
           AppRoute.profilePath,
         ]) {

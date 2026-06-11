@@ -34,11 +34,14 @@ class AppNavigatorImpl implements AppNavigator {
   void toDashboard() => _router.go(const FridgeScanRoute().location);
 
   @override
-  void toFridgeScan() => _router.go(const FridgeScanRoute().location);
+  void toFridgeScan() => _router.push(const FridgeScanRoute().location);
 
   @override
   void toRecipes() => _router.go(const RecipesRoute().location);
 
   @override
   void toProfile() => _router.go(const ProfileRoute().location);
+
+  @override
+  void toHome() => _router.go(const HomeRoute().location);
 }

@@ -24,8 +24,11 @@ abstract final class AppRoute {
 
   // ── Main shell tabs (hosted by the dashboard bottom navigation) ──────────
   // The scan tab doubles as the app's post-login home.
+  static const String homeName = 'home';
+  static const String homePath = '/home';
+
   static const String fridgeScanName = 'fridgeScan';
-  static const String fridgeScanPath = '/fridge-scan';
+  static const String fridgeScanPath = 'fridge-scan';
 
   static const String recipesName = 'recipes';
   static const String recipesPath = '/recipes';

@@ -24,7 +24,7 @@ class AppRouter {
   final SupabaseService _supabaseService;
 
   late final GoRouter config = GoRouter(
-    initialLocation: AppRoute.fridgeScanPath,
+    initialLocation: AppRoute.homePath,
     debugLogDiagnostics: true,
     refreshListenable: GoRouterRefreshStream(
       _supabaseService.authStateChanges,

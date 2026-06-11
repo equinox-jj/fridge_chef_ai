@@ -35,4 +35,6 @@ abstract interface class AppNavigator {
 
   /// Switches to the profile tab of the main shell.
   void toProfile();
+
+  void toHome();
 }

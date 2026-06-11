@@ -35,7 +35,7 @@ String? authGuardRedirect({
     return AppRoute.signInPath;
   }
   if (isLoggedIn && isAuthPage) {
-    return AppRoute.fridgeScanPath;
+    return AppRoute.homePath;
   }
   return null;
 }
