@@ -194,8 +194,10 @@ abstract final class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         height: AppLayout.navHeight,
         backgroundColor: scheme.surface,
-        indicatorColor: isLight ? AppColors.primaryTint : scheme.primaryContainer,
-        labelTextStyle: WidgetStatePropertyAll<TextStyle?>(textTheme.labelMedium),
+        indicatorColor: isLight ? AppColors.focusRing.withValues(alpha: .3) : scheme.primaryContainer,
+        labelTextStyle: WidgetStatePropertyAll<TextStyle?>(
+          textTheme.labelMedium?.copyWith(color: AppColors.primaryText),
+        ),
       ),
     );
   }

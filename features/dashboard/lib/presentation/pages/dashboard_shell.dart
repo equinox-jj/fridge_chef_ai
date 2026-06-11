@@ -1,3 +1,4 @@
+import 'package:core/theme/app_colors.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -26,18 +27,27 @@ class DashboardShell extends StatelessWidget {
         onDestinationSelected: _onDestinationSelected,
         destinations: const <NavigationDestination>[
           NavigationDestination(
-            icon: Icon(Icons.camera_alt_outlined),
-            selectedIcon: Icon(Icons.camera_alt),
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(
+              Icons.home,
+              color: AppColors.primaryActive,
+            ),
             label: 'Scan',
           ),
           NavigationDestination(
             icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book),
+            selectedIcon: Icon(
+              Icons.menu_book,
+              color: AppColors.primaryActive,
+            ),
             label: 'Recipes',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
+            icon: Icon(Icons.person_outline_rounded),
+            selectedIcon: Icon(
+              Icons.person_rounded,
+              color: AppColors.primaryActive,
+            ),
             label: 'Profile',
           ),
         ],
