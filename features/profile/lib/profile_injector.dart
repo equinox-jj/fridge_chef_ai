@@ -1,3 +1,4 @@
+import 'package:core/logger/app_logger.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 
@@ -19,7 +20,10 @@ void initProfileInjector(GetIt getIt) {
     )
     // Repository
     ..registerLazySingleton<ProfileRepository>(
-      () => ProfileRepositoryImpl(getIt<ProfileRemoteDataSource>()),
+      () => ProfileRepositoryImpl(
+        getIt<ProfileRemoteDataSource>(),
+        getIt<AppLogger>(),
+      ),
     )
     // Use cases
     ..registerLazySingleton<SignOutUseCase>(

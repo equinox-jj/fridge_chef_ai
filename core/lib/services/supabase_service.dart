@@ -1,13 +1,15 @@
 import 'dart:async';
 import '../constants/exceptions/app_exceptions.dart';
+import '../logger/app_logger.dart';
 import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 
 /// Service wrapper around the [SupabaseClient] to facilitate dependency injection,
 /// centralize error/network handling, and expose database/auth clients.
 class SupabaseService {
-  SupabaseService(this._client);
+  SupabaseService(this._client, this._logger);
 
   final SupabaseClient _client;
+  final AppLogger _logger;
 
   /// Exposes the underlying [SupabaseClient].
   SupabaseClient get client => _client;
@@ -22,10 +24,20 @@ class SupabaseService {
 
   /// Wraps an asynchronous Supabase operation, catches exceptions,
   /// maps them to [AppException], and rethrows.
+  ///
+  /// The raw error is logged here — closest to the backend — so the original
+  /// Supabase detail is captured before it is flattened into a domain
+  /// [AppException]. It is logged at `warning` because a caller (e.g. a
+  /// repository) may still recover from it.
   Future<T> safeCall<T>(Future<T> Function() call) async {
     try {
       return await call();
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logger.warning(
+        'Supabase call failed',
+        error: e,
+        stackTrace: stackTrace,
+      );
       throw mapException(e);
     }
   }

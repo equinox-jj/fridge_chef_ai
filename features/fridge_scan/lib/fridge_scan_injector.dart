@@ -32,7 +32,7 @@ void initFridgeScanInjector(GetIt getIt) {
       () => FridgeAiDataSourceImpl(getIt<AppLogger>()),
     )
     ..registerLazySingleton<FridgeScanLocalDataSource>(
-      () => FridgeScanLocalDataSourceImpl(getIt<AppDatabase>()),
+      () => FridgeScanLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
     )
     // Repositories
     ..registerLazySingleton<FridgeScanRepository>(
@@ -40,6 +40,7 @@ void initFridgeScanInjector(GetIt getIt) {
         getIt<FridgeScanRemoteDataSource>(),
         getIt<FridgeScanLocalDataSource>(),
         getIt<FridgeAiDataSource>(),
+        getIt<AppLogger>(),
       ),
     )
     // Use cases

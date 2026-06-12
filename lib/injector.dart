@@ -22,7 +22,7 @@ void configureDependencies() {
   // Shared services first, so feature injectors reuse them.
   getIt.registerLazySingleton<AppLogger>(AppLoggerImpl.new);
   getIt.registerLazySingleton<SupabaseService>(
-    () => SupabaseService(Supabase.instance.client),
+    () => SupabaseService(Supabase.instance.client, getIt<AppLogger>()),
   );
   getIt.registerLazySingleton<PermissionService>(PermissionService.new);
   getIt.registerLazySingleton<ImagePickerService>(ImagePickerService.new);

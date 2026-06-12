@@ -1,4 +1,5 @@
 import 'package:core/database/app_database.dart';
+import 'package:core/logger/app_logger.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 
@@ -27,13 +28,14 @@ void initAuthInjector(GetIt getIt) {
       () => AuthRemoteDataSourceImpl(getIt<SupabaseService>()),
     )
     ..registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(getIt<AppDatabase>()),
+      () => AuthLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
     )
     // Repository
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(
         getIt<AuthRemoteDataSource>(),
         getIt<AuthLocalDataSource>(),
+        getIt<AppLogger>(),
       ),
     )
     // Use cases

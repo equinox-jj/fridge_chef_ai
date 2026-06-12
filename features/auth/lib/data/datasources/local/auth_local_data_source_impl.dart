@@ -1,19 +1,23 @@
-import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/database/app_database.dart';
+import 'package:core/logger/app_logger.dart';
+import 'package:core/mixin/cache_guard.dart';
 import 'package:dependencies/drift/drift.dart';
 
 import '../../models/user_model.dart';
 import 'auth_local_data_source.dart';
 
-class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  AuthLocalDataSourceImpl(this._database);
+class AuthLocalDataSourceImpl with CacheGuard implements AuthLocalDataSource {
+  AuthLocalDataSourceImpl(this._database, this.logger);
 
   final AppDatabase _database;
 
   @override
+  final AppLogger logger;
+
+  @override
   Future<void> cacheUser(UserModel user) {
     // Replace-then-insert keeps exactly one cached profile: the current user.
-    return _guard(
+    return cacheGuard(
       () => _database.transaction(() async {
         await _database.delete(_database.userProfiles).go();
         await _database.into(_database.userProfiles).insert(user.toCompanion());
@@ -23,7 +27,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<UserModel?> getCachedUser() {
-    return _guard(() async {
+    return cacheGuard(() async {
       final UserProfile? row = await _database.select(_database.userProfiles).getSingleOrNull();
       return row?.toModel();
     });
@@ -31,19 +35,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> clear() {
-    return _guard(() => _database.delete(_database.userProfiles).go());
-  }
-
-  /// Runs [action], converting any low-level Drift/SQLite error into a
-  /// [CacheException] so the repository can map it to a `Failure`.
-  Future<T> _guard<T>(Future<T> Function() action) async {
-    try {
-      return await action();
-    } on AppException {
-      rethrow;
-    } catch (e) {
-      throw CacheException(e.toString());
-    }
+    return cacheGuard(() => _database.delete(_database.userProfiles).go());
   }
 }
 

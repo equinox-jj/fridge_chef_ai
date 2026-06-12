@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:core/constants/network/failure.dart';
+import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
@@ -19,11 +20,15 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
     this._remoteDataSource,
     this._localDataSource,
     this._aiDataSource,
+    this.logger,
   );
 
   final FridgeScanRemoteDataSource _remoteDataSource;
   final FridgeScanLocalDataSource _localDataSource;
   final FridgeAiDataSource _aiDataSource;
+
+  @override
+  final AppLogger logger;
 
   @override
   Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes) {
