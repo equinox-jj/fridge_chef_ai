@@ -69,6 +69,13 @@ class TooManyRequestsException extends AppException {
   ]);
 }
 
+class NoFoodDetectedException extends AppException {
+  const NoFoodDetectedException([
+    super.message = "We couldn't find any food in that photo. Try a clear photo of the inside of your fridge.",
+    super.code = 'no_food_detected',
+  ]);
+}
+
 class UnknownAppException extends AppException {
   const UnknownAppException([
     super.message = 'An unknown authentication error occurred.',

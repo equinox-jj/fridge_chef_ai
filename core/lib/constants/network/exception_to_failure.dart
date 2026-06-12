@@ -14,6 +14,7 @@ extension AppExceptionToFailure on AppException {
       TooManyRequestsException() => TooManyRequestsFailure(message),
       NetworkException() => NetworkFailure(message),
       CacheException() => CacheFailure(message),
+      NoFoodDetectedException() => NoFoodDetectedFailure(message),
       ServerException() => ServerFailure(message),
       _ => UnknownFailure(message),
     };

@@ -66,6 +66,13 @@ class TooManyRequestsFailure extends Failure {
   ]);
 }
 
+class NoFoodDetectedFailure extends Failure {
+  const NoFoodDetectedFailure([
+    super.message = "We couldn't find any food in that photo. Try a clear photo of the inside of your fridge.",
+    super.code = 'no_food_detected',
+  ]);
+}
+
 class UnknownFailure extends Failure {
   const UnknownFailure([
     super.message = 'An unknown authentication error occurred.',

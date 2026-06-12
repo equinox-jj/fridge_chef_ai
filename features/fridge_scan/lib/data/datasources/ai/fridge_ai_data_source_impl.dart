@@ -3,8 +3,6 @@ import 'dart:typed_data';
 
 import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/logger/app_logger.dart';
-// Firebase AI also exports a `ServerException`; hide it so the core domain
-// exception is the one in scope here.
 import 'package:dependencies/firebase/firebase_ai.dart' hide ServerException;
 
 import '../../models/ingredient_model.dart';
@@ -48,43 +46,57 @@ class FridgeAiDataSourceImpl implements FridgeAiDataSource {
   /// safe catch-all the DB check constraint always permits.
   static const String _fallbackCategory = 'other';
 
-  /// Structured-output contract: an array of ingredient objects. Every property
-  /// is required (none listed in `optionalProperties`), so `quantity`/`unit` are
-  /// always present in the response — empty string when unknown, never null.
-  static final Schema _responseSchema = Schema.array(
-    items: Schema.object(
-      properties: <String, Schema>{
-        'name': Schema.string(
-          description: 'Ingredient name, lowercase singular (e.g. "tomato").',
+  /// Structured-output contract: an object carrying an [is_food] verdict plus
+  /// the detected [ingredients]. Every property is required (none listed in
+  /// `optionalProperties`), so `quantity`/`unit` are always present — empty
+  /// string when unknown, never null.
+  static final Schema _responseSchema = Schema.object(
+    properties: <String, Schema>{
+      'is_food': Schema.boolean(
+        description:
+            'True only if the photo shows food, ingredients, or the inside of '
+            'a fridge. False for anything else (people, rooms, objects, '
+            'screenshots, etc.).',
+      ),
+      'ingredients': Schema.array(
+        items: Schema.object(
+          properties: <String, Schema>{
+            'name': Schema.string(
+              description: 'Ingredient name, lowercase singular (e.g. "tomato").',
+            ),
+            'quantity': Schema.string(
+              description:
+                  'Best-effort amount as a string (e.g. "2", "500"); '
+                  'use "" only when it truly cannot be told.',
+            ),
+            'unit': Schema.string(
+              description:
+                  'Unit for the quantity ("pcs" for countable items, else '
+                  '"g", "ml", etc.); use "" when unknown.',
+            ),
+            'category': Schema.enumString(enumValues: _categories),
+          },
         ),
-        'quantity': Schema.string(
-          description:
-              'Best-effort amount as a string (e.g. "2", "500"); '
-              'use "" only when it truly cannot be told.',
-        ),
-        'unit': Schema.string(
-          description:
-              'Unit for the quantity ("pcs" for countable items, else '
-              '"g", "ml", etc.); use "" when unknown.',
-        ),
-        'category': Schema.enumString(enumValues: _categories),
-      },
-    ),
+      ),
+    },
   );
 
   static const String _prompt = '''
-You are a kitchen assistant expert. Look at this photo of the inside of a fridge and
-identify every distinct food ingredient you can see.
+You are a kitchen assistant expert. First decide whether this photo actually
+shows food, ingredients, or the inside of a fridge.
 
-For each ingredient:
+If it does NOT (e.g. a person, a room, a random object, a screenshot), set
+"is_food" to false and return an empty "ingredients" array. Do not invent
+ingredients.
+
+If it does, set "is_food" to true and list every distinct food ingredient you
+can see. For each ingredient:
 - "name": the ingredient name, lowercase singular (e.g. "tomato").
 - "quantity": your best estimate of the amount as a string — count the visible
   items where you can (e.g. "3"); use "" only when you truly cannot tell.
 - "unit": the unit for that quantity — "pcs" for countable items, otherwise a
   sensible measure like "g" or "ml"; use "" when unknown.
 - "category": the best-fitting category for the ingredient.
-
-If you can see no food, return an empty array.
 ''';
 
   @override
@@ -129,22 +141,38 @@ If you can see no food, return an empty array.
     );
   }
 
-  /// Parses the model's JSON array response into [IngredientModel]s.
+  /// Parses the model's JSON response into [IngredientModel]s.
+  ///
+  /// Throws a [NoFoodDetectedException] when the model reports the photo is not
+  /// food, or when no ingredients were detected — so the caller can abort
+  /// before persisting anything.
   List<IngredientModel> _parseIngredients(String raw) {
     if (raw.trim().isEmpty) {
       throw const ServerException(
         'The AI returned an empty response. Please try again.',
       );
     }
+
+    final List<IngredientModel> ingredients;
+    final bool isFood;
     try {
       final dynamic decoded = jsonDecode(raw);
-      if (decoded is! List) {
-        throw const FormatException('Expected a JSON array of ingredients.');
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Expected a JSON object.');
       }
-      return decoded.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).map(_withSafeCategory).toList();
+      isFood = decoded['is_food'] == true;
+      final dynamic items = decoded['ingredients'];
+      ingredients = items is List
+          ? items.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).map(_withSafeCategory).toList()
+          : <IngredientModel>[];
     } on FormatException catch (e) {
       throw ServerException('Could not read ingredients from the image: $e');
     }
+
+    if (!isFood || ingredients.isEmpty) {
+      throw const NoFoodDetectedException();
+    }
+    return ingredients;
   }
 
   /// Coerces any category outside [_categories] (or a null/empty one) to

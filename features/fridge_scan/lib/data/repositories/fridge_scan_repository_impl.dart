@@ -33,11 +33,12 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
   @override
   Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes) {
     return guard(() async {
-      // 1. Upload the image to storage and get a signed URL.
-      final String imageUrl = await _remoteDataSource.uploadImage(bytes);
-
-      // 2. Analyse the image with the AI backend.
+      // 1. Analyse the image first — this throws (e.g. NoFoodDetectedException)
+      //    for a non-food photo, so nothing is uploaded or persisted below.
       final AiAnalysisResult analysis = await _aiDataSource.analyzeImage(bytes);
+
+      // 2. Upload the validated image to storage and get a signed URL.
+      final String imageUrl = await _remoteDataSource.uploadImage(bytes);
 
       // 3. Persist the scan header.
       final ScanModel scan = await _remoteDataSource.insertScan(
