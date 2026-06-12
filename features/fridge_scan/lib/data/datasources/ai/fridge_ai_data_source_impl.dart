@@ -18,6 +18,11 @@ class FridgeAiDataSourceImpl implements FridgeAiDataSource {
             model: _modelName,
             generationConfig: GenerationConfig(
               responseMimeType: 'application/json',
+              // Enforce the output shape so every ingredient always carries all
+              // four fields. Without this the model omits `quantity`/`unit` when
+              // unsure, which deserialises to null — with it they are required,
+              // so the model emits "" instead of dropping the key.
+              responseSchema: _responseSchema,
             ),
           );
 
@@ -26,19 +31,60 @@ class FridgeAiDataSourceImpl implements FridgeAiDataSource {
 
   static const String _modelName = 'gemini-3.5-flash';
 
+  /// Allowed ingredient categories the model must choose from.
+  static const List<String> _categories = <String>[
+    'produce',
+    'dairy',
+    'meat',
+    'seafood',
+    'beverage',
+    'condiment',
+    'grain',
+    'frozen',
+    'other',
+  ];
+
+  /// Category used when the model returns one outside [_categories]; it is the
+  /// safe catch-all the DB check constraint always permits.
+  static const String _fallbackCategory = 'other';
+
+  /// Structured-output contract: an array of ingredient objects. Every property
+  /// is required (none listed in `optionalProperties`), so `quantity`/`unit` are
+  /// always present in the response — empty string when unknown, never null.
+  static final Schema _responseSchema = Schema.array(
+    items: Schema.object(
+      properties: <String, Schema>{
+        'name': Schema.string(
+          description: 'Ingredient name, lowercase singular (e.g. "tomato").',
+        ),
+        'quantity': Schema.string(
+          description:
+              'Best-effort amount as a string (e.g. "2", "500"); '
+              'use "" only when it truly cannot be told.',
+        ),
+        'unit': Schema.string(
+          description:
+              'Unit for the quantity ("pcs" for countable items, else '
+              '"g", "ml", etc.); use "" when unknown.',
+        ),
+        'category': Schema.enumString(enumValues: _categories),
+      },
+    ),
+  );
+
   static const String _prompt = '''
-You are a kitchen assistant. Look at this photo of the inside of a fridge and
+You are a kitchen assistant expert. Look at this photo of the inside of a fridge and
 identify every distinct food ingredient you can see.
 
-Respond with ONLY a JSON array (no markdown, no commentary). Each element must
-be an object with exactly these string fields:
-- "name": the ingredient name, lowercase singular (e.g. "tomato")
-- "quantity": the amount as a string (e.g. "2", "500"); use "" if unknown
-- "unit": the unit for the quantity (e.g. "pcs", "g", "ml"); use "" if unknown
-- "category": one of "produce", "dairy", "meat", "seafood", "beverage",
-  "condiment", "grain", "frozen", "other"
+For each ingredient:
+- "name": the ingredient name, lowercase singular (e.g. "tomato").
+- "quantity": your best estimate of the amount as a string — count the visible
+  items where you can (e.g. "3"); use "" only when you truly cannot tell.
+- "unit": the unit for that quantity — "pcs" for countable items, otherwise a
+  sensible measure like "g" or "ml"; use "" when unknown.
+- "category": the best-fitting category for the ingredient.
 
-If you can see no food, return an empty array [].
+If you can see no food, return an empty array.
 ''';
 
   @override
@@ -95,9 +141,19 @@ If you can see no food, return an empty array [].
       if (decoded is! List) {
         throw const FormatException('Expected a JSON array of ingredients.');
       }
-      return decoded.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).toList();
+      return decoded.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).map(_withSafeCategory).toList();
     } on FormatException catch (e) {
       throw ServerException('Could not read ingredients from the image: $e');
     }
+  }
+
+  /// Coerces any category outside [_categories] (or a null/empty one) to
+  /// [_fallbackCategory], so a value the model invents can never violate the
+  /// `ingredients_category_check` constraint on insert.
+  IngredientModel _withSafeCategory(IngredientModel ingredient) {
+    if (_categories.contains(ingredient.category)) {
+      return ingredient;
+    }
+    return ingredient.copyWith(category: _fallbackCategory);
   }
 }

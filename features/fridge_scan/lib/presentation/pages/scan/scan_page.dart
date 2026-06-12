@@ -45,9 +45,7 @@ class _ScanPageState extends State<ScanPage> {
   Future<void> _promptForSource() async {
     final ScanBloc bloc = context.read<ScanBloc>();
     final ImageSourceOption? source = await PickImageSourceSheet.openSheet(context);
-    if (source == null) {
-      return;
-    }
+    if (source == null) return;
     bloc.add(ScanEvent.sourceSelected(source));
   }
 
