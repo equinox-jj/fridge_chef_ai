@@ -13,6 +13,7 @@ import 'data/datasources/remote/fridge_scan_remote_data_source.dart';
 import 'data/datasources/remote/fridge_scan_remote_data_source_impl.dart';
 import 'data/repositories/fridge_scan_repository_impl.dart';
 import 'domain/repositories/fridge_scan_repository.dart';
+import 'domain/usecases/get_recent_scans_usecase.dart';
 import 'domain/usecases/get_user_profile_usecase.dart';
 import 'domain/usecases/scan_fridge_usecase.dart';
 import 'presentation/pages/home/bloc/home_bloc.dart';
@@ -50,9 +51,15 @@ void initFridgeScanInjector(GetIt getIt) {
     ..registerLazySingleton<GetUserProfileUseCase>(
       () => GetUserProfileUseCase(getIt<FridgeScanRepository>()),
     )
+    ..registerLazySingleton<GetRecentScansUseCase>(
+      () => GetRecentScansUseCase(getIt<FridgeScanRepository>()),
+    )
     // Bloc
     ..registerFactory<HomeBloc>(
-      () => HomeBloc(getIt<GetUserProfileUseCase>()),
+      () => HomeBloc(
+        getIt<GetUserProfileUseCase>(),
+        getIt<GetRecentScansUseCase>(),
+      ),
     )
     ..registerFactory<ScanBloc>(
       () => ScanBloc(

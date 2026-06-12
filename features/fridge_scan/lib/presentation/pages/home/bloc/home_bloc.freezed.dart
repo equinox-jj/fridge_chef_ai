@@ -55,11 +55,12 @@ extension HomeEventPatterns on HomeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Refreshed value)?  refreshed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started(_that);case _:
+return started(_that);case _Refreshed() when refreshed != null:
+return refreshed(_that);case _:
   return orElse();
 
 }
@@ -77,11 +78,12 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Refreshed value)  refreshed,}){
 final _that = this;
 switch (_that) {
 case _Started():
-return started(_that);case _:
+return started(_that);case _Refreshed():
+return refreshed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -98,11 +100,12 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Refreshed value)?  refreshed,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started(_that);case _:
+return started(_that);case _Refreshed() when refreshed != null:
+return refreshed(_that);case _:
   return null;
 
 }
@@ -119,10 +122,11 @@ return started(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function()?  refreshed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started();case _:
+return started();case _Refreshed() when refreshed != null:
+return refreshed();case _:
   return orElse();
 
 }
@@ -140,10 +144,11 @@ return started();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function()  refreshed,}) {final _that = this;
 switch (_that) {
 case _Started():
-return started();case _:
+return started();case _Refreshed():
+return refreshed();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -160,10 +165,11 @@ return started();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function()?  refreshed,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
-return started();case _:
+return started();case _Refreshed() when refreshed != null:
+return refreshed();case _:
   return null;
 
 }
@@ -204,9 +210,41 @@ String toString() {
 
 
 /// @nodoc
+
+
+class _Refreshed implements HomeEvent {
+  const _Refreshed();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Refreshed);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'HomeEvent.refreshed()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$HomeState {
 
- UserProfile? get userProfile; List<ScanResultEntity> get recentScans;
+ UserProfile? get userProfile; List<ScanResultEntity> get recentScans; BlocStatus get recentScansStatus;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -217,16 +255,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.userProfile, userProfile) || other.userProfile == userProfile)&&const DeepCollectionEquality().equals(other.recentScans, recentScans));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.userProfile, userProfile) || other.userProfile == userProfile)&&const DeepCollectionEquality().equals(other.recentScans, recentScans)&&(identical(other.recentScansStatus, recentScansStatus) || other.recentScansStatus == recentScansStatus));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userProfile,const DeepCollectionEquality().hash(recentScans));
+int get hashCode => Object.hash(runtimeType,userProfile,const DeepCollectionEquality().hash(recentScans),recentScansStatus);
 
 @override
 String toString() {
-  return 'HomeState(userProfile: $userProfile, recentScans: $recentScans)';
+  return 'HomeState(userProfile: $userProfile, recentScans: $recentScans, recentScansStatus: $recentScansStatus)';
 }
 
 
@@ -237,7 +275,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- UserProfile? userProfile, List<ScanResultEntity> recentScans
+ UserProfile? userProfile, List<ScanResultEntity> recentScans, BlocStatus recentScansStatus
 });
 
 
@@ -254,11 +292,12 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userProfile = freezed,Object? recentScans = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userProfile = freezed,Object? recentScans = null,Object? recentScansStatus = null,}) {
   return _then(_self.copyWith(
 userProfile: freezed == userProfile ? _self.userProfile : userProfile // ignore: cast_nullable_to_non_nullable
 as UserProfile?,recentScans: null == recentScans ? _self.recentScans : recentScans // ignore: cast_nullable_to_non_nullable
-as List<ScanResultEntity>,
+as List<ScanResultEntity>,recentScansStatus: null == recentScansStatus ? _self.recentScansStatus : recentScansStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,
   ));
 }
 /// Create a copy of HomeState
@@ -355,10 +394,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans,  BlocStatus recentScansStatus)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.userProfile,_that.recentScans);case _:
+return $default(_that.userProfile,_that.recentScans,_that.recentScansStatus);case _:
   return orElse();
 
 }
@@ -376,10 +415,10 @@ return $default(_that.userProfile,_that.recentScans);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans,  BlocStatus recentScansStatus)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.userProfile,_that.recentScans);case _:
+return $default(_that.userProfile,_that.recentScans,_that.recentScansStatus);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -396,10 +435,10 @@ return $default(_that.userProfile,_that.recentScans);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UserProfile? userProfile,  List<ScanResultEntity> recentScans,  BlocStatus recentScansStatus)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.userProfile,_that.recentScans);case _:
+return $default(_that.userProfile,_that.recentScans,_that.recentScansStatus);case _:
   return null;
 
 }
@@ -411,7 +450,7 @@ return $default(_that.userProfile,_that.recentScans);case _:
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.userProfile, final  List<ScanResultEntity> recentScans = const <ScanResultEntity>[]}): _recentScans = recentScans;
+  const _HomeState({this.userProfile, final  List<ScanResultEntity> recentScans = const <ScanResultEntity>[], this.recentScansStatus = BlocStatus.initial}): _recentScans = recentScans;
   
 
 @override final  UserProfile? userProfile;
@@ -422,6 +461,7 @@ class _HomeState implements HomeState {
   return EqualUnmodifiableListView(_recentScans);
 }
 
+@override@JsonKey() final  BlocStatus recentScansStatus;
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
@@ -433,16 +473,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.userProfile, userProfile) || other.userProfile == userProfile)&&const DeepCollectionEquality().equals(other._recentScans, _recentScans));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.userProfile, userProfile) || other.userProfile == userProfile)&&const DeepCollectionEquality().equals(other._recentScans, _recentScans)&&(identical(other.recentScansStatus, recentScansStatus) || other.recentScansStatus == recentScansStatus));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userProfile,const DeepCollectionEquality().hash(_recentScans));
+int get hashCode => Object.hash(runtimeType,userProfile,const DeepCollectionEquality().hash(_recentScans),recentScansStatus);
 
 @override
 String toString() {
-  return 'HomeState(userProfile: $userProfile, recentScans: $recentScans)';
+  return 'HomeState(userProfile: $userProfile, recentScans: $recentScans, recentScansStatus: $recentScansStatus)';
 }
 
 
@@ -453,7 +493,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- UserProfile? userProfile, List<ScanResultEntity> recentScans
+ UserProfile? userProfile, List<ScanResultEntity> recentScans, BlocStatus recentScansStatus
 });
 
 
@@ -470,11 +510,12 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userProfile = freezed,Object? recentScans = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userProfile = freezed,Object? recentScans = null,Object? recentScansStatus = null,}) {
   return _then(_HomeState(
 userProfile: freezed == userProfile ? _self.userProfile : userProfile // ignore: cast_nullable_to_non_nullable
 as UserProfile?,recentScans: null == recentScans ? _self._recentScans : recentScans // ignore: cast_nullable_to_non_nullable
-as List<ScanResultEntity>,
+as List<ScanResultEntity>,recentScansStatus: null == recentScansStatus ? _self.recentScansStatus : recentScansStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,
   ));
 }
 

@@ -14,4 +14,8 @@ abstract class FridgeScanRepository {
 
   /// Returns the locally cached profile, or `null` when none is cached.
   Future<Either<Failure, UserProfile?>> getUserProfile();
+
+  /// Returns the user's most recent scans (newest first), each with its
+  /// detected ingredients, capped at [limit].
+  Future<Either<Failure, List<ScanResultEntity>>> getRecentScans({int limit});
 }

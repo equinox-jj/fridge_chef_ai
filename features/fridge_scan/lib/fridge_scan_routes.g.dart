@@ -18,6 +18,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
       name: 'fridgeScan',
       factory: $FridgeScanRoute._fromState,
     ),
+    GoRouteData.$route(
+      path: 'ingredient-review',
+      name: 'ingredientReview',
+      factory: $IngredientReviewRoute._fromState,
+    ),
   ],
 );
 
@@ -57,4 +62,26 @@ mixin $FridgeScanRoute on GoRouteData {
 
   @override
   void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $IngredientReviewRoute on GoRouteData {
+  static IngredientReviewRoute _fromState(GoRouterState state) =>
+      IngredientReviewRoute($extra: state.extra as ScanResultEntity);
+
+  IngredientReviewRoute get _self => this as IngredientReviewRoute;
+
+  @override
+  String get location => GoRouteData.$location('/home/ingredient-review');
+
+  @override
+  void go(BuildContext context) => context.go(location, extra: _self.$extra);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location, extra: _self.$extra);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location, extra: _self.$extra);
+
+  @override
+  void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
 }

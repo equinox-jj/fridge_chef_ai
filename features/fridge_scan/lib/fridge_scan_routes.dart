@@ -4,8 +4,11 @@ import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 
+import 'domain/entities/scan_result_entity.dart';
 import 'presentation/pages/home/bloc/home_bloc.dart';
 import 'presentation/pages/home/home_page.dart';
+import 'presentation/pages/ingredient_review/cubit/ingredient_review_cubit.dart';
+import 'presentation/pages/ingredient_review/ingredient_review_page.dart';
 import 'presentation/pages/scan/bloc/scan_bloc.dart';
 import 'presentation/pages/scan/scan_page.dart';
 
@@ -21,6 +24,10 @@ List<RouteBase> get fridgeScanRoutes => $appRoutes;
     TypedGoRoute<FridgeScanRoute>(
       path: AppRoute.fridgeScanPath,
       name: AppRoute.fridgeScanName,
+    ),
+    TypedGoRoute<IngredientReviewRoute>(
+      path: AppRoute.ingredientReviewPath,
+      name: AppRoute.ingredientReviewName,
     ),
   ],
 )
@@ -44,6 +51,23 @@ class FridgeScanRoute extends GoRouteData with $FridgeScanRoute {
     return BlocProvider<ScanBloc>(
       create: (_) => GetIt.I<ScanBloc>(),
       child: const ScanPage(),
+    );
+  }
+}
+
+/// Reviews the ingredients of a completed scan. The [ScanResultEntity] is
+/// handed over in memory via `$extra` since it is a transient, non-linkable
+/// step in the scan flow.
+class IngredientReviewRoute extends GoRouteData with $IngredientReviewRoute {
+  const IngredientReviewRoute({required this.$extra});
+
+  final ScanResultEntity $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider<IngredientReviewCubit>(
+      create: (_) => IngredientReviewCubit(initialItems: $extra.ingredients),
+      child: const IngredientReviewPage(),
     );
   }
 }

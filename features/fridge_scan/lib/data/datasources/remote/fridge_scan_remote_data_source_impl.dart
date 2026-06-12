@@ -87,6 +87,28 @@ class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
     });
   }
 
+  @override
+  Future<List<ScanWithIngredients>> getRecentScans({required int limit}) {
+    return _supabaseService.safeCall(() async {
+      // One round-trip: each scan row embeds its ingredients via the FK join,
+      // so we avoid an N+1 query per scan.
+      final List<Map<String, dynamic>> rows = await _client
+          .from(SupabaseTable.fridgeScansTable)
+          .select('*, ${SupabaseTable.ingredientsTable}(*)')
+          .eq('user_id', _requireUserId())
+          .order('scanned_at', ascending: false)
+          .limit(limit);
+
+      return rows.map((Map<String, dynamic> row) {
+        final List<dynamic> rawIngredients = row[SupabaseTable.ingredientsTable] as List<dynamic>? ?? <dynamic>[];
+        return (
+          scan: ScanModel.fromJson(row),
+          ingredients: rawIngredients.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).toList(),
+        );
+      }).toList();
+    });
+  }
+
   /// Returns the current user id, or throws when there is no active session.
   String _requireUserId() {
     final User? user = _client.auth.currentUser;

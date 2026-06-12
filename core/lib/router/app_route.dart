@@ -30,6 +30,9 @@ abstract final class AppRoute {
   static const String fridgeScanName = 'fridgeScan';
   static const String fridgeScanPath = 'fridge-scan';
 
+  static const String ingredientReviewName = 'ingredientReview';
+  static const String ingredientReviewPath = 'ingredient-review';
+
   static const String recipesName = 'recipes';
   static const String recipesPath = '/recipes';
 

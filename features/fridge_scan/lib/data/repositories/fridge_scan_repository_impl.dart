@@ -63,4 +63,19 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
   Future<Either<Failure, UserProfile?>> getUserProfile() {
     return guard(() => _localDataSource.getUserProfile());
   }
+
+  @override
+  Future<Either<Failure, List<ScanResultEntity>>> getRecentScans({int limit = 10}) {
+    return guard(() async {
+      final List<ScanWithIngredients> rows = await _remoteDataSource.getRecentScans(limit: limit);
+      return rows
+          .map(
+            (ScanWithIngredients row) => ScanResultEntity(
+              scan: row.scan.toEntity(),
+              ingredients: row.ingredients.map((IngredientModel model) => model.toEntity()).toList(),
+            ),
+          )
+          .toList();
+    });
+  }
 }

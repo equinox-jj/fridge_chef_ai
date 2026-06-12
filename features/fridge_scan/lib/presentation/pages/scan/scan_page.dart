@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:core/components/ai_loader/app_ai_loader.dart';
+import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/image_source_option/image_source_option.dart';
@@ -15,6 +17,10 @@ import 'package:dependencies/go_router/go_router.dart';
 import 'package:dependencies/image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
+import '../../../domain/entities/ingredient_entity.dart';
+import '../../../domain/entities/scan_entity.dart';
+import '../../../domain/entities/scan_result_entity.dart';
+import '../../../fridge_scan_routes.dart';
 import '../../widgets/pick_image_source_sheet.dart';
 import 'bloc/scan_bloc.dart';
 
@@ -65,23 +71,28 @@ class _ScanPageState extends State<ScanPage> {
     }
   }
 
-  void _onScanStatusChanged(BuildContext context, ScanState state) {
-    switch (state.scanState) {
-      case BlocStatus.error:
-        AppSnackbar.error(
-          context,
-          state.scanFailure?.message ?? 'Something went wrong. Please try again.',
-        );
-        break;
-      case BlocStatus.success:
-        final int count = state.ingredientsResponse?.length ?? 0;
-        AppSnackbar.success(
-          context,
-          'Found $count ingredient${count == 1 ? '' : 's'} in your fridge.',
-        );
-        break;
-      default:
-    }
+  // A scan failure stays on this page as a full-screen error state (see
+  // `_ScanError`); only success navigates away, so the listener handles just
+  // that transition.
+  void _onScanSucceeded(BuildContext context, ScanState state) {
+    if (state.scanState != BlocStatus.success) return;
+    final ScanEntity? scan = state.scanResponse;
+    if (scan == null) return;
+    // Hand the detected ingredients to the review step, replacing the preview
+    // so backing out of review returns home, not to the photo.
+    IngredientReviewRoute(
+      $extra: ScanResultEntity(
+        scan: scan,
+        ingredients: state.ingredientsResponse ?? <IngredientEntity>[],
+      ),
+    ).pushReplacement(context);
+  }
+
+  /// Discards the current photo and re-opens the source sheet so the user can
+  /// capture a clearer one after a failed scan.
+  void _chooseAnotherPhoto() {
+    context.read<ScanBloc>().add(const ScanEvent.retaken());
+    _promptForSource();
   }
 
   Future<void> _showSettingsDialog(BuildContext context) async {
@@ -116,17 +127,32 @@ class _ScanPageState extends State<ScanPage> {
           ),
           BlocListener<ScanBloc, ScanState>(
             listenWhen: (ScanState previous, ScanState current) => previous.scanState != current.scanState,
-            listener: _onScanStatusChanged,
+            listener: _onScanSucceeded,
           ),
         ],
         child: SafeArea(
           child: BlocBuilder<ScanBloc, ScanState>(
             builder: (BuildContext context, ScanState state) {
+              // The Gemini vision moment: a labelled loader, never a bare
+              // spinner (PRD §1.4 / §7.1).
+              if (state.scanState == BlocStatus.loading) {
+                return const AppAiLoader(
+                  title: 'Reading your fridge…',
+                  subtitle: 'AI vision is identifying ingredients in your photo.',
+                  icon: Icons.psychology_rounded,
+                );
+              }
+              if (state.scanState == BlocStatus.error) {
+                return _ScanError(
+                  message: state.scanFailure?.message,
+                  onTryAgain: () => context.read<ScanBloc>().add(const ScanEvent.confirmed()),
+                  onChooseAnother: _chooseAnotherPhoto,
+                );
+              }
               final XFile? image = state.pickedImage;
               if (image != null) {
                 return _ScanPreview(
                   image: image,
-                  isScanning: state.scanState == BlocStatus.loading,
                   onRetake: () => context.read<ScanBloc>().add(const ScanEvent.retaken()),
                   onConfirm: () => context.read<ScanBloc>().add(const ScanEvent.confirmed()),
                 );
@@ -143,18 +169,15 @@ class _ScanPageState extends State<ScanPage> {
   }
 }
 
-/// Full-screen preview of the captured photo with retake/confirm actions and a
-/// scanning overlay shown while the AI request is in flight.
+/// Full-screen preview of the captured photo with retake/confirm actions.
 class _ScanPreview extends StatelessWidget {
   const _ScanPreview({
     required this.image,
-    required this.isScanning,
     required this.onRetake,
     required this.onConfirm,
   });
 
   final XFile image;
-  final bool isScanning;
   final VoidCallback onRetake;
   final VoidCallback onConfirm;
 
@@ -167,24 +190,19 @@ class _ScanPreview extends StatelessWidget {
             padding: const EdgeInsets.all(AppSpacing.s5),
             child: ClipRRect(
               borderRadius: const BorderRadius.all(AppRadius.brLg),
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  ColoredBox(
-                    color: AppColors.surfaceInverse,
-                    child: Image.file(
-                      File(image.path),
-                      fit: BoxFit.contain,
-                    ),
+              child: ColoredBox(
+                color: AppColors.surfaceInverse,
+                child: SizedBox.expand(
+                  child: Image.file(
+                    File(image.path),
+                    fit: BoxFit.contain,
                   ),
-                  if (isScanning) const _ScanningOverlay(),
-                ],
+                ),
               ),
             ),
           ),
         ),
         _PreviewActions(
-          isScanning: isScanning,
           onRetake: onRetake,
           onConfirm: onConfirm,
         ),
@@ -196,12 +214,10 @@ class _ScanPreview extends StatelessWidget {
 /// The retake / confirm action bar pinned below the preview.
 class _PreviewActions extends StatelessWidget {
   const _PreviewActions({
-    required this.isScanning,
     required this.onRetake,
     required this.onConfirm,
   });
 
-  final bool isScanning;
   final VoidCallback onRetake;
   final VoidCallback onConfirm;
 
@@ -219,7 +235,7 @@ class _PreviewActions extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: OutlinedButton.icon(
-              onPressed: isScanning ? null : onRetake,
+              onPressed: onRetake,
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Retake'),
               style: OutlinedButton.styleFrom(
@@ -232,18 +248,9 @@ class _PreviewActions extends StatelessWidget {
           ),
           Expanded(
             child: FilledButton.icon(
-              onPressed: isScanning ? null : onConfirm,
-              icon: isScanning ? const SizedBox.shrink() : const Icon(Icons.auto_awesome_rounded),
-              label: isScanning
-                  ? const SizedBox(
-                      width: AppSpacing.s5,
-                      height: AppSpacing.s5,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: AppColors.onPrimary,
-                      ),
-                    )
-                  : const Text('Confirm'),
+              onPressed: onConfirm,
+              icon: const Icon(Icons.auto_awesome_rounded),
+              label: const Text('Confirm'),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(AppLayout.tapTarget),
               ),
@@ -255,37 +262,92 @@ class _PreviewActions extends StatelessWidget {
   }
 }
 
-/// Translucent scrim shown over the preview while Gemini analyses the photo.
-class _ScanningOverlay extends StatelessWidget {
-  const _ScanningOverlay();
+/// Full-screen scan-failure state (PRD §1.7, covering risks R1/R3): a calm
+/// coral alert, the reason, and a way to retry or pick a different photo.
+///
+/// Failures abort before any upload or persistence (see
+/// `FridgeScanRepositoryImpl.scanFridge`), so we can promise the user nothing
+/// was saved and no quota was spent — blame the photo conditions, never them.
+class _ScanError extends StatelessWidget {
+  const _ScanError({
+    required this.message,
+    required this.onTryAgain,
+    required this.onChooseAnother,
+  });
+
+  /// The failure's user-facing reason; falls back to generic guidance.
+  final String? message;
+  final VoidCallback onTryAgain;
+  final VoidCallback onChooseAnother;
+
+  static const double _iconCircle = 88;
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: AppColors.surfaceInverse.withValues(alpha: 0.6),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: AppSpacing.s4,
-        children: <Widget>[
-          const SizedBox(
-            width: AppSpacing.s8,
-            height: AppSpacing.s8,
-            child: CircularProgressIndicator(color: AppColors.textInverse),
-          ),
-          Text(
-            'Scanning your fridge…',
-            style: context.textTheme.titleMedium?.copyWith(
-              color: AppColors.textInverse,
-              fontWeight: AppFontWeight.semiBold,
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.s8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: _iconCircle,
+              height: _iconCircle,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.dangerTint,
+              ),
+              child: const Icon(
+                Icons.error_outline_rounded,
+                size: AppSpacing.s9,
+                color: AppColors.danger,
+              ),
             ),
-          ),
-          Text(
-            'Detecting ingredients with AI',
-            style: context.textTheme.bodySmall?.copyWith(
-              color: AppColors.textInverse.withValues(alpha: 0.7),
+            const SizedBox(height: AppSpacing.s5),
+            Text(
+              "We couldn't read that photo",
+              textAlign: TextAlign.center,
+              style: context.textTheme.displaySmall,
             ),
-          ),
-        ],
+            const SizedBox(height: AppSpacing.s2),
+            Text(
+              message ??
+                  'We couldn\'t find any ingredients. Try better lighting, '
+                      'or step back so more of the fridge is visible.',
+              textAlign: TextAlign.center,
+              style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+            ),
+            const SizedBox(height: AppSpacing.s6),
+            FilledButton.icon(
+              onPressed: onTryAgain,
+              icon: const Icon(Icons.refresh_rounded),
+              label: const Text('Try again'),
+              style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.s2),
+            TextButton.icon(
+              onPressed: onChooseAnother,
+              icon: const Icon(Icons.photo_library_outlined),
+              label: const Text('Choose another photo'),
+              style: TextButton.styleFrom(
+                minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+                foregroundColor: AppColors.textBody,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.s4),
+            Text(
+              "Your photo wasn't saved · no quota used",
+              textAlign: TextAlign.center,
+              style: AppTypography.mono.copyWith(
+                fontSize: AppTextSize.xs,
+                color: AppColors.textFaint,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -303,36 +365,14 @@ class _PhotoPrompt extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: AppSpacing.s4,
-          children: <Widget>[
-            const Icon(
-              Icons.photo_camera_back_rounded,
-              size: AppTextSize.display,
-              color: AppColors.textFaint,
-            ),
-            Text(
-              'Add a fridge photo',
-              style: context.textTheme.titleMedium,
-            ),
-            Text(
-              'Take or choose a photo to start detecting ingredients.',
-              textAlign: TextAlign.center,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: AppColors.textMuted,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.s2),
-            FilledButton.icon(
-              onPressed: onAddPhoto,
-              icon: const Icon(Icons.add_a_photo_rounded),
-              label: const Text('Add a photo'),
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(AppLayout.tapTarget),
-              ),
-            ),
-          ],
+        child: AppEmptyState(
+          icon: Icons.photo_camera_back_rounded,
+          title: 'Add a fridge photo',
+          message: 'Take or choose a photo to start detecting ingredients.',
+          actionLabel: 'Add a photo',
+          actionIcon: Icons.add_a_photo_rounded,
+          onAction: onAddPhoto,
+          padding: EdgeInsets.zero,
         ),
       ),
     );
