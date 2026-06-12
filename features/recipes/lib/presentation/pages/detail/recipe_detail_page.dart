@@ -16,7 +16,7 @@ import '../../../domain/entities/recipe_entity.dart';
 import '../../../domain/entities/recipe_ingredient_entity.dart';
 import '../../../domain/entities/recipe_step_entity.dart';
 import '../../recipe_mood.dart';
-import '../../widgets/recipe_photo_placeholder.dart';
+import '../../widgets/recipe_photo.dart';
 import '../../widgets/save_rate_sheet.dart';
 import 'cubit/save_recipe_cubit.dart';
 import 'widgets/recipe_ingredient_row.dart';
@@ -34,7 +34,10 @@ class RecipeDetailPage extends StatelessWidget {
     final SaveRecipeCubit cubit = context.read<SaveRecipeCubit>();
     final RecipeRating? rating = await SaveRateSheet.openSheet(context);
     if (rating == null) return;
-    await cubit.save(rating: rating.stars, note: rating.note.isEmpty ? null : rating.note);
+    await cubit.save(
+      rating: rating.stars,
+      note: rating.note.isEmpty ? null : rating.note,
+    );
   }
 
   @override
@@ -69,11 +72,11 @@ class RecipeDetailPage extends StatelessWidget {
         AppSnackbar.success(context, 'Saved to your cookbook', title: 'Recipe saved');
         // Land the user on the cookbook tab, clearing the generation flow.
         GetIt.I<AppNavigator>().toRecipes();
+        break;
       case BlocStatus.error:
         AppSnackbar.error(context, state.failure?.message ?? 'Could not save this recipe.');
-      case BlocStatus.initial:
-      case BlocStatus.loading:
-      case BlocStatus.empty:
+        break;
+      default:
         break;
     }
   }
@@ -93,9 +96,14 @@ class _RecipeBody extends StatelessWidget {
       // Leave room for the floating app bar at the top and the save bar below.
       padding: const EdgeInsets.only(bottom: AppSpacing.s6),
       children: <Widget>[
-        const RecipePhotoPlaceholder(height: 220),
+        RecipePhoto(mood: mood, height: 220),
         Padding(
-          padding: const EdgeInsets.fromLTRB(AppSpacing.s5, AppSpacing.s4, AppSpacing.s5, AppSpacing.s0),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.s5,
+            AppSpacing.s4,
+            AppSpacing.s5,
+            AppSpacing.s0,
+          ),
           child: Wrap(
             spacing: AppSpacing.s2,
             runSpacing: AppSpacing.s2,

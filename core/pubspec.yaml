@@ -26,6 +26,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/images/
+    - assets/images/recipes/
   fonts:
     - family: Bricolage Grotesque
       fonts:

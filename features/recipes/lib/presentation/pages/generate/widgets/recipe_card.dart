@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/recipe_entity.dart';
 import '../../../recipe_mood.dart';
-import '../../../widgets/recipe_photo_placeholder.dart';
+import '../../../widgets/recipe_photo.dart';
 
 /// A tappable recipe result card: a photo placeholder topped with the mood
 /// badge, then the title, blurb and cook-time / servings tags (PRD §4.3.3).
@@ -46,7 +46,7 @@ class RecipeCard extends StatelessWidget {
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  const RecipePhotoPlaceholder(height: 104),
+                  RecipePhoto(mood: mood, height: 104),
                   Positioned(
                     top: AppSpacing.s3,
                     left: AppSpacing.s3,

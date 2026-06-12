@@ -28,6 +28,11 @@ enum RecipeMood {
   /// Accent used for the mood badge on a recipe card.
   final AppTagTone tone;
 
+  /// Curated, offline banner photo for this mood. The asset lives in the `core`
+  /// package, so it is referenced with the `packages/core/` prefix; if the file
+  /// is missing it falls back to the neutral placeholder (see [RecipePhoto]).
+  String get imageAsset => 'packages/core/assets/images/recipes/$value.webp';
+
   /// Resolves a raw [value] back to its mood, falling back to [simple] for
   /// anything unrecognised so a stray value never breaks the UI.
   static RecipeMood fromValue(String? value) {
