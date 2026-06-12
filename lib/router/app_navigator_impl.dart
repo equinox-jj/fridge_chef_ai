@@ -1,6 +1,5 @@
 import 'package:auth/auth_routes.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/router/app_route.dart';
 import 'package:core/router/recipe_generation_args.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart';
@@ -44,7 +43,10 @@ class AppNavigatorImpl implements AppNavigator {
   // Pushed by path + in-memory args (a generated recipe has no addressable id),
   // so the flow presents full-screen over the launching tab.
   @override
-  void toRecipeGeneration(RecipeGenerationArgs args) => _router.push(AppRoute.recipeGenerationPath, extra: args);
+  void toRecipeGeneration(RecipeGenerationArgs args) => _router.push(
+    RecipeGenerationRoute().location,
+    extra: args,
+  );
 
   @override
   void toProfile() => _router.go(const ProfileRoute().location);
