@@ -1,4 +1,7 @@
 import 'package:core/database/app_database.dart';
+import 'package:core/logger/app_logger.dart';
+import 'package:core/services/image_picker_service.dart';
+import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 
@@ -25,7 +28,9 @@ void initFridgeScanInjector(GetIt getIt) {
     ..registerLazySingleton<FridgeScanRemoteDataSource>(
       () => FridgeScanRemoteDataSourceImpl(getIt<SupabaseService>()),
     )
-    ..registerLazySingleton<FridgeAiDataSource>(() => FridgeAiDataSourceImpl())
+    ..registerLazySingleton<FridgeAiDataSource>(
+      () => FridgeAiDataSourceImpl(getIt<AppLogger>()),
+    )
     ..registerLazySingleton<FridgeScanLocalDataSource>(
       () => FridgeScanLocalDataSourceImpl(getIt<AppDatabase>()),
     )
@@ -48,5 +53,11 @@ void initFridgeScanInjector(GetIt getIt) {
     ..registerFactory<HomeBloc>(
       () => HomeBloc(getIt<GetUserProfileUseCase>()),
     )
-    ..registerFactory<ScanBloc>(() => ScanBloc(getIt<ScanFridgeUseCase>()));
+    ..registerFactory<ScanBloc>(
+      () => ScanBloc(
+        getIt<ScanFridgeUseCase>(),
+        getIt<PermissionService>(),
+        getIt<ImagePickerService>(),
+      ),
+    );
 }

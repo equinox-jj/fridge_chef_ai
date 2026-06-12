@@ -2,6 +2,7 @@ import 'package:auth/auth_injector.dart';
 import 'package:core/database/app_database.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/router/app_navigator.dart';
+import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
@@ -24,6 +25,7 @@ void configureDependencies() {
     () => SupabaseService(Supabase.instance.client),
   );
   getIt.registerLazySingleton<PermissionService>(PermissionService.new);
+  getIt.registerLazySingleton<ImagePickerService>(ImagePickerService.new);
 
   // Shared local database — features access it through their own data sources.
   getIt.registerLazySingleton<AppDatabase>(

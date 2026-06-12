@@ -1,12 +1,11 @@
+import 'package:core/constants/image_source_option/image_source_option.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
+import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
-
-/// The image source the user chose in [PickImageSourceSheet].
-enum ImageSourceOption { camera, gallery }
 
 /// The "Add a photo" sheet: a primary "Take a photo" action above a secondary
 /// "Choose from gallery" action, with a note about image compression.
@@ -53,7 +52,7 @@ class PickImageSourceSheet extends StatelessWidget {
           children: <Widget>[
             const _SheetHeader(title: 'Add a photo'),
             FilledButton.icon(
-              onPressed: () => Navigator.pop(context, ImageSourceOption.camera),
+              onPressed: () => context.pop(ImageSourceOption.camera),
               icon: const Icon(Icons.photo_camera_rounded),
               label: const Text('Take a photo'),
               style: FilledButton.styleFrom(
@@ -62,7 +61,7 @@ class PickImageSourceSheet extends StatelessWidget {
               ),
             ),
             OutlinedButton.icon(
-              onPressed: () => Navigator.pop(context, ImageSourceOption.gallery),
+              onPressed: () => context.pop(ImageSourceOption.gallery),
               icon: const Icon(Icons.photo_library_rounded),
               label: const Text('Choose from gallery'),
               // Design-system "secondary": a white surface with a strong border.

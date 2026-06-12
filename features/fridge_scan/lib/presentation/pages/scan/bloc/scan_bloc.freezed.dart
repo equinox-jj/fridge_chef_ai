@@ -55,11 +55,14 @@ extension ScanEventPatterns on ScanEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ScanConfirmed value)?  confirmed,TResult Function( _ScanReset value)?  reset,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _SourceSelected value)?  sourceSelected,TResult Function( _ScanConfirmed value)?  confirmed,TResult Function( _ScanRetaken value)?  retaken,TResult Function( _SettingsRequested value)?  settingsRequested,TResult Function( _ScanReset value)?  reset,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _ScanConfirmed() when confirmed != null:
-return confirmed(_that);case _ScanReset() when reset != null:
+case _SourceSelected() when sourceSelected != null:
+return sourceSelected(_that);case _ScanConfirmed() when confirmed != null:
+return confirmed(_that);case _ScanRetaken() when retaken != null:
+return retaken(_that);case _SettingsRequested() when settingsRequested != null:
+return settingsRequested(_that);case _ScanReset() when reset != null:
 return reset(_that);case _:
   return orElse();
 
@@ -78,11 +81,14 @@ return reset(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ScanConfirmed value)  confirmed,required TResult Function( _ScanReset value)  reset,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _SourceSelected value)  sourceSelected,required TResult Function( _ScanConfirmed value)  confirmed,required TResult Function( _ScanRetaken value)  retaken,required TResult Function( _SettingsRequested value)  settingsRequested,required TResult Function( _ScanReset value)  reset,}){
 final _that = this;
 switch (_that) {
-case _ScanConfirmed():
-return confirmed(_that);case _ScanReset():
+case _SourceSelected():
+return sourceSelected(_that);case _ScanConfirmed():
+return confirmed(_that);case _ScanRetaken():
+return retaken(_that);case _SettingsRequested():
+return settingsRequested(_that);case _ScanReset():
 return reset(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -100,11 +106,14 @@ return reset(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ScanConfirmed value)?  confirmed,TResult? Function( _ScanReset value)?  reset,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _SourceSelected value)?  sourceSelected,TResult? Function( _ScanConfirmed value)?  confirmed,TResult? Function( _ScanRetaken value)?  retaken,TResult? Function( _SettingsRequested value)?  settingsRequested,TResult? Function( _ScanReset value)?  reset,}){
 final _that = this;
 switch (_that) {
-case _ScanConfirmed() when confirmed != null:
-return confirmed(_that);case _ScanReset() when reset != null:
+case _SourceSelected() when sourceSelected != null:
+return sourceSelected(_that);case _ScanConfirmed() when confirmed != null:
+return confirmed(_that);case _ScanRetaken() when retaken != null:
+return retaken(_that);case _SettingsRequested() when settingsRequested != null:
+return settingsRequested(_that);case _ScanReset() when reset != null:
 return reset(_that);case _:
   return null;
 
@@ -122,10 +131,13 @@ return reset(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( XFile file)?  confirmed,TResult Function()?  reset,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( ImageSourceOption source)?  sourceSelected,TResult Function()?  confirmed,TResult Function()?  retaken,TResult Function()?  settingsRequested,TResult Function()?  reset,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _ScanConfirmed() when confirmed != null:
-return confirmed(_that.file);case _ScanReset() when reset != null:
+case _SourceSelected() when sourceSelected != null:
+return sourceSelected(_that.source);case _ScanConfirmed() when confirmed != null:
+return confirmed();case _ScanRetaken() when retaken != null:
+return retaken();case _SettingsRequested() when settingsRequested != null:
+return settingsRequested();case _ScanReset() when reset != null:
 return reset();case _:
   return orElse();
 
@@ -144,10 +156,13 @@ return reset();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( XFile file)  confirmed,required TResult Function()  reset,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( ImageSourceOption source)  sourceSelected,required TResult Function()  confirmed,required TResult Function()  retaken,required TResult Function()  settingsRequested,required TResult Function()  reset,}) {final _that = this;
 switch (_that) {
-case _ScanConfirmed():
-return confirmed(_that.file);case _ScanReset():
+case _SourceSelected():
+return sourceSelected(_that.source);case _ScanConfirmed():
+return confirmed();case _ScanRetaken():
+return retaken();case _SettingsRequested():
+return settingsRequested();case _ScanReset():
 return reset();case _:
   throw StateError('Unexpected subclass');
 
@@ -165,10 +180,13 @@ return reset();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( XFile file)?  confirmed,TResult? Function()?  reset,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( ImageSourceOption source)?  sourceSelected,TResult? Function()?  confirmed,TResult? Function()?  retaken,TResult? Function()?  settingsRequested,TResult? Function()?  reset,}) {final _that = this;
 switch (_that) {
-case _ScanConfirmed() when confirmed != null:
-return confirmed(_that.file);case _ScanReset() when reset != null:
+case _SourceSelected() when sourceSelected != null:
+return sourceSelected(_that.source);case _ScanConfirmed() when confirmed != null:
+return confirmed();case _ScanRetaken() when retaken != null:
+return retaken();case _SettingsRequested() when settingsRequested != null:
+return settingsRequested();case _ScanReset() when reset != null:
 return reset();case _:
   return null;
 
@@ -180,43 +198,43 @@ return reset();case _:
 /// @nodoc
 
 
-class _ScanConfirmed implements ScanEvent {
-  const _ScanConfirmed(this.file);
+class _SourceSelected implements ScanEvent {
+  const _SourceSelected(this.source);
   
 
- final  XFile file;
+ final  ImageSourceOption source;
 
 /// Create a copy of ScanEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ScanConfirmedCopyWith<_ScanConfirmed> get copyWith => __$ScanConfirmedCopyWithImpl<_ScanConfirmed>(this, _$identity);
+_$SourceSelectedCopyWith<_SourceSelected> get copyWith => __$SourceSelectedCopyWithImpl<_SourceSelected>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanConfirmed&&(identical(other.file, file) || other.file == file));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SourceSelected&&(identical(other.source, source) || other.source == source));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,file);
+int get hashCode => Object.hash(runtimeType,source);
 
 @override
 String toString() {
-  return 'ScanEvent.confirmed(file: $file)';
+  return 'ScanEvent.sourceSelected(source: $source)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ScanConfirmedCopyWith<$Res> implements $ScanEventCopyWith<$Res> {
-  factory _$ScanConfirmedCopyWith(_ScanConfirmed value, $Res Function(_ScanConfirmed) _then) = __$ScanConfirmedCopyWithImpl;
+abstract mixin class _$SourceSelectedCopyWith<$Res> implements $ScanEventCopyWith<$Res> {
+  factory _$SourceSelectedCopyWith(_SourceSelected value, $Res Function(_SourceSelected) _then) = __$SourceSelectedCopyWithImpl;
 @useResult
 $Res call({
- XFile file
+ ImageSourceOption source
 });
 
 
@@ -224,24 +242,120 @@ $Res call({
 
 }
 /// @nodoc
-class __$ScanConfirmedCopyWithImpl<$Res>
-    implements _$ScanConfirmedCopyWith<$Res> {
-  __$ScanConfirmedCopyWithImpl(this._self, this._then);
+class __$SourceSelectedCopyWithImpl<$Res>
+    implements _$SourceSelectedCopyWith<$Res> {
+  __$SourceSelectedCopyWithImpl(this._self, this._then);
 
-  final _ScanConfirmed _self;
-  final $Res Function(_ScanConfirmed) _then;
+  final _SourceSelected _self;
+  final $Res Function(_SourceSelected) _then;
 
 /// Create a copy of ScanEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? file = null,}) {
-  return _then(_ScanConfirmed(
-null == file ? _self.file : file // ignore: cast_nullable_to_non_nullable
-as XFile,
+@pragma('vm:prefer-inline') $Res call({Object? source = null,}) {
+  return _then(_SourceSelected(
+null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
+as ImageSourceOption,
   ));
 }
 
 
 }
+
+/// @nodoc
+
+
+class _ScanConfirmed implements ScanEvent {
+  const _ScanConfirmed();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanConfirmed);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ScanEvent.confirmed()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _ScanRetaken implements ScanEvent {
+  const _ScanRetaken();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanRetaken);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ScanEvent.retaken()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _SettingsRequested implements ScanEvent {
+  const _SettingsRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ScanEvent.settingsRequested()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 
@@ -278,6 +392,10 @@ String toString() {
 /// @nodoc
 mixin _$ScanState {
 
+/// Stage of the capture/preview flow.
+ ScanPickStatus get pickStatus;/// The photo awaiting confirmation, once one has been captured.
+ XFile? get pickedImage;/// Outcome of the last permission request, set when it was not granted.
+ PermissionResult? get permission;/// Lifecycle of the AI scan triggered on confirmation.
  BlocStatus get scanState; Failure? get scanFailure; ScanEntity? get scanResponse; List<IngredientEntity>? get ingredientsResponse;
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
@@ -289,16 +407,16 @@ $ScanStateCopyWith<ScanState> get copyWith => _$ScanStateCopyWithImpl<ScanState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanState&&(identical(other.scanState, scanState) || other.scanState == scanState)&&(identical(other.scanFailure, scanFailure) || other.scanFailure == scanFailure)&&(identical(other.scanResponse, scanResponse) || other.scanResponse == scanResponse)&&const DeepCollectionEquality().equals(other.ingredientsResponse, ingredientsResponse));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanState&&(identical(other.pickStatus, pickStatus) || other.pickStatus == pickStatus)&&(identical(other.pickedImage, pickedImage) || other.pickedImage == pickedImage)&&(identical(other.permission, permission) || other.permission == permission)&&(identical(other.scanState, scanState) || other.scanState == scanState)&&(identical(other.scanFailure, scanFailure) || other.scanFailure == scanFailure)&&(identical(other.scanResponse, scanResponse) || other.scanResponse == scanResponse)&&const DeepCollectionEquality().equals(other.ingredientsResponse, ingredientsResponse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,scanState,scanFailure,scanResponse,const DeepCollectionEquality().hash(ingredientsResponse));
+int get hashCode => Object.hash(runtimeType,pickStatus,pickedImage,permission,scanState,scanFailure,scanResponse,const DeepCollectionEquality().hash(ingredientsResponse));
 
 @override
 String toString() {
-  return 'ScanState(scanState: $scanState, scanFailure: $scanFailure, scanResponse: $scanResponse, ingredientsResponse: $ingredientsResponse)';
+  return 'ScanState(pickStatus: $pickStatus, pickedImage: $pickedImage, permission: $permission, scanState: $scanState, scanFailure: $scanFailure, scanResponse: $scanResponse, ingredientsResponse: $ingredientsResponse)';
 }
 
 
@@ -309,7 +427,7 @@ abstract mixin class $ScanStateCopyWith<$Res>  {
   factory $ScanStateCopyWith(ScanState value, $Res Function(ScanState) _then) = _$ScanStateCopyWithImpl;
 @useResult
 $Res call({
- BlocStatus scanState, Failure? scanFailure, ScanEntity? scanResponse, List<IngredientEntity>? ingredientsResponse
+ ScanPickStatus pickStatus, XFile? pickedImage, PermissionResult? permission, BlocStatus scanState, Failure? scanFailure, ScanEntity? scanResponse, List<IngredientEntity>? ingredientsResponse
 });
 
 
@@ -326,9 +444,12 @@ class _$ScanStateCopyWithImpl<$Res>
 
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? scanState = null,Object? scanFailure = freezed,Object? scanResponse = freezed,Object? ingredientsResponse = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? pickStatus = null,Object? pickedImage = freezed,Object? permission = freezed,Object? scanState = null,Object? scanFailure = freezed,Object? scanResponse = freezed,Object? ingredientsResponse = freezed,}) {
   return _then(_self.copyWith(
-scanState: null == scanState ? _self.scanState : scanState // ignore: cast_nullable_to_non_nullable
+pickStatus: null == pickStatus ? _self.pickStatus : pickStatus // ignore: cast_nullable_to_non_nullable
+as ScanPickStatus,pickedImage: freezed == pickedImage ? _self.pickedImage : pickedImage // ignore: cast_nullable_to_non_nullable
+as XFile?,permission: freezed == permission ? _self.permission : permission // ignore: cast_nullable_to_non_nullable
+as PermissionResult?,scanState: null == scanState ? _self.scanState : scanState // ignore: cast_nullable_to_non_nullable
 as BlocStatus,scanFailure: freezed == scanFailure ? _self.scanFailure : scanFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,scanResponse: freezed == scanResponse ? _self.scanResponse : scanResponse // ignore: cast_nullable_to_non_nullable
 as ScanEntity?,ingredientsResponse: freezed == ingredientsResponse ? _self.ingredientsResponse : ingredientsResponse // ignore: cast_nullable_to_non_nullable
@@ -429,10 +550,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ScanPickStatus pickStatus,  XFile? pickedImage,  PermissionResult? permission,  BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ScanInitial() when $default != null:
-return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
+return $default(_that.pickStatus,_that.pickedImage,_that.permission,_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
   return orElse();
 
 }
@@ -450,10 +571,10 @@ return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingre
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ScanPickStatus pickStatus,  XFile? pickedImage,  PermissionResult? permission,  BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)  $default,) {final _that = this;
 switch (_that) {
 case ScanInitial():
-return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
+return $default(_that.pickStatus,_that.pickedImage,_that.permission,_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -470,10 +591,10 @@ return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingre
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ScanPickStatus pickStatus,  XFile? pickedImage,  PermissionResult? permission,  BlocStatus scanState,  Failure? scanFailure,  ScanEntity? scanResponse,  List<IngredientEntity>? ingredientsResponse)?  $default,) {final _that = this;
 switch (_that) {
 case ScanInitial() when $default != null:
-return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
+return $default(_that.pickStatus,_that.pickedImage,_that.permission,_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingredientsResponse);case _:
   return null;
 
 }
@@ -485,9 +606,16 @@ return $default(_that.scanState,_that.scanFailure,_that.scanResponse,_that.ingre
 
 
 class ScanInitial implements ScanState {
-  const ScanInitial({this.scanState = BlocStatus.initial, this.scanFailure, this.scanResponse, final  List<IngredientEntity>? ingredientsResponse}): _ingredientsResponse = ingredientsResponse;
+  const ScanInitial({this.pickStatus = ScanPickStatus.idle, this.pickedImage, this.permission, this.scanState = BlocStatus.initial, this.scanFailure, this.scanResponse, final  List<IngredientEntity>? ingredientsResponse}): _ingredientsResponse = ingredientsResponse;
   
 
+/// Stage of the capture/preview flow.
+@override@JsonKey() final  ScanPickStatus pickStatus;
+/// The photo awaiting confirmation, once one has been captured.
+@override final  XFile? pickedImage;
+/// Outcome of the last permission request, set when it was not granted.
+@override final  PermissionResult? permission;
+/// Lifecycle of the AI scan triggered on confirmation.
 @override@JsonKey() final  BlocStatus scanState;
 @override final  Failure? scanFailure;
 @override final  ScanEntity? scanResponse;
@@ -511,16 +639,16 @@ $ScanInitialCopyWith<ScanInitial> get copyWith => _$ScanInitialCopyWithImpl<Scan
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanInitial&&(identical(other.scanState, scanState) || other.scanState == scanState)&&(identical(other.scanFailure, scanFailure) || other.scanFailure == scanFailure)&&(identical(other.scanResponse, scanResponse) || other.scanResponse == scanResponse)&&const DeepCollectionEquality().equals(other._ingredientsResponse, _ingredientsResponse));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanInitial&&(identical(other.pickStatus, pickStatus) || other.pickStatus == pickStatus)&&(identical(other.pickedImage, pickedImage) || other.pickedImage == pickedImage)&&(identical(other.permission, permission) || other.permission == permission)&&(identical(other.scanState, scanState) || other.scanState == scanState)&&(identical(other.scanFailure, scanFailure) || other.scanFailure == scanFailure)&&(identical(other.scanResponse, scanResponse) || other.scanResponse == scanResponse)&&const DeepCollectionEquality().equals(other._ingredientsResponse, _ingredientsResponse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,scanState,scanFailure,scanResponse,const DeepCollectionEquality().hash(_ingredientsResponse));
+int get hashCode => Object.hash(runtimeType,pickStatus,pickedImage,permission,scanState,scanFailure,scanResponse,const DeepCollectionEquality().hash(_ingredientsResponse));
 
 @override
 String toString() {
-  return 'ScanState(scanState: $scanState, scanFailure: $scanFailure, scanResponse: $scanResponse, ingredientsResponse: $ingredientsResponse)';
+  return 'ScanState(pickStatus: $pickStatus, pickedImage: $pickedImage, permission: $permission, scanState: $scanState, scanFailure: $scanFailure, scanResponse: $scanResponse, ingredientsResponse: $ingredientsResponse)';
 }
 
 
@@ -531,7 +659,7 @@ abstract mixin class $ScanInitialCopyWith<$Res> implements $ScanStateCopyWith<$R
   factory $ScanInitialCopyWith(ScanInitial value, $Res Function(ScanInitial) _then) = _$ScanInitialCopyWithImpl;
 @override @useResult
 $Res call({
- BlocStatus scanState, Failure? scanFailure, ScanEntity? scanResponse, List<IngredientEntity>? ingredientsResponse
+ ScanPickStatus pickStatus, XFile? pickedImage, PermissionResult? permission, BlocStatus scanState, Failure? scanFailure, ScanEntity? scanResponse, List<IngredientEntity>? ingredientsResponse
 });
 
 
@@ -548,9 +676,12 @@ class _$ScanInitialCopyWithImpl<$Res>
 
 /// Create a copy of ScanState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? scanState = null,Object? scanFailure = freezed,Object? scanResponse = freezed,Object? ingredientsResponse = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? pickStatus = null,Object? pickedImage = freezed,Object? permission = freezed,Object? scanState = null,Object? scanFailure = freezed,Object? scanResponse = freezed,Object? ingredientsResponse = freezed,}) {
   return _then(ScanInitial(
-scanState: null == scanState ? _self.scanState : scanState // ignore: cast_nullable_to_non_nullable
+pickStatus: null == pickStatus ? _self.pickStatus : pickStatus // ignore: cast_nullable_to_non_nullable
+as ScanPickStatus,pickedImage: freezed == pickedImage ? _self.pickedImage : pickedImage // ignore: cast_nullable_to_non_nullable
+as XFile?,permission: freezed == permission ? _self.permission : permission // ignore: cast_nullable_to_non_nullable
+as PermissionResult?,scanState: null == scanState ? _self.scanState : scanState // ignore: cast_nullable_to_non_nullable
 as BlocStatus,scanFailure: freezed == scanFailure ? _self.scanFailure : scanFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,scanResponse: freezed == scanResponse ? _self.scanResponse : scanResponse // ignore: cast_nullable_to_non_nullable
 as ScanEntity?,ingredientsResponse: freezed == ingredientsResponse ? _self._ingredientsResponse : ingredientsResponse // ignore: cast_nullable_to_non_nullable

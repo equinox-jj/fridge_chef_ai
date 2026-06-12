@@ -8,8 +8,8 @@ import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/scan_result_entity.dart';
+import '../../../fridge_scan_routes.dart';
 import '../../widgets/home_greeting.dart';
-import '../../widgets/pick_image_source_sheet.dart';
 import '../../widgets/scan_fridge_card.dart';
 import '../../widgets/scan_history_tile.dart';
 import 'bloc/home_bloc.dart';
@@ -17,7 +17,7 @@ import 'bloc/home_bloc.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  void _openScanSheet(BuildContext context) => PickImageSourceSheet.openSheet(context);
+  void _startScan(BuildContext context) => const FridgeScanRoute().push<void>(context);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _openScanSheet(context),
+        onPressed: () => _startScan(context),
         tooltip: 'Scan your fridge',
         child: const Icon(Icons.photo_camera_rounded),
       ),
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
                 spacing: AppSpacing.s6,
                 children: <Widget>[
                   HomeGreeting(name: state.userProfile?.name),
-                  ScanFridgeCard(onTap: () => _openScanSheet(context)),
+                  ScanFridgeCard(onTap: () => _startScan(context)),
                   _RecentScansSection(scans: state.recentScans),
                 ],
               ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:core/constants/exceptions/app_exceptions.dart';
+import 'package:core/logger/app_logger.dart';
 // Firebase AI also exports a `ServerException`; hide it so the core domain
 // exception is the one in scope here.
 import 'package:dependencies/firebase/firebase_ai.dart' hide ServerException;
@@ -10,7 +11,7 @@ import '../../models/ingredient_model.dart';
 import 'fridge_ai_data_source.dart';
 
 class FridgeAiDataSourceImpl implements FridgeAiDataSource {
-  FridgeAiDataSourceImpl({GenerativeModel? model})
+  FridgeAiDataSourceImpl(this._logger, {GenerativeModel? model})
     : _model =
           model ??
           FirebaseAI.googleAI().generativeModel(
@@ -20,9 +21,10 @@ class FridgeAiDataSourceImpl implements FridgeAiDataSource {
             ),
           );
 
+  final AppLogger _logger;
   final GenerativeModel _model;
 
-  static const String _modelName = 'gemini-2.5-flash';
+  static const String _modelName = 'gemini-3.5-flash';
 
   static const String _prompt = '''
 You are a kitchen assistant. Look at this photo of the inside of a fridge and
@@ -41,6 +43,11 @@ If you can see no food, return an empty array [].
 
   @override
   Future<AiAnalysisResult> analyzeImage(Uint8List imageBytes) async {
+    _logger.debug(
+      'AI ingredient analysis requested ($_modelName, '
+      '${imageBytes.lengthInBytes} bytes).',
+    );
+
     final String raw;
     try {
       final GenerateContentResponse response = await _model.generateContent(
@@ -54,12 +61,24 @@ If you can see no food, return an empty array [].
       raw = response.text ?? '';
     } on AppException {
       rethrow;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      _logger.error(
+        'AI ingredient analysis request failed.',
+        error: e,
+        stackTrace: stackTrace,
+      );
       throw ServerException('Failed to analyze the image: $e');
     }
 
+    // Log the raw payload before parsing so a malformed response is still
+    // captured for debugging (mirrors the persisted `raw_ai_response`).
+    _logger.info('AI ingredient analysis response:\n$raw');
+
+    final List<IngredientModel> ingredients = _parseIngredients(raw);
+    _logger.debug('Parsed ${ingredients.length} ingredient(s) from AI response.');
+
     return AiAnalysisResult(
-      ingredients: _parseIngredients(raw),
+      ingredients: ingredients,
       rawResponse: raw,
     );
   }
