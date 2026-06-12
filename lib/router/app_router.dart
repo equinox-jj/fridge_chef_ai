@@ -1,14 +1,15 @@
 import 'package:auth/auth_routes.dart' show authRoutes;
 import 'package:core/router/app_route.dart';
-import 'package:core/router/auth_redirect.dart';
+import 'package:core/router/redirect/auth_redirect.dart';
 import 'package:core/router/go_router_refresh_stream.dart';
+import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dashboard/dashboard.dart' show DashboardShell;
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart' show fridgeScanRoutes;
 import 'package:onboarding/onboarding_routes.dart' show onboardingRoutes;
 import 'package:profile/profile_routes.dart' show profileRoutes;
-import 'package:recipes/recipes_routes.dart' show recipeFlowRoutes, recipesRoutes;
+import 'package:recipes/recipes_routes.dart' show recipesRoutes;
 
 /// Builds and owns the app's [GoRouter].
 ///
@@ -24,6 +25,7 @@ class AppRouter {
   final SupabaseService _supabaseService;
 
   late final GoRouter config = GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: AppRoute.homePath,
     debugLogDiagnostics: true,
     refreshListenable: GoRouterRefreshStream(
@@ -37,21 +39,15 @@ class AppRouter {
       ...onboardingRoutes,
       ...authRoutes,
       StatefulShellRoute.indexedStack(
-        builder:
-            (
-              _,
-              _,
-              StatefulNavigationShell navigationShell,
-            ) => DashboardShell(navigationShell: navigationShell),
+        builder: (_, _, StatefulNavigationShell navigationShell) => DashboardShell(
+          navigationShell: navigationShell,
+        ),
         branches: <StatefulShellBranch>[
           StatefulShellBranch(routes: fridgeScanRoutes),
           StatefulShellBranch(routes: recipesRoutes),
           StatefulShellBranch(routes: profileRoutes),
         ],
       ),
-      // The recipe-generation flow lives above the shell so it presents
-      // full-screen (no bottom navigation) over whichever tab launched it.
-      ...recipeFlowRoutes,
     ],
   );
 }

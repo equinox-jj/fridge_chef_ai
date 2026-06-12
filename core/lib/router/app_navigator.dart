@@ -1,4 +1,4 @@
-import 'recipe_generation_args.dart';
+import 'arguments/recipe_generation_args.dart';
 
 /// Intent-based navigation contract for the whole app.
 ///

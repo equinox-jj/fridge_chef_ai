@@ -1,6 +1,6 @@
 import 'package:auth/auth_routes.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/router/recipe_generation_args.dart';
+import 'package:core/router/arguments/recipe_generation_args.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart';
 import 'package:onboarding/onboarding_routes.dart';
@@ -30,9 +30,12 @@ class AppNavigatorImpl implements AppNavigator {
   @override
   void toForgotPassword() => _router.push(const ForgotPasswordRoute().location);
 
-  // The scan tab is the shell's default branch, so it doubles as "home".
+  // Lands on the shell's default branch (the home/scan tab). Targets the
+  // branch root [HomeRoute] rather than [FridgeScanRoute]: the latter now
+  // presents full-screen on the root navigator, so going there directly would
+  // drop the user onto the camera with no bottom navigation.
   @override
-  void toDashboard() => _router.go(const FridgeScanRoute().location);
+  void toDashboard() => _router.go(const HomeRoute().location);
 
   @override
   void toFridgeScan() => _router.push(const FridgeScanRoute().location);

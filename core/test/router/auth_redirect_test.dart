@@ -1,5 +1,5 @@
 import 'package:core/router/app_route.dart';
-import 'package:core/router/auth_redirect.dart';
+import 'package:core/router/redirect/auth_redirect.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

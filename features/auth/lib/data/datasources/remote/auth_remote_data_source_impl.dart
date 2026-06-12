@@ -48,13 +48,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerException('Sign up failed. Please try again.');
       }
 
+      // Upsert (not insert) keyed on the primary key: a Postgres trigger on
+      // `auth.users` may already have created this row, so a plain insert would
+      // collide with `users_pkey` (23505). Upsert writes the profile fields
+      // idempotently whether or not the trigger ran first.
       final Map<String, dynamic> inserted = await _client
           .from(SupabaseTable.usersTable)
-          .insert(<String, dynamic>{
+          .upsert(<String, dynamic>{
             'id': user.id,
             'name': name,
             'email': email,
-          })
+          }, onConflict: 'id')
           .select()
           .single();
 

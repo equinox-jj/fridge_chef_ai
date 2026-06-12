@@ -2,15 +2,14 @@ import 'package:core/components/ai_loader/app_ai_loader.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/tag/app_tag.dart';
 import 'package:core/extensions/context_ext.dart';
-import 'package:core/router/app_route.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
+import '../../../recipes_routes.dart';
 import '../../args/recipe_detail_args.dart';
 import '../../dietary_preference.dart';
 import 'bloc/recipe_generation_bloc.dart';
@@ -44,7 +43,11 @@ class GenerateRecipesPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: AppSpacing.s4),
             child: Center(
-              child: AppTag(label: 'Gemini', icon: Icons.auto_awesome_rounded, tone: AppTagTone.purple),
+              child: AppTag(
+                label: 'Gemini',
+                icon: Icons.auto_awesome_rounded,
+                tone: AppTagTone.purple,
+              ),
             ),
           ),
         ],
@@ -61,20 +64,24 @@ class GenerateRecipesPage extends StatelessWidget {
               case RecipeGenStatus.results:
                 return RecipeResultsView(
                   recipes: state.recipes,
-                  onRegenerate: () =>
-                      context.read<RecipeGenerationBloc>().add(const RecipeGenerationEvent.generateRequested()),
+                  onRegenerate: () => context.read<RecipeGenerationBloc>().add(
+                    const RecipeGenerationEvent.generateRequested(),
+                  ),
                   onOpenRecipe: (int index) {
-                    context.push(
-                      AppRoute.recipeDetailPath,
-                      extra: RecipeDetailArgs(recipe: state.recipes[index], scanId: state.scanId),
-                    );
+                    RecipeDetailRoute(
+                      $extra: RecipeDetailArgs(
+                        recipe: state.recipes[index],
+                        scanId: state.scanId,
+                      ),
+                    ).push<void>(context);
                   },
                 );
               case RecipeGenStatus.error:
                 return _ErrorView(
                   message: state.failure?.message ?? 'Something went wrong while writing your recipes.',
-                  onRetry: () =>
-                      context.read<RecipeGenerationBloc>().add(const RecipeGenerationEvent.generateRequested()),
+                  onRetry: () => context.read<RecipeGenerationBloc>().add(
+                    const RecipeGenerationEvent.generateRequested(),
+                  ),
                 );
             }
           },

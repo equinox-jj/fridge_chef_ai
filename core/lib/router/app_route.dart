@@ -36,12 +36,16 @@ abstract final class AppRoute {
   static const String recipesName = 'recipes';
   static const String recipesPath = '/recipes';
 
-  // ── Recipe generation flow (pushed full-screen over the shell) ───────────
+  // ── Recipe generation flow (nested under the recipes tab, but presented
+  // full-screen over the shell via the root navigator) ─────────────────────
+  // Relative paths: these are sub-routes of [recipesPath], so the full
+  // locations resolve to `/recipes/recipe-generation` and
+  // `/recipes/recipe-detail`.
   static const String recipeGenerationName = 'recipeGeneration';
-  static const String recipeGenerationPath = '/recipe-generation';
+  static const String recipeGenerationPath = 'recipe-generation';
 
   static const String recipeDetailName = 'recipeDetail';
-  static const String recipeDetailPath = '/recipe-detail';
+  static const String recipeDetailPath = 'recipe-detail';
 
   static const String profileName = 'profile';
   static const String profilePath = '/profile';

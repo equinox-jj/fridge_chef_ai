@@ -19,15 +19,18 @@ _RecipeModel _$RecipeModelFromJson(Map<String, dynamic> json) => _RecipeModel(
           .toList() ??
       const <RecipeIngredientModel>[],
   steps:
-      (json['steps'] as List<dynamic>?)?.map((e) => RecipeStepModel.fromJson(e as Map<String, dynamic>)).toList() ??
+      (json['steps'] as List<dynamic>?)
+          ?.map((e) => RecipeStepModel.fromJson(e as Map<String, dynamic>))
+          .toList() ??
       const <RecipeStepModel>[],
 );
 
-Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) => <String, dynamic>{
-  'title': instance.title,
-  'description': instance.description,
-  'servings': instance.servings,
-  'cook_time_minutes': instance.cookTimeMinutes,
-  'ingredients': instance.ingredients,
-  'steps': instance.steps,
-};
+Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'description': instance.description,
+      'servings': instance.servings,
+      'cook_time_minutes': instance.cookTimeMinutes,
+      'ingredients': instance.ingredients,
+      'steps': instance.steps,
+    };

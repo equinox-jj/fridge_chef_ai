@@ -1,5 +1,5 @@
 import 'package:core/constants/network/failure.dart';
-import 'package:core/router/recipe_generation_args.dart';
+import 'package:core/router/arguments/recipe_generation_args.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../entities/recipe_entity.dart';

@@ -6,16 +6,26 @@ part of 'recipes_routes.dart';
 // GoRouterGenerator
 // **************************************************************************
 
-List<RouteBase> get $appRoutes => [
-  $recipesRoute,
-  $recipeGenerationRoute,
-  $recipeDetailRoute,
-];
+List<RouteBase> get $appRoutes => [$recipesRoute];
 
 RouteBase get $recipesRoute => GoRouteData.$route(
   path: '/recipes',
   name: 'recipes',
   factory: $RecipesRoute._fromState,
+  routes: [
+    GoRouteData.$route(
+      path: 'recipe-generation',
+      name: 'recipeGeneration',
+      parentNavigatorKey: RecipeGenerationRoute.$parentNavigatorKey,
+      factory: $RecipeGenerationRoute._fromState,
+    ),
+    GoRouteData.$route(
+      path: 'recipe-detail',
+      name: 'recipeDetail',
+      parentNavigatorKey: RecipeDetailRoute.$parentNavigatorKey,
+      factory: $RecipeDetailRoute._fromState,
+    ),
+  ],
 );
 
 mixin $RecipesRoute on GoRouteData {
@@ -31,17 +41,12 @@ mixin $RecipesRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);
 }
-
-RouteBase get $recipeGenerationRoute => GoRouteData.$route(
-  path: '/recipe-generation',
-  name: 'recipeGeneration',
-  factory: $RecipeGenerationRoute._fromState,
-);
 
 mixin $RecipeGenerationRoute on GoRouteData {
   static RecipeGenerationRoute _fromState(GoRouterState state) =>
@@ -50,26 +55,23 @@ mixin $RecipeGenerationRoute on GoRouteData {
   RecipeGenerationRoute get _self => this as RecipeGenerationRoute;
 
   @override
-  String get location => GoRouteData.$location('/recipe-generation');
+  String get location => GoRouteData.$location('/recipes/recipe-generation');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
   @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location, extra: _self.$extra);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location, extra: _self.$extra);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
 
   @override
-  void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
 }
-
-RouteBase get $recipeDetailRoute => GoRouteData.$route(
-  path: '/recipe-detail',
-  name: 'recipeDetail',
-  factory: $RecipeDetailRoute._fromState,
-);
 
 mixin $RecipeDetailRoute on GoRouteData {
   static RecipeDetailRoute _fromState(GoRouterState state) =>
@@ -78,17 +80,20 @@ mixin $RecipeDetailRoute on GoRouteData {
   RecipeDetailRoute get _self => this as RecipeDetailRoute;
 
   @override
-  String get location => GoRouteData.$location('/recipe-detail');
+  String get location => GoRouteData.$location('/recipes/recipe-detail');
 
   @override
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
   @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location, extra: _self.$extra);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location, extra: _self.$extra);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
 
   @override
-  void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
 }

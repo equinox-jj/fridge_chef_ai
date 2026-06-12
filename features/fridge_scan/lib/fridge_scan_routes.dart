@@ -1,4 +1,5 @@
 import 'package:core/router/app_route.dart';
+import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
@@ -46,6 +47,10 @@ class HomeRoute extends GoRouteData with $HomeRoute {
 class FridgeScanRoute extends GoRouteData with $FridgeScanRoute {
   const FridgeScanRoute();
 
+  /// Presents full-screen on the root navigator, above the dashboard shell, so
+  /// the camera scan takes the whole screen with no bottom navigation.
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ScanBloc>(
@@ -60,6 +65,12 @@ class FridgeScanRoute extends GoRouteData with $FridgeScanRoute {
 /// step in the scan flow.
 class IngredientReviewRoute extends GoRouteData with $IngredientReviewRoute {
   const IngredientReviewRoute({required this.$extra});
+
+  /// Stays on the root navigator alongside [FridgeScanRoute] — the scan page
+  /// `pushReplacement`s into review, so both must share the same (root)
+  /// navigator for the full-screen flow to remain coherent and for backing out
+  /// of review to return home rather than under the shell.
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final ScanResultEntity $extra;
 

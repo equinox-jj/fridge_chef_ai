@@ -1,4 +1,4 @@
-import 'app_route.dart';
+import '../app_route.dart';
 
 /// Routes that can be visited without an authenticated session.
 const Set<String> _publicPaths = <String>{

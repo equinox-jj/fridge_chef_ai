@@ -2,7 +2,7 @@ import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/tag/app_tag.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/router/recipe_generation_args.dart';
+import 'package:core/router/arguments/recipe_generation_args.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_layout.dart';

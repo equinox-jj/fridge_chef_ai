@@ -1,5 +1,6 @@
 import 'package:core/router/app_route.dart';
-import 'package:core/router/recipe_generation_args.dart';
+import 'package:core/router/nav_keys/navigator_keys.dart';
+import 'package:core/router/arguments/recipe_generation_args.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
@@ -17,28 +18,39 @@ import 'presentation/pages/recipes/recipes_page.dart';
 
 part 'recipes_routes.g.dart';
 
-/// The generated, URL-addressable Recipes tab, exposed for app composition.
+/// Every route owned by the recipes feature, exposed for app composition.
 ///
-/// Nested inside the dashboard's bottom-navigation shell. Composed from the
-/// generated [$recipesRoute] rather than `$appRoutes` so the flow routes below
-/// can be mounted separately, above the shell.
-List<RouteBase> get recipesRoutes => <RouteBase>[$recipesRoute];
-
-/// The full-screen recipe-generation flow (mood → AI → results → detail),
-/// pushed over the dashboard shell rather than nested in a tab.
+/// Mounted as the recipes branch of the dashboard's bottom-navigation shell.
+/// The branch carries three routes: the URL-addressable Recipes tab
+/// ([RecipesRoute]) plus the recipe-generation flow ([RecipeGenerationRoute],
+/// [RecipeDetailRoute]). The flow routes set `$parentNavigatorKey` to the
+/// [rootNavigatorKey], so although they live in the branch list they present
+/// full-screen *above* the shell — no bottom navigation — over whichever tab
+/// launched them.
 ///
-/// Each screen is addressed by an in-memory `$extra` argument — a generated
-/// recipe has no id to put in the URL — so the typed routes carry the args as
-/// a `$extra` field and build their blocs per-navigation from it, mirroring the
-/// ingredient-review hand-off.
-List<RouteBase> get recipeFlowRoutes => <RouteBase>[
-  $recipeGenerationRoute,
-  $recipeDetailRoute,
-];
+/// Each flow screen is addressed by an in-memory `$extra` argument — a
+/// generated recipe has no id to put in the URL — so the typed routes carry
+/// the args as a `$extra` field and build their blocs per-navigation from it,
+/// mirroring the ingredient-review hand-off.
+List<RouteBase> get recipesRoutes => $appRoutes;
 
 @TypedGoRoute<RecipesRoute>(
   path: AppRoute.recipesPath,
   name: AppRoute.recipesName,
+  routes: <TypedRoute<RouteData>>[
+    // Nested under the recipes tab rather than declared as sibling branch
+    // routes: a direct child of a shell branch may not set a root
+    // `parentNavigatorKey`, but a *nested* route may — that's what lets these
+    // present full-screen over the shell.
+    TypedGoRoute<RecipeGenerationRoute>(
+      path: AppRoute.recipeGenerationPath,
+      name: AppRoute.recipeGenerationName,
+    ),
+    TypedGoRoute<RecipeDetailRoute>(
+      path: AppRoute.recipeDetailPath,
+      name: AppRoute.recipeDetailName,
+    ),
+  ],
 )
 class RecipesRoute extends GoRouteData with $RecipesRoute {
   const RecipesRoute();
@@ -49,12 +61,11 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
   }
 }
 
-@TypedGoRoute<RecipeGenerationRoute>(
-  path: AppRoute.recipeGenerationPath,
-  name: AppRoute.recipeGenerationName,
-)
 class RecipeGenerationRoute extends GoRouteData with $RecipeGenerationRoute {
   const RecipeGenerationRoute({this.$extra});
+
+  /// Presents full-screen on the root navigator, above the dashboard shell.
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final RecipeGenerationArgs? $extra;
 
@@ -73,12 +84,11 @@ class RecipeGenerationRoute extends GoRouteData with $RecipeGenerationRoute {
   }
 }
 
-@TypedGoRoute<RecipeDetailRoute>(
-  path: AppRoute.recipeDetailPath,
-  name: AppRoute.recipeDetailName,
-)
 class RecipeDetailRoute extends GoRouteData with $RecipeDetailRoute {
   const RecipeDetailRoute({this.$extra});
+
+  /// Presents full-screen on the root navigator, above the dashboard shell.
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final RecipeDetailArgs? $extra;
 
@@ -106,7 +116,9 @@ class _MissingArgs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Center(child: Text('This recipe is no longer available. Start a new scan to cook again.')),
+      body: const Center(
+        child: Text('This recipe is no longer available. Start a new scan to cook again.'),
+      ),
     );
   }
 }
