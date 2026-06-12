@@ -1,6 +1,6 @@
 import 'package:core/constants/exceptions/app_exceptions.dart';
-import 'package:core/constants/network/exception_to_failure.dart';
 import 'package:core/constants/network/failure.dart';
+import 'package:core/mixin/repository_guard.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/user_entity.dart';
@@ -10,7 +10,7 @@ import '../datasources/remote/auth_remote_data_source.dart';
 import '../mapper/user_mapper.dart';
 import '../models/user_model.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
+class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   final AuthRemoteDataSource _remoteDataSource;
@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) {
-    return _guard(() async {
+    return guard(() async {
       final UserModel model = await _remoteDataSource.signIn(
         email: email,
         password: password,
@@ -37,7 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) {
-    return _guard(() async {
+    return guard(() async {
       final UserModel model = await _remoteDataSource.signUp(
         name: name,
         email: email,
@@ -50,7 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, Unit>> forgotPassword({required String email}) {
-    return _guard(() async {
+    return guard(() async {
       await _remoteDataSource.forgotPassword(email: email);
       return unit;
     });
@@ -58,7 +58,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity?>> getCurrentUser() {
-    return _guard(() async {
+    return guard(() async {
       try {
         final UserModel? model = await _remoteDataSource.getCurrentUser();
         if (model != null) {
@@ -75,18 +75,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity?>> getCachedUser() {
-    return _guard(() async {
+    return guard(() async {
       final UserModel? cached = await _localDataSource.getCachedUser();
       return cached?.toEntity();
     });
-  }
-
-  /// Runs [call], converting any thrown [AppException] into a [Left] [Failure].
-  Future<Either<Failure, T>> _guard<T>(Future<T> Function() call) async {
-    try {
-      return Right<Failure, T>(await call());
-    } on AppException catch (e) {
-      return Left<Failure, T>(e.toFailure());
-    }
   }
 }

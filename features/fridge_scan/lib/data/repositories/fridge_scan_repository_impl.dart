@@ -1,8 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:core/constants/exceptions/app_exceptions.dart';
-import 'package:core/constants/network/exception_to_failure.dart';
 import 'package:core/constants/network/failure.dart';
+import 'package:core/mixin/repository_guard.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/scan_result_entity.dart';
@@ -15,7 +14,7 @@ import '../mapper/scan_mapper.dart';
 import '../models/ingredient_model.dart';
 import '../models/scan_model.dart';
 
-class FridgeScanRepositoryImpl implements FridgeScanRepository {
+class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanRepository {
   FridgeScanRepositoryImpl(
     this._remoteDataSource,
     this._localDataSource,
@@ -27,8 +26,8 @@ class FridgeScanRepositoryImpl implements FridgeScanRepository {
   final FridgeAiDataSource _aiDataSource;
 
   @override
-  Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes) async {
-    try {
+  Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes) {
+    return guard(() async {
       // 1. Upload the image to storage and get a signed URL.
       final String imageUrl = await _remoteDataSource.uploadImage(bytes);
 
@@ -47,24 +46,15 @@ class FridgeScanRepositoryImpl implements FridgeScanRepository {
         items: analysis.ingredients,
       );
 
-      return Right<Failure, ScanResultEntity>(
-        ScanResultEntity(
-          scan: scan.toEntity(),
-          ingredients: ingredients.map((IngredientModel model) => model.toEntity()).toList(),
-        ),
+      return ScanResultEntity(
+        scan: scan.toEntity(),
+        ingredients: ingredients.map((IngredientModel model) => model.toEntity()).toList(),
       );
-    } on AppException catch (e) {
-      return Left<Failure, ScanResultEntity>(e.toFailure());
-    }
+    });
   }
 
   @override
-  Future<Either<Failure, UserProfile?>> getUserProfile() async {
-    try {
-      final UserProfile? profile = await _localDataSource.getUserProfile();
-      return Right<Failure, UserProfile?>(profile);
-    } on AppException catch (e) {
-      return Left<Failure, UserProfile?>(e.toFailure());
-    }
+  Future<Either<Failure, UserProfile?>> getUserProfile() {
+    return guard(() => _localDataSource.getUserProfile());
   }
 }
