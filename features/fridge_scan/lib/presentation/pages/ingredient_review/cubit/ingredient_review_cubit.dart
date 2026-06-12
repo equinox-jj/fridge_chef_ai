@@ -12,8 +12,15 @@ part 'ingredient_review_state.dart';
 /// the persisted rows are never touched (PRD §4.2.4). The list feeds recipe
 /// generation once the user is happy with it.
 class IngredientReviewCubit extends Cubit<IngredientReviewState> {
-  IngredientReviewCubit({required List<IngredientEntity> initialItems})
-    : super(IngredientReviewState(items: List<IngredientEntity>.unmodifiable(initialItems)));
+  IngredientReviewCubit({
+    required List<IngredientEntity> initialItems,
+    this.scanId,
+  }) : super(IngredientReviewState(items: List<IngredientEntity>.unmodifiable(initialItems)));
+
+  /// The scan these ingredients came from, threaded through to recipe
+  /// generation so a saved recipe can be linked back to it. Null when the
+  /// review was opened without a backing scan.
+  final String? scanId;
 
   /// Smallest amount we let a stepper reach; below 1 the user should remove the
   /// item instead.

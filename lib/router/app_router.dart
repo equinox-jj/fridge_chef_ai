@@ -8,7 +8,7 @@ import 'package:dependencies/go_router/go_router.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart' show fridgeScanRoutes;
 import 'package:onboarding/onboarding_routes.dart' show onboardingRoutes;
 import 'package:profile/profile_routes.dart' show profileRoutes;
-import 'package:recipes/recipes_routes.dart' show recipesRoutes;
+import 'package:recipes/recipes_routes.dart' show recipeFlowRoutes, recipesRoutes;
 
 /// Builds and owns the app's [GoRouter].
 ///
@@ -49,6 +49,9 @@ class AppRouter {
           StatefulShellBranch(routes: profileRoutes),
         ],
       ),
+      // The recipe-generation flow lives above the shell so it presents
+      // full-screen (no bottom navigation) over whichever tab launched it.
+      ...recipeFlowRoutes,
     ],
   );
 }

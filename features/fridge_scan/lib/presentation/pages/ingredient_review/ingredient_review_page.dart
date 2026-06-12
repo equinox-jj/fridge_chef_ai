@@ -1,7 +1,8 @@
 import 'package:core/components/empty_state/app_empty_state.dart';
-import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/components/tag/app_tag.dart';
 import 'package:core/extensions/context_ext.dart';
+import 'package:core/router/app_navigator.dart';
+import 'package:core/router/recipe_generation_args.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_layout.dart';
@@ -9,6 +10,7 @@ import 'package:core/theme/app_radius.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
+import 'package:dependencies/get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/ingredient_entity.dart';
@@ -36,13 +38,24 @@ class IngredientReviewPage extends StatelessWidget {
   }
 
   void _chooseMood(BuildContext context) {
-    // Recipe generation (mood selection) lands in a later milestone; the edited
-    // ingredient list is the hand-off point for it.
-    AppSnackbar.info(
-      context,
-      'Recipe generation is coming soon.',
-      title: 'Almost there',
+    // Hand the (edited) ingredient list off to the recipes feature through the
+    // navigation contract, mapping each entity onto the decoupled seed type so
+    // fridge-scan never has to import recipes (PRD §4.3, §6.2).
+    final IngredientReviewCubit cubit = context.read<IngredientReviewCubit>();
+    final RecipeGenerationArgs args = RecipeGenerationArgs(
+      scanId: cubit.scanId,
+      ingredients: cubit.state.items
+          .map(
+            (IngredientEntity item) => RecipeSeedIngredient(
+              name: item.name ?? '',
+              quantity: item.quantity,
+              unit: item.unit,
+            ),
+          )
+          .where((RecipeSeedIngredient seed) => seed.name.isNotEmpty)
+          .toList(),
     );
+    GetIt.I<AppNavigator>().toRecipeGeneration(args);
   }
 
   @override

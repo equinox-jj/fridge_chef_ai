@@ -66,7 +66,10 @@ class IngredientReviewRoute extends GoRouteData with $IngredientReviewRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<IngredientReviewCubit>(
-      create: (_) => IngredientReviewCubit(initialItems: $extra.ingredients),
+      create: (_) => IngredientReviewCubit(
+        initialItems: $extra.ingredients,
+        scanId: $extra.scan.id,
+      ),
       child: const IngredientReviewPage(),
     );
   }

@@ -36,6 +36,13 @@ abstract final class AppRoute {
   static const String recipesName = 'recipes';
   static const String recipesPath = '/recipes';
 
+  // ── Recipe generation flow (pushed full-screen over the shell) ───────────
+  static const String recipeGenerationName = 'recipeGeneration';
+  static const String recipeGenerationPath = '/recipe-generation';
+
+  static const String recipeDetailName = 'recipeDetail';
+  static const String recipeDetailPath = '/recipe-detail';
+
   static const String profileName = 'profile';
   static const String profilePath = '/profile';
 }

@@ -1,3 +1,5 @@
+import 'recipe_generation_args.dart';
+
 /// Intent-based navigation contract for the whole app.
 ///
 /// Features depend on this abstraction (declared in `core`) instead of on one
@@ -32,6 +34,10 @@ abstract interface class AppNavigator {
 
   /// Switches to the recipes tab of the main shell.
   void toRecipes();
+
+  /// Pushes the full-screen recipe-generation flow (mood → AI → results) over
+  /// the current screen, seeded with [args].
+  void toRecipeGeneration(RecipeGenerationArgs args);
 
   /// Switches to the profile tab of the main shell.
   void toProfile();
