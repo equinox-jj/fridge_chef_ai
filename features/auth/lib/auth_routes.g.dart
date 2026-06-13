@@ -31,7 +31,8 @@ mixin $SignInRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);
@@ -56,7 +57,8 @@ mixin $SignUpRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);
@@ -69,7 +71,8 @@ RouteBase get $forgotPasswordRoute => GoRouteData.$route(
 );
 
 mixin $ForgotPasswordRoute on GoRouteData {
-  static ForgotPasswordRoute _fromState(GoRouterState state) => const ForgotPasswordRoute();
+  static ForgotPasswordRoute _fromState(GoRouterState state) =>
+      const ForgotPasswordRoute();
 
   @override
   String get location => GoRouteData.$location('/forgot-password');
@@ -81,7 +84,8 @@ mixin $ForgotPasswordRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);

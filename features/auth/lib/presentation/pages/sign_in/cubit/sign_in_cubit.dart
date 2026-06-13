@@ -45,7 +45,4 @@ class SignInCubit extends Cubit<SignInState> {
     );
   }
 
-  void toggleObscurePassword() {
-    emit(state.copyWith(obscurePassword: !state.obscurePassword));
-  }
 }

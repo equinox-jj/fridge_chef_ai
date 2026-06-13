@@ -12,6 +12,5 @@ abstract class SignUpState with _$SignUpState {
     @Default(BlocStatus.initial) BlocStatus signUpStatus,
     Failure? signUpFailure,
     UserEntity? signUpResponse,
-    @Default(true) bool obscurePassword,
   }) = _SignUpState;
 }

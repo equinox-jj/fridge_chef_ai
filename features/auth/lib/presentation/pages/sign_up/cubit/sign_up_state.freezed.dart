@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SignUpState {
 
- BlocStatus get signUpStatus; Failure? get signUpFailure; UserEntity? get signUpResponse; bool get obscurePassword;
+ BlocStatus get signUpStatus; Failure? get signUpFailure; UserEntity? get signUpResponse;
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SignUpStateCopyWith<SignUpState> get copyWith => _$SignUpStateCopyWithImpl<Sign
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignUpState&&(identical(other.signUpStatus, signUpStatus) || other.signUpStatus == signUpStatus)&&(identical(other.signUpFailure, signUpFailure) || other.signUpFailure == signUpFailure)&&(identical(other.signUpResponse, signUpResponse) || other.signUpResponse == signUpResponse)&&(identical(other.obscurePassword, obscurePassword) || other.obscurePassword == obscurePassword));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignUpState&&(identical(other.signUpStatus, signUpStatus) || other.signUpStatus == signUpStatus)&&(identical(other.signUpFailure, signUpFailure) || other.signUpFailure == signUpFailure)&&(identical(other.signUpResponse, signUpResponse) || other.signUpResponse == signUpResponse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,signUpStatus,signUpFailure,signUpResponse,obscurePassword);
+int get hashCode => Object.hash(runtimeType,signUpStatus,signUpFailure,signUpResponse);
 
 @override
 String toString() {
-  return 'SignUpState(signUpStatus: $signUpStatus, signUpFailure: $signUpFailure, signUpResponse: $signUpResponse, obscurePassword: $obscurePassword)';
+  return 'SignUpState(signUpStatus: $signUpStatus, signUpFailure: $signUpFailure, signUpResponse: $signUpResponse)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SignUpStateCopyWith<$Res>  {
   factory $SignUpStateCopyWith(SignUpState value, $Res Function(SignUpState) _then) = _$SignUpStateCopyWithImpl;
 @useResult
 $Res call({
- BlocStatus signUpStatus, Failure? signUpFailure, UserEntity? signUpResponse, bool obscurePassword
+ BlocStatus signUpStatus, Failure? signUpFailure, UserEntity? signUpResponse
 });
 
 
@@ -62,13 +62,12 @@ class _$SignUpStateCopyWithImpl<$Res>
 
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? signUpStatus = null,Object? signUpFailure = freezed,Object? signUpResponse = freezed,Object? obscurePassword = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? signUpStatus = null,Object? signUpFailure = freezed,Object? signUpResponse = freezed,}) {
   return _then(_self.copyWith(
 signUpStatus: null == signUpStatus ? _self.signUpStatus : signUpStatus // ignore: cast_nullable_to_non_nullable
 as BlocStatus,signUpFailure: freezed == signUpFailure ? _self.signUpFailure : signUpFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,signUpResponse: freezed == signUpResponse ? _self.signUpResponse : signUpResponse // ignore: cast_nullable_to_non_nullable
-as UserEntity?,obscurePassword: null == obscurePassword ? _self.obscurePassword : obscurePassword // ignore: cast_nullable_to_non_nullable
-as bool,
+as UserEntity?,
   ));
 }
 /// Create a copy of SignUpState
@@ -165,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse,  bool obscurePassword)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SignUpState() when $default != null:
-return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_that.obscurePassword);case _:
+return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse);case _:
   return orElse();
 
 }
@@ -186,10 +185,10 @@ return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse,  bool obscurePassword)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse)  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_that.obscurePassword);case _:
+return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +205,10 @@ return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse,  bool obscurePassword)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus signUpStatus,  Failure? signUpFailure,  UserEntity? signUpResponse)?  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState() when $default != null:
-return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_that.obscurePassword);case _:
+return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse);case _:
   return null;
 
 }
@@ -221,13 +220,12 @@ return $default(_that.signUpStatus,_that.signUpFailure,_that.signUpResponse,_tha
 
 
 class _SignUpState implements SignUpState {
-  const _SignUpState({this.signUpStatus = BlocStatus.initial, this.signUpFailure, this.signUpResponse, this.obscurePassword = true});
+  const _SignUpState({this.signUpStatus = BlocStatus.initial, this.signUpFailure, this.signUpResponse});
   
 
 @override@JsonKey() final  BlocStatus signUpStatus;
 @override final  Failure? signUpFailure;
 @override final  UserEntity? signUpResponse;
-@override@JsonKey() final  bool obscurePassword;
 
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +237,16 @@ _$SignUpStateCopyWith<_SignUpState> get copyWith => __$SignUpStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignUpState&&(identical(other.signUpStatus, signUpStatus) || other.signUpStatus == signUpStatus)&&(identical(other.signUpFailure, signUpFailure) || other.signUpFailure == signUpFailure)&&(identical(other.signUpResponse, signUpResponse) || other.signUpResponse == signUpResponse)&&(identical(other.obscurePassword, obscurePassword) || other.obscurePassword == obscurePassword));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignUpState&&(identical(other.signUpStatus, signUpStatus) || other.signUpStatus == signUpStatus)&&(identical(other.signUpFailure, signUpFailure) || other.signUpFailure == signUpFailure)&&(identical(other.signUpResponse, signUpResponse) || other.signUpResponse == signUpResponse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,signUpStatus,signUpFailure,signUpResponse,obscurePassword);
+int get hashCode => Object.hash(runtimeType,signUpStatus,signUpFailure,signUpResponse);
 
 @override
 String toString() {
-  return 'SignUpState(signUpStatus: $signUpStatus, signUpFailure: $signUpFailure, signUpResponse: $signUpResponse, obscurePassword: $obscurePassword)';
+  return 'SignUpState(signUpStatus: $signUpStatus, signUpFailure: $signUpFailure, signUpResponse: $signUpResponse)';
 }
 
 
@@ -259,7 +257,7 @@ abstract mixin class _$SignUpStateCopyWith<$Res> implements $SignUpStateCopyWith
   factory _$SignUpStateCopyWith(_SignUpState value, $Res Function(_SignUpState) _then) = __$SignUpStateCopyWithImpl;
 @override @useResult
 $Res call({
- BlocStatus signUpStatus, Failure? signUpFailure, UserEntity? signUpResponse, bool obscurePassword
+ BlocStatus signUpStatus, Failure? signUpFailure, UserEntity? signUpResponse
 });
 
 
@@ -276,13 +274,12 @@ class __$SignUpStateCopyWithImpl<$Res>
 
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? signUpStatus = null,Object? signUpFailure = freezed,Object? signUpResponse = freezed,Object? obscurePassword = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? signUpStatus = null,Object? signUpFailure = freezed,Object? signUpResponse = freezed,}) {
   return _then(_SignUpState(
 signUpStatus: null == signUpStatus ? _self.signUpStatus : signUpStatus // ignore: cast_nullable_to_non_nullable
 as BlocStatus,signUpFailure: freezed == signUpFailure ? _self.signUpFailure : signUpFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,signUpResponse: freezed == signUpResponse ? _self.signUpResponse : signUpResponse // ignore: cast_nullable_to_non_nullable
-as UserEntity?,obscurePassword: null == obscurePassword ? _self.obscurePassword : obscurePassword // ignore: cast_nullable_to_non_nullable
-as bool,
+as UserEntity?,
   ));
 }
 

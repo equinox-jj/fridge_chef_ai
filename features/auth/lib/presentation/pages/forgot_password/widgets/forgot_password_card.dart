@@ -1,13 +1,13 @@
 import 'package:core/components/button/app_submit_button.dart';
 import 'package:core/components/card/app_card.dart';
 import 'package:core/components/text/app_inline_link.dart';
+import 'package:core/components/text_field/app_email_field.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
-import 'package:core/utils/validators.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -70,18 +70,10 @@ class _ForgotPasswordCardState extends State<ForgotPasswordCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.s4),
-            TextFormField(
+            AppEmailField(
               controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.done,
-              autofillHints: const <String>[AutofillHints.email],
-              validator: Validators.email,
               onFieldSubmitted: (_) => _submit(),
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'you@example.com',
-                prefixIcon: Icon(Icons.mail_outline),
-              ),
             ),
             const SizedBox(height: AppSpacing.s4),
             BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(

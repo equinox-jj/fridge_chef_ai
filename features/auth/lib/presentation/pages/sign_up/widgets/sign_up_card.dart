@@ -1,6 +1,8 @@
 import 'package:core/components/button/app_submit_button.dart';
 import 'package:core/components/card/app_card.dart';
 import 'package:core/components/text/app_inline_link.dart';
+import 'package:core/components/text_field/app_email_field.dart';
+import 'package:core/components/text_field/app_password_field.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_spacing.dart';
@@ -71,41 +73,12 @@ class _SignUpCardState extends State<SignUpCard> {
               ),
             ),
             const SizedBox(height: AppSpacing.s4),
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              autofillHints: const <String>[AutofillHints.email],
-              validator: Validators.email,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'you@example.com',
-                prefixIcon: Icon(Icons.mail_outline),
-              ),
-            ),
+            AppEmailField(controller: _emailController),
             const SizedBox(height: AppSpacing.s4),
-            BlocSelector<SignUpCubit, SignUpState, bool>(
-              selector: (SignUpState state) => state.obscurePassword,
-              builder: (BuildContext context, bool obscurePassword) {
-                return TextFormField(
-                  controller: _passwordController,
-                  obscureText: obscurePassword,
-                  textInputAction: TextInputAction.done,
-                  autofillHints: const <String>[AutofillHints.newPassword],
-                  validator: Validators.password,
-                  onFieldSubmitted: (_) => _submit(),
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                      ),
-                      onPressed: () => context.read<SignUpCubit>().toggleObscurePassword(),
-                    ),
-                  ),
-                );
-              },
+            AppPasswordField(
+              controller: _passwordController,
+              autofillHints: const <String>[AutofillHints.newPassword],
+              onFieldSubmitted: (_) => _submit(),
             ),
             const SizedBox(height: AppSpacing.s4),
             BlocBuilder<SignUpCubit, SignUpState>(
