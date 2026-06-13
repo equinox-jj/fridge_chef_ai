@@ -1,4 +1,5 @@
 import 'package:core/components/empty_state/app_empty_state.dart';
+import 'package:core/components/loader/app_loading_indicator.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
@@ -36,7 +37,7 @@ class SavedRecipeDetailPage extends StatelessWidget {
           switch (state.status) {
             case BlocStatus.initial:
             case BlocStatus.loading:
-              return const Center(child: CircularProgressIndicator());
+              return const AppLoadingIndicator();
             case BlocStatus.empty:
             case BlocStatus.error:
               return Center(
@@ -52,7 +53,7 @@ class SavedRecipeDetailPage extends StatelessWidget {
             case BlocStatus.success:
               // Defensive: success always carries a recipe; fall back to the
               // loader rather than crashing if that ever isn't the case.
-              if (recipe == null) return const Center(child: CircularProgressIndicator());
+              if (recipe == null) return const AppLoadingIndicator();
               return RecipeDetailContent(recipe: recipe);
           }
         },

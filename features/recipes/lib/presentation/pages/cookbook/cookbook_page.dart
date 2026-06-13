@@ -1,5 +1,6 @@
 import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/info_banner/app_info_banner.dart';
+import 'package:core/components/loader/app_loading_indicator.dart';
 import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
@@ -110,7 +111,7 @@ class _CookbookBody extends StatelessWidget {
         // The cache read is near-instant; only show a spinner before the first
         // result, never on top of recipes we're already showing.
         if (state.recipes.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const AppLoadingIndicator();
         }
         return _CookbookGrid(recipes: state.recipes);
       case BlocStatus.empty:

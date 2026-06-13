@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:core/components/ai_loader/app_ai_loader.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
+import 'package:core/components/loader/app_loading_indicator.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/image_source_option/image_source_option.dart';
@@ -164,7 +165,7 @@ class _ScanPageState extends State<ScanPage> {
                 );
               }
               if (state.pickStatus == ScanPickStatus.picking) {
-                return const Center(child: CircularProgressIndicator());
+                return const AppLoadingIndicator();
               }
               return _PhotoPrompt(onAddPhoto: _promptForSource);
             },
