@@ -32,19 +32,21 @@ class SaveRateSheet extends StatefulWidget {
 
 class _SaveRateSheetState extends State<SaveRateSheet> {
   final TextEditingController _noteController = TextEditingController();
-  int _stars = 0;
 
-  bool get _canSubmit => _stars > 0;
+  /// The star rating; a notifier so tapping a star rebuilds only the rating
+  /// control and the Done button, leaving the note field untouched.
+  final ValueNotifier<int> _stars = ValueNotifier<int>(0);
 
   @override
   void dispose() {
     _noteController.dispose();
+    _stars.dispose();
     super.dispose();
   }
 
   void _submit() {
-    if (!_canSubmit) return;
-    context.pop((stars: _stars, note: _noteController.text.trim()));
+    if (_stars.value <= 0) return;
+    context.pop((stars: _stars.value, note: _noteController.text.trim()));
   }
 
   @override
@@ -81,10 +83,13 @@ class _SaveRateSheetState extends State<SaveRateSheet> {
                 style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
               ),
               Center(
-                child: AppStarRating(
-                  value: _stars,
-                  size: AppStarRatingSize.lg,
-                  onChanged: (int value) => setState(() => _stars = value),
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _stars,
+                  builder: (_, int stars, _) => AppStarRating(
+                    value: stars,
+                    size: AppStarRatingSize.lg,
+                    onChanged: (int value) => _stars.value = value,
+                  ),
                 ),
               ),
               TextField(
@@ -99,12 +104,15 @@ class _SaveRateSheetState extends State<SaveRateSheet> {
                   hintText: 'Great with extra lemon…',
                 ),
               ),
-              FilledButton.icon(
-                onPressed: _canSubmit ? _submit : null,
-                icon: const Icon(Icons.check_rounded),
-                label: const Text('Done'),
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+              ValueListenableBuilder<int>(
+                valueListenable: _stars,
+                builder: (_, int stars, _) => FilledButton.icon(
+                  onPressed: stars > 0 ? _submit : null,
+                  icon: const Icon(Icons.check_rounded),
+                  label: const Text('Done'),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+                  ),
                 ),
               ),
             ],

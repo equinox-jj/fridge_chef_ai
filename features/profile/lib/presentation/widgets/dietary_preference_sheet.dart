@@ -37,9 +37,19 @@ class DietaryPreferenceSheet extends StatefulWidget {
 }
 
 class _DietaryPreferenceSheetState extends State<DietaryPreferenceSheet> {
-  late DietaryPreference _selected = widget.current;
+  /// The chosen preference; a notifier so picking a chip rebuilds only the
+  /// chip grid, not the sheet's headers and Save button.
+  late final ValueNotifier<DietaryPreference> _selected = ValueNotifier<DietaryPreference>(
+    widget.current,
+  );
 
-  void _save() => context.pop(_selected);
+  @override
+  void dispose() {
+    _selected.dispose();
+    super.dispose();
+  }
+
+  void _save() => context.pop(_selected.value);
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +78,12 @@ class _DietaryPreferenceSheetState extends State<DietaryPreferenceSheet> {
               'Applied to every recipe Gemini writes for you.',
               style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
             ),
-            DietaryPreferenceChips(
-              selected: _selected,
-              onSelected: (DietaryPreference diet) => setState(() => _selected = diet),
+            ValueListenableBuilder<DietaryPreference>(
+              valueListenable: _selected,
+              builder: (_, DietaryPreference selected, _) => DietaryPreferenceChips(
+                selected: selected,
+                onSelected: (DietaryPreference diet) => _selected.value = diet,
+              ),
             ),
             AppSubmitButton(
               label: 'Save',

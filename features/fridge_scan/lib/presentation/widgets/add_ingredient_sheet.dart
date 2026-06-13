@@ -38,10 +38,12 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _unitController = TextEditingController();
 
-  IngredientCategory _category = IngredientCategory.produce;
-
-  /// Tracks name emptiness so the confirm button enables/disables live.
-  bool _canSubmit = false;
+  /// Selected category and live name-emptiness, kept as notifiers so only the
+  /// category chips and the confirm button rebuild — the text fields don't.
+  final ValueNotifier<IngredientCategory> _category = ValueNotifier<IngredientCategory>(
+    IngredientCategory.produce,
+  );
+  final ValueNotifier<bool> _canSubmit = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -56,23 +58,22 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
       ..dispose();
     _quantityController.dispose();
     _unitController.dispose();
+    _category.dispose();
+    _canSubmit.dispose();
     super.dispose();
   }
 
   void _onNameChanged() {
-    final bool canSubmit = _nameController.text.trim().isNotEmpty;
-    if (canSubmit != _canSubmit) {
-      setState(() => _canSubmit = canSubmit);
-    }
+    _canSubmit.value = _nameController.text.trim().isNotEmpty;
   }
 
   void _submit() {
-    if (!_canSubmit) return;
+    if (!_canSubmit.value) return;
     final NewIngredient result = (
       name: _nameController.text.trim(),
       quantity: _quantityController.text.trim(),
       unit: _unitController.text.trim(),
-      category: _category.value,
+      category: _category.value.value,
     );
     context.pop(result);
   }
@@ -144,16 +145,22 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
                   ),
                 ],
               ),
-              _CategoryPicker(
-                selected: _category,
-                onSelected: (IngredientCategory category) => setState(() => _category = category),
+              ValueListenableBuilder<IngredientCategory>(
+                valueListenable: _category,
+                builder: (_, IngredientCategory category, _) => _CategoryPicker(
+                  selected: category,
+                  onSelected: (IngredientCategory selected) => _category.value = selected,
+                ),
               ),
-              FilledButton.icon(
-                onPressed: _canSubmit ? _submit : null,
-                icon: const Icon(Icons.add_rounded),
-                label: const Text('Add ingredient'),
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+              ValueListenableBuilder<bool>(
+                valueListenable: _canSubmit,
+                builder: (_, bool canSubmit, _) => FilledButton.icon(
+                  onPressed: canSubmit ? _submit : null,
+                  icon: const Icon(Icons.add_rounded),
+                  label: const Text('Add ingredient'),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+                  ),
                 ),
               ),
             ],

@@ -108,13 +108,11 @@ class _AppAiLoaderState extends State<AppAiLoader> with SingleTickerProviderStat
             const SizedBox(height: AppSpacing.s6),
             const SizedBox(
               width: _progressWidth,
-              child: ClipRRect(
+              child: LinearProgressIndicator(
+                minHeight: 6,
+                backgroundColor: AppPalette.neutral200,
+                color: AppColors.ai,
                 borderRadius: BorderRadius.all(AppRadius.brFull),
-                child: LinearProgressIndicator(
-                  minHeight: 6,
-                  backgroundColor: AppPalette.neutral200,
-                  color: AppColors.ai,
-                ),
               ),
             ),
           ],

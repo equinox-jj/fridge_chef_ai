@@ -188,15 +188,13 @@ class _ScanPreview extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.s5),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(AppRadius.brLg),
-              child: ColoredBox(
+            child: Container(
+              decoration: BoxDecoration(
                 color: AppColors.surfaceInverse,
-                child: SizedBox.expand(
-                  child: Image.file(
-                    File(image.path),
-                    fit: BoxFit.contain,
-                  ),
+                borderRadius: const BorderRadius.all(AppRadius.brLg),
+                image: DecorationImage(
+                  image: FileImage(File(image.path)),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),

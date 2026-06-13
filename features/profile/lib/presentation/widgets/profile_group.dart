@@ -38,23 +38,21 @@ class ProfileGroup extends StatelessWidget {
             ),
           ),
         ),
-        DecoratedBox(
+        Container(
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             border: Border.all(color: AppColors.borderDefault),
             borderRadius: const BorderRadius.all(AppRadius.brLg),
             boxShadow: AppShadows.xs,
           ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(AppRadius.brLg),
-            child: Column(
-              children: <Widget>[
-                for (int i = 0; i < rows.length; i++) ...<Widget>[
-                  if (i > 0) const Divider(height: 1, thickness: 1, color: AppColors.borderSubtle),
-                  rows[i],
-                ],
+          child: Column(
+            children: <Widget>[
+              for (int i = 0; i < rows.length; i++) ...<Widget>[
+                if (i > 0) const Divider(height: 1, thickness: 1, color: AppColors.borderSubtle),
+                rows[i],
               ],
-            ),
+            ],
           ),
         ),
       ],

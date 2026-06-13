@@ -46,8 +46,11 @@ class CookbookCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: AppRadius.brLg),
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: AppRadius.brLg),
+                ),
                 child: RecipePhoto(mood: RecipeMood.fromValue(recipe.mood), height: 88),
               ),
               Padding(

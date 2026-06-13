@@ -11,7 +11,13 @@ part 'app_database.g.dart';
 ///
 /// Lives in `core` so every feature can persist data through it while keeping
 /// each feature's *access* logic (data sources) inside that feature.
-@DriftDatabase(tables: <Type>[UserProfiles, SavedRecipeRows, RecipeDetailRows])
+@DriftDatabase(
+  tables: <Type>[
+    UserProfiles,
+    SavedRecipeRows,
+    RecipeDetailRows,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

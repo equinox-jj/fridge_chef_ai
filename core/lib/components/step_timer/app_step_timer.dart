@@ -35,21 +35,24 @@ class AppStepTimer extends StatefulWidget {
 }
 
 class _AppStepTimerState extends State<AppStepTimer> {
-  late int _remaining = widget.seconds;
+  /// Remaining seconds and whether the ticker is live. Kept as notifiers so a
+  /// tick repaints only the inner [Row] via [ListenableBuilder], not the
+  /// surrounding [Container] decoration and border.
+  late final ValueNotifier<int> _remaining = ValueNotifier<int>(widget.seconds);
+  final ValueNotifier<bool> _running = ValueNotifier<bool>(false);
   Timer? _ticker;
-
-  bool get _running => _ticker != null;
-  bool get _done => _remaining == 0;
 
   @override
   void dispose() {
     _ticker?.cancel();
+    _remaining.dispose();
+    _running.dispose();
     super.dispose();
   }
 
   void _toggle() {
-    if (_done) return;
-    if (_running) {
+    if (_remaining.value == 0) return;
+    if (_ticker != null) {
       _pause();
     } else {
       _start();
@@ -58,36 +61,34 @@ class _AppStepTimerState extends State<AppStepTimer> {
 
   void _start() {
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() {
-        _remaining--;
-        if (_remaining <= 0) {
-          _remaining = 0;
-          _stopTicker();
-        }
-      });
+      final int next = _remaining.value - 1;
+      if (next <= 0) {
+        _remaining.value = 0;
+        _stopTicker();
+      } else {
+        _remaining.value = next;
+      }
     });
-    setState(() {});
+    _running.value = true;
   }
 
-  void _pause() {
-    _stopTicker();
-    setState(() {});
-  }
+  void _pause() => _stopTicker();
 
   void _reset() {
     _stopTicker();
-    setState(() => _remaining = widget.seconds);
+    _remaining.value = widget.seconds;
   }
 
   void _stopTicker() {
     _ticker?.cancel();
     _ticker = null;
+    _running.value = false;
   }
 
   /// "MM:SS" — tabular so the width never jitters as digits change.
-  String get _formatted {
-    final String m = (_remaining ~/ 60).toString().padLeft(2, '0');
-    final String s = (_remaining % 60).toString().padLeft(2, '0');
+  String _formatted(int remaining) {
+    final String m = (remaining ~/ 60).toString().padLeft(2, '0');
+    final String s = (remaining % 60).toString().padLeft(2, '0');
     return '$m:$s';
   }
 
@@ -105,45 +106,54 @@ class _AppStepTimerState extends State<AppStepTimer> {
         borderRadius: const BorderRadius.all(AppRadius.brMd),
         border: Border.all(color: AppPalette.green100),
       ),
-      child: Row(
-        children: <Widget>[
-          Text(
-            _formatted,
-            style: AppTypography.mono.copyWith(
-              fontSize: AppTextSize.h2,
-              fontWeight: AppFontWeight.bold,
-              color: _done ? AppColors.actionText : AppColors.primaryText,
-              fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
-            ),
-          ),
-          if (hasLabel) ...<Widget>[
-            const SizedBox(width: AppSpacing.s3),
-            Flexible(
-              child: Text(
-                widget.label!,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.textTheme.labelLarge?.copyWith(
-                  color: AppColors.primaryText,
-                  fontWeight: AppFontWeight.semiBold,
+      child: ListenableBuilder(
+        listenable: Listenable.merge(<Listenable>[_remaining, _running]),
+        builder: (BuildContext context, _) {
+          final int remaining = _remaining.value;
+          final bool running = _running.value;
+          final bool done = remaining == 0;
+
+          return Row(
+            children: <Widget>[
+              Text(
+                _formatted(remaining),
+                style: AppTypography.mono.copyWith(
+                  fontSize: AppTextSize.h2,
+                  fontWeight: AppFontWeight.bold,
+                  color: done ? AppColors.actionText : AppColors.primaryText,
+                  fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
                 ),
               ),
-            ),
-          ],
-          const Spacer(),
-          _TimerButton(
-            icon: _running ? Icons.pause_rounded : Icons.play_arrow_rounded,
-            tooltip: _running ? 'Pause timer' : 'Start timer',
-            primary: true,
-            onPressed: _done ? null : _toggle,
-          ),
-          const SizedBox(width: AppSpacing.s2),
-          _TimerButton(
-            icon: Icons.refresh_rounded,
-            tooltip: 'Reset timer',
-            onPressed: _remaining == widget.seconds && !_running ? null : _reset,
-          ),
-        ],
+              if (hasLabel) ...<Widget>[
+                const SizedBox(width: AppSpacing.s3),
+                Flexible(
+                  child: Text(
+                    widget.label!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textTheme.labelLarge?.copyWith(
+                      color: AppColors.primaryText,
+                      fontWeight: AppFontWeight.semiBold,
+                    ),
+                  ),
+                ),
+              ],
+              const Spacer(),
+              _TimerButton(
+                icon: running ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                tooltip: running ? 'Pause timer' : 'Start timer',
+                primary: true,
+                onPressed: done ? null : _toggle,
+              ),
+              const SizedBox(width: AppSpacing.s2),
+              _TimerButton(
+                icon: Icons.refresh_rounded,
+                tooltip: 'Reset timer',
+                onPressed: remaining == widget.seconds && !running ? null : _reset,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
