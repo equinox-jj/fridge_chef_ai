@@ -122,11 +122,11 @@ class _ScanPageState extends State<ScanPage> {
       body: MultiBlocListener(
         listeners: <BlocListener<ScanBloc, ScanState>>[
           BlocListener<ScanBloc, ScanState>(
-            listenWhen: (ScanState previous, ScanState current) => previous.pickStatus != current.pickStatus,
+            listenWhen: (ScanState p, ScanState c) => p.pickStatus != c.pickStatus,
             listener: _onPickStatusChanged,
           ),
           BlocListener<ScanBloc, ScanState>(
-            listenWhen: (ScanState previous, ScanState current) => previous.scanState != current.scanState,
+            listenWhen: (ScanState p, ScanState c) => p.scanState != c.scanState,
             listener: _onScanSucceeded,
           ),
         ],
@@ -145,7 +145,9 @@ class _ScanPageState extends State<ScanPage> {
               if (state.scanState == BlocStatus.error) {
                 return _ScanError(
                   message: state.scanFailure?.message,
-                  onTryAgain: () => context.read<ScanBloc>().add(const ScanEvent.confirmed()),
+                  onTryAgain: () => context.read<ScanBloc>().add(
+                    const ScanEvent.confirmed(),
+                  ),
                   onChooseAnother: _chooseAnotherPhoto,
                 );
               }
@@ -153,8 +155,12 @@ class _ScanPageState extends State<ScanPage> {
               if (image != null) {
                 return _ScanPreview(
                   image: image,
-                  onRetake: () => context.read<ScanBloc>().add(const ScanEvent.retaken()),
-                  onConfirm: () => context.read<ScanBloc>().add(const ScanEvent.confirmed()),
+                  onRetake: () => context.read<ScanBloc>().add(
+                    const ScanEvent.retaken(),
+                  ),
+                  onConfirm: () => context.read<ScanBloc>().add(
+                    const ScanEvent.confirmed(),
+                  ),
                 );
               }
               if (state.pickStatus == ScanPickStatus.picking) {

@@ -1,3 +1,4 @@
+import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/section_header/app_section_header.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
@@ -37,6 +38,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Scanning needs a connection for AI generation, so the FAB is disabled
+    // offline — mirroring the Cookbook tab. Offline is read from the app-wide
+    // ConnectivityBloc.
+    final bool isOffline = context.watch<ConnectivityBloc>().state.isOffline;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: AppSpacing.s4,
@@ -57,7 +62,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: _ScanFab(
-        enabled: true,
+        enabled: !isOffline,
         onPressed: () => _startScan(context),
       ),
       body: BlocBuilder<HomeBloc, HomeState>(

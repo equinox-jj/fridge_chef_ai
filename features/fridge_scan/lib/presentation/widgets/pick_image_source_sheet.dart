@@ -52,7 +52,9 @@ class PickImageSourceSheet extends StatelessWidget {
           children: <Widget>[
             const _SheetHeader(title: 'Add a photo'),
             FilledButton.icon(
-              onPressed: () => context.pop(ImageSourceOption.camera),
+              onPressed: () => context.pop(
+                ImageSourceOption.camera,
+              ),
               icon: const Icon(Icons.photo_camera_rounded),
               label: const Text('Take a photo'),
               style: FilledButton.styleFrom(
@@ -61,7 +63,9 @@ class PickImageSourceSheet extends StatelessWidget {
               ),
             ),
             OutlinedButton.icon(
-              onPressed: () => context.pop(ImageSourceOption.gallery),
+              onPressed: () => context.pop(
+                ImageSourceOption.gallery,
+              ),
               icon: const Icon(Icons.photo_library_rounded),
               label: const Text('Choose from gallery'),
               // Design-system "secondary": a white surface with a strong border.

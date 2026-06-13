@@ -10,6 +10,7 @@ import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 import 'package:dependencies/freezed_annotation/freezed_annotation.dart';
 import 'package:dependencies/image_picker/image_picker.dart';
+import 'package:dependencies/permission_handler/permission_handler.dart';
 
 import '../../../../domain/entities/ingredient_entity.dart';
 import '../../../../domain/entities/scan_entity.dart';
@@ -53,17 +54,22 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       ),
     );
 
-    final PermissionResult permission = await _permissionService.ensure(
-      event.source.permission,
-    );
-    if (!permission.isGranted) {
-      emit(
-        state.copyWith(
-          pickStatus: ScanPickStatus.permissionDenied,
-          permission: permission,
-        ),
+    // Gallery needs no runtime permission (the system picker grants scoped
+    // access on its own); only the camera gates on a grant.
+    final Permission? required = event.source.permission;
+    if (required != null) {
+      final PermissionResult permission = await _permissionService.ensure(
+        required,
       );
-      return;
+      if (!permission.isGranted) {
+        emit(
+          state.copyWith(
+            pickStatus: ScanPickStatus.permissionDenied,
+            permission: permission,
+          ),
+        );
+        return;
+      }
     }
 
     final XFile? image = await _imagePicker.pickImage(

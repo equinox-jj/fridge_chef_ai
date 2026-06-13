@@ -9,6 +9,7 @@ import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
+import 'package:dependencies/go_router/go_router.dart';
 import 'package:dependencies/skeletonizer/skeletonizer.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,19 @@ class ProfilePage extends StatelessWidget {
     final DietaryPreference? chosen = await DietaryPreferenceSheet.openSheet(context, current: current);
     if (chosen != null && chosen != current) {
       await cubit.updateDietaryPreference(chosen);
+    }
+  }
+
+  /// Confirms before signing out — a destructive action that drops the session,
+  /// so we ask first rather than acting on a single tap.
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final ProfileCubit cubit = context.read<ProfileCubit>();
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => const _SignOutDialog(),
+    );
+    if (confirmed ?? false) {
+      cubit.signOut();
     }
   }
 
@@ -97,9 +111,7 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.logout_rounded,
                           title: 'Sign out',
                           isDestructive: true,
-                          onTap: state.signOutStatus == BlocStatus.loading
-                              ? null
-                              : () => context.read<ProfileCubit>().signOut(),
+                          onTap: state.signOutStatus == BlocStatus.loading ? null : () => _confirmSignOut(context),
                         ),
                       ],
                     ),
@@ -180,6 +192,31 @@ class _ProfileHeader extends StatelessWidget {
             style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
           ),
         ],
+      ],
+    );
+  }
+}
+
+/// Confirmation shown before signing out, returning `true` only when the user
+/// taps the destructive action.
+class _SignOutDialog extends StatelessWidget {
+  const _SignOutDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Sign out?'),
+      content: const Text("You'll need to sign in again to use your account."),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => context.pop(false),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
+          onPressed: () => context.pop(true),
+          child: const Text('Sign out'),
+        ),
       ],
     );
   }
