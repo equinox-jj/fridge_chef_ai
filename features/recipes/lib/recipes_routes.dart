@@ -6,15 +6,22 @@ import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
+import 'package:core/services/connectivity_service.dart';
+
 import 'domain/usecases/generate_recipes_usecase.dart';
+import 'domain/usecases/get_cookbook_usecase.dart';
 import 'domain/usecases/get_dietary_preference_usecase.dart';
+import 'domain/usecases/get_recipe_detail_usecase.dart';
 import 'domain/usecases/save_recipe_usecase.dart';
 import 'presentation/args/recipe_detail_args.dart';
+import 'presentation/pages/cookbook/bloc/cookbook_bloc.dart';
+import 'presentation/pages/cookbook/cookbook_page.dart';
 import 'presentation/pages/detail/cubit/save_recipe_cubit.dart';
 import 'presentation/pages/detail/recipe_detail_page.dart';
 import 'presentation/pages/generate/bloc/recipe_generation_bloc.dart';
 import 'presentation/pages/generate/generate_recipes_page.dart';
-import 'presentation/pages/recipes/recipes_page.dart';
+import 'presentation/pages/saved_detail/cubit/recipe_detail_cubit.dart';
+import 'presentation/pages/saved_detail/saved_recipe_detail_page.dart';
 
 part 'recipes_routes.g.dart';
 
@@ -50,6 +57,10 @@ List<RouteBase> get recipesRoutes => $appRoutes;
       path: AppRoute.recipeDetailPath,
       name: AppRoute.recipeDetailName,
     ),
+    TypedGoRoute<RecipeDetailViewRoute>(
+      path: AppRoute.savedRecipeDetailPath,
+      name: AppRoute.savedRecipeDetailName,
+    ),
   ],
 )
 class RecipesRoute extends GoRouteData with $RecipesRoute {
@@ -57,7 +68,13 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const RecipesPage();
+    return BlocProvider<CookbookBloc>(
+      create: (_) => CookbookBloc(
+        GetIt.I<GetCookbookUseCase>(),
+        GetIt.I<ConnectivityService>(),
+      )..add(const CookbookEvent.started()),
+      child: const CookbookPage(),
+    );
   }
 }
 
@@ -103,6 +120,31 @@ class RecipeDetailRoute extends GoRouteData with $RecipeDetailRoute {
         args.scanId,
       ),
       child: RecipeDetailPage(recipe: args.recipe),
+    );
+  }
+}
+
+/// A saved recipe opened from the cookbook, addressed by its [id] (so it
+/// survives deep links and hot restarts, unlike the in-memory flow routes).
+///
+/// Presents full-screen on the root navigator, above the dashboard shell, and
+/// loads the full recipe cache-first via [RecipeDetailCubit].
+class RecipeDetailViewRoute extends GoRouteData with $RecipeDetailViewRoute {
+  const RecipeDetailViewRoute({required this.id});
+
+  /// Presents full-screen on the root navigator, above the dashboard shell.
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider<RecipeDetailCubit>(
+      create: (_) => RecipeDetailCubit(
+        GetIt.I<GetRecipeDetailUseCase>(),
+        id,
+      )..load(),
+      child: const SavedRecipeDetailPage(),
     );
   }
 }

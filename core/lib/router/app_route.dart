@@ -47,6 +47,13 @@ abstract final class AppRoute {
   static const String recipeDetailName = 'recipeDetail';
   static const String recipeDetailPath = 'recipe-detail';
 
+  // A saved recipe opened from the cookbook. Unlike the generation-flow detail
+  // (an in-memory hand-off), this one is addressable by the recipe's id, which
+  // the page uses to load the full recipe (cache-first). Full location:
+  // `/recipes/saved/<id>`.
+  static const String savedRecipeDetailName = 'savedRecipeDetail';
+  static const String savedRecipeDetailPath = 'saved/:id';
+
   static const String profileName = 'profile';
   static const String profilePath = '/profile';
 }

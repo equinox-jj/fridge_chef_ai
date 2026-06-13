@@ -25,7 +25,8 @@ class RecipeAiDataSourceImpl implements RecipeAiDataSource {
   final AppLogger _logger;
   final GenerativeModel _model;
 
-  static const String _modelName = 'gemini-3.5-flash';
+  // static const String _modelName = 'gemini-3.5-flash';
+  static const String _modelName = 'gemini-2.5-flash';
 
   /// Exactly how many recipes a single generation returns (PRD §4.3.2).
   static const int _recipeCount = 3;

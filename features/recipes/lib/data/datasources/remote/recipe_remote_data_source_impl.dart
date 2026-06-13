@@ -6,6 +6,7 @@ import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 import '../../models/recipe_ingredient_model.dart';
 import '../../models/recipe_model.dart';
 import '../../models/recipe_step_model.dart';
+import '../../models/saved_recipe_model.dart';
 import 'recipe_remote_data_source.dart';
 
 class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
@@ -32,7 +33,37 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
   }
 
   @override
-  Future<void> saveRecipe({
+  Future<List<SavedRecipeModel>> getSavedRecipes() {
+    return _supabaseService.safeCall(() async {
+      final List<Map<String, dynamic>> rows = await _client
+          .from(SupabaseTable.savedRecipesTable)
+          .select('rating, saved_at, recipes(id, title, cook_time_minutes, mood)')
+          .eq('user_id', _requireUserId())
+          .order('saved_at', ascending: false);
+      return rows.map(SavedRecipeModel.fromSupabaseRow).toList();
+    });
+  }
+
+  @override
+  Future<RecipeModel> getRecipeById(String id) {
+    return _supabaseService.safeCall(() async {
+      final Map<String, dynamic> row = await _client
+          .from(SupabaseTable.recipesTable)
+          .select(
+            'title, description, servings, cook_time_minutes, mood, '
+            'recipe_steps(step_number, instruction, timer_seconds), '
+            'recipe_ingredients(name, quantity, unit, is_substitute)',
+          )
+          .eq('id', id)
+          // Steps must render in order; the embedded list isn't sorted by default.
+          .order('step_number', referencedTable: SupabaseTable.recipeStepsTable)
+          .single();
+      return RecipeModel.fromSupabaseRow(row);
+    });
+  }
+
+  @override
+  Future<SavedRecipeModel> saveRecipe({
     required RecipeModel recipe,
     required int rating,
     String? note,
@@ -63,12 +94,27 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
 
       // 4. Link the recipe into the user's cookbook. The unique(user_id,
       //    recipe_id) constraint makes this safe against accidental dupes.
-      await _client.from(SupabaseTable.savedRecipesTable).insert(<String, dynamic>{
-        'user_id': userId,
-        'recipe_id': recipeId,
-        'rating': rating,
-        'note': note,
-      });
+      //    Take back saved_at so the caller can cache an exact cookbook entry
+      //    without a follow-up read.
+      final Map<String, dynamic> link = await _client
+          .from(SupabaseTable.savedRecipesTable)
+          .insert(<String, dynamic>{
+            'user_id': userId,
+            'recipe_id': recipeId,
+            'rating': rating,
+            'note': note,
+          })
+          .select('saved_at')
+          .single();
+
+      return SavedRecipeModel(
+        id: recipeId,
+        title: recipe.title ?? 'Untitled recipe',
+        cookTimeMinutes: recipe.cookTimeMinutes,
+        mood: recipe.mood,
+        rating: rating,
+        savedAt: DateTime.parse(link['saved_at'] as String),
+      );
     });
   }
 

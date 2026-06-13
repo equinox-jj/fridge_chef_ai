@@ -27,7 +27,8 @@ class FridgeAiDataSourceImpl implements FridgeAiDataSource {
   final AppLogger _logger;
   final GenerativeModel _model;
 
-  static const String _modelName = 'gemini-3.5-flash';
+  // static const String _modelName = 'gemini-3.5-flash';
+  static const String _modelName = 'gemini-2.5-flash';
 
   /// Allowed ingredient categories the model must choose from.
   static const List<String> _categories = <String>[

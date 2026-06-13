@@ -24,4 +24,25 @@ abstract class RecipeModel with _$RecipeModel {
   }) = _RecipeModel;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);
+
+  /// Builds a full recipe from a `recipes` row with its embedded
+  /// `recipe_steps` and `recipe_ingredients`, as returned by the detail query.
+  ///
+  /// The backend nests the steps and ingredients under their table names and
+  /// (unlike the generation JSON) carries `mood` as a real column, so this
+  /// flattens the row explicitly rather than reusing [fromJson]. Steps and
+  /// ingredients reuse their own `fromJson` since their column names match.
+  factory RecipeModel.fromSupabaseRow(Map<String, dynamic> row) {
+    final List<dynamic> steps = (row['recipe_steps'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> ingredients = (row['recipe_ingredients'] as List<dynamic>?) ?? const <dynamic>[];
+    return RecipeModel(
+      title: row['title'] as String?,
+      description: row['description'] as String?,
+      servings: row['servings'] as int?,
+      cookTimeMinutes: row['cook_time_minutes'] as int?,
+      mood: row['mood'] as String?,
+      steps: steps.map((dynamic e) => RecipeStepModel.fromJson(e as Map<String, dynamic>)).toList(),
+      ingredients: ingredients.map((dynamic e) => RecipeIngredientModel.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
 }

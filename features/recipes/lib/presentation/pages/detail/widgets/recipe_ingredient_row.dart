@@ -28,11 +28,15 @@ class RecipeIngredientRow extends StatelessWidget {
         vertical: AppSpacing.s2 + 2,
       ),
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.borderSubtle)),
+        border: Border(
+          bottom: BorderSide(
+            color: AppColors.borderSubtle,
+          ),
+        ),
       ),
       child: Row(
         children: <Widget>[
-          Flexible(
+          Expanded(
             child: Text(
               _displayName,
               style: context.textTheme.bodyMedium?.copyWith(
@@ -43,7 +47,10 @@ class RecipeIngredientRow extends StatelessWidget {
           ),
           if (isSubstitute) ...<Widget>[
             const SizedBox(width: AppSpacing.s2),
-            const AppTag(label: 'substitute', tone: AppTagTone.blue),
+            const AppTag(
+              label: 'substitute',
+              tone: AppTagTone.blue,
+            ),
           ],
           const Spacer(),
           if (_amount.isNotEmpty)

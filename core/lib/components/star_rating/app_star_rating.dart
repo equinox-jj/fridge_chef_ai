@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
-import '../../theme/app_spacing.dart';
 import '../../theme/app_typography.dart';
 
 /// Glyph size preset for an [AppStarRating].
@@ -46,17 +45,13 @@ class AppStarRating extends StatelessWidget {
       label: '$value of $max stars',
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        spacing: AppSpacing.s1,
         children: List<Widget>.generate(max, (int index) {
           final int starValue = index + 1;
           final bool on = starValue <= value;
-          final Widget star = Padding(
-            padding: const EdgeInsets.all(2),
-            child: Icon(
-              on ? Icons.star_rounded : Icons.star_outline_rounded,
-              size: iconSize,
-              color: on ? AppPalette.amber400 : AppPalette.neutral300,
-            ),
+          final Widget star = Icon(
+            on ? Icons.star_rounded : Icons.star_outline_rounded,
+            size: iconSize,
+            color: on ? AppPalette.amber400 : AppPalette.neutral300,
           );
 
           if (readOnly || onChanged == null) return star;

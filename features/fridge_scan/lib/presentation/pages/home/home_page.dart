@@ -2,7 +2,9 @@ import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/section_header/app_section_header.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
+import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
+import 'package:core/theme/app_shadows.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
@@ -54,10 +56,9 @@ class HomePage extends StatelessWidget {
           const SizedBox(width: AppSpacing.s2),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _ScanFab(
+        enabled: true,
         onPressed: () => _startScan(context),
-        tooltip: 'Scan your fridge',
-        child: const Icon(Icons.photo_camera_rounded),
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (BuildContext context, HomeState state) {
@@ -177,6 +178,45 @@ class _EmptyRecentScans extends StatelessWidget {
       icon: Icons.history_rounded,
       title: 'No scans yet',
       message: 'Scan your fridge to see your results here.',
+    );
+  }
+}
+
+class _ScanFab extends StatelessWidget {
+  const _ScanFab({
+    required this.enabled,
+    required this.onPressed,
+  });
+
+  final bool enabled;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: enabled ? 1 : 0.4,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[AppPalette.green500, AppPalette.green700],
+          ),
+          boxShadow: enabled ? AppShadows.primary : null,
+        ),
+        child: FloatingActionButton(
+          heroTag: 'home_scan_fab',
+          onPressed: enabled ? onPressed : null,
+          backgroundColor: Colors.transparent,
+          foregroundColor: AppColors.onPrimary,
+          elevation: 0,
+          highlightElevation: 0,
+          tooltip: 'Scan your fridge',
+          shape: const CircleBorder(),
+          child: const Icon(Icons.photo_camera_rounded, size: AppTextSize.h1),
+        ),
+      ),
     );
   }
 }
