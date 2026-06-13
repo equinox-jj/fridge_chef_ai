@@ -133,6 +133,12 @@ Refactor targets for email/password fields:
 
 ## Testing / verification
 
+No UI or unit tests are written in this pass (per request). Components must still
+be written to be testable and clean: pure-UI widgets with no hidden dependencies,
+behavior driven by constructor params, no global/static state beyond the existing
+theme tokens, and `const` constructors where possible.
+
+Verification:
 - `flutter analyze` clean across `core` and all touched feature packages.
 - App builds and the refactored screens (auth, scan preview, profile, cookbook,
   recipe detail, the four sheets) render and behave identically.
