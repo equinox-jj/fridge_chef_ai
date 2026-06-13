@@ -23,6 +23,8 @@ class AppEmailField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       keyboardType: TextInputType.emailAddress,
+      autocorrect: false,
+      textCapitalization: TextCapitalization.none,
       textInputAction: textInputAction,
       autofillHints: const <String>[AutofillHints.email],
       validator: validator ?? Validators.email,
