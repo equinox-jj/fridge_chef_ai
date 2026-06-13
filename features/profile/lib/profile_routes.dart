@@ -22,7 +22,7 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ProfileCubit>(
-      create: (_) => GetIt.I<ProfileCubit>(),
+      create: (_) => GetIt.I<ProfileCubit>()..load(),
       child: const ProfilePage(),
     );
   }

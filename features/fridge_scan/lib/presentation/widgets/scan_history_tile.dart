@@ -10,17 +10,25 @@ import 'package:flutter/material.dart';
 
 import '../../domain/entities/scan_result_entity.dart';
 
-/// A single row in the "Recent scans" list: how many ingredients a past scan
-/// found and when it ran. Tapping the row triggers [onTap].
+/// A single row in a scan list: how many ingredients a past scan found and when
+/// it ran. Tapping the row triggers [onTap].
+///
+/// [trailingIcon] and [trailingColor] decorate the trailing affordance — a
+/// chevron on the home preview, the green "rescan" loop glyph on the full
+/// scan-history screen where a tap reopens the scan to cook again.
 class ScanHistoryTile extends StatelessWidget {
   const ScanHistoryTile({
     required this.scan,
     super.key,
     this.onTap,
+    this.trailingIcon = Icons.chevron_right_rounded,
+    this.trailingColor = AppColors.textFaint,
   });
 
   final ScanResultEntity scan;
   final VoidCallback? onTap;
+  final IconData trailingIcon;
+  final Color trailingColor;
 
   static final DateFormat _whenFormat = DateFormat('MMM d • h:mm a');
 
@@ -66,9 +74,9 @@ class ScanHistoryTile extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.textFaint,
+              Icon(
+                trailingIcon,
+                color: trailingColor,
               ),
             ],
           ),

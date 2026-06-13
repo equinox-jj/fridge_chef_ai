@@ -12,6 +12,8 @@ import 'presentation/pages/ingredient_review/cubit/ingredient_review_cubit.dart'
 import 'presentation/pages/ingredient_review/ingredient_review_page.dart';
 import 'presentation/pages/scan/bloc/scan_bloc.dart';
 import 'presentation/pages/scan/scan_page.dart';
+import 'presentation/pages/scan_history/cubit/scan_history_cubit.dart';
+import 'presentation/pages/scan_history/scan_history_page.dart';
 
 part 'fridge_scan_routes.g.dart';
 
@@ -29,6 +31,10 @@ List<RouteBase> get fridgeScanRoutes => $appRoutes;
     TypedGoRoute<IngredientReviewRoute>(
       path: AppRoute.ingredientReviewPath,
       name: AppRoute.ingredientReviewName,
+    ),
+    TypedGoRoute<ScanHistoryRoute>(
+      path: AppRoute.scanHistoryPath,
+      name: AppRoute.scanHistoryName,
     ),
   ],
 )
@@ -56,6 +62,23 @@ class FridgeScanRoute extends GoRouteData with $FridgeScanRoute {
     return BlocProvider<ScanBloc>(
       create: (_) => GetIt.I<ScanBloc>(),
       child: const ScanPage(),
+    );
+  }
+}
+
+/// The full scan-history list, reached from the profile tab. Nested under
+/// [HomeRoute] but presents full-screen on the root navigator (above the
+/// dashboard shell) so it backs out cleanly to where it was opened from.
+class ScanHistoryRoute extends GoRouteData with $ScanHistoryRoute {
+  const ScanHistoryRoute();
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider<ScanHistoryCubit>(
+      create: (_) => GetIt.I<ScanHistoryCubit>()..load(),
+      child: const ScanHistoryPage(),
     );
   }
 }

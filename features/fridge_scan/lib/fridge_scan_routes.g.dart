@@ -25,6 +25,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
       parentNavigatorKey: IngredientReviewRoute.$parentNavigatorKey,
       factory: $IngredientReviewRoute._fromState,
     ),
+    GoRouteData.$route(
+      path: 'scan-history',
+      name: 'scanHistory',
+      parentNavigatorKey: ScanHistoryRoute.$parentNavigatorKey,
+      factory: $ScanHistoryRoute._fromState,
+    ),
   ],
 );
 
@@ -86,4 +92,23 @@ mixin $IngredientReviewRoute on GoRouteData {
 
   @override
   void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
+}
+
+mixin $ScanHistoryRoute on GoRouteData {
+  static ScanHistoryRoute _fromState(GoRouterState state) => const ScanHistoryRoute();
+
+  @override
+  String get location => GoRouteData.$location('/home/scan-history');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
 }

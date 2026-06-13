@@ -54,6 +54,11 @@ class AppNavigatorImpl implements AppNavigator {
   @override
   void toProfile() => _router.go(const ProfileRoute().location);
 
+  // Pushed (not `go`) so it presents full-screen over the launching tab and
+  // backs out to where it was opened from (the profile tab).
+  @override
+  void toScanHistory() => _router.push(const ScanHistoryRoute().location);
+
   @override
   void toHome() => _router.go(const HomeRoute().location);
 }

@@ -1,5 +1,6 @@
 import 'package:core/components/ai_loader/app_ai_loader.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
+import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/components/tag/app_tag.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 
 import '../../../recipes_routes.dart';
 import '../../args/recipe_detail_args.dart';
-import '../../dietary_preference.dart';
 import 'bloc/recipe_generation_bloc.dart';
 import 'widgets/mood_picker_view.dart';
 import 'widgets/recipe_results_view.dart';

@@ -8,7 +8,8 @@ import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../dietary_preference.dart';
+import 'package:core/constants/dietary/dietary_preference.dart';
+
 import '../../../recipe_mood.dart';
 import '../bloc/recipe_generation_bloc.dart';
 

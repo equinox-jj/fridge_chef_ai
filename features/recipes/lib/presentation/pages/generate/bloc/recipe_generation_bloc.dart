@@ -1,3 +1,4 @@
+import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/constants/network/failure.dart';
 import 'package:core/router/arguments/recipe_generation_args.dart';
 import 'package:core/usecases/usecase.dart';
@@ -8,7 +9,6 @@ import 'package:dependencies/freezed_annotation/freezed_annotation.dart';
 import '../../../../domain/entities/recipe_entity.dart';
 import '../../../../domain/usecases/generate_recipes_usecase.dart';
 import '../../../../domain/usecases/get_dietary_preference_usecase.dart';
-import '../../../dietary_preference.dart';
 import '../../../recipe_mood.dart';
 
 part 'recipe_generation_bloc.freezed.dart';

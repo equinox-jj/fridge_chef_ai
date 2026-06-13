@@ -42,5 +42,8 @@ abstract interface class AppNavigator {
   /// Switches to the profile tab of the main shell.
   void toProfile();
 
+  /// Pushes the full-screen scan-history list over the current screen.
+  void toScanHistory();
+
   void toHome();
 }

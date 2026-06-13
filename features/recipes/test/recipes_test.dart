@@ -1,10 +1,10 @@
+import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipes/data/mapper/recipe_mapper.dart';
 import 'package:recipes/data/models/recipe_ingredient_model.dart';
 import 'package:recipes/data/models/recipe_model.dart';
 import 'package:recipes/data/models/recipe_step_model.dart';
 import 'package:recipes/domain/entities/recipe_entity.dart';
-import 'package:recipes/presentation/dietary_preference.dart';
 import 'package:recipes/presentation/recipe_mood.dart';
 
 void main() {
