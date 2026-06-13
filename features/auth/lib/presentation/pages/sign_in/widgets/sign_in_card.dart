@@ -61,7 +61,6 @@ class _SignInCardState extends State<SignInCard> {
             const SizedBox(height: AppSpacing.s4),
             AppPasswordField(
               controller: _passwordController,
-              autofillHints: const <String>[AutofillHints.password],
               onFieldSubmitted: (_) => _submit(),
             ),
             const SizedBox(height: AppSpacing.s2),
