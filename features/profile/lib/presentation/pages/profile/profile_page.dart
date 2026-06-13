@@ -1,3 +1,4 @@
+import 'package:core/components/dialog/app_confirm_dialog.dart';
 import 'package:core/components/list_row/app_list_row.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
@@ -9,7 +10,6 @@ import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/go_router/go_router.dart';
 import 'package:dependencies/skeletonizer/skeletonizer.dart';
 import 'package:flutter/material.dart';
 
@@ -33,11 +33,14 @@ class ProfilePage extends StatelessWidget {
   /// so we ask first rather than acting on a single tap.
   Future<void> _confirmSignOut(BuildContext context) async {
     final ProfileCubit cubit = context.read<ProfileCubit>();
-    final bool? confirmed = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) => const _SignOutDialog(),
+    final bool confirmed = await AppConfirmDialog.show(
+      context,
+      title: 'Sign out?',
+      message: "You'll need to sign in again to use your account.",
+      confirmLabel: 'Sign out',
+      isDestructive: true,
     );
-    if (confirmed ?? false) {
+    if (confirmed) {
       cubit.signOut();
     }
   }
@@ -192,31 +195,6 @@ class _ProfileHeader extends StatelessWidget {
             style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
           ),
         ],
-      ],
-    );
-  }
-}
-
-/// Confirmation shown before signing out, returning `true` only when the user
-/// taps the destructive action.
-class _SignOutDialog extends StatelessWidget {
-  const _SignOutDialog();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Sign out?'),
-      content: const Text("You'll need to sign in again to use your account."),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => context.pop(false),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
-          onPressed: () => context.pop(true),
-          child: const Text('Sign out'),
-        ),
       ],
     );
   }

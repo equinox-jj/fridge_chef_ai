@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:core/components/ai_loader/app_ai_loader.dart';
+import 'package:core/components/dialog/app_confirm_dialog.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/loader/app_loading_indicator.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
@@ -14,7 +15,6 @@ import 'package:core/theme/app_radius.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/go_router/go_router.dart';
 import 'package:dependencies/image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -98,11 +98,16 @@ class _ScanPageState extends State<ScanPage> {
 
   Future<void> _showSettingsDialog(BuildContext context) async {
     final ScanBloc bloc = context.read<ScanBloc>();
-    final bool? openSettings = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) => const _PermissionDeniedDialog(),
+    final bool openSettings = await AppConfirmDialog.show(
+      context,
+      title: 'Permission needed',
+      message:
+          'Capturing a fridge photo needs camera and photo access. Turn it on in '
+          'Settings to continue.',
+      cancelLabel: 'Not now',
+      confirmLabel: 'Open settings',
     );
-    if (openSettings ?? false) {
+    if (openSettings) {
       bloc.add(const ScanEvent.settingsRequested());
     }
   }
@@ -380,33 +385,6 @@ class _PhotoPrompt extends StatelessWidget {
           padding: EdgeInsets.zero,
         ),
       ),
-    );
-  }
-}
-
-/// Dialog shown when a permission is permanently denied, pointing the user to
-/// the OS app settings to grant it.
-class _PermissionDeniedDialog extends StatelessWidget {
-  const _PermissionDeniedDialog();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Permission needed'),
-      content: const Text(
-        'Capturing a fridge photo needs camera and photo access. Turn it on in '
-        'Settings to continue.',
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => context.pop(false),
-          child: const Text('Not now'),
-        ),
-        FilledButton(
-          onPressed: () => context.pop(true),
-          child: const Text('Open settings'),
-        ),
-      ],
     );
   }
 }
