@@ -1,6 +1,6 @@
+import 'package:core/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
-import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_layout.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
@@ -21,12 +21,7 @@ class AddIngredientSheet extends StatefulWidget {
   const AddIngredientSheet({super.key});
 
   static Future<NewIngredient?> openSheet(BuildContext context) {
-    return showModalBottomSheet<NewIngredient>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (BuildContext context) => const AddIngredientSheet(),
-    );
+    return AppBottomSheet.show<NewIngredient>(context, child: const AddIngredientSheet());
   }
 
   @override
@@ -80,93 +75,67 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
 
   @override
   Widget build(BuildContext context) {
-    // Lift the sheet above the keyboard so the inputs stay visible.
-    final double bottomInset = MediaQuery.viewInsetsOf(context).bottom;
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: bottomInset),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.s5,
-            AppSpacing.s0,
-            AppSpacing.s5,
-            AppSpacing.s6,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: AppSpacing.s4,
-            children: <Widget>[
-              Text(
-                'Add an ingredient',
-                style: context.textTheme.headlineMedium?.copyWith(
-                  fontFamily: AppFontFamily.display,
-                  fontWeight: AppFontWeight.bold,
-                ),
-              ),
-              TextField(
-                controller: _nameController,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.next,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  hintText: 'e.g. mushrooms',
-                  prefixIcon: Icon(Icons.edit_outlined),
-                ),
-              ),
-              Row(
-                spacing: AppSpacing.s3,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      controller: _quantityController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                        labelText: 'Quantity',
-                        hintText: 'e.g. 200',
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: _unitController,
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) => _submit(),
-                      decoration: const InputDecoration(
-                        labelText: 'Unit',
-                        hintText: 'g',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              ValueListenableBuilder<IngredientCategory>(
-                valueListenable: _category,
-                builder: (_, IngredientCategory category, _) => _CategoryPicker(
-                  selected: category,
-                  onSelected: (IngredientCategory selected) => _category.value = selected,
-                ),
-              ),
-              ValueListenableBuilder<bool>(
-                valueListenable: _canSubmit,
-                builder: (_, bool canSubmit, _) => FilledButton.icon(
-                  onPressed: canSubmit ? _submit : null,
-                  icon: const Icon(Icons.add_rounded),
-                  label: const Text('Add ingredient'),
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(AppLayout.tapTarget),
-                  ),
-                ),
-              ),
-            ],
+    return AppBottomSheet(
+      title: 'Add an ingredient',
+      children: <Widget>[
+        TextField(
+          controller: _nameController,
+          textCapitalization: TextCapitalization.sentences,
+          textInputAction: TextInputAction.next,
+          autofocus: true,
+          decoration: const InputDecoration(
+            labelText: 'Name',
+            hintText: 'e.g. mushrooms',
+            prefixIcon: Icon(Icons.edit_outlined),
           ),
         ),
-      ),
+        Row(
+          spacing: AppSpacing.s3,
+          children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: TextField(
+                controller: _quantityController,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(
+                  labelText: 'Quantity',
+                  hintText: 'e.g. 200',
+                ),
+              ),
+            ),
+            Expanded(
+              child: TextField(
+                controller: _unitController,
+                textInputAction: TextInputAction.done,
+                onSubmitted: (_) => _submit(),
+                decoration: const InputDecoration(
+                  labelText: 'Unit',
+                  hintText: 'g',
+                ),
+              ),
+            ),
+          ],
+        ),
+        ValueListenableBuilder<IngredientCategory>(
+          valueListenable: _category,
+          builder: (_, IngredientCategory category, _) => _CategoryPicker(
+            selected: category,
+            onSelected: (IngredientCategory selected) => _category.value = selected,
+          ),
+        ),
+        ValueListenableBuilder<bool>(
+          valueListenable: _canSubmit,
+          builder: (_, bool canSubmit, _) => FilledButton.icon(
+            onPressed: canSubmit ? _submit : null,
+            icon: const Icon(Icons.add_rounded),
+            label: const Text('Add ingredient'),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

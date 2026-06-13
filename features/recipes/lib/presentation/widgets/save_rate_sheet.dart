@@ -1,10 +1,8 @@
+import 'package:core/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:core/components/star_rating/app_star_rating.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
-import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_layout.dart';
-import 'package:core/theme/app_spacing.dart';
-import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -18,12 +16,7 @@ class SaveRateSheet extends StatefulWidget {
   const SaveRateSheet({super.key});
 
   static Future<RecipeRating?> openSheet(BuildContext context) {
-    return showModalBottomSheet<RecipeRating>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (BuildContext context) => const SaveRateSheet(),
-    );
+    return AppBottomSheet.show<RecipeRating>(context, child: const SaveRateSheet());
   }
 
   @override
@@ -51,74 +44,49 @@ class _SaveRateSheetState extends State<SaveRateSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final double bottomInset = MediaQuery.viewInsetsOf(context).bottom;
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: bottomInset),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            AppSpacing.s5,
-            AppSpacing.s0,
-            AppSpacing.s5,
-            AppSpacing.s6,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: AppSpacing.s4,
-            children: <Widget>[
-              Text(
-                'Save to cookbook',
-                textAlign: TextAlign.center,
-                style: context.textTheme.headlineMedium?.copyWith(
-                  fontFamily: AppFontFamily.display,
-                  fontWeight: AppFontWeight.bold,
-                ),
-              ),
-              Text(
-                'How did it turn out?',
-                textAlign: TextAlign.center,
-                style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
-              ),
-              Center(
-                child: ValueListenableBuilder<int>(
-                  valueListenable: _stars,
-                  builder: (_, int stars, _) => AppStarRating(
-                    value: stars,
-                    size: AppStarRatingSize.lg,
-                    onChanged: (int value) => _stars.value = value,
-                  ),
-                ),
-              ),
-              TextField(
-                controller: _noteController,
-                textCapitalization: TextCapitalization.sentences,
-                minLines: 1,
-                maxLines: 3,
-                textInputAction: TextInputAction.done,
-                onSubmitted: (_) => _submit(),
-                decoration: const InputDecoration(
-                  labelText: 'Add a note (optional)',
-                  hintText: 'Great with extra lemon…',
-                ),
-              ),
-              ValueListenableBuilder<int>(
-                valueListenable: _stars,
-                builder: (_, int stars, _) => FilledButton.icon(
-                  onPressed: stars > 0 ? _submit : null,
-                  icon: const Icon(Icons.check_rounded),
-                  label: const Text('Done'),
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(AppLayout.tapTarget),
-                  ),
-                ),
-              ),
-            ],
+    return AppBottomSheet(
+      title: 'Save to cookbook',
+      centerTitle: true,
+      children: <Widget>[
+        Text(
+          'How did it turn out?',
+          textAlign: TextAlign.center,
+          style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+        ),
+        Center(
+          child: ValueListenableBuilder<int>(
+            valueListenable: _stars,
+            builder: (_, int stars, _) => AppStarRating(
+              value: stars,
+              size: AppStarRatingSize.lg,
+              onChanged: (int value) => _stars.value = value,
+            ),
           ),
         ),
-      ),
+        TextField(
+          controller: _noteController,
+          textCapitalization: TextCapitalization.sentences,
+          minLines: 1,
+          maxLines: 3,
+          textInputAction: TextInputAction.done,
+          onSubmitted: (_) => _submit(),
+          decoration: const InputDecoration(
+            labelText: 'Add a note (optional)',
+            hintText: 'Great with extra lemon…',
+          ),
+        ),
+        ValueListenableBuilder<int>(
+          valueListenable: _stars,
+          builder: (_, int stars, _) => FilledButton.icon(
+            onPressed: stars > 0 ? _submit : null,
+            icon: const Icon(Icons.check_rounded),
+            label: const Text('Done'),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

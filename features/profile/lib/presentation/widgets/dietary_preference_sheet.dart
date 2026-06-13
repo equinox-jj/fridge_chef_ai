@@ -1,11 +1,9 @@
+import 'package:core/components/bottom_sheet/app_bottom_sheet.dart';
 import 'package:core/components/button/app_submit_button.dart';
 import 'package:core/components/dietary_chips/dietary_preference_chips.dart';
 import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
-import 'package:core/theme/app_font_family.dart';
-import 'package:core/theme/app_spacing.dart';
-import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -24,11 +22,9 @@ class DietaryPreferenceSheet extends StatefulWidget {
     BuildContext context, {
     required DietaryPreference current,
   }) {
-    return showModalBottomSheet<DietaryPreference>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (_) => DietaryPreferenceSheet(current: current),
+    return AppBottomSheet.show<DietaryPreference>(
+      context,
+      child: DietaryPreferenceSheet(current: current),
     );
   }
 
@@ -53,46 +49,26 @@ class _DietaryPreferenceSheetState extends State<DietaryPreferenceSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          AppSpacing.s5,
-          AppSpacing.s0,
-          AppSpacing.s5,
-          AppSpacing.s6,
+    return AppBottomSheet(
+      title: 'Dietary preference',
+      children: <Widget>[
+        Text(
+          'Applied to every recipe Gemini writes for you.',
+          style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: AppSpacing.s4,
-          children: <Widget>[
-            Text(
-              'Dietary preference',
-              style: context.textTheme.headlineMedium?.copyWith(
-                fontFamily: AppFontFamily.display,
-                fontWeight: AppFontWeight.bold,
-              ),
-            ),
-            Text(
-              'Applied to every recipe Gemini writes for you.',
-              style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
-            ),
-            ValueListenableBuilder<DietaryPreference>(
-              valueListenable: _selected,
-              builder: (_, DietaryPreference selected, _) => DietaryPreferenceChips(
-                selected: selected,
-                onSelected: (DietaryPreference diet) => _selected.value = diet,
-              ),
-            ),
-            AppSubmitButton(
-              label: 'Save',
-              icon: Icons.check_rounded,
-              onPressed: _save,
-            ),
-          ],
+        ValueListenableBuilder<DietaryPreference>(
+          valueListenable: _selected,
+          builder: (_, DietaryPreference selected, _) => DietaryPreferenceChips(
+            selected: selected,
+            onSelected: (DietaryPreference diet) => _selected.value = diet,
+          ),
         ),
-      ),
+        AppSubmitButton(
+          label: 'Save',
+          icon: Icons.check_rounded,
+          onPressed: _save,
+        ),
+      ],
     );
   }
 }
