@@ -104,7 +104,9 @@ class RecipeAiDataSourceImpl implements RecipeAiDataSource {
         error: e,
         stackTrace: stackTrace,
       );
-      throw ServerException('Failed to write recipes: $e');
+      throw const ServerException(
+        "We couldn't write your recipes right now. Please try again.",
+      );
     }
 
     _logger.info('AI recipe generation response:\n$raw');
@@ -165,8 +167,15 @@ Rules:
         throw const ServerException('No recipes could be written from those ingredients. Please try again.');
       }
       return recipes;
-    } on FormatException catch (e) {
-      throw ServerException('Could not read the recipes from the AI response: $e');
+    } on FormatException catch (e, stackTrace) {
+      _logger.error(
+        'Failed to parse AI recipe response.',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw const ServerException(
+        "We couldn't read the recipes we generated. Please try again.",
+      );
     }
   }
 }

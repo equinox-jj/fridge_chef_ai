@@ -95,7 +95,16 @@ class SupabaseService {
     }
 
     if (error is PostgrestException) {
-      return ServerException(error.message);
+      // The raw Postgres message (e.g. `duplicate key value violates unique
+      // constraint "users_pkey"`) is logged in `safeCall` but must never reach
+      // the user. Translate the few SQLSTATE codes we can phrase plainly and
+      // fall back to a generic, friendly server error for everything else.
+      return switch (error.code) {
+        '23505' => const ServerException('That already exists. Please try a different value.'),
+        '23503' => const ServerException('That action references something that no longer exists.'),
+        '42501' => const ServerException("You don't have permission to do that."),
+        _ => const ServerException(),
+      };
     }
 
     if (error is TimeoutException) {
@@ -110,6 +119,8 @@ class SupabaseService {
       return const NetworkException();
     }
 
-    return UnknownAppException('An unexpected error occurred: ${error.toString()}');
+    // The raw error is already logged in `safeCall`; surface only a friendly,
+    // generic message to the user.
+    return const UnknownAppException();
   }
 }

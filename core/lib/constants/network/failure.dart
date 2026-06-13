@@ -1,6 +1,10 @@
 abstract class Failure {
   const Failure(this.message, [this.code]);
 
+  /// User-facing, plain-language description shown directly in the UI.
+  ///
+  /// Inherited from the originating [AppException] via `toFailure()`, so it is
+  /// already guaranteed to be free of raw backend/SQL/exception text.
   final String message;
   final String? code;
 }
@@ -19,7 +23,7 @@ class NetworkFailure extends Failure {
 
 class CacheFailure extends Failure {
   const CacheFailure([
-    super.message = 'A local storage error occurred.',
+    super.message = "Couldn't access your saved data. Please try again.",
     super.code = 'cache_error',
   ]);
 }
@@ -75,7 +79,7 @@ class NoFoodDetectedFailure extends Failure {
 
 class UnknownFailure extends Failure {
   const UnknownFailure([
-    super.message = 'An unknown authentication error occurred.',
-    super.code = 'unknown_auth_error',
+    super.message = 'Something went wrong. Please try again.',
+    super.code = 'unknown_error',
   ]);
 }

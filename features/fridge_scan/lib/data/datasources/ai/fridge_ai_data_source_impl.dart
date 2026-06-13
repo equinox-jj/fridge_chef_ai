@@ -126,7 +126,9 @@ can see. For each ingredient:
         error: e,
         stackTrace: stackTrace,
       );
-      throw ServerException('Failed to analyze the image: $e');
+      throw const ServerException(
+        "We couldn't analyze that photo right now. Please try again.",
+      );
     }
 
     // Log the raw payload before parsing so a malformed response is still
@@ -166,8 +168,15 @@ can see. For each ingredient:
       ingredients = items is List
           ? items.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).map(_withSafeCategory).toList()
           : <IngredientModel>[];
-    } on FormatException catch (e) {
-      throw ServerException('Could not read ingredients from the image: $e');
+    } on FormatException catch (e, stackTrace) {
+      _logger.error(
+        'Failed to parse AI ingredient response.',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw const ServerException(
+        "We couldn't read the ingredients from that photo. Please try again.",
+      );
     }
 
     if (!isFood || ingredients.isEmpty) {

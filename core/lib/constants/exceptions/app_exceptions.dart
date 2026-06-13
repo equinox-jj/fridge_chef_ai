@@ -1,6 +1,12 @@
 abstract class AppException implements Exception {
   const AppException(this.message, [this.code]);
 
+  /// User-facing, plain-language description of what went wrong.
+  ///
+  /// This string is surfaced directly to the user (see [Failure.message] and
+  /// `AppSnackbar.error`), so it must never contain raw backend, SQL, or
+  /// exception text. Technical detail belongs in the logs, not here — every
+  /// data-source guard already logs the original error before mapping it.
   final String message;
   final String? code;
 
@@ -22,7 +28,7 @@ class NetworkException extends AppException {
 
 class CacheException extends AppException {
   const CacheException([
-    super.message = 'A local storage error occurred.',
+    super.message = "Couldn't access your saved data. Please try again.",
     super.code = 'cache_error',
   ]);
 }
@@ -78,7 +84,7 @@ class NoFoodDetectedException extends AppException {
 
 class UnknownAppException extends AppException {
   const UnknownAppException([
-    super.message = 'An unknown authentication error occurred.',
-    super.code = 'unknown_auth_error',
+    super.message = 'Something went wrong. Please try again.',
+    super.code = 'unknown_error',
   ]);
 }

@@ -44,7 +44,9 @@ mixin CacheGuard {
         error: e,
         stackTrace: stackTrace,
       );
-      throw CacheException(e.toString());
+      // The raw storage error is logged above; surface only the friendly,
+      // user-facing default message.
+      throw const CacheException();
     }
   }
 
@@ -60,7 +62,7 @@ mixin CacheGuard {
         error: e,
         stackTrace: stackTrace,
       );
-      throw CacheException(e.toString());
+      throw const CacheException();
     }, test: (Object? e) => e is! AppException);
   }
 }
