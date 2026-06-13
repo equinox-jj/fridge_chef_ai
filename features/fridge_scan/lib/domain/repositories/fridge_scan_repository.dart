@@ -12,8 +12,9 @@ abstract class FridgeScanRepository {
   /// storage, analyse with AI, persist the scan header and its ingredients.
   Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes);
 
-  /// Returns the locally cached profile, or `null` when none is cached.
-  Future<Either<Failure, UserProfile?>> getUserProfile();
+  /// Emits the locally cached profile (or `null` when none is cached) and
+  /// re-emits on every change, so the UI tracks profile edits in real time.
+  Stream<Either<Failure, UserProfile?>> watchUserProfile();
 
   /// Returns the user's most recent scans (newest first), each with its
   /// detected ingredients, capped at [limit].

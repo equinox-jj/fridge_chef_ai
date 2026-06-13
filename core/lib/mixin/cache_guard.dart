@@ -47,4 +47,20 @@ mixin CacheGuard {
       throw CacheException(e.toString());
     }
   }
+
+  /// Stream counterpart to [cacheGuard] for reactive (e.g. Drift `.watch()`)
+  /// queries: each value flows through untouched, [AppException]s are forwarded
+  /// as-is, and any other (storage-level) error is logged and re-thrown as a
+  /// [CacheException] so the repository can map it to a `Failure`. The stream
+  /// stays open after a recoverable error so later updates still arrive.
+  Stream<T> cacheGuardStream<T>(Stream<T> source) {
+    return source.handleError((Object e, StackTrace stackTrace) {
+      logger.warning(
+        'Local cache stream failed',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw CacheException(e.toString());
+    }, test: (Object? e) => e is! AppException);
+  }
 }

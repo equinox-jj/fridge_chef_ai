@@ -16,17 +16,18 @@ class FridgeScanLocalDataSourceImpl with CacheGuard implements FridgeScanLocalDa
   final AppLogger logger;
 
   @override
-  Future<UserProfile?> getUserProfile() {
-    return cacheGuard(() async {
-      final db.UserProfile? row = await (_database.select(_database.userProfiles)..limit(1)).getSingleOrNull();
-      if (row == null) {
-        return null;
-      }
-      return UserProfile(
-        name: row.name,
-        email: row.email,
-        avatarUrl: row.avatarUrl,
-      );
-    });
+  Stream<UserProfile?> watchUserProfile() {
+    return cacheGuardStream(
+      (_database.select(_database.userProfiles)..limit(1)).watchSingleOrNull().map((db.UserProfile? row) {
+        if (row == null) {
+          return null;
+        }
+        return UserProfile(
+          name: row.name,
+          email: row.email,
+          avatarUrl: row.avatarUrl,
+        );
+      }),
+    );
   }
 }

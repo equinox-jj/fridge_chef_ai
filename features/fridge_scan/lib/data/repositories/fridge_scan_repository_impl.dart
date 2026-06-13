@@ -60,8 +60,8 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
   }
 
   @override
-  Future<Either<Failure, UserProfile?>> getUserProfile() {
-    return guard(() => _localDataSource.getUserProfile());
+  Stream<Either<Failure, UserProfile?>> watchUserProfile() {
+    return guardStream(_localDataSource.watchUserProfile());
   }
 
   @override

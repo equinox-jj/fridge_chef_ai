@@ -25,7 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onStarted(_Started event, Emitter<HomeState> emit) async {
     await Future.wait(<Future<void>>[
-      _loadProfile(emit),
+      _watchProfile(emit),
       _loadRecentScans(emit),
     ]);
   }
@@ -36,12 +36,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     return _loadRecentScans(emit);
   }
 
-  Future<void> _loadProfile(Emitter<HomeState> emit) async {
-    final Either<Failure, UserProfile?> result = await _getUserProfile(const NoParams());
-    result.fold(
-      // On failure we keep the greeting generic rather than surfacing an error.
-      (Failure _) {},
-      (UserProfile? profile) => emit(state.copyWith(userProfile: profile)),
+  /// Subscribes to the cached profile and re-emits state on every change. The
+  /// stream is long-lived (it never completes), so this keeps the subscription
+  /// alive for the bloc's lifetime; bloc cancels it automatically on close.
+  Future<void> _watchProfile(Emitter<HomeState> emit) {
+    return emit.forEach<Either<Failure, UserProfile?>>(
+      _getUserProfile(const NoParams()),
+      onData: (Either<Failure, UserProfile?> result) => result.fold(
+        // On failure we keep the greeting generic rather than surfacing an error.
+        (Failure _) => state,
+        (UserProfile? profile) => state.copyWith(userProfile: profile),
+      ),
     );
   }
 
@@ -51,7 +56,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final Either<Failure, List<ScanResultEntity>> result = await _getRecentScans(const NoParams());
     emit(
       result.fold(
-        (Failure _) => state.copyWith(recentScansStatus: BlocStatus.error),
+        (Failure _) => state.copyWith(
+          recentScansStatus: BlocStatus.error,
+        ),
         (List<ScanResultEntity> scans) => state.copyWith(
           recentScans: scans,
           recentScansStatus: scans.isEmpty ? BlocStatus.empty : BlocStatus.success,

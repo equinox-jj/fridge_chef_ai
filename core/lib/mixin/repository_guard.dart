@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../constants/exceptions/app_exceptions.dart';
@@ -52,5 +54,32 @@ mixin RepositoryGuard {
       );
       return Left<Failure, T>(e.toFailure());
     }
+  }
+
+  /// Stream counterpart to [guard]: each value from [source] is wrapped in a
+  /// [Right], while a thrown [AppException] is logged and emitted as a [Left]
+  /// [Failure] without closing the stream — so a transient error doesn't kill
+  /// a long-lived (e.g. Drift `.watch()`) subscription and later updates still
+  /// reach the caller. Any non-[AppException] is forwarded as a stream error.
+  Stream<Either<Failure, T>> guardStream<T>(Stream<T> source) {
+    return source.transform(
+      StreamTransformer<T, Either<Failure, T>>.fromHandlers(
+        handleData: (T data, EventSink<Either<Failure, T>> sink) {
+          sink.add(Right<Failure, T>(data));
+        },
+        handleError: (Object error, StackTrace stackTrace, EventSink<Either<Failure, T>> sink) {
+          if (error is AppException) {
+            logger.error(
+              'Repository stream failed: ${error.runtimeType}',
+              error: error,
+              stackTrace: stackTrace,
+            );
+            sink.add(Left<Failure, T>(error.toFailure()));
+          } else {
+            sink.addError(error, stackTrace);
+          }
+        },
+      ),
+    );
   }
 }
