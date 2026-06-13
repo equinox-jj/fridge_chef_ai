@@ -26,7 +26,7 @@ class AppRouter {
 
   late final GoRouter config = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: AppRoute.homePath,
+    initialLocation: AppRoute.splashPath,
     debugLogDiagnostics: true,
     refreshListenable: GoRouterRefreshStream(
       _supabaseService.authStateChanges,

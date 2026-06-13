@@ -1,7 +1,9 @@
+import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/constants/network/failure.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
+import 'package:core/services/pending_dietary_preference_store.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/user_entity.dart';
@@ -12,10 +14,16 @@ import '../mapper/user_mapper.dart';
 import '../models/user_model.dart';
 
 class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
-  AuthRepositoryImpl(this._remoteDataSource, this._localDataSource, this.logger);
+  AuthRepositoryImpl(
+    this._remoteDataSource,
+    this._localDataSource,
+    this._pendingDietaryPreferenceStore,
+    this.logger,
+  );
 
   final AuthRemoteDataSource _remoteDataSource;
   final AuthLocalDataSource _localDataSource;
+  final PendingDietaryPreferenceStore _pendingDietaryPreferenceStore;
 
   @override
   final AppLogger logger;
@@ -42,12 +50,17 @@ class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
     required String password,
   }) {
     return guard(() async {
+      // Adopt the dietary preference picked during onboarding (pre-auth) onto
+      // the profile row this sign-up creates, then drop the parked value.
+      final DietaryPreference? pending = await _pendingDietaryPreferenceStore.read();
       final UserModel model = await _remoteDataSource.signUp(
         name: name,
         email: email,
         password: password,
+        dietaryPreference: pending?.value,
       );
       await _localDataSource.cacheUser(model);
+      await _pendingDietaryPreferenceStore.clear();
       return model.toEntity();
     });
   }

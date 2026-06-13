@@ -4,11 +4,14 @@ import 'package:core/logger/app_logger.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/image_picker_service.dart';
+import 'package:core/services/pending_dietary_preference_store.dart';
 import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
+import 'package:dependencies/shared_preferences/shared_preferences.dart';
 import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 import 'package:fridge_scan/fridge_scan_injector.dart';
+import 'package:onboarding/onboarding_injector.dart';
 import 'package:profile/profile_injector.dart';
 import 'package:recipes/recipes_injector.dart';
 
@@ -30,6 +33,18 @@ void configureDependencies() {
   getIt.registerLazySingleton<ImagePickerService>(ImagePickerService.new);
   getIt.registerLazySingleton<ConnectivityService>(ConnectivityServiceImpl.new);
 
+  // Shared key-value store for small, pre-auth flags (e.g. onboarding state).
+  getIt.registerLazySingleton<SharedPreferencesAsync>(SharedPreferencesAsync.new);
+
+  // Cross-feature handoff for the onboarding dietary choice: onboarding writes
+  // it, auth adopts it onto the new profile at sign-up.
+  getIt.registerLazySingleton<PendingDietaryPreferenceStore>(
+    () => PendingDietaryPreferenceStore(
+      getIt<SharedPreferencesAsync>(),
+      getIt<AppLogger>(),
+    ),
+  );
+
   // Shared local database — features access it through their own data sources.
   getIt.registerLazySingleton<AppDatabase>(
     AppDatabase.new,
@@ -49,6 +64,7 @@ void configureDependencies() {
 
   // Feature modules register their own data sources, repositories, use cases
   // and blocs/cubits.
+  initOnboardingInjector(getIt);
   initAuthInjector(getIt);
   initFridgeScanInjector(getIt);
   initProfileInjector(getIt);

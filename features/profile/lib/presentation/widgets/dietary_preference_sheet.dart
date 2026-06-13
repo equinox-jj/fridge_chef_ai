@@ -1,4 +1,5 @@
 import 'package:core/components/button/app_submit_button.dart';
+import 'package:core/components/dietary_chips/dietary_preference_chips.dart';
 import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
@@ -67,23 +68,9 @@ class _DietaryPreferenceSheetState extends State<DietaryPreferenceSheet> {
               'Applied to every recipe Gemini writes for you.',
               style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
             ),
-            Wrap(
-              spacing: AppSpacing.s2,
-              runSpacing: AppSpacing.s2,
-              children: DietaryPreference.values.map((DietaryPreference diet) {
-                final bool isSelected = diet == _selected;
-                return ChoiceChip(
-                  selected: isSelected,
-                  onSelected: (_) => setState(() => _selected = diet),
-                  label: Text(diet.label),
-                  showCheckmark: false,
-                  selectedColor: AppColors.primary,
-                  labelStyle: context.textTheme.labelLarge?.copyWith(
-                    color: isSelected ? AppColors.onPrimary : AppColors.textBody,
-                    fontWeight: AppFontWeight.semiBold,
-                  ),
-                );
-              }).toList(),
+            DietaryPreferenceChips(
+              selected: _selected,
+              onSelected: (DietaryPreference diet) => setState(() => _selected = diet),
             ),
             AppSubmitButton(
               label: 'Save',

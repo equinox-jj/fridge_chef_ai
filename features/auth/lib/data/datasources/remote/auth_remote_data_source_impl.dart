@@ -36,6 +36,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String name,
     required String email,
     required String password,
+    String? dietaryPreference,
   }) {
     return _supabaseService.safeCall(() async {
       final AuthResponse response = await _client.auth.signUp(
@@ -52,13 +53,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // `auth.users` may already have created this row, so a plain insert would
       // collide with `users_pkey` (23505). Upsert writes the profile fields
       // idempotently whether or not the trigger ran first.
+      final Map<String, dynamic> payload = <String, dynamic>{
+        'id': user.id,
+        'name': name,
+        'email': email,
+        'dietary_preference': ?dietaryPreference,
+      };
       final Map<String, dynamic> inserted = await _client
           .from(SupabaseTable.usersTable)
-          .upsert(<String, dynamic>{
-            'id': user.id,
-            'name': name,
-            'email': email,
-          }, onConflict: 'id')
+          .upsert(payload, onConflict: 'id')
           .select()
           .single();
 

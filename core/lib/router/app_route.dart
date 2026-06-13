@@ -8,6 +8,11 @@
 abstract final class AppRoute {
   const AppRoute._();
 
+  // ── Splash ──────────────────────────────────────────────────────────────
+  // The launch gate: decides between onboarding and the app, then routes on.
+  static const String splashName = 'splash';
+  static const String splashPath = '/splash';
+
   // ── Onboarding ──────────────────────────────────────────────────────────
   static const String onboardingName = 'onboarding';
   static const String onboardingPath = '/onboarding';

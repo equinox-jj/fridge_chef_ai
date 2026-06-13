@@ -11,11 +11,14 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
-  /// Registers a new account and creates the matching `users` profile row.
+  /// Registers a new account and creates the matching `users` profile row,
+  /// seeding [dietaryPreference] (the token chosen during onboarding) onto the
+  /// row when provided.
   Future<UserModel> signUp({
     required String name,
     required String email,
     required String password,
+    String? dietaryPreference,
   });
 
   /// Sends a password-reset email to [email].

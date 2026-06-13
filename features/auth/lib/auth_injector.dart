@@ -1,5 +1,6 @@
 import 'package:core/database/app_database.dart';
 import 'package:core/logger/app_logger.dart';
+import 'package:core/services/pending_dietary_preference_store.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 
@@ -35,6 +36,7 @@ void initAuthInjector(GetIt getIt) {
       () => AuthRepositoryImpl(
         getIt<AuthRemoteDataSource>(),
         getIt<AuthLocalDataSource>(),
+        getIt<PendingDietaryPreferenceStore>(),
         getIt<AppLogger>(),
       ),
     )
