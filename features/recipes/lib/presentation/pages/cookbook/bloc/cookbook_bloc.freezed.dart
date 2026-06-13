@@ -319,9 +319,7 @@ mixin _$CookbookState {
 /// Drives the page: loading skeleton, the grid ([success]), the empty
 /// state ([empty]) or the error state.
  BlocStatus get status;/// The saved recipes to render, newest first.
- List<SavedRecipeEntity> get recipes;/// Whether the device is currently offline — shows the banner and dims the
-/// scan button (AI generation needs a connection).
- bool get isOffline;/// Set when [status] is [BlocStatus.error].
+ List<SavedRecipeEntity> get recipes;/// Set when [status] is [BlocStatus.error].
  Failure? get failure;
 /// Create a copy of CookbookState
 /// with the given fields replaced by the non-null parameter values.
@@ -333,16 +331,16 @@ $CookbookStateCopyWith<CookbookState> get copyWith => _$CookbookStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CookbookState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.recipes, recipes)&&(identical(other.isOffline, isOffline) || other.isOffline == isOffline)&&(identical(other.failure, failure) || other.failure == failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CookbookState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.recipes, recipes)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(recipes),isOffline,failure);
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(recipes),failure);
 
 @override
 String toString() {
-  return 'CookbookState(status: $status, recipes: $recipes, isOffline: $isOffline, failure: $failure)';
+  return 'CookbookState(status: $status, recipes: $recipes, failure: $failure)';
 }
 
 
@@ -353,7 +351,7 @@ abstract mixin class $CookbookStateCopyWith<$Res>  {
   factory $CookbookStateCopyWith(CookbookState value, $Res Function(CookbookState) _then) = _$CookbookStateCopyWithImpl;
 @useResult
 $Res call({
- BlocStatus status, List<SavedRecipeEntity> recipes, bool isOffline, Failure? failure
+ BlocStatus status, List<SavedRecipeEntity> recipes, Failure? failure
 });
 
 
@@ -370,12 +368,11 @@ class _$CookbookStateCopyWithImpl<$Res>
 
 /// Create a copy of CookbookState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? recipes = null,Object? isOffline = null,Object? failure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? recipes = null,Object? failure = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as BlocStatus,recipes: null == recipes ? _self.recipes : recipes // ignore: cast_nullable_to_non_nullable
-as List<SavedRecipeEntity>,isOffline: null == isOffline ? _self.isOffline : isOffline // ignore: cast_nullable_to_non_nullable
-as bool,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as List<SavedRecipeEntity>,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
 }
@@ -461,10 +458,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus status,  List<SavedRecipeEntity> recipes,  bool isOffline,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus status,  List<SavedRecipeEntity> recipes,  Failure? failure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CookbookState() when $default != null:
-return $default(_that.status,_that.recipes,_that.isOffline,_that.failure);case _:
+return $default(_that.status,_that.recipes,_that.failure);case _:
   return orElse();
 
 }
@@ -482,10 +479,10 @@ return $default(_that.status,_that.recipes,_that.isOffline,_that.failure);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus status,  List<SavedRecipeEntity> recipes,  bool isOffline,  Failure? failure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus status,  List<SavedRecipeEntity> recipes,  Failure? failure)  $default,) {final _that = this;
 switch (_that) {
 case _CookbookState():
-return $default(_that.status,_that.recipes,_that.isOffline,_that.failure);case _:
+return $default(_that.status,_that.recipes,_that.failure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -502,10 +499,10 @@ return $default(_that.status,_that.recipes,_that.isOffline,_that.failure);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus status,  List<SavedRecipeEntity> recipes,  bool isOffline,  Failure? failure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus status,  List<SavedRecipeEntity> recipes,  Failure? failure)?  $default,) {final _that = this;
 switch (_that) {
 case _CookbookState() when $default != null:
-return $default(_that.status,_that.recipes,_that.isOffline,_that.failure);case _:
+return $default(_that.status,_that.recipes,_that.failure);case _:
   return null;
 
 }
@@ -517,7 +514,7 @@ return $default(_that.status,_that.recipes,_that.isOffline,_that.failure);case _
 
 
 class _CookbookState implements CookbookState {
-  const _CookbookState({this.status = BlocStatus.initial, final  List<SavedRecipeEntity> recipes = const <SavedRecipeEntity>[], this.isOffline = false, this.failure}): _recipes = recipes;
+  const _CookbookState({this.status = BlocStatus.initial, final  List<SavedRecipeEntity> recipes = const <SavedRecipeEntity>[], this.failure}): _recipes = recipes;
   
 
 /// Drives the page: loading skeleton, the grid ([success]), the empty
@@ -532,9 +529,6 @@ class _CookbookState implements CookbookState {
   return EqualUnmodifiableListView(_recipes);
 }
 
-/// Whether the device is currently offline — shows the banner and dims the
-/// scan button (AI generation needs a connection).
-@override@JsonKey() final  bool isOffline;
 /// Set when [status] is [BlocStatus.error].
 @override final  Failure? failure;
 
@@ -548,16 +542,16 @@ _$CookbookStateCopyWith<_CookbookState> get copyWith => __$CookbookStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CookbookState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._recipes, _recipes)&&(identical(other.isOffline, isOffline) || other.isOffline == isOffline)&&(identical(other.failure, failure) || other.failure == failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CookbookState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._recipes, _recipes)&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_recipes),isOffline,failure);
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_recipes),failure);
 
 @override
 String toString() {
-  return 'CookbookState(status: $status, recipes: $recipes, isOffline: $isOffline, failure: $failure)';
+  return 'CookbookState(status: $status, recipes: $recipes, failure: $failure)';
 }
 
 
@@ -568,7 +562,7 @@ abstract mixin class _$CookbookStateCopyWith<$Res> implements $CookbookStateCopy
   factory _$CookbookStateCopyWith(_CookbookState value, $Res Function(_CookbookState) _then) = __$CookbookStateCopyWithImpl;
 @override @useResult
 $Res call({
- BlocStatus status, List<SavedRecipeEntity> recipes, bool isOffline, Failure? failure
+ BlocStatus status, List<SavedRecipeEntity> recipes, Failure? failure
 });
 
 
@@ -585,12 +579,11 @@ class __$CookbookStateCopyWithImpl<$Res>
 
 /// Create a copy of CookbookState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? recipes = null,Object? isOffline = null,Object? failure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? recipes = null,Object? failure = freezed,}) {
   return _then(_CookbookState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as BlocStatus,recipes: null == recipes ? _self._recipes : recipes // ignore: cast_nullable_to_non_nullable
-as List<SavedRecipeEntity>,isOffline: null == isOffline ? _self.isOffline : isOffline // ignore: cast_nullable_to_non_nullable
-as bool,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as List<SavedRecipeEntity>,failure: freezed == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
 }

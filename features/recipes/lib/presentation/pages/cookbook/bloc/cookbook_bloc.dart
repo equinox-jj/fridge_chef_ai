@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/network/failure.dart';
-import 'package:core/services/connectivity_service.dart';
 import 'package:core/usecases/usecase.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
@@ -21,9 +21,12 @@ part 'cookbook_state.dart';
 ///
 /// Loading is delegated to [GetCookbookUseCase], which serves the on-device
 /// cache and refreshes it from the backend when online — so this bloc stays
-/// agnostic about *where* the recipes come from. It does, however, watch
-/// [ConnectivityService]: regaining a connection triggers a reload so a
-/// previously offline cookbook picks up anything saved on another device.
+/// agnostic about *where* the recipes come from. It does, however, watch the
+/// global [ConnectivityBloc]: it observes flips on its stream so regaining a
+/// connection triggers a reload — letting a previously offline cookbook pick up
+/// anything saved on another device. The *display* of offline state (banner,
+/// disabled scan) is read straight from [ConnectivityBloc] by the page; this
+/// bloc no longer mirrors it, it only reacts to reconnects to refresh data.
 class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
   CookbookBloc(this._getCookbook, this._connectivity) : super(const CookbookState()) {
     on<_Started>(_onStarted);
@@ -32,15 +35,15 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
   }
 
   final GetCookbookUseCase _getCookbook;
-  final ConnectivityService _connectivity;
+  final ConnectivityBloc _connectivity;
 
-  StreamSubscription<bool>? _connectivitySub;
+  StreamSubscription<ConnectivityState>? _connectivitySub;
 
   Future<void> _onStarted(_Started event, Emitter<CookbookState> emit) async {
-    emit(state.copyWith(isOffline: !await _connectivity.isOnline));
-    _connectivitySub ??= _connectivity.onStatusChanged.listen(
-      (bool isOnline) => add(CookbookEvent.connectivityChanged(isOnline: isOnline)),
-    );
+    // The global bloc only emits on real flips, so each event is a transition.
+    _connectivitySub ??= _connectivity.stream.listen((ConnectivityState status) {
+      add(CookbookEvent.connectivityChanged(isOnline: status.isOnline));
+    });
     await _load(emit);
   }
 
@@ -50,10 +53,8 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
     _ConnectivityChanged event,
     Emitter<CookbookState> emit,
   ) async {
-    final bool wasOffline = state.isOffline;
-    emit(state.copyWith(isOffline: !event.isOnline));
     // Coming back online: refresh so the cache catches up with the backend.
-    if (wasOffline && event.isOnline) {
+    if (event.isOnline) {
       await _load(emit);
     }
   }

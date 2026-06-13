@@ -15,7 +15,10 @@ import '../logger/app_logger.dart';
 /// of truth, so a storage error is logged and swallowed rather than allowed to
 /// break onboarding completion or sign-up.
 class PendingDietaryPreferenceStore {
-  PendingDietaryPreferenceStore(this._prefs, this._logger);
+  PendingDietaryPreferenceStore(
+    this._prefs,
+    this._logger,
+  );
 
   final SharedPreferencesAsync _prefs;
   final AppLogger _logger;

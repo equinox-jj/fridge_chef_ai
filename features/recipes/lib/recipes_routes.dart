@@ -1,12 +1,11 @@
+import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/router/app_route.dart';
-import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:core/router/arguments/recipe_generation_args.dart';
+import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
-
-import 'package:core/services/connectivity_service.dart';
 
 import 'domain/usecases/generate_recipes_usecase.dart';
 import 'domain/usecases/get_cookbook_usecase.dart';
@@ -71,7 +70,7 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
     return BlocProvider<CookbookBloc>(
       create: (_) => CookbookBloc(
         GetIt.I<GetCookbookUseCase>(),
-        GetIt.I<ConnectivityService>(),
+        GetIt.I<ConnectivityBloc>(),
       )..add(const CookbookEvent.started()),
       child: const CookbookPage(),
     );

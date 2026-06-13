@@ -35,6 +35,7 @@ class ConnectivityServiceImpl implements ConnectivityService {
 
   /// A device is online when any reported interface is something other than
   /// [ConnectivityResult.none].
-  bool _isOnline(List<ConnectivityResult> results) =>
-      results.any((ConnectivityResult r) => r != ConnectivityResult.none);
+  bool _isOnline(List<ConnectivityResult> results) => results.any(
+    (ConnectivityResult r) => r != ConnectivityResult.none,
+  );
 }

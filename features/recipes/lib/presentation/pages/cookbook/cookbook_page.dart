@@ -1,5 +1,6 @@
 import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/info_banner/app_info_banner.dart';
+import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
@@ -43,13 +44,15 @@ class CookbookPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: BlocBuilder<CookbookBloc, CookbookState>(
-        buildWhen: (CookbookState p, CookbookState c) => p.isOffline != c.isOffline || p.status != c.status,
+        buildWhen: (CookbookState p, CookbookState c) => p.status != c.status,
         builder: (BuildContext context, CookbookState state) {
           // The scan shortcut is hidden on the empty state (which has its own
           // CTA) and disabled offline, since AI generation needs a connection.
+          // Offline is read from the app-wide ConnectivityBloc.
           if (state.status == BlocStatus.empty) return const SizedBox.shrink();
+          final bool isOffline = context.watch<ConnectivityBloc>().state.isOffline;
           return _ScanFab(
-            enabled: !state.isOffline,
+            enabled: !isOffline,
             onPressed: _startScan,
           );
         },
@@ -58,9 +61,10 @@ class CookbookPage extends StatelessWidget {
         top: false,
         child: BlocBuilder<CookbookBloc, CookbookState>(
           builder: (BuildContext context, CookbookState state) {
+            final bool isOffline = context.watch<ConnectivityBloc>().state.isOffline;
             return Column(
               children: <Widget>[
-                if (state.isOffline)
+                if (isOffline)
                   const Padding(
                     padding: EdgeInsets.fromLTRB(
                       AppSpacing.s5,
