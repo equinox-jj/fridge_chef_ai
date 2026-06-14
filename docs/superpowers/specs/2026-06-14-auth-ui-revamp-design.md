@@ -322,19 +322,17 @@ Scaffold(bg: surfaceCanvas,
 
 ## Shared private widgets
 
-Two small header widgets, private to the auth feature (not exported):
+Two small header widgets, private to the auth feature (not exported). Both live at the bottom of `auth_scaffold.dart`:
 
 **`_AuthBackHeader`** — used by sign up:
 ```dart
-// 56px row, back IconButton only
+// 56px row, back IconButton only (no title)
 ```
 
 **`_AuthTitledHeader`** — used by forgot password:
 ```dart
 // 56px row, back IconButton + Text(title, AppType.h3)
 ```
-
-Both live in `auth_scaffold.dart` or a new `_auth_headers.dart` file.
 
 ---
 
@@ -354,6 +352,12 @@ Both live in `auth_scaffold.dart` or a new `_auth_headers.dart` file.
 | `auth_routes.dart` + `auth_routes.g.dart` | Add `ForgotPasswordConfirmationRoute` |
 | `core/lib/router/app_route.dart` | Add confirmation path/name constants |
 | `core/lib/router/app_navigator.dart` | Add `toForgotPasswordConfirmation(email)` method |
+
+---
+
+## New dependency
+
+**`url_launcher`** — required for the "Open mail app" button on the A.5 confirmation screen (`launchUrl(Uri.parse('mailto:'))`). Not currently in any pubspec. Must be added to `dependencies/pubspec.yaml` and the platform packages (`android/`, `ios/`).
 
 ---
 
