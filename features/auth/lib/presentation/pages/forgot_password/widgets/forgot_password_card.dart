@@ -37,7 +37,7 @@ class _ForgotPasswordCardState extends State<ForgotPasswordCard> {
   }
 
   void _submit() {
-    FocusScope.of(context).unfocus();
+    context.unfocus();
 
     if (!(_formKey.currentState?.validate() ?? false)) return;
 

@@ -132,7 +132,7 @@ class RecipeDetailBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => Navigator.of(context).maybePop(),
+      onPressed: () => context.maybePop(),
       icon: const Icon(Icons.arrow_back_rounded),
       tooltip: 'Back',
       style: IconButton.styleFrom(

@@ -39,7 +39,7 @@ class _SignInCardState extends State<SignInCard> {
   }
 
   void _submit() {
-    FocusScope.of(context).unfocus();
+    context.unfocus();
 
     if (!(_formKey.currentState?.validate() ?? false)) return;
 

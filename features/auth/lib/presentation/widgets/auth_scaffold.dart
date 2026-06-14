@@ -1,3 +1,4 @@
+import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class AuthScaffold extends StatelessWidget {
       // Default (true) so SafeArea reports the keyboard inset and the scroll
       // view can lift the focused field above the keyboard.
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => context.unfocus(),
         behavior: HitTestBehavior.opaque,
         child: DecoratedBox(
           decoration: const BoxDecoration(
