@@ -1,3 +1,4 @@
+import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 import '../../extensions/context_ext.dart';
@@ -106,7 +107,7 @@ class _Header extends StatelessWidget {
       children: <Widget>[
         Expanded(child: titleText),
         IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.close_rounded),
           tooltip: 'Close',
           style: IconButton.styleFrom(

@@ -1,3 +1,4 @@
+import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 extension ContextExt on BuildContext {
@@ -12,6 +13,13 @@ extension ContextExt on BuildContext {
   /// Dismisses the on-screen keyboard by dropping the current focus.
   void unfocus() => FocusScope.of(this).unfocus();
 
-  /// Pops the top route if one can be popped, returning whether it did.
-  Future<bool> maybePop<T>([T? result]) => Navigator.of(this).maybePop<T>(result);
+  /// Pops the top go_router route if one can be popped, returning whether it
+  /// did. Routes through [GoRouter] so dialogs, sheets and pages all unwind via
+  /// the same navigation stack.
+  Future<bool> maybePop<T>([T? result]) async {
+    final GoRouter router = GoRouter.of(this);
+    if (!router.canPop()) return false;
+    router.pop<T>(result);
+    return true;
+  }
 }

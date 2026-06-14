@@ -1,3 +1,4 @@
+import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
@@ -52,14 +53,14 @@ class AppConfirmDialog extends StatelessWidget {
       content: Text(message),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => context.pop(false),
           child: Text(cancelLabel),
         ),
         FilledButton(
           style: isDestructive
               ? FilledButton.styleFrom(backgroundColor: AppColors.danger)
               : null,
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => context.pop(true),
           child: Text(confirmLabel),
         ),
       ],
