@@ -15,66 +15,69 @@ class ScanFridgeCard extends StatelessWidget {
     super.key,
   });
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   static const BorderRadius _radius = BorderRadius.all(AppRadius.brLg);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: <Color>[AppPalette.green50, AppColors.surfaceCard],
-        ),
-        border: Border.all(color: AppPalette.green100),
-        borderRadius: _radius,
-        boxShadow: AppShadows.sm,
-      ),
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
+    return Opacity(
+      opacity: onTap != null ? 1.0 : 0.4,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: <Color>[AppPalette.green50, AppColors.surfaceCard],
+          ),
+          border: Border.all(color: AppPalette.green100),
           borderRadius: _radius,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.s4),
-            child: Row(
-              spacing: AppSpacing.s4,
-              children: <Widget>[
-                const AppIconTile(
-                  icon: Icons.photo_camera_rounded,
-                  size: 50,
-                  borderRadius: BorderRadius.all(AppRadius.brMd),
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.onPrimary,
-                  boxShadow: AppShadows.primary,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: AppSpacing.s1,
-                    children: <Widget>[
-                      Text(
-                        'Scan your fridge',
-                        style: context.textTheme.titleMedium?.copyWith(
-                          fontWeight: AppFontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Snap a photo to find recipes',
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: AppColors.textMuted,
-                        ),
-                      ),
-                    ],
+          boxShadow: AppShadows.sm,
+        ),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            borderRadius: _radius,
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.s4),
+              child: Row(
+                spacing: AppSpacing.s4,
+                children: <Widget>[
+                  const AppIconTile(
+                    icon: Icons.photo_camera_rounded,
+                    size: 50,
+                    borderRadius: BorderRadius.all(AppRadius.brMd),
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.onPrimary,
+                    boxShadow: AppShadows.primary,
                   ),
-                ),
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: AppColors.textFaint,
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: AppSpacing.s1,
+                      children: <Widget>[
+                        Text(
+                          'Scan your fridge',
+                          style: context.textTheme.titleMedium?.copyWith(
+                            fontWeight: AppFontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Snap a photo to find recipes',
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.textFaint,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

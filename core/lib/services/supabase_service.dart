@@ -91,7 +91,17 @@ class SupabaseService {
         return const TooManyRequestsException();
       }
 
-      return ServerException(message);
+      // Supabase wraps network-level errors (SocketException, ClientException)
+      // inside AuthException. Detect them by message content before falling
+      // back to ServerException, which would leak raw error text to the user.
+      final String lowerMsg = message.toLowerCase();
+      if (lowerMsg.contains('socketexception') ||
+          lowerMsg.contains('clientexception') ||
+          lowerMsg.contains('failed host lookup')) {
+        return const NetworkException();
+      }
+
+      return const ServerException();
     }
 
     if (error is PostgrestException) {

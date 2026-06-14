@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           HomeGreeting(name: state.userProfile?.name),
                           const SizedBox(height: AppSpacing.s6),
-                          ScanFridgeCard(onTap: () => _startScan(context)),
+                          ScanFridgeCard(onTap: isOffline ? null : () => _startScan(context)),
                           const SizedBox(height: AppSpacing.s6),
                           const AppSectionHeader(title: 'Recent scans'),
                           const SizedBox(height: AppSpacing.s3),

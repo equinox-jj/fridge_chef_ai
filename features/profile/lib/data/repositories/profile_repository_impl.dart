@@ -38,8 +38,10 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
     return guard(() async {
       // Remote is the source of truth the recipe prompt reads, so write it
       // first; only mirror into the cache once that succeeds.
-      await _remoteDataSource.updateDietaryPreference(preference);
-      await _localDataSource.updateDietaryPreference(preference);
+      await Future.wait(<Future<void>>[
+        _remoteDataSource.updateDietaryPreference(preference),
+        _localDataSource.updateDietaryPreference(preference),
+      ]);
       return unit;
     });
   }
@@ -58,8 +60,10 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
       // Upload first, then write the resulting URL remotely (source of truth),
       // then mirror it into the cache so the header updates immediately.
       final String url = await _remoteDataSource.uploadAvatar(bytes);
-      await _remoteDataSource.updateAvatarUrl(url);
-      await _localDataSource.updateAvatarUrl(url);
+      await Future.wait(<Future<void>>[
+        _remoteDataSource.updateAvatarUrl(url),
+        _localDataSource.updateAvatarUrl(url),
+      ]);
       return url;
     });
   }
@@ -67,9 +71,11 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
   @override
   Future<Either<Failure, Unit>> removeAvatar() {
     return guard(() async {
-      await _remoteDataSource.deleteAvatar();
-      await _remoteDataSource.updateAvatarUrl(null);
-      await _localDataSource.updateAvatarUrl(null);
+      await Future.wait(<Future<void>>[
+        _remoteDataSource.deleteAvatar(),
+        _remoteDataSource.updateAvatarUrl(null),
+        _localDataSource.updateAvatarUrl(null),
+      ]);
       return unit;
     });
   }
