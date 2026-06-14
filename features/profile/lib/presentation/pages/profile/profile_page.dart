@@ -132,8 +132,7 @@ class ProfilePage extends StatelessWidget {
                           showChevron: false,
                           trailing: Switch(
                             value: context.watch<ThemeModeCubit>().state == ThemeMode.dark,
-                            onChanged: (bool value) =>
-                                context.read<ThemeModeCubit>().setDark(value),
+                            onChanged: (bool value) => context.read<ThemeModeCubit>().setDark(value),
                           ),
                         ),
                       ],

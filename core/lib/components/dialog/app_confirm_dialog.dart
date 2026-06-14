@@ -57,9 +57,7 @@ class AppConfirmDialog extends StatelessWidget {
           child: Text(cancelLabel),
         ),
         FilledButton(
-          style: isDestructive
-              ? FilledButton.styleFrom(backgroundColor: AppColors.danger)
-              : null,
+          style: isDestructive ? FilledButton.styleFrom(backgroundColor: AppColors.danger) : null,
           onPressed: () => context.pop(true),
           child: Text(confirmLabel),
         ),
