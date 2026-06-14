@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 
+import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/constants/network/failure.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
+import 'package:core/services/connectivity_service.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/scan_result_entity.dart';
@@ -20,12 +22,14 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
     this._remoteDataSource,
     this._localDataSource,
     this._aiDataSource,
+    this._connectivity,
     this.logger,
   );
 
   final FridgeScanRemoteDataSource _remoteDataSource;
   final FridgeScanLocalDataSource _localDataSource;
   final FridgeAiDataSource _aiDataSource;
+  final ConnectivityService _connectivity;
 
   @override
   final AppLogger logger;
@@ -67,8 +71,16 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
   @override
   Future<Either<Failure, List<ScanResultEntity>>> getRecentScans({int limit = 10}) {
     return guard(() async {
-      final List<ScanWithIngredients> rows = await _remoteDataSource.getRecentScans(limit: limit);
-      return rows
+      // Offline-first: when online, refresh the on-device mirror from the
+      // backend; then always read from the cache so the home list renders the
+      // same whether or not there's a connection. A failed refresh is swallowed
+      // (logged) rather than failing the read — the cache still serves what we
+      // have. Mirrors the cookbook tab.
+      if (await _connectivity.isOnline) {
+        await _refreshRecentScansCache(limit);
+      }
+      final List<ScanWithIngredients> cached = await _localDataSource.getRecentScans(limit: limit);
+      return cached
           .map(
             (ScanWithIngredients row) => ScanResultEntity(
               scan: row.scan.toEntity(),
@@ -77,5 +89,17 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
           )
           .toList();
     });
+  }
+
+  /// Pulls the recent scans from the backend and replaces the local cache with
+  /// them. Swallows failures so an offline read still falls through to the
+  /// cache.
+  Future<void> _refreshRecentScansCache(int limit) async {
+    try {
+      final List<ScanWithIngredients> remote = await _remoteDataSource.getRecentScans(limit: limit);
+      await _localDataSource.replaceRecentScans(remote);
+    } on AppException catch (e, stackTrace) {
+      logger.warning('Recent scans refresh failed; serving cache', error: e, stackTrace: stackTrace);
+    }
   }
 }

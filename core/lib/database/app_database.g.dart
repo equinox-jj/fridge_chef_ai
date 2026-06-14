@@ -3,7 +3,8 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $UserProfilesTable extends UserProfiles with TableInfo<$UserProfilesTable, UserProfile> {
+class $UserProfilesTable extends UserProfiles
+    with TableInfo<$UserProfilesTable, UserProfile> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -46,15 +47,17 @@ class $UserProfilesTable extends UserProfiles with TableInfo<$UserProfilesTable,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _dietaryPreferencesMeta = const VerificationMeta('dietaryPreferences');
+  static const VerificationMeta _dietaryPreferencesMeta =
+      const VerificationMeta('dietaryPreferences');
   @override
-  late final GeneratedColumn<String> dietaryPreferences = GeneratedColumn<String>(
-    'dietary_preferences',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
+  late final GeneratedColumn<String> dietaryPreferences =
+      GeneratedColumn<String>(
+        'dietary_preferences',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -208,10 +211,18 @@ class UserProfile extends DataClass implements Insertable<UserProfile> {
     return UserProfilesCompanion(
       id: Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      email: email == null && nullToAbsent ? const Value.absent() : Value(email),
-      avatarUrl: avatarUrl == null && nullToAbsent ? const Value.absent() : Value(avatarUrl),
-      dietaryPreferences: dietaryPreferences == null && nullToAbsent ? const Value.absent() : Value(dietaryPreferences),
-      createdAt: createdAt == null && nullToAbsent ? const Value.absent() : Value(createdAt),
+      email: email == null && nullToAbsent
+          ? const Value.absent()
+          : Value(email),
+      avatarUrl: avatarUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(avatarUrl),
+      dietaryPreferences: dietaryPreferences == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dietaryPreferences),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
     );
   }
 
@@ -256,7 +267,9 @@ class UserProfile extends DataClass implements Insertable<UserProfile> {
     name: name.present ? name.value : this.name,
     email: email.present ? email.value : this.email,
     avatarUrl: avatarUrl.present ? avatarUrl.value : this.avatarUrl,
-    dietaryPreferences: dietaryPreferences.present ? dietaryPreferences.value : this.dietaryPreferences,
+    dietaryPreferences: dietaryPreferences.present
+        ? dietaryPreferences.value
+        : this.dietaryPreferences,
     createdAt: createdAt.present ? createdAt.value : this.createdAt,
   );
   UserProfile copyWithCompanion(UserProfilesCompanion data) {
@@ -265,7 +278,9 @@ class UserProfile extends DataClass implements Insertable<UserProfile> {
       name: data.name.present ? data.name.value : this.name,
       email: data.email.present ? data.email.value : this.email,
       avatarUrl: data.avatarUrl.present ? data.avatarUrl.value : this.avatarUrl,
-      dietaryPreferences: data.dietaryPreferences.present ? data.dietaryPreferences.value : this.dietaryPreferences,
+      dietaryPreferences: data.dietaryPreferences.present
+          ? data.dietaryPreferences.value
+          : this.dietaryPreferences,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -284,7 +299,8 @@ class UserProfile extends DataClass implements Insertable<UserProfile> {
   }
 
   @override
-  int get hashCode => Object.hash(id, name, email, avatarUrl, dietaryPreferences, createdAt);
+  int get hashCode =>
+      Object.hash(id, name, email, avatarUrl, dietaryPreferences, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -405,7 +421,8 @@ class UserProfilesCompanion extends UpdateCompanion<UserProfile> {
   }
 }
 
-class $SavedRecipeRowsTable extends SavedRecipeRows with TableInfo<$SavedRecipeRowsTable, SavedRecipeRow> {
+class $SavedRecipeRowsTable extends SavedRecipeRows
+    with TableInfo<$SavedRecipeRowsTable, SavedRecipeRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -609,7 +626,9 @@ class SavedRecipeRow extends DataClass implements Insertable<SavedRecipeRow> {
     return SavedRecipeRowsCompanion(
       id: Value(id),
       title: Value(title),
-      cookTimeMinutes: cookTimeMinutes == null && nullToAbsent ? const Value.absent() : Value(cookTimeMinutes),
+      cookTimeMinutes: cookTimeMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cookTimeMinutes),
       mood: mood == null && nullToAbsent ? const Value.absent() : Value(mood),
       rating: Value(rating),
       savedAt: Value(savedAt),
@@ -653,7 +672,9 @@ class SavedRecipeRow extends DataClass implements Insertable<SavedRecipeRow> {
   }) => SavedRecipeRow(
     id: id ?? this.id,
     title: title ?? this.title,
-    cookTimeMinutes: cookTimeMinutes.present ? cookTimeMinutes.value : this.cookTimeMinutes,
+    cookTimeMinutes: cookTimeMinutes.present
+        ? cookTimeMinutes.value
+        : this.cookTimeMinutes,
     mood: mood.present ? mood.value : this.mood,
     rating: rating ?? this.rating,
     savedAt: savedAt ?? this.savedAt,
@@ -662,7 +683,9 @@ class SavedRecipeRow extends DataClass implements Insertable<SavedRecipeRow> {
     return SavedRecipeRow(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
-      cookTimeMinutes: data.cookTimeMinutes.present ? data.cookTimeMinutes.value : this.cookTimeMinutes,
+      cookTimeMinutes: data.cookTimeMinutes.present
+          ? data.cookTimeMinutes.value
+          : this.cookTimeMinutes,
       mood: data.mood.present ? data.mood.value : this.mood,
       rating: data.rating.present ? data.rating.value : this.rating,
       savedAt: data.savedAt.present ? data.savedAt.value : this.savedAt,
@@ -683,7 +706,8 @@ class SavedRecipeRow extends DataClass implements Insertable<SavedRecipeRow> {
   }
 
   @override
-  int get hashCode => Object.hash(id, title, cookTimeMinutes, mood, rating, savedAt);
+  int get hashCode =>
+      Object.hash(id, title, cookTimeMinutes, mood, rating, savedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -806,7 +830,8 @@ class SavedRecipeRowsCompanion extends UpdateCompanion<SavedRecipeRow> {
   }
 }
 
-class $RecipeDetailRowsTable extends RecipeDetailRows with TableInfo<$RecipeDetailRowsTable, RecipeDetailRow> {
+class $RecipeDetailRowsTable extends RecipeDetailRows
+    with TableInfo<$RecipeDetailRowsTable, RecipeDetailRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -954,11 +979,12 @@ class RecipeDetailRow extends DataClass implements Insertable<RecipeDetailRow> {
     };
   }
 
-  RecipeDetailRow copyWith({String? id, String? payload, DateTime? cachedAt}) => RecipeDetailRow(
-    id: id ?? this.id,
-    payload: payload ?? this.payload,
-    cachedAt: cachedAt ?? this.cachedAt,
-  );
+  RecipeDetailRow copyWith({String? id, String? payload, DateTime? cachedAt}) =>
+      RecipeDetailRow(
+        id: id ?? this.id,
+        payload: payload ?? this.payload,
+        cachedAt: cachedAt ?? this.cachedAt,
+      );
   RecipeDetailRow copyWithCompanion(RecipeDetailRowsCompanion data) {
     return RecipeDetailRow(
       id: data.id.present ? data.id.value : this.id,
@@ -1065,6 +1091,267 @@ class RecipeDetailRowsCompanion extends UpdateCompanion<RecipeDetailRow> {
   }
 }
 
+class $CachedScanRowsTable extends CachedScanRows
+    with TableInfo<$CachedScanRowsTable, CachedScanRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CachedScanRowsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _scannedAtMeta = const VerificationMeta(
+    'scannedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> scannedAt = GeneratedColumn<DateTime>(
+    'scanned_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, payload, scannedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cached_scan_rows';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CachedScanRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('scanned_at')) {
+      context.handle(
+        _scannedAtMeta,
+        scannedAt.isAcceptableOrUnknown(data['scanned_at']!, _scannedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_scannedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CachedScanRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CachedScanRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      scannedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}scanned_at'],
+      )!,
+    );
+  }
+
+  @override
+  $CachedScanRowsTable createAlias(String alias) {
+    return $CachedScanRowsTable(attachedDatabase, alias);
+  }
+}
+
+class CachedScanRow extends DataClass implements Insertable<CachedScanRow> {
+  final String id;
+  final String payload;
+  final DateTime scannedAt;
+  const CachedScanRow({
+    required this.id,
+    required this.payload,
+    required this.scannedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['payload'] = Variable<String>(payload);
+    map['scanned_at'] = Variable<DateTime>(scannedAt);
+    return map;
+  }
+
+  CachedScanRowsCompanion toCompanion(bool nullToAbsent) {
+    return CachedScanRowsCompanion(
+      id: Value(id),
+      payload: Value(payload),
+      scannedAt: Value(scannedAt),
+    );
+  }
+
+  factory CachedScanRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CachedScanRow(
+      id: serializer.fromJson<String>(json['id']),
+      payload: serializer.fromJson<String>(json['payload']),
+      scannedAt: serializer.fromJson<DateTime>(json['scannedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'payload': serializer.toJson<String>(payload),
+      'scannedAt': serializer.toJson<DateTime>(scannedAt),
+    };
+  }
+
+  CachedScanRow copyWith({String? id, String? payload, DateTime? scannedAt}) =>
+      CachedScanRow(
+        id: id ?? this.id,
+        payload: payload ?? this.payload,
+        scannedAt: scannedAt ?? this.scannedAt,
+      );
+  CachedScanRow copyWithCompanion(CachedScanRowsCompanion data) {
+    return CachedScanRow(
+      id: data.id.present ? data.id.value : this.id,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      scannedAt: data.scannedAt.present ? data.scannedAt.value : this.scannedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CachedScanRow(')
+          ..write('id: $id, ')
+          ..write('payload: $payload, ')
+          ..write('scannedAt: $scannedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, payload, scannedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CachedScanRow &&
+          other.id == this.id &&
+          other.payload == this.payload &&
+          other.scannedAt == this.scannedAt);
+}
+
+class CachedScanRowsCompanion extends UpdateCompanion<CachedScanRow> {
+  final Value<String> id;
+  final Value<String> payload;
+  final Value<DateTime> scannedAt;
+  final Value<int> rowid;
+  const CachedScanRowsCompanion({
+    this.id = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.scannedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CachedScanRowsCompanion.insert({
+    required String id,
+    required String payload,
+    required DateTime scannedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       payload = Value(payload),
+       scannedAt = Value(scannedAt);
+  static Insertable<CachedScanRow> custom({
+    Expression<String>? id,
+    Expression<String>? payload,
+    Expression<DateTime>? scannedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (payload != null) 'payload': payload,
+      if (scannedAt != null) 'scanned_at': scannedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CachedScanRowsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? payload,
+    Value<DateTime>? scannedAt,
+    Value<int>? rowid,
+  }) {
+    return CachedScanRowsCompanion(
+      id: id ?? this.id,
+      payload: payload ?? this.payload,
+      scannedAt: scannedAt ?? this.scannedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (scannedAt.present) {
+      map['scanned_at'] = Variable<DateTime>(scannedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CachedScanRowsCompanion(')
+          ..write('id: $id, ')
+          ..write('payload: $payload, ')
+          ..write('scannedAt: $scannedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1075,13 +1362,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RecipeDetailRowsTable recipeDetailRows = $RecipeDetailRowsTable(
     this,
   );
+  late final $CachedScanRowsTable cachedScanRows = $CachedScanRowsTable(this);
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  Iterable<TableInfo<Table, Object?>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     userProfiles,
     savedRecipeRows,
     recipeDetailRows,
+    cachedScanRows,
   ];
 }
 
@@ -1106,7 +1396,8 @@ typedef $$UserProfilesTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
-class $$UserProfilesTableFilterComposer extends Composer<_$AppDatabase, $UserProfilesTable> {
+class $$UserProfilesTableFilterComposer
+    extends Composer<_$AppDatabase, $UserProfilesTable> {
   $$UserProfilesTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -1145,7 +1436,8 @@ class $$UserProfilesTableFilterComposer extends Composer<_$AppDatabase, $UserPro
   );
 }
 
-class $$UserProfilesTableOrderingComposer extends Composer<_$AppDatabase, $UserProfilesTable> {
+class $$UserProfilesTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserProfilesTable> {
   $$UserProfilesTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -1184,7 +1476,8 @@ class $$UserProfilesTableOrderingComposer extends Composer<_$AppDatabase, $UserP
   );
 }
 
-class $$UserProfilesTableAnnotationComposer extends Composer<_$AppDatabase, $UserProfilesTable> {
+class $$UserProfilesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserProfilesTable> {
   $$UserProfilesTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -1192,20 +1485,25 @@ class $$UserProfilesTableAnnotationComposer extends Composer<_$AppDatabase, $Use
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get name => $composableBuilder(column: $table.name, builder: (column) => column);
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
 
-  GeneratedColumn<String> get email => $composableBuilder(column: $table.email, builder: (column) => column);
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
 
-  GeneratedColumn<String> get avatarUrl => $composableBuilder(column: $table.avatarUrl, builder: (column) => column);
+  GeneratedColumn<String> get avatarUrl =>
+      $composableBuilder(column: $table.avatarUrl, builder: (column) => column);
 
   GeneratedColumn<String> get dietaryPreferences => $composableBuilder(
     column: $table.dietaryPreferences,
     builder: (column) => column,
   );
 
-  GeneratedColumn<DateTime> get createdAt => $composableBuilder(column: $table.createdAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
 class $$UserProfilesTableTableManager
@@ -1231,9 +1529,12 @@ class $$UserProfilesTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$UserProfilesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$UserProfilesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () => $$UserProfilesTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$UserProfilesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserProfilesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserProfilesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
@@ -1270,7 +1571,9 @@ class $$UserProfilesTableTableManager
                 createdAt: createdAt,
                 rowid: rowid,
               ),
-          withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -1314,7 +1617,8 @@ typedef $$SavedRecipeRowsTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
-class $$SavedRecipeRowsTableFilterComposer extends Composer<_$AppDatabase, $SavedRecipeRowsTable> {
+class $$SavedRecipeRowsTableFilterComposer
+    extends Composer<_$AppDatabase, $SavedRecipeRowsTable> {
   $$SavedRecipeRowsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -1353,7 +1657,8 @@ class $$SavedRecipeRowsTableFilterComposer extends Composer<_$AppDatabase, $Save
   );
 }
 
-class $$SavedRecipeRowsTableOrderingComposer extends Composer<_$AppDatabase, $SavedRecipeRowsTable> {
+class $$SavedRecipeRowsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SavedRecipeRowsTable> {
   $$SavedRecipeRowsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -1392,7 +1697,8 @@ class $$SavedRecipeRowsTableOrderingComposer extends Composer<_$AppDatabase, $Sa
   );
 }
 
-class $$SavedRecipeRowsTableAnnotationComposer extends Composer<_$AppDatabase, $SavedRecipeRowsTable> {
+class $$SavedRecipeRowsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SavedRecipeRowsTable> {
   $$SavedRecipeRowsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -1400,20 +1706,25 @@ class $$SavedRecipeRowsTableAnnotationComposer extends Composer<_$AppDatabase, $
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get title => $composableBuilder(column: $table.title, builder: (column) => column);
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<int> get cookTimeMinutes => $composableBuilder(
     column: $table.cookTimeMinutes,
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get mood => $composableBuilder(column: $table.mood, builder: (column) => column);
+  GeneratedColumn<String> get mood =>
+      $composableBuilder(column: $table.mood, builder: (column) => column);
 
-  GeneratedColumn<int> get rating => $composableBuilder(column: $table.rating, builder: (column) => column);
+  GeneratedColumn<int> get rating =>
+      $composableBuilder(column: $table.rating, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get savedAt => $composableBuilder(column: $table.savedAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get savedAt =>
+      $composableBuilder(column: $table.savedAt, builder: (column) => column);
 }
 
 class $$SavedRecipeRowsTableTableManager
@@ -1429,7 +1740,11 @@ class $$SavedRecipeRowsTableTableManager
           $$SavedRecipeRowsTableUpdateCompanionBuilder,
           (
             SavedRecipeRow,
-            BaseReferences<_$AppDatabase, $SavedRecipeRowsTable, SavedRecipeRow>,
+            BaseReferences<
+              _$AppDatabase,
+              $SavedRecipeRowsTable,
+              SavedRecipeRow
+            >,
           ),
           SavedRecipeRow,
           PrefetchHooks Function()
@@ -1441,9 +1756,12 @@ class $$SavedRecipeRowsTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$SavedRecipeRowsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$SavedRecipeRowsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () => $$SavedRecipeRowsTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$SavedRecipeRowsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SavedRecipeRowsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SavedRecipeRowsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
@@ -1480,7 +1798,9 @@ class $$SavedRecipeRowsTableTableManager
                 savedAt: savedAt,
                 rowid: rowid,
               ),
-          withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -1518,7 +1838,8 @@ typedef $$RecipeDetailRowsTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
-class $$RecipeDetailRowsTableFilterComposer extends Composer<_$AppDatabase, $RecipeDetailRowsTable> {
+class $$RecipeDetailRowsTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipeDetailRowsTable> {
   $$RecipeDetailRowsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -1542,7 +1863,8 @@ class $$RecipeDetailRowsTableFilterComposer extends Composer<_$AppDatabase, $Rec
   );
 }
 
-class $$RecipeDetailRowsTableOrderingComposer extends Composer<_$AppDatabase, $RecipeDetailRowsTable> {
+class $$RecipeDetailRowsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipeDetailRowsTable> {
   $$RecipeDetailRowsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -1566,7 +1888,8 @@ class $$RecipeDetailRowsTableOrderingComposer extends Composer<_$AppDatabase, $R
   );
 }
 
-class $$RecipeDetailRowsTableAnnotationComposer extends Composer<_$AppDatabase, $RecipeDetailRowsTable> {
+class $$RecipeDetailRowsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecipeDetailRowsTable> {
   $$RecipeDetailRowsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -1574,11 +1897,14 @@ class $$RecipeDetailRowsTableAnnotationComposer extends Composer<_$AppDatabase, 
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id => $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get payload => $composableBuilder(column: $table.payload, builder: (column) => column);
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get cachedAt => $composableBuilder(column: $table.cachedAt, builder: (column) => column);
+  GeneratedColumn<DateTime> get cachedAt =>
+      $composableBuilder(column: $table.cachedAt, builder: (column) => column);
 }
 
 class $$RecipeDetailRowsTableTableManager
@@ -1594,7 +1920,11 @@ class $$RecipeDetailRowsTableTableManager
           $$RecipeDetailRowsTableUpdateCompanionBuilder,
           (
             RecipeDetailRow,
-            BaseReferences<_$AppDatabase, $RecipeDetailRowsTable, RecipeDetailRow>,
+            BaseReferences<
+              _$AppDatabase,
+              $RecipeDetailRowsTable,
+              RecipeDetailRow
+            >,
           ),
           RecipeDetailRow,
           PrefetchHooks Function()
@@ -1606,9 +1936,12 @@ class $$RecipeDetailRowsTableTableManager
         TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () => $$RecipeDetailRowsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () => $$RecipeDetailRowsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () => $$RecipeDetailRowsTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () =>
+              $$RecipeDetailRowsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RecipeDetailRowsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RecipeDetailRowsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
@@ -1633,7 +1966,9 @@ class $$RecipeDetailRowsTableTableManager
                 cachedAt: cachedAt,
                 rowid: rowid,
               ),
-          withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -1656,13 +1991,180 @@ typedef $$RecipeDetailRowsTableProcessedTableManager =
       RecipeDetailRow,
       PrefetchHooks Function()
     >;
+typedef $$CachedScanRowsTableCreateCompanionBuilder =
+    CachedScanRowsCompanion Function({
+      required String id,
+      required String payload,
+      required DateTime scannedAt,
+      Value<int> rowid,
+    });
+typedef $$CachedScanRowsTableUpdateCompanionBuilder =
+    CachedScanRowsCompanion Function({
+      Value<String> id,
+      Value<String> payload,
+      Value<DateTime> scannedAt,
+      Value<int> rowid,
+    });
+
+class $$CachedScanRowsTableFilterComposer
+    extends Composer<_$AppDatabase, $CachedScanRowsTable> {
+  $$CachedScanRowsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get scannedAt => $composableBuilder(
+    column: $table.scannedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CachedScanRowsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CachedScanRowsTable> {
+  $$CachedScanRowsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get scannedAt => $composableBuilder(
+    column: $table.scannedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CachedScanRowsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CachedScanRowsTable> {
+  $$CachedScanRowsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get scannedAt =>
+      $composableBuilder(column: $table.scannedAt, builder: (column) => column);
+}
+
+class $$CachedScanRowsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CachedScanRowsTable,
+          CachedScanRow,
+          $$CachedScanRowsTableFilterComposer,
+          $$CachedScanRowsTableOrderingComposer,
+          $$CachedScanRowsTableAnnotationComposer,
+          $$CachedScanRowsTableCreateCompanionBuilder,
+          $$CachedScanRowsTableUpdateCompanionBuilder,
+          (
+            CachedScanRow,
+            BaseReferences<_$AppDatabase, $CachedScanRowsTable, CachedScanRow>,
+          ),
+          CachedScanRow,
+          PrefetchHooks Function()
+        > {
+  $$CachedScanRowsTableTableManager(
+    _$AppDatabase db,
+    $CachedScanRowsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CachedScanRowsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CachedScanRowsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CachedScanRowsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<DateTime> scannedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CachedScanRowsCompanion(
+                id: id,
+                payload: payload,
+                scannedAt: scannedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String payload,
+                required DateTime scannedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => CachedScanRowsCompanion.insert(
+                id: id,
+                payload: payload,
+                scannedAt: scannedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CachedScanRowsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CachedScanRowsTable,
+      CachedScanRow,
+      $$CachedScanRowsTableFilterComposer,
+      $$CachedScanRowsTableOrderingComposer,
+      $$CachedScanRowsTableAnnotationComposer,
+      $$CachedScanRowsTableCreateCompanionBuilder,
+      $$CachedScanRowsTableUpdateCompanionBuilder,
+      (
+        CachedScanRow,
+        BaseReferences<_$AppDatabase, $CachedScanRowsTable, CachedScanRow>,
+      ),
+      CachedScanRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$UserProfilesTableTableManager get userProfiles => $$UserProfilesTableTableManager(_db, _db.userProfiles);
+  $$UserProfilesTableTableManager get userProfiles =>
+      $$UserProfilesTableTableManager(_db, _db.userProfiles);
   $$SavedRecipeRowsTableTableManager get savedRecipeRows =>
       $$SavedRecipeRowsTableTableManager(_db, _db.savedRecipeRows);
   $$RecipeDetailRowsTableTableManager get recipeDetailRows =>
       $$RecipeDetailRowsTableTableManager(_db, _db.recipeDetailRows);
+  $$CachedScanRowsTableTableManager get cachedScanRows =>
+      $$CachedScanRowsTableTableManager(_db, _db.cachedScanRows);
 }

@@ -28,7 +28,3 @@ abstract class FridgeScanRemoteDataSource {
   /// with its detected ingredients, capped at [limit] rows.
   Future<List<ScanWithIngredients>> getRecentScans({required int limit});
 }
-
-/// A scan header paired with the ingredients detected in it, as returned by a
-/// single nested `fridge_scans → ingredients` query.
-typedef ScanWithIngredients = ({ScanModel scan, List<IngredientModel> ingredients});
