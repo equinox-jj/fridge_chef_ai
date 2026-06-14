@@ -44,4 +44,17 @@ class ProfileLocalDataSourceImpl with CacheGuard implements ProfileLocalDataSour
           ),
     );
   }
+
+  @override
+  Future<void> updateAvatarUrl(String? url) {
+    // Exactly one row is cached (the current user), so an unfiltered update
+    // targets it without needing the id.
+    return cacheGuard(
+      () => _database
+          .update(_database.userProfiles)
+          .write(
+            db.UserProfilesCompanion(avatarUrl: Value<String?>(url)),
+          ),
+    );
+  }
 }

@@ -1,8 +1,12 @@
+import 'package:core/blocs/theme_mode_cubit.dart';
 import 'package:core/components/dialog/app_confirm_dialog.dart';
+import 'package:core/components/image_source_sheet/pick_image_source_sheet.dart';
 import 'package:core/components/list_row/app_list_row.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/dietary/dietary_preference.dart';
+import 'package:core/constants/image_source_option/image_source_option.dart';
+import 'package:core/constants/image_source_option/photo_source_choice.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_colors.dart';
@@ -26,6 +30,24 @@ class ProfilePage extends StatelessWidget {
     final DietaryPreference? chosen = await DietaryPreferenceSheet.openSheet(context, current: current);
     if (chosen != null && chosen != current) {
       await cubit.updateDietaryPreference(chosen);
+    }
+  }
+
+  Future<void> _editAvatar(BuildContext context, {required bool hasAvatar}) async {
+    final ProfileCubit cubit = context.read<ProfileCubit>();
+    final PhotoSourceChoice? choice = await PickImageSourceSheet.openSheet(
+      context,
+      title: 'Profile photo',
+      showRemove: hasAvatar,
+    );
+    if (choice == null) return;
+    if (choice == PhotoSourceChoice.remove) {
+      await cubit.removeAvatar();
+      return;
+    }
+    final ImageSourceOption? source = choice.imageSource;
+    if (source != null) {
+      await cubit.changeAvatar(source);
     }
   }
 
@@ -60,7 +82,9 @@ class ProfilePage extends StatelessWidget {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listenWhen: (ProfileState p, ProfileState c) =>
-            p.signOutStatus != c.signOutStatus || p.dietaryStatus != c.dietaryStatus,
+            p.signOutStatus != c.signOutStatus ||
+            p.dietaryStatus != c.dietaryStatus ||
+            p.avatarStatus != c.avatarStatus,
         listener: _onStateChanged,
         builder: (BuildContext context, ProfileState state) {
           final bool isLoading = state.loadStatus == BlocStatus.loading || state.loadStatus == BlocStatus.initial;
@@ -78,7 +102,14 @@ class ProfilePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   spacing: AppSpacing.s6,
                   children: <Widget>[
-                    _ProfileHeader(profile: state.profile),
+                    _ProfileHeader(
+                      profile: state.profile,
+                      isUpdating: state.avatarStatus == BlocStatus.loading,
+                      onEditTap: () => _editAvatar(
+                        context,
+                        hasAvatar: state.profile?.avatarUrl?.isNotEmpty ?? false,
+                      ),
+                    ),
                     ProfileGroup(
                       label: 'Preferences',
                       rows: <Widget>[
@@ -94,6 +125,16 @@ class ProfilePage extends StatelessWidget {
                           title: 'Scan history',
                           value: state.scanCount == null ? null : '${state.scanCount} scans',
                           onTap: () => context.read<AppNavigator>().toScanHistory(),
+                        ),
+                        AppListRow(
+                          icon: Icons.dark_mode_rounded,
+                          title: 'Dark mode',
+                          showChevron: false,
+                          trailing: Switch(
+                            value: context.watch<ThemeModeCubit>().state == ThemeMode.dark,
+                            onChanged: (bool value) =>
+                                context.read<ThemeModeCubit>().setDark(value),
+                          ),
                         ),
                       ],
                     ),
@@ -150,14 +191,31 @@ class ProfilePage extends StatelessWidget {
       default:
         break;
     }
+
+    switch (state.avatarStatus) {
+      case BlocStatus.success:
+        AppSnackbar.success(context, 'Profile photo updated.');
+        break;
+      case BlocStatus.error:
+        AppSnackbar.error(context, state.avatarFailure?.message ?? 'Could not update your photo.');
+        break;
+      default:
+        break;
+    }
   }
 }
 
 /// The avatar, name and email block at the top of the profile (design 4.1).
 class _ProfileHeader extends StatelessWidget {
-  const _ProfileHeader({required this.profile});
+  const _ProfileHeader({
+    required this.profile,
+    required this.isUpdating,
+    required this.onEditTap,
+  });
 
   final ProfileEntity? profile;
+  final bool isUpdating;
+  final VoidCallback onEditTap;
 
   @override
   Widget build(BuildContext context) {
@@ -167,18 +225,55 @@ class _ProfileHeader extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        CircleAvatar(
-          radius: AppSpacing.s9, // 48
-          backgroundColor: AppColors.primaryTint,
-          foregroundImage: (avatarUrl != null && avatarUrl.isNotEmpty) ? NetworkImage(avatarUrl) : null,
-          child: Text(
-            name.characters.first.toUpperCase(),
-            style: context.textTheme.headlineMedium?.copyWith(
-              fontFamily: AppFontFamily.display,
-              fontWeight: AppFontWeight.bold,
-              color: AppColors.primary,
+        Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            CircleAvatar(
+              radius: AppSpacing.s9, // 48
+              backgroundColor: AppColors.primaryTint,
+              foregroundImage: (avatarUrl != null && avatarUrl.isNotEmpty) ? NetworkImage(avatarUrl) : null,
+              child: Text(
+                name.characters.first.toUpperCase(),
+                style: context.textTheme.headlineMedium?.copyWith(
+                  fontFamily: AppFontFamily.display,
+                  fontWeight: AppFontWeight.bold,
+                  color: AppColors.primary,
+                ),
+              ),
             ),
-          ),
+            if (isUpdating)
+              const Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Color(0x66000000),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            Positioned(
+              right: -2,
+              bottom: -2,
+              child: Material(
+                color: AppColors.primary,
+                shape: const CircleBorder(),
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: isUpdating ? null : onEditTap,
+                  child: const Padding(
+                    padding: EdgeInsets.all(AppSpacing.s2),
+                    child: Icon(Icons.photo_camera_rounded, size: 16, color: AppColors.onPrimary),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: AppSpacing.s3),
         Text(

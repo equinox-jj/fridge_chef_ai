@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/constants/supabase_table/supabase_table.dart';
 import 'package:core/services/supabase_service.dart';
@@ -11,6 +13,11 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final SupabaseService _supabaseService;
 
   SupabaseClient get _client => _supabaseService.client;
+
+  static const String _avatarBucket = 'avatars';
+
+  /// Signed-URL lifetime: one year, in seconds (mirrors the fridge-scan path).
+  static const int _avatarSignedUrlTtl = 60 * 60 * 24 * 365;
 
   @override
   Future<int> getScanCount() {
@@ -35,6 +42,45 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<void> signOut() {
     return _supabaseService.safeCall(
       () => _client.auth.signOut(),
+    );
+  }
+
+  @override
+  Future<String> uploadAvatar(Uint8List bytes) {
+    return _supabaseService.safeCall(() async {
+      final String userId = _requireUserId();
+      // One object per user, overwritten on each change. The returned signed
+      // URL carries a fresh token each upload, so it doubles as cache-busting
+      // for the existing `NetworkImage`.
+      final String path = '$userId/avatar.jpg';
+      await _client.storage
+          .from(_avatarBucket)
+          .uploadBinary(
+            path,
+            bytes,
+            fileOptions: const FileOptions(
+              contentType: 'image/jpeg',
+              upsert: true,
+            ),
+          );
+      return _client.storage.from(_avatarBucket).createSignedUrl(path, _avatarSignedUrlTtl);
+    });
+  }
+
+  @override
+  Future<void> updateAvatarUrl(String? url) {
+    return _supabaseService.safeCall(
+      () => _client
+          .from(SupabaseTable.usersTable)
+          .update(<String, dynamic>{'avatar_url': url})
+          .eq('id', _requireUserId()),
+    );
+  }
+
+  @override
+  Future<void> deleteAvatar() {
+    return _supabaseService.safeCall(
+      () => _client.storage.from(_avatarBucket).remove(<String>['${_requireUserId()}/avatar.jpg']),
     );
   }
 

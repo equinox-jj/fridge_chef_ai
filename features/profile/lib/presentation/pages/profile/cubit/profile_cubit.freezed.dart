@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProfileState {
 
- ProfileEntity? get profile; BlocStatus get loadStatus; int? get scanCount; BlocStatus get dietaryStatus; Failure? get dietaryFailure; BlocStatus get signOutStatus; Failure? get signOutFailure;
+ ProfileEntity? get profile; BlocStatus get loadStatus; int? get scanCount; BlocStatus get dietaryStatus; Failure? get dietaryFailure; BlocStatus get signOutStatus; Failure? get signOutFailure; BlocStatus get avatarStatus; Failure? get avatarFailure;
 /// Create a copy of ProfileState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ProfileStateCopyWith<ProfileState> get copyWith => _$ProfileStateCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileState&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.loadStatus, loadStatus) || other.loadStatus == loadStatus)&&(identical(other.scanCount, scanCount) || other.scanCount == scanCount)&&(identical(other.dietaryStatus, dietaryStatus) || other.dietaryStatus == dietaryStatus)&&(identical(other.dietaryFailure, dietaryFailure) || other.dietaryFailure == dietaryFailure)&&(identical(other.signOutStatus, signOutStatus) || other.signOutStatus == signOutStatus)&&(identical(other.signOutFailure, signOutFailure) || other.signOutFailure == signOutFailure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileState&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.loadStatus, loadStatus) || other.loadStatus == loadStatus)&&(identical(other.scanCount, scanCount) || other.scanCount == scanCount)&&(identical(other.dietaryStatus, dietaryStatus) || other.dietaryStatus == dietaryStatus)&&(identical(other.dietaryFailure, dietaryFailure) || other.dietaryFailure == dietaryFailure)&&(identical(other.signOutStatus, signOutStatus) || other.signOutStatus == signOutStatus)&&(identical(other.signOutFailure, signOutFailure) || other.signOutFailure == signOutFailure)&&(identical(other.avatarStatus, avatarStatus) || other.avatarStatus == avatarStatus)&&(identical(other.avatarFailure, avatarFailure) || other.avatarFailure == avatarFailure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,profile,loadStatus,scanCount,dietaryStatus,dietaryFailure,signOutStatus,signOutFailure);
+int get hashCode => Object.hash(runtimeType,profile,loadStatus,scanCount,dietaryStatus,dietaryFailure,signOutStatus,signOutFailure,avatarStatus,avatarFailure);
 
 @override
 String toString() {
-  return 'ProfileState(profile: $profile, loadStatus: $loadStatus, scanCount: $scanCount, dietaryStatus: $dietaryStatus, dietaryFailure: $dietaryFailure, signOutStatus: $signOutStatus, signOutFailure: $signOutFailure)';
+  return 'ProfileState(profile: $profile, loadStatus: $loadStatus, scanCount: $scanCount, dietaryStatus: $dietaryStatus, dietaryFailure: $dietaryFailure, signOutStatus: $signOutStatus, signOutFailure: $signOutFailure, avatarStatus: $avatarStatus, avatarFailure: $avatarFailure)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ProfileStateCopyWith<$Res>  {
   factory $ProfileStateCopyWith(ProfileState value, $Res Function(ProfileState) _then) = _$ProfileStateCopyWithImpl;
 @useResult
 $Res call({
- ProfileEntity? profile, BlocStatus loadStatus, int? scanCount, BlocStatus dietaryStatus, Failure? dietaryFailure, BlocStatus signOutStatus, Failure? signOutFailure
+ ProfileEntity? profile, BlocStatus loadStatus, int? scanCount, BlocStatus dietaryStatus, Failure? dietaryFailure, BlocStatus signOutStatus, Failure? signOutFailure, BlocStatus avatarStatus, Failure? avatarFailure
 });
 
 
@@ -62,7 +62,7 @@ class _$ProfileStateCopyWithImpl<$Res>
 
 /// Create a copy of ProfileState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? profile = freezed,Object? loadStatus = null,Object? scanCount = freezed,Object? dietaryStatus = null,Object? dietaryFailure = freezed,Object? signOutStatus = null,Object? signOutFailure = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? profile = freezed,Object? loadStatus = null,Object? scanCount = freezed,Object? dietaryStatus = null,Object? dietaryFailure = freezed,Object? signOutStatus = null,Object? signOutFailure = freezed,Object? avatarStatus = null,Object? avatarFailure = freezed,}) {
   return _then(_self.copyWith(
 profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
 as ProfileEntity?,loadStatus: null == loadStatus ? _self.loadStatus : loadStatus // ignore: cast_nullable_to_non_nullable
@@ -71,6 +71,8 @@ as int?,dietaryStatus: null == dietaryStatus ? _self.dietaryStatus : dietaryStat
 as BlocStatus,dietaryFailure: freezed == dietaryFailure ? _self.dietaryFailure : dietaryFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,signOutStatus: null == signOutStatus ? _self.signOutStatus : signOutStatus // ignore: cast_nullable_to_non_nullable
 as BlocStatus,signOutFailure: freezed == signOutFailure ? _self.signOutFailure : signOutFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,avatarStatus: null == avatarStatus ? _self.avatarStatus : avatarStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,avatarFailure: freezed == avatarFailure ? _self.avatarFailure : avatarFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
 }
@@ -168,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ProfileEntity? profile,  BlocStatus loadStatus,  int? scanCount,  BlocStatus dietaryStatus,  Failure? dietaryFailure,  BlocStatus signOutStatus,  Failure? signOutFailure)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ProfileEntity? profile,  BlocStatus loadStatus,  int? scanCount,  BlocStatus dietaryStatus,  Failure? dietaryFailure,  BlocStatus signOutStatus,  Failure? signOutFailure,  BlocStatus avatarStatus,  Failure? avatarFailure)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProfileState() when $default != null:
-return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStatus,_that.dietaryFailure,_that.signOutStatus,_that.signOutFailure);case _:
+return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStatus,_that.dietaryFailure,_that.signOutStatus,_that.signOutFailure,_that.avatarStatus,_that.avatarFailure);case _:
   return orElse();
 
 }
@@ -189,10 +191,10 @@ return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ProfileEntity? profile,  BlocStatus loadStatus,  int? scanCount,  BlocStatus dietaryStatus,  Failure? dietaryFailure,  BlocStatus signOutStatus,  Failure? signOutFailure)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ProfileEntity? profile,  BlocStatus loadStatus,  int? scanCount,  BlocStatus dietaryStatus,  Failure? dietaryFailure,  BlocStatus signOutStatus,  Failure? signOutFailure,  BlocStatus avatarStatus,  Failure? avatarFailure)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileState():
-return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStatus,_that.dietaryFailure,_that.signOutStatus,_that.signOutFailure);case _:
+return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStatus,_that.dietaryFailure,_that.signOutStatus,_that.signOutFailure,_that.avatarStatus,_that.avatarFailure);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +211,10 @@ return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ProfileEntity? profile,  BlocStatus loadStatus,  int? scanCount,  BlocStatus dietaryStatus,  Failure? dietaryFailure,  BlocStatus signOutStatus,  Failure? signOutFailure)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ProfileEntity? profile,  BlocStatus loadStatus,  int? scanCount,  BlocStatus dietaryStatus,  Failure? dietaryFailure,  BlocStatus signOutStatus,  Failure? signOutFailure,  BlocStatus avatarStatus,  Failure? avatarFailure)?  $default,) {final _that = this;
 switch (_that) {
 case _ProfileState() when $default != null:
-return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStatus,_that.dietaryFailure,_that.signOutStatus,_that.signOutFailure);case _:
+return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStatus,_that.dietaryFailure,_that.signOutStatus,_that.signOutFailure,_that.avatarStatus,_that.avatarFailure);case _:
   return null;
 
 }
@@ -224,7 +226,7 @@ return $default(_that.profile,_that.loadStatus,_that.scanCount,_that.dietaryStat
 
 
 class _ProfileState extends ProfileState {
-  const _ProfileState({this.profile, this.loadStatus = BlocStatus.initial, this.scanCount, this.dietaryStatus = BlocStatus.initial, this.dietaryFailure, this.signOutStatus = BlocStatus.initial, this.signOutFailure}): super._();
+  const _ProfileState({this.profile, this.loadStatus = BlocStatus.initial, this.scanCount, this.dietaryStatus = BlocStatus.initial, this.dietaryFailure, this.signOutStatus = BlocStatus.initial, this.signOutFailure, this.avatarStatus = BlocStatus.initial, this.avatarFailure}): super._();
   
 
 @override final  ProfileEntity? profile;
@@ -234,6 +236,8 @@ class _ProfileState extends ProfileState {
 @override final  Failure? dietaryFailure;
 @override@JsonKey() final  BlocStatus signOutStatus;
 @override final  Failure? signOutFailure;
+@override@JsonKey() final  BlocStatus avatarStatus;
+@override final  Failure? avatarFailure;
 
 /// Create a copy of ProfileState
 /// with the given fields replaced by the non-null parameter values.
@@ -245,16 +249,16 @@ _$ProfileStateCopyWith<_ProfileState> get copyWith => __$ProfileStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileState&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.loadStatus, loadStatus) || other.loadStatus == loadStatus)&&(identical(other.scanCount, scanCount) || other.scanCount == scanCount)&&(identical(other.dietaryStatus, dietaryStatus) || other.dietaryStatus == dietaryStatus)&&(identical(other.dietaryFailure, dietaryFailure) || other.dietaryFailure == dietaryFailure)&&(identical(other.signOutStatus, signOutStatus) || other.signOutStatus == signOutStatus)&&(identical(other.signOutFailure, signOutFailure) || other.signOutFailure == signOutFailure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileState&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.loadStatus, loadStatus) || other.loadStatus == loadStatus)&&(identical(other.scanCount, scanCount) || other.scanCount == scanCount)&&(identical(other.dietaryStatus, dietaryStatus) || other.dietaryStatus == dietaryStatus)&&(identical(other.dietaryFailure, dietaryFailure) || other.dietaryFailure == dietaryFailure)&&(identical(other.signOutStatus, signOutStatus) || other.signOutStatus == signOutStatus)&&(identical(other.signOutFailure, signOutFailure) || other.signOutFailure == signOutFailure)&&(identical(other.avatarStatus, avatarStatus) || other.avatarStatus == avatarStatus)&&(identical(other.avatarFailure, avatarFailure) || other.avatarFailure == avatarFailure));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,profile,loadStatus,scanCount,dietaryStatus,dietaryFailure,signOutStatus,signOutFailure);
+int get hashCode => Object.hash(runtimeType,profile,loadStatus,scanCount,dietaryStatus,dietaryFailure,signOutStatus,signOutFailure,avatarStatus,avatarFailure);
 
 @override
 String toString() {
-  return 'ProfileState(profile: $profile, loadStatus: $loadStatus, scanCount: $scanCount, dietaryStatus: $dietaryStatus, dietaryFailure: $dietaryFailure, signOutStatus: $signOutStatus, signOutFailure: $signOutFailure)';
+  return 'ProfileState(profile: $profile, loadStatus: $loadStatus, scanCount: $scanCount, dietaryStatus: $dietaryStatus, dietaryFailure: $dietaryFailure, signOutStatus: $signOutStatus, signOutFailure: $signOutFailure, avatarStatus: $avatarStatus, avatarFailure: $avatarFailure)';
 }
 
 
@@ -265,7 +269,7 @@ abstract mixin class _$ProfileStateCopyWith<$Res> implements $ProfileStateCopyWi
   factory _$ProfileStateCopyWith(_ProfileState value, $Res Function(_ProfileState) _then) = __$ProfileStateCopyWithImpl;
 @override @useResult
 $Res call({
- ProfileEntity? profile, BlocStatus loadStatus, int? scanCount, BlocStatus dietaryStatus, Failure? dietaryFailure, BlocStatus signOutStatus, Failure? signOutFailure
+ ProfileEntity? profile, BlocStatus loadStatus, int? scanCount, BlocStatus dietaryStatus, Failure? dietaryFailure, BlocStatus signOutStatus, Failure? signOutFailure, BlocStatus avatarStatus, Failure? avatarFailure
 });
 
 
@@ -282,7 +286,7 @@ class __$ProfileStateCopyWithImpl<$Res>
 
 /// Create a copy of ProfileState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? profile = freezed,Object? loadStatus = null,Object? scanCount = freezed,Object? dietaryStatus = null,Object? dietaryFailure = freezed,Object? signOutStatus = null,Object? signOutFailure = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? profile = freezed,Object? loadStatus = null,Object? scanCount = freezed,Object? dietaryStatus = null,Object? dietaryFailure = freezed,Object? signOutStatus = null,Object? signOutFailure = freezed,Object? avatarStatus = null,Object? avatarFailure = freezed,}) {
   return _then(_ProfileState(
 profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
 as ProfileEntity?,loadStatus: null == loadStatus ? _self.loadStatus : loadStatus // ignore: cast_nullable_to_non_nullable
@@ -291,6 +295,8 @@ as int?,dietaryStatus: null == dietaryStatus ? _self.dietaryStatus : dietaryStat
 as BlocStatus,dietaryFailure: freezed == dietaryFailure ? _self.dietaryFailure : dietaryFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,signOutStatus: null == signOutStatus ? _self.signOutStatus : signOutStatus // ignore: cast_nullable_to_non_nullable
 as BlocStatus,signOutFailure: freezed == signOutFailure ? _self.signOutFailure : signOutFailure // ignore: cast_nullable_to_non_nullable
+as Failure?,avatarStatus: null == avatarStatus ? _self.avatarStatus : avatarStatus // ignore: cast_nullable_to_non_nullable
+as BlocStatus,avatarFailure: freezed == avatarFailure ? _self.avatarFailure : avatarFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,
   ));
 }

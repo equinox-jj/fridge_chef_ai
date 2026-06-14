@@ -25,6 +25,7 @@ class AppListRow extends StatelessWidget {
     this.showChevron = true,
     this.isDestructive = false,
     this.onTap,
+    this.trailing,
   });
 
   final IconData icon;
@@ -38,6 +39,10 @@ class AppListRow extends StatelessWidget {
   /// Renders the title and leading glyph in the danger (coral) color.
   final bool isDestructive;
   final VoidCallback? onTap;
+
+  /// Optional trailing widget (e.g. a [Switch]). When provided it replaces the
+  /// [value] text and the chevron.
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -70,16 +75,20 @@ class AppListRow extends StatelessWidget {
                   style: context.textTheme.titleMedium?.copyWith(color: titleColor),
                 ),
               ),
-              if (value != null)
-                Text(
-                  value!,
-                  style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
-                ),
-              if (showChevron)
-                const Icon(
-                  Icons.chevron_right_rounded,
-                  color: AppColors.textFaint,
-                ),
+              if (trailing != null)
+                trailing!
+              else ...<Widget>[
+                if (value != null)
+                  Text(
+                    value!,
+                    style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+                  ),
+                if (showChevron)
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.textFaint,
+                  ),
+              ],
             ],
           ),
         ),

@@ -11,4 +11,8 @@ abstract class ProfileLocalDataSource {
   /// Updates the cached dietary-preference token so the UI reflects a change
   /// without waiting for the next remote sync.
   Future<void> updateDietaryPreference(String preference);
+
+  /// Updates the cached `avatar_url` so the header reflects a change without a
+  /// remote round-trip. Pass `null` to clear it.
+  Future<void> updateAvatarUrl(String? url);
 }

@@ -83,3 +83,10 @@ class UnknownFailure extends Failure {
     super.code = 'unknown_error',
   ]);
 }
+
+class PermissionFailure extends Failure {
+  const PermissionFailure([
+    super.message = 'Permission denied. Please allow access in Settings to continue.',
+    super.code = 'permission_denied',
+  ]);
+}

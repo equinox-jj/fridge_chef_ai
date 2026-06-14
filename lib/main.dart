@@ -1,4 +1,5 @@
 import 'package:core/blocs/connectivity_bloc.dart';
+import 'package:core/blocs/theme_mode_cubit.dart';
 import 'package:core/constants/env/env.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_theme.dart';
@@ -23,6 +24,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   configureDependencies();
+  await getIt<ThemeModeCubit>().loadPersisted();
   runApp(const MainApp());
 }
 
@@ -31,23 +33,23 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Provided above MaterialApp.router so every routed page can reach them with
-    // `context.read<AppNavigator>()` / `context.watch<ConnectivityBloc>()`. The
-    // locator is touched only here, at the composition root — widgets depend on
-    // the abstraction, not on GetIt. The connectivity bloc is the app-wide
-    // online/offline source of truth, shared by `.value` (it's a singleton get_it
-    // owns and disposes, so this provider must not close it).
     return MultiBlocProvider(
       providers: <Widget>[
         RepositoryProvider<AppNavigator>.value(value: getIt<AppNavigator>()),
         BlocProvider<ConnectivityBloc>.value(value: getIt<ConnectivityBloc>()),
+        BlocProvider<ThemeModeCubit>.value(value: getIt<ThemeModeCubit>()),
       ].cast(),
-      child: MaterialApp.router(
-        title: 'Fridge Chef AI',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
-        // darkTheme: AppTheme.dark,
-        routerConfig: getIt<AppRouter>().config,
+      child: BlocBuilder<ThemeModeCubit, ThemeMode>(
+        builder: (BuildContext context, ThemeMode themeMode) {
+          return MaterialApp.router(
+            title: 'Fridge Chef AI',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeMode,
+            routerConfig: getIt<AppRouter>().config,
+          );
+        },
       ),
     );
   }

@@ -10,6 +10,8 @@ abstract class ProfileState with _$ProfileState {
     Failure? dietaryFailure,
     @Default(BlocStatus.initial) BlocStatus signOutStatus,
     Failure? signOutFailure,
+    @Default(BlocStatus.initial) BlocStatus avatarStatus,
+    Failure? avatarFailure,
   }) = _ProfileState;
 
   const ProfileState._();

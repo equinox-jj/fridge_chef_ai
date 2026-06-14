@@ -1,5 +1,6 @@
 import 'package:auth/auth_injector.dart';
 import 'package:core/blocs/connectivity_bloc.dart';
+import 'package:core/blocs/theme_mode_cubit.dart';
 import 'package:core/database/app_database.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/router/app_navigator.dart';
@@ -7,6 +8,7 @@ import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/pending_dietary_preference_store.dart';
 import 'package:core/services/permission_service.dart';
+import 'package:core/services/theme_mode_store.dart';
 import 'package:core/services/supabase_service.dart';
 import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/shared_preferences/shared_preferences.dart';
@@ -41,6 +43,16 @@ void configureDependencies() {
       getIt<SharedPreferencesAsync>(),
       getIt<AppLogger>(),
     ),
+  );
+  getIt.registerLazySingleton<ThemeModeStore>(
+    () => ThemeModeStore(
+      getIt<SharedPreferencesAsync>(),
+      getIt<AppLogger>(),
+    ),
+  );
+  getIt.registerLazySingleton<ThemeModeCubit>(
+    () => ThemeModeCubit(getIt<ThemeModeStore>()),
+    dispose: (ThemeModeCubit cubit) => cubit.close(),
   );
   getIt.registerLazySingleton<AppDatabase>(
     AppDatabase.new,

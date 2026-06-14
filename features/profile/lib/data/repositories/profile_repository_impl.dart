@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:core/constants/network/failure.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
@@ -46,6 +48,28 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
   Future<Either<Failure, Unit>> signOut() {
     return guard(() async {
       await _remoteDataSource.signOut();
+      return unit;
+    });
+  }
+
+  @override
+  Future<Either<Failure, String>> updateAvatar(Uint8List bytes) {
+    return guard(() async {
+      // Upload first, then write the resulting URL remotely (source of truth),
+      // then mirror it into the cache so the header updates immediately.
+      final String url = await _remoteDataSource.uploadAvatar(bytes);
+      await _remoteDataSource.updateAvatarUrl(url);
+      await _localDataSource.updateAvatarUrl(url);
+      return url;
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> removeAvatar() {
+    return guard(() async {
+      await _remoteDataSource.deleteAvatar();
+      await _remoteDataSource.updateAvatarUrl(null);
+      await _localDataSource.updateAvatarUrl(null);
       return unit;
     });
   }

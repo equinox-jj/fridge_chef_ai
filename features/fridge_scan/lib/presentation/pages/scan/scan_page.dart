@@ -22,7 +22,8 @@ import '../../../domain/entities/ingredient_entity.dart';
 import '../../../domain/entities/scan_entity.dart';
 import '../../../domain/entities/scan_result_entity.dart';
 import '../../../fridge_scan_routes.dart';
-import '../../widgets/pick_image_source_sheet.dart';
+import 'package:core/components/image_source_sheet/pick_image_source_sheet.dart';
+import 'package:core/constants/image_source_option/photo_source_choice.dart';
 import 'bloc/scan_bloc.dart';
 
 /// Preview & confirm step of the fridge scan.
@@ -51,7 +52,11 @@ class _ScanPageState extends State<ScanPage> {
   /// bloc to resolve permissions and open the picker.
   Future<void> _promptForSource() async {
     final ScanBloc bloc = context.read<ScanBloc>();
-    final ImageSourceOption? source = await PickImageSourceSheet.openSheet(context);
+    final PhotoSourceChoice? choice = await PickImageSourceSheet.openSheet(
+      context,
+      caption: 'Photos are compressed to 1280px before scanning.',
+    );
+    final ImageSourceOption? source = choice?.imageSource;
     if (source == null) return;
     bloc.add(ScanEvent.sourceSelected(source));
   }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:core/constants/network/failure.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
@@ -19,4 +21,11 @@ abstract class ProfileRepository {
 
   /// Signs the current user out, clearing the persisted session.
   Future<Either<Failure, Unit>> signOut();
+
+  /// Uploads [bytes] as the user's new avatar, persists the resulting URL
+  /// (remote source of truth, then the on-device cache), and returns that URL.
+  Future<Either<Failure, String>> updateAvatar(Uint8List bytes);
+
+  /// Clears the user's avatar (remote then cache).
+  Future<Either<Failure, Unit>> removeAvatar();
 }
