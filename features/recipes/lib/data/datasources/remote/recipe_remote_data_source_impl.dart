@@ -10,7 +10,7 @@ import '../../models/saved_recipe_model.dart';
 import 'recipe_remote_data_source.dart';
 
 class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
-  RecipeRemoteDataSourceImpl(this._supabaseService);
+  RecipeRemoteDataSourceImpl({required this._supabaseService});
 
   final SupabaseService _supabaseService;
 
@@ -47,7 +47,7 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
   }
 
   @override
-  Future<RecipeModel> getRecipeById(String id) {
+  Future<RecipeModel> getRecipeById({required String id}) {
     return _supabaseService.safeCall(() async {
       final Map<String, dynamic> row = await _client
           .from(SupabaseTable.recipesTable)

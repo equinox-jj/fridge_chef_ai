@@ -11,7 +11,10 @@ import 'profile_local_data_source.dart';
 class ProfileLocalDataSourceImpl
     with CacheGuard
     implements ProfileLocalDataSource {
-  ProfileLocalDataSourceImpl(this._database, this.logger);
+  ProfileLocalDataSourceImpl({
+    required this._database,
+    required this.logger,
+  });
 
   final db.AppDatabase _database;
 
@@ -37,7 +40,7 @@ class ProfileLocalDataSourceImpl
   }
 
   @override
-  Future<void> updateDietaryPreference(String preference) {
+  Future<void> updateDietaryPreference({required String preference}) {
     // Exactly one row is cached (the current user), so an unfiltered update
     // targets it without needing the id.
     return cacheGuard(
@@ -52,7 +55,7 @@ class ProfileLocalDataSourceImpl
   }
 
   @override
-  Future<void> updateAvatarUrl(String? url) {
+  Future<void> updateAvatarUrl({required String? url}) {
     // Exactly one row is cached (the current user), so an unfiltered update
     // targets it without needing the id.
     return cacheGuard(

@@ -9,7 +9,7 @@ import '../../models/scan_model.dart';
 abstract class FridgeScanRemoteDataSource {
   /// Uploads [bytes] to the `fridge_scans` storage bucket and returns a signed
   /// URL to the stored object.
-  Future<String> uploadImage(Uint8List bytes);
+  Future<String> uploadImage({required Uint8List bytes});
 
   /// Inserts the scan header row and returns the persisted model (with id).
   Future<ScanModel> insertScan({
@@ -27,4 +27,20 @@ abstract class FridgeScanRemoteDataSource {
   /// Fetches the signed-in user's most recent scans (newest first), each paired
   /// with its detected ingredients, capped at [limit] rows.
   Future<List<ScanWithIngredients>> getRecentScans({required int limit});
+
+  /// Contract for the AI vision backend (Firebase AI) that detects ingredients
+  /// from a fridge photo. Throws an [AppException] on failure.
+  Future<AiAnalysisResult> analyzeImage({required Uint8List imageBytes});
+}
+
+/// Outcome of an AI image analysis: the parsed ingredients plus the raw model
+/// response (persisted on the scan header for auditing/debugging).
+class AiAnalysisResult {
+  const AiAnalysisResult({
+    required this.ingredients,
+    required this.rawResponse,
+  });
+
+  final List<IngredientModel> ingredients;
+  final String rawResponse;
 }

@@ -14,12 +14,12 @@ import '../mapper/user_mapper.dart';
 import '../models/user_model.dart';
 
 class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
-  AuthRepositoryImpl(
-    this._remoteDataSource,
-    this._localDataSource,
-    this._pendingDietaryPreferenceStore,
-    this.logger,
-  );
+  AuthRepositoryImpl({
+    required this._remoteDataSource,
+    required this._localDataSource,
+    required this._pendingDietaryPreferenceStore,
+    required this.logger,
+  });
 
   final AuthRemoteDataSource _remoteDataSource;
   final AuthLocalDataSource _localDataSource;
@@ -38,7 +38,7 @@ class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
         email: email,
         password: password,
       );
-      await _localDataSource.cacheUser(model);
+      await _localDataSource.cacheUser(user: model);
       return model.toEntity();
     });
   }
@@ -59,7 +59,7 @@ class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
         dietaryPreference: pending?.value,
       );
       await Future.wait(<Future<void>>[
-        _localDataSource.cacheUser(model),
+        _localDataSource.cacheUser(user: model),
         _pendingDietaryPreferenceStore.clear(),
       ]);
       return model.toEntity();
@@ -79,7 +79,7 @@ class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
     return guard(() async {
       try {
         final UserModel? model = await _remoteDataSource.getCurrentUser();
-        if (model != null) await _localDataSource.cacheUser(model);
+        if (model != null) await _localDataSource.cacheUser(user: model);
         return model?.toEntity();
       } on NetworkException {
         final UserModel? cached = await _localDataSource.getCachedUser();

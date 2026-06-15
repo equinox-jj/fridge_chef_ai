@@ -1,34 +1,51 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:core/constants/exceptions/app_exceptions.dart';
+import 'package:core/constants/gemini_ai/gemini_constants.dart';
+import 'package:core/constants/gemini_ai/ingredient_categories.dart';
 import 'package:core/constants/supabase_table/supabase_table.dart';
+import 'package:core/logger/app_logger.dart';
 import 'package:core/services/supabase_service.dart';
+import 'package:dependencies/firebase/firebase_ai.dart' hide ServerException;
 import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 
 import '../../models/ingredient_model.dart';
 import '../../models/scan_model.dart';
+import '../../schema/food_schema.dart';
 import 'fridge_scan_remote_data_source.dart';
 
 class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
-  FridgeScanRemoteDataSourceImpl(this._supabaseService);
-
-  final SupabaseService _supabaseService;
-
-  static const String _bucket = 'fridge_scans';
-
-  /// Signed-URL lifetime: one year, in seconds.
-  static const int _signedUrlTtl = 60 * 60 * 24 * 365;
+  FridgeScanRemoteDataSourceImpl({
+    required this._supabaseService,
+    required this._logger,
+  });
 
   SupabaseClient get _client => _supabaseService.client;
 
+  final SupabaseService _supabaseService;
+  final AppLogger _logger;
+
+  final GenerativeModel _model = FirebaseAI.googleAI().generativeModel(
+    model: GeminiConstants.geminiModel,
+    generationConfig: GenerationConfig(
+      responseMimeType: 'application/json',
+      // Enforce the output shape so every ingredient always carries all
+      // four fields. Without this the model omits `quantity`/`unit` when
+      // unsure, which deserialises to null — with it they are required,
+      // so the model emits "" instead of dropping the key.
+      responseSchema: FoodSchema.responseSchema,
+    ),
+  );
+
   @override
-  Future<String> uploadImage(Uint8List bytes) {
+  Future<String> uploadImage({required Uint8List bytes}) {
     return _supabaseService.safeCall(() async {
       final String userId = _requireUserId();
       final String path =
           '$userId/${DateTime.now().millisecondsSinceEpoch}.jpg';
       await _client.storage
-          .from(_bucket)
+          .from(SupabaseTable.fridgeScansTable)
           .uploadBinary(
             path,
             bytes,
@@ -37,7 +54,12 @@ class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
               upsert: true,
             ),
           );
-      return _client.storage.from(_bucket).createSignedUrl(path, _signedUrlTtl);
+      return _client.storage
+          .from(SupabaseTable.fridgeScansTable)
+          .createSignedUrl(
+            path,
+            GeminiConstants.signedUrlTtl,
+          );
     });
   }
 
@@ -113,6 +135,115 @@ class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
         );
       }).toList();
     });
+  }
+
+  @override
+  Future<AiAnalysisResult> analyzeImage({required Uint8List imageBytes}) async {
+    _logger.debug(
+      'AI ingredient analysis requested (${GeminiConstants.geminiModel}, '
+      '${imageBytes.lengthInBytes} bytes).',
+    );
+
+    final String raw;
+    try {
+      final GenerateContentResponse response = await _model.generateContent(
+        <Content>[
+          Content.multi(<Part>[
+            TextPart(
+              GeminiConstants.ingredientScanPrompt,
+            ),
+            InlineDataPart('image/jpeg', imageBytes),
+          ]),
+        ],
+      );
+      raw = response.text ?? '';
+    } on AppException {
+      rethrow;
+    } catch (e, stackTrace) {
+      _logger.error(
+        'AI ingredient analysis request failed.',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw const ServerException(
+        "We couldn't analyze that photo right now. Please try again.",
+      );
+    }
+
+    // Log the raw payload before parsing so a malformed response is still
+    // captured for debugging (mirrors the persisted `raw_ai_response`).
+    _logger.info('AI ingredient analysis response:\n$raw');
+
+    final List<IngredientModel> ingredients = _parseIngredients(raw);
+    _logger.debug(
+      'Parsed ${ingredients.length} ingredient(s) from AI response.',
+    );
+
+    return AiAnalysisResult(
+      ingredients: ingredients,
+      rawResponse: raw,
+    );
+  }
+
+  /// Parses the model's JSON response into [IngredientModel]s.
+  ///
+  /// Throws a [NoFoodDetectedException] when the model reports the photo is not
+  /// food, or when no ingredients were detected — so the caller can abort
+  /// before persisting anything.
+  List<IngredientModel> _parseIngredients(String raw) {
+    if (raw.trim().isEmpty) {
+      throw const ServerException(
+        'The AI returned an empty response. Please try again.',
+      );
+    }
+
+    final List<IngredientModel> ingredients;
+    final bool isFood;
+    try {
+      final dynamic decoded = jsonDecode(raw);
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Expected a JSON object.');
+      }
+      isFood = decoded['is_food'] == true;
+      final dynamic items = decoded['ingredients'];
+      ingredients = items is List
+          ? items
+                .whereType<Map<String, dynamic>>()
+                .map(IngredientModel.fromJson)
+                .map(_withSafeCategory)
+                .toList()
+          : <IngredientModel>[];
+    } on FormatException catch (e, stackTrace) {
+      _logger.error(
+        'Failed to parse AI ingredient response.',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw const ServerException(
+        "We couldn't read the ingredients from that photo. Please try again.",
+      );
+    }
+
+    if (!isFood || ingredients.isEmpty) {
+      throw const NoFoodDetectedException();
+    }
+    return ingredients;
+  }
+
+  /// Coerces any category outside [_categories] (or a null/empty one) to
+  /// [_fallbackCategory], so a value the model invents can never violate the
+  /// `ingredients_category_check` constraint on insert.
+  IngredientModel _withSafeCategory(IngredientModel ingredient) {
+    if (IngredientCategories.getDisplayNames().contains(ingredient.category)) {
+      return ingredient;
+    }
+
+    /// Category used when the model returns one outside
+    /// [IngredientCategories.getDisplayNames()]; it is the safe catch-all the
+    /// DB check constraint always permits.
+    return ingredient.copyWith(
+      category: IngredientCategories.other.displayName,
+    );
   }
 
   /// Returns the current user id, or throws when there is no active session.

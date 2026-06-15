@@ -26,18 +26,23 @@ void initAuthInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(getIt<SupabaseService>()),
+      () => AuthRemoteDataSourceImpl(
+        supabaseService: getIt<SupabaseService>(),
+      ),
     )
     ..registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
+      () => AuthLocalDataSourceImpl(
+        database: getIt<AppDatabase>(),
+        logger: getIt<AppLogger>(),
+      ),
     )
     // Repository
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(
-        getIt<AuthRemoteDataSource>(),
-        getIt<AuthLocalDataSource>(),
-        getIt<PendingDietaryPreferenceStore>(),
-        getIt<AppLogger>(),
+        remoteDataSource: getIt<AuthRemoteDataSource>(),
+        localDataSource: getIt<AuthLocalDataSource>(),
+        pendingDietaryPreferenceStore: getIt<PendingDietaryPreferenceStore>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Use cases

@@ -14,6 +14,6 @@ class GetRecipeDetailUseCase implements UseCase<RecipeEntity, String> {
 
   @override
   Future<Either<Failure, RecipeEntity>> call(String id) {
-    return _repository.getRecipeDetail(id);
+    return _repository.getRecipeDetail(id: id);
   }
 }

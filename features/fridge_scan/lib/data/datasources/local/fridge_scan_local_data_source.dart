@@ -17,5 +17,5 @@ abstract class FridgeScanLocalDataSource {
 
   /// Replaces the whole recent-scans cache with [scans] (the offline mirror of
   /// the backend, refreshed when online).
-  Future<void> replaceRecentScans(List<ScanWithIngredients> scans);
+  Future<void> replaceRecentScans({required List<ScanWithIngredients> scans});
 }

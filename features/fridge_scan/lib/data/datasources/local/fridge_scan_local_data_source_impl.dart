@@ -15,7 +15,10 @@ import 'fridge_scan_local_data_source.dart';
 class FridgeScanLocalDataSourceImpl
     with CacheGuard
     implements FridgeScanLocalDataSource {
-  FridgeScanLocalDataSourceImpl(this._database, this.logger);
+  FridgeScanLocalDataSourceImpl({
+    required this._database,
+    required this.logger,
+  });
 
   final db.AppDatabase _database;
 
@@ -55,7 +58,7 @@ class FridgeScanLocalDataSourceImpl
   }
 
   @override
-  Future<void> replaceRecentScans(List<ScanWithIngredients> scans) {
+  Future<void> replaceRecentScans({required List<ScanWithIngredients> scans}) {
     // Replace-then-insert keeps the cache an exact mirror of the backend, so a
     // scan deleted remotely doesn't linger offline.
     return cacheGuard(

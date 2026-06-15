@@ -12,7 +12,10 @@ import 'recipe_local_data_source.dart';
 class RecipeLocalDataSourceImpl
     with CacheGuard
     implements RecipeLocalDataSource {
-  RecipeLocalDataSourceImpl(this._database, this.logger);
+  RecipeLocalDataSourceImpl({
+    required this._database,
+    required this.logger,
+  });
 
   final AppDatabase _database;
 
@@ -59,7 +62,7 @@ class RecipeLocalDataSourceImpl
   }
 
   @override
-  Future<RecipeModel?> getRecipeDetail(String id) {
+  Future<RecipeModel?> getRecipeDetail({required String id}) {
     return cacheGuard(() async {
       final RecipeDetailRow? row =
           await (_database.select(
@@ -76,7 +79,10 @@ class RecipeLocalDataSourceImpl
   }
 
   @override
-  Future<void> cacheRecipeDetail(String id, RecipeModel recipe) {
+  Future<void> cacheRecipeDetail({
+    required String id,
+    required RecipeModel recipe,
+  }) {
     return cacheGuard(
       () => _database
           .into(_database.recipeDetailRows)

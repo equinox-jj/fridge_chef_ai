@@ -21,6 +21,6 @@ class ScanFridgeUseCase implements UseCase<ScanResultEntity, ScanFridgeParams> {
 
   @override
   Future<Either<Failure, ScanResultEntity>> call(ScanFridgeParams params) {
-    return _repository.scanFridge(params.imageBytes);
+    return _repository.scanFridge(bytes: params.imageBytes);
   }
 }

@@ -17,14 +17,16 @@ abstract class ProfileRepository {
 
   /// Persists a new dietary [preference] token (remote source of truth, then
   /// the on-device cache so the UI and offline reads stay in sync).
-  Future<Either<Failure, Unit>> updateDietaryPreference(String preference);
+  Future<Either<Failure, Unit>> updateDietaryPreference({
+    required String preference,
+  });
 
   /// Signs the current user out, clearing the persisted session.
   Future<Either<Failure, Unit>> signOut();
 
   /// Uploads [bytes] as the user's new avatar, persists the resulting URL
   /// (remote source of truth, then the on-device cache), and returns that URL.
-  Future<Either<Failure, String>> updateAvatar(Uint8List bytes);
+  Future<Either<Failure, String>> updateAvatar({required Uint8List bytes});
 
   /// Clears the user's avatar (remote then cache).
   Future<Either<Failure, Unit>> removeAvatar();

@@ -14,6 +14,6 @@ class UpdateAvatarUseCase implements UseCase<String, Uint8List> {
 
   @override
   Future<Either<Failure, String>> call(Uint8List bytes) {
-    return _repository.updateAvatar(bytes);
+    return _repository.updateAvatar(bytes: bytes);
   }
 }

@@ -26,18 +26,22 @@ void initProfileInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<ProfileRemoteDataSource>(
-      () => ProfileRemoteDataSourceImpl(getIt<SupabaseService>()),
+      () => ProfileRemoteDataSourceImpl(
+        supabaseService: getIt<SupabaseService>(),
+      ),
     )
     ..registerLazySingleton<ProfileLocalDataSource>(
-      () =>
-          ProfileLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
+      () => ProfileLocalDataSourceImpl(
+        database: getIt<AppDatabase>(),
+        logger: getIt<AppLogger>(),
+      ),
     )
     // Repository
     ..registerLazySingleton<ProfileRepository>(
       () => ProfileRepositoryImpl(
-        getIt<ProfileRemoteDataSource>(),
-        getIt<ProfileLocalDataSource>(),
-        getIt<AppLogger>(),
+        remoteDataSource: getIt<ProfileRemoteDataSource>(),
+        localDataSource: getIt<ProfileLocalDataSource>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Use cases

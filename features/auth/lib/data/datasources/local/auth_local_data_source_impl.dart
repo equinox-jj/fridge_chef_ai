@@ -7,10 +7,10 @@ import '../../models/user_model.dart';
 import 'auth_local_data_source.dart';
 
 class AuthLocalDataSourceImpl with CacheGuard implements AuthLocalDataSource {
-  AuthLocalDataSourceImpl(
-    this._database,
-    this.logger,
-  );
+  AuthLocalDataSourceImpl({
+    required this._database,
+    required this.logger,
+  });
 
   final AppDatabase _database;
 
@@ -18,7 +18,7 @@ class AuthLocalDataSourceImpl with CacheGuard implements AuthLocalDataSource {
   final AppLogger logger;
 
   @override
-  Future<void> cacheUser(UserModel user) {
+  Future<void> cacheUser({required UserModel user}) {
     return cacheGuard(
       () => _database.transaction(() async {
         await Future.wait(<Future<int>>[

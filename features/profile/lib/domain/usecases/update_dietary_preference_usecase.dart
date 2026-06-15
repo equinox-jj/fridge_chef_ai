@@ -12,6 +12,6 @@ class UpdateDietaryPreferenceUseCase implements UseCase<Unit, String> {
 
   @override
   Future<Either<Failure, Unit>> call(String preference) {
-    return _repository.updateDietaryPreference(preference);
+    return _repository.updateDietaryPreference(preference: preference);
   }
 }

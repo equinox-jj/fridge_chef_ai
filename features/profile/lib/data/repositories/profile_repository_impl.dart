@@ -11,11 +11,11 @@ import '../datasources/local/profile_local_data_source.dart';
 import '../datasources/remote/profile_remote_data_source.dart';
 
 class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
-  ProfileRepositoryImpl(
-    this._remoteDataSource,
-    this._localDataSource,
-    this.logger,
-  );
+  ProfileRepositoryImpl({
+    required this._remoteDataSource,
+    required this._localDataSource,
+    required this.logger,
+  });
 
   final ProfileRemoteDataSource _remoteDataSource;
   final ProfileLocalDataSource _localDataSource;
@@ -34,13 +34,15 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updateDietaryPreference(String preference) {
+  Future<Either<Failure, Unit>> updateDietaryPreference({
+    required String preference,
+  }) {
     return guard(() async {
       // Remote is the source of truth the recipe prompt reads, so write it
       // first; only mirror into the cache once that succeeds.
       await Future.wait(<Future<void>>[
-        _remoteDataSource.updateDietaryPreference(preference),
-        _localDataSource.updateDietaryPreference(preference),
+        _remoteDataSource.updateDietaryPreference(preference: preference),
+        _localDataSource.updateDietaryPreference(preference: preference),
       ]);
       return unit;
     });
@@ -55,14 +57,14 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, String>> updateAvatar(Uint8List bytes) {
+  Future<Either<Failure, String>> updateAvatar({required Uint8List bytes}) {
     return guard(() async {
       // Upload first, then write the resulting URL remotely (source of truth),
       // then mirror it into the cache so the header updates immediately.
-      final String url = await _remoteDataSource.uploadAvatar(bytes);
+      final String url = await _remoteDataSource.uploadAvatar(bytes: bytes);
       await Future.wait(<Future<void>>[
-        _remoteDataSource.updateAvatarUrl(url),
-        _localDataSource.updateAvatarUrl(url),
+        _remoteDataSource.updateAvatarUrl(url: url),
+        _localDataSource.updateAvatarUrl(url: url),
       ]);
       return url;
     });
@@ -73,8 +75,8 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
     return guard(() async {
       await Future.wait(<Future<void>>[
         _remoteDataSource.deleteAvatar(),
-        _remoteDataSource.updateAvatarUrl(null),
-        _localDataSource.updateAvatarUrl(null),
+        _remoteDataSource.updateAvatarUrl(url: null),
+        _localDataSource.updateAvatarUrl(url: null),
       ]);
       return unit;
     });

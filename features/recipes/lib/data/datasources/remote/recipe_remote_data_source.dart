@@ -14,7 +14,7 @@ abstract class RecipeRemoteDataSource {
   /// Reads a single saved recipe's full detail — its `recipes` header with the
   /// embedded `recipe_steps` (ordered) and `recipe_ingredients` — by [id], for
   /// the detail screen opened from the cookbook.
-  Future<RecipeModel> getRecipeById(String id);
+  Future<RecipeModel> getRecipeById({required String id});
 
   /// Persists [recipe] across `recipes`, `recipe_steps` and
   /// `recipe_ingredients`, then links it into the user's cookbook via

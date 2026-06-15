@@ -21,7 +21,7 @@ abstract class RecipeRepository {
   /// Cache-first: when online, fetches from the backend and caches it for
   /// offline reading; otherwise (or if the fetch fails) serves the cached copy.
   /// Fails only when there's nothing cached and no way to reach the backend.
-  Future<Either<Failure, RecipeEntity>> getRecipeDetail(String id);
+  Future<Either<Failure, RecipeEntity>> getRecipeDetail({required String id});
 
   /// Generates exactly three recipes from [ingredients] tuned to [mood],
   /// honouring [dietaryPreference] (the raw value, e.g. `none`/`vegetarian`).

@@ -7,7 +7,7 @@ import '../../models/user_model.dart';
 import 'auth_remote_data_source.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  AuthRemoteDataSourceImpl(this._supabaseService);
+  AuthRemoteDataSourceImpl({required this._supabaseService});
 
   final SupabaseService _supabaseService;
 

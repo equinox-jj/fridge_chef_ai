@@ -19,9 +19,12 @@ abstract class RecipeLocalDataSource {
 
   /// Returns the cached full detail for the recipe [id], or `null` on a cache
   /// miss (it was never opened online).
-  Future<RecipeModel?> getRecipeDetail(String id);
+  Future<RecipeModel?> getRecipeDetail({required String id});
 
   /// Stores the full [recipe] detail under [id] so it reads instantly — and
   /// offline — on later visits.
-  Future<void> cacheRecipeDetail(String id, RecipeModel recipe);
+  Future<void> cacheRecipeDetail({
+    required String id,
+    required RecipeModel recipe,
+  });
 }

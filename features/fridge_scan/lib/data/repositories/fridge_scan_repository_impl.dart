@@ -10,7 +10,6 @@ import 'package:dependencies/fpdart/fpdart.dart';
 import '../../domain/entities/scan_result_entity.dart';
 import '../../domain/entities/user_profile.dart';
 import '../../domain/repositories/fridge_scan_repository.dart';
-import '../datasources/ai/fridge_ai_data_source.dart';
 import '../datasources/local/fridge_scan_local_data_source.dart';
 import '../datasources/remote/fridge_scan_remote_data_source.dart';
 import '../mapper/scan_mapper.dart';
@@ -20,31 +19,33 @@ import '../models/scan_model.dart';
 class FridgeScanRepositoryImpl
     with RepositoryGuard
     implements FridgeScanRepository {
-  FridgeScanRepositoryImpl(
-    this._remoteDataSource,
-    this._localDataSource,
-    this._aiDataSource,
-    this._connectivity,
-    this.logger,
-  );
+  FridgeScanRepositoryImpl({
+    required this._remoteDataSource,
+    required this._localDataSource,
+    required this._connectivity,
+    required this.logger,
+  });
 
   final FridgeScanRemoteDataSource _remoteDataSource;
   final FridgeScanLocalDataSource _localDataSource;
-  final FridgeAiDataSource _aiDataSource;
   final ConnectivityService _connectivity;
 
   @override
   final AppLogger logger;
 
   @override
-  Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes) {
+  Future<Either<Failure, ScanResultEntity>> scanFridge({
+    required Uint8List bytes,
+  }) {
     return guard(() async {
       // 1. Analyse the image first — this throws (e.g. NoFoodDetectedException)
       //    for a non-food photo, so nothing is uploaded or persisted below.
-      final AiAnalysisResult analysis = await _aiDataSource.analyzeImage(bytes);
+      final AiAnalysisResult analysis = await _remoteDataSource.analyzeImage(
+        imageBytes: bytes,
+      );
 
       // 2. Upload the validated image to storage and get a signed URL.
-      final String imageUrl = await _remoteDataSource.uploadImage(bytes);
+      final String imageUrl = await _remoteDataSource.uploadImage(bytes: bytes);
 
       // 3. Persist the scan header.
       final ScanModel scan = await _remoteDataSource.insertScan(
@@ -108,7 +109,7 @@ class FridgeScanRepositoryImpl
     try {
       final List<ScanWithIngredients> remote = await _remoteDataSource
           .getRecentScans(limit: limit);
-      await _localDataSource.replaceRecentScans(remote);
+      await _localDataSource.replaceRecentScans(scans: remote);
     } on AppException catch (e, stackTrace) {
       logger.warning(
         'Recent scans refresh failed; serving cache',

@@ -34,19 +34,24 @@ void initRecipesInjector() {
       () => RecipeAiDataSourceImpl(getIt<AppLogger>()),
     )
     ..registerLazySingleton<RecipeRemoteDataSource>(
-      () => RecipeRemoteDataSourceImpl(getIt<SupabaseService>()),
+      () => RecipeRemoteDataSourceImpl(
+        supabaseService: getIt<SupabaseService>(),
+      ),
     )
     ..registerLazySingleton<RecipeLocalDataSource>(
-      () => RecipeLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
+      () => RecipeLocalDataSourceImpl(
+        database: getIt<AppDatabase>(),
+        logger: getIt<AppLogger>(),
+      ),
     )
     // Repository
     ..registerLazySingleton<RecipeRepository>(
       () => RecipeRepositoryImpl(
-        getIt<RecipeAiDataSource>(),
-        getIt<RecipeRemoteDataSource>(),
-        getIt<RecipeLocalDataSource>(),
-        getIt<ConnectivityService>(),
-        getIt<AppLogger>(),
+        aiDataSource: getIt<RecipeAiDataSource>(),
+        remoteDataSource: getIt<RecipeRemoteDataSource>(),
+        localDataSource: getIt<RecipeLocalDataSource>(),
+        connectivity: getIt<ConnectivityService>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Use cases

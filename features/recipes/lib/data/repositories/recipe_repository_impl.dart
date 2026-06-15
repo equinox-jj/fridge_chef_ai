@@ -18,13 +18,13 @@ import '../models/recipe_model.dart';
 import '../models/saved_recipe_model.dart';
 
 class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
-  RecipeRepositoryImpl(
-    this._aiDataSource,
-    this._remoteDataSource,
-    this._localDataSource,
-    this._connectivity,
-    this.logger,
-  );
+  RecipeRepositoryImpl({
+    required this._aiDataSource,
+    required this._remoteDataSource,
+    required this._localDataSource,
+    required this._connectivity,
+    required this.logger,
+  });
 
   final RecipeAiDataSource _aiDataSource;
   final RecipeRemoteDataSource _remoteDataSource;
@@ -52,14 +52,16 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
   }
 
   @override
-  Future<Either<Failure, RecipeEntity>> getRecipeDetail(String id) {
+  Future<Either<Failure, RecipeEntity>> getRecipeDetail({required String id}) {
     return guard(() async {
       // Cache-first: when online, fetch the full recipe and write it through to
       // the cache so it's readable offline next time. A failed fetch falls back
       // to the cache rather than erroring — the recipe may already be cached.
       if (await _connectivity.isOnline) {
         try {
-          final RecipeModel remote = await _remoteDataSource.getRecipeById(id);
+          final RecipeModel remote = await _remoteDataSource.getRecipeById(
+            id: id,
+          );
           await _cacheRecipeDetail(id, remote);
           return remote.toEntity();
         } on AppException catch (e, stackTrace) {
@@ -71,7 +73,9 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
         }
       }
 
-      final RecipeModel? cached = await _localDataSource.getRecipeDetail(id);
+      final RecipeModel? cached = await _localDataSource.getRecipeDetail(
+        id: id,
+      );
       if (cached == null) {
         // Offline (or the fetch failed) with nothing cached: this recipe was
         // never opened online, so there's nothing to show.
@@ -139,7 +143,7 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
   /// still shows this time, just won't be there offline next time).
   Future<void> _cacheRecipeDetail(String id, RecipeModel recipe) async {
     try {
-      await _localDataSource.cacheRecipeDetail(id, recipe);
+      await _localDataSource.cacheRecipeDetail(id: id, recipe: recipe);
     } on CacheException catch (e, stackTrace) {
       logger.warning(
         'Failed to cache recipe detail',

@@ -6,7 +6,7 @@ import '../../models/user_model.dart';
 /// presentation-safe `Failure` is the repository's responsibility.
 abstract class AuthLocalDataSource {
   /// Persists [user] as the single cached profile, replacing any previous one.
-  Future<void> cacheUser(UserModel user);
+  Future<void> cacheUser({required UserModel user});
 
   /// Returns the cached profile, or `null` when nothing has been cached yet.
   Future<UserModel?> getCachedUser();

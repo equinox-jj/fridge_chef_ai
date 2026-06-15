@@ -6,8 +6,6 @@ import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
 
-import 'data/datasources/ai/fridge_ai_data_source.dart';
-import 'data/datasources/ai/fridge_ai_data_source_impl.dart';
 import 'data/datasources/local/fridge_scan_local_data_source.dart';
 import 'data/datasources/local/fridge_scan_local_data_source_impl.dart';
 import 'data/datasources/remote/fridge_scan_remote_data_source.dart';
@@ -30,25 +28,24 @@ void initFridgeScanInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<FridgeScanRemoteDataSource>(
-      () => FridgeScanRemoteDataSourceImpl(getIt<SupabaseService>()),
-    )
-    ..registerLazySingleton<FridgeAiDataSource>(
-      () => FridgeAiDataSourceImpl(getIt<AppLogger>()),
+      () => FridgeScanRemoteDataSourceImpl(
+        supabaseService: getIt<SupabaseService>(),
+        logger: getIt<AppLogger>(),
+      ),
     )
     ..registerLazySingleton<FridgeScanLocalDataSource>(
       () => FridgeScanLocalDataSourceImpl(
-        getIt<AppDatabase>(),
-        getIt<AppLogger>(),
+        database: getIt<AppDatabase>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Repositories
     ..registerLazySingleton<FridgeScanRepository>(
       () => FridgeScanRepositoryImpl(
-        getIt<FridgeScanRemoteDataSource>(),
-        getIt<FridgeScanLocalDataSource>(),
-        getIt<FridgeAiDataSource>(),
-        getIt<ConnectivityService>(),
-        getIt<AppLogger>(),
+        remoteDataSource: getIt<FridgeScanRemoteDataSource>(),
+        localDataSource: getIt<FridgeScanLocalDataSource>(),
+        connectivity: getIt<ConnectivityService>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Use cases

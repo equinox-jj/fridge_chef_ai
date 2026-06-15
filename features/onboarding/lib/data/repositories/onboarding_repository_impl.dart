@@ -11,11 +11,11 @@ import '../datasources/local/onboarding_local_data_source.dart';
 class OnboardingRepositoryImpl
     with RepositoryGuard
     implements OnboardingRepository {
-  OnboardingRepositoryImpl(
-    this._localDataSource,
-    this._pendingDietaryPreferenceStore,
-    this.logger,
-  );
+  OnboardingRepositoryImpl({
+    required this._localDataSource,
+    required this._pendingDietaryPreferenceStore,
+    required this.logger,
+  });
 
   final OnboardingLocalDataSource _localDataSource;
   final PendingDietaryPreferenceStore _pendingDietaryPreferenceStore;

@@ -13,7 +13,10 @@ import 'onboarding_local_data_source.dart';
 class OnboardingLocalDataSourceImpl
     with CacheGuard
     implements OnboardingLocalDataSource {
-  OnboardingLocalDataSourceImpl(this._prefs, this.logger);
+  OnboardingLocalDataSourceImpl({
+    required this._prefs,
+    required this.logger,
+  });
 
   final SharedPreferencesAsync _prefs;
 
@@ -24,11 +27,15 @@ class OnboardingLocalDataSourceImpl
 
   @override
   Future<bool> hasCompletedOnboarding() {
-    return cacheGuard(() async => await _prefs.getBool(_completedKey) ?? false);
+    return cacheGuard(
+      () async => await _prefs.getBool(_completedKey) ?? false,
+    );
   }
 
   @override
   Future<void> setCompleted() {
-    return cacheGuard(() => _prefs.setBool(_completedKey, true));
+    return cacheGuard(
+      () => _prefs.setBool(_completedKey, true),
+    );
   }
 }

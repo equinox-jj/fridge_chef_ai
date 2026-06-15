@@ -21,16 +21,16 @@ void initOnboardingInjector() {
     // Data source
     ..registerLazySingleton<OnboardingLocalDataSource>(
       () => OnboardingLocalDataSourceImpl(
-        getIt<SharedPreferencesAsync>(),
-        getIt<AppLogger>(),
+        prefs: getIt<SharedPreferencesAsync>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Repository
     ..registerLazySingleton<OnboardingRepository>(
       () => OnboardingRepositoryImpl(
-        getIt<OnboardingLocalDataSource>(),
-        getIt<PendingDietaryPreferenceStore>(),
-        getIt<AppLogger>(),
+        localDataSource: getIt<OnboardingLocalDataSource>(),
+        pendingDietaryPreferenceStore: getIt<PendingDietaryPreferenceStore>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     // Use cases

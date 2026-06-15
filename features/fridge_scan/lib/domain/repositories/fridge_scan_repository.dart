@@ -10,7 +10,9 @@ import '../entities/user_profile.dart';
 abstract class FridgeScanRepository {
   /// Runs the full scan pipeline for the given image [bytes]: upload to
   /// storage, analyse with AI, persist the scan header and its ingredients.
-  Future<Either<Failure, ScanResultEntity>> scanFridge(Uint8List bytes);
+  Future<Either<Failure, ScanResultEntity>> scanFridge({
+    required Uint8List bytes,
+  });
 
   /// Emits the locally cached profile (or `null` when none is cached) and
   /// re-emits on every change, so the UI tracks profile edits in real time.

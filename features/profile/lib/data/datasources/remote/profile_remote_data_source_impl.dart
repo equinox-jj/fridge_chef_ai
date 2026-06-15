@@ -8,7 +8,7 @@ import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 import 'profile_remote_data_source.dart';
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
-  ProfileRemoteDataSourceImpl(this._supabaseService);
+  ProfileRemoteDataSourceImpl({required this._supabaseService});
 
   final SupabaseService _supabaseService;
 
@@ -32,7 +32,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<void> updateDietaryPreference(String preference) {
+  Future<void> updateDietaryPreference({required String preference}) {
     return _supabaseService.safeCall(
       () => _client
           .from(SupabaseTable.usersTable)
@@ -49,7 +49,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<String> uploadAvatar(Uint8List bytes) {
+  Future<String> uploadAvatar({required Uint8List bytes}) {
     return _supabaseService.safeCall(() async {
       final String userId = _requireUserId();
       // One object per user, overwritten on each change. The returned signed
@@ -73,7 +73,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<void> updateAvatarUrl(String? url) {
+  Future<void> updateAvatarUrl({required String? url}) {
     return _supabaseService.safeCall(
       () => _client
           .from(SupabaseTable.usersTable)
