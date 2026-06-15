@@ -127,7 +127,7 @@ class _Artwork extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: accent.withValues(alpha: 0.10),
-        borderRadius: const BorderRadius.all(AppRadius.brXxl),
+        borderRadius: const .all(AppRadius.brXxl),
         boxShadow: AppShadows.sm,
       ),
       child: Icon(

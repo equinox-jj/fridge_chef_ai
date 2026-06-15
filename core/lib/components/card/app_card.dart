@@ -17,7 +17,7 @@ class AppCard extends StatelessWidget {
     super.key,
     this.padding = const EdgeInsets.all(AppSpacing.s5),
     this.color = AppColors.surfaceCard,
-    this.borderRadius = const BorderRadius.all(AppRadius.brXl),
+    this.borderRadius = const .all(AppRadius.brXl),
     this.boxShadow = AppShadows.xl,
   });
 

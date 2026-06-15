@@ -33,7 +33,7 @@ class HomeGreeting extends StatelessWidget {
         : '$greeting, $name';
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       spacing: AppSpacing.s2,
       children: <Widget>[
         Text(

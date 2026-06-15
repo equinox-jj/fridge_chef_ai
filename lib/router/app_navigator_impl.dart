@@ -1,6 +1,6 @@
 import 'package:auth/auth_routes.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/router/arguments/recipe_generation_args.dart';
+import 'package:core/router/args/recipe_generation_args.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:fridge_scan/fridge_scan_routes.dart';
 import 'package:onboarding/onboarding_routes.dart';

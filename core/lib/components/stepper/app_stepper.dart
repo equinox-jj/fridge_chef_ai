@@ -30,7 +30,7 @@ class AppStepper extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.s1 - 1),
       decoration: const BoxDecoration(
         color: AppColors.surfaceSunken,
-        borderRadius: BorderRadius.all(AppRadius.brFull),
+        borderRadius: .all(AppRadius.brFull),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

@@ -98,26 +98,26 @@ abstract final class AppTheme {
           color: scheme.onSurfaceVariant,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(AppRadius.brMd),
+          borderRadius: .all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(AppRadius.brMd),
+          borderRadius: .all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(AppRadius.brMd),
+          borderRadius: .all(AppRadius.brMd),
           borderSide: BorderSide(
             color: scheme.primary,
             width: AppBorderWidth.thick,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(AppRadius.brMd),
+          borderRadius: .all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(AppRadius.brMd),
+          borderRadius: .all(AppRadius.brMd),
           borderSide: BorderSide(
             color: scheme.error,
             width: AppBorderWidth.thick,
@@ -145,7 +145,7 @@ abstract final class AppTheme {
           foregroundColor: scheme.primary,
           textStyle: textTheme.labelLarge,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(AppRadius.brFull),
+            borderRadius: .all(AppRadius.brFull),
           ),
         ),
       ),
@@ -154,14 +154,14 @@ abstract final class AppTheme {
         foregroundColor: scheme.onPrimary,
         elevation: 2,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(AppRadius.brLg),
+          borderRadius: .all(AppRadius.brLg),
         ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: scheme.surfaceContainer,
         side: BorderSide(color: scheme.outlineVariant),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(AppRadius.brFull),
+          borderRadius: .all(AppRadius.brFull),
         ),
         labelStyle: textTheme.labelLarge,
       ),
@@ -171,20 +171,20 @@ abstract final class AppTheme {
         showDragHandle: true,
         dragHandleColor: scheme.outlineVariant,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
+          borderRadius: .vertical(
             top: Radius.circular(AppRadius.lg),
           ),
         ),
       ),
       dialogTheme: const DialogThemeData(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(AppRadius.brLg),
+          borderRadius: .all(AppRadius.brLg),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(AppRadius.brSm),
+          borderRadius: .all(AppRadius.brSm),
         ),
         backgroundColor: scheme.inverseSurface,
         contentTextStyle: textTheme.bodyMedium?.copyWith(
@@ -205,7 +205,7 @@ abstract final class AppTheme {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       textStyle: textTheme.labelLarge,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(AppRadius.brFull),
+        borderRadius: .all(AppRadius.brFull),
       ),
     );
   }

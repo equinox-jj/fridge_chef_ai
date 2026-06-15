@@ -27,13 +27,13 @@ class RecipeStepTile extends StatelessWidget {
         vertical: AppSpacing.s3,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         spacing: AppSpacing.s4,
         children: <Widget>[
           _StepNumber(number: step.stepNumber),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: <Widget>[
                 Text(
                   step.instruction,

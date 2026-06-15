@@ -52,7 +52,7 @@ class _SignUpBodyState extends State<SignUpBody> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .start,
         children: <Widget>[
           const SizedBox(height: AppSpacing.s5),
 

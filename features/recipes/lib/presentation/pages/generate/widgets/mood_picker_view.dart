@@ -1,3 +1,4 @@
+import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
@@ -7,8 +8,6 @@ import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:flutter/material.dart';
-
-import 'package:core/constants/dietary/dietary_preference.dart';
 
 import '../../../recipe_mood.dart';
 import '../bloc/recipe_generation_bloc.dart';
@@ -22,7 +21,7 @@ class MoodPickerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: .stretch,
       children: <Widget>[
         Expanded(
           child: SingleChildScrollView(
@@ -33,7 +32,7 @@ class MoodPickerView extends StatelessWidget {
               AppSpacing.s5,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: <Widget>[
                 Text(
                   'What are you in the mood for?',
@@ -124,7 +123,7 @@ class _DietBanner extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.s4),
           decoration: BoxDecoration(
             color: AppColors.aiTint,
-            borderRadius: const BorderRadius.all(AppRadius.brMd),
+            borderRadius: const .all(AppRadius.brMd),
           ),
           child: Row(
             spacing: AppSpacing.s3,

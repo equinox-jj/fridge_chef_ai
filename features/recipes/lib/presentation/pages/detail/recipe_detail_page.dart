@@ -47,7 +47,7 @@ class RecipeDetailPage extends StatelessWidget {
             p.status != c.status,
         listener: _onSaveStateChanged,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: .stretch,
           children: <Widget>[
             Expanded(
               child: RecipeDetailContent(recipe: recipe),

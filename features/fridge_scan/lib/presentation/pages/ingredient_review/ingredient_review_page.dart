@@ -2,7 +2,7 @@ import 'package:core/components/empty_state/app_empty_state.dart';
 import 'package:core/components/tag/app_tag.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
-import 'package:core/router/arguments/recipe_generation_args.dart';
+import 'package:core/router/args/recipe_generation_args.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
 import 'package:core/theme/app_layout.dart';
@@ -102,7 +102,7 @@ class IngredientReviewPage extends StatelessWidget {
         child: BlocBuilder<IngredientReviewCubit, IngredientReviewState>(
           builder: (BuildContext context, IngredientReviewState state) {
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: .stretch,
               children: <Widget>[
                 Expanded(
                   child: state.items.isEmpty
@@ -199,7 +199,7 @@ class _CategorySection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: AppSpacing.s4),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         spacing: AppSpacing.s2,
         children: <Widget>[
           Row(
@@ -247,18 +247,18 @@ class _AddMissingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.primaryTint,
-      borderRadius: const BorderRadius.all(AppRadius.brMd),
+      borderRadius: const .all(AppRadius.brMd),
       child: InkWell(
-        borderRadius: const BorderRadius.all(AppRadius.brMd),
+        borderRadius: const .all(AppRadius.brMd),
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(AppSpacing.s4),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(AppRadius.brMd),
+            borderRadius: const .all(AppRadius.brMd),
             border: Border.all(color: AppDarkPalette.green300, width: 1.5),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: .center,
             spacing: AppSpacing.s2,
             children: <Widget>[
               const Icon(

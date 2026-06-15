@@ -40,18 +40,16 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: .stretch,
       children: <Widget>[
         const SizedBox(height: AppSpacing.s5),
-
-        // Lock icon tile — centered
         Center(
           child: Container(
             width: 80,
             height: 80,
             decoration: BoxDecoration(
               color: AppColors.primaryTint,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: .circular(24),
             ),
             child: const Icon(
               Icons.lock_outline,
@@ -60,17 +58,13 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             ),
           ),
         ),
-
         const SizedBox(height: AppSpacing.s4),
-
         Text(
           'Forgot your password?',
           style: Theme.of(context).textTheme.displaySmall,
           textAlign: TextAlign.center,
         ),
-
         const SizedBox(height: AppSpacing.s2),
-
         Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 240),
@@ -83,16 +77,12 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             ),
           ),
         ),
-
         const SizedBox(height: AppSpacing.s5),
-
         AppEmailField(
           controller: _emailController,
           onFieldSubmitted: (_) => _submit(context),
         ),
-
         const SizedBox(height: AppSpacing.s4),
-
         BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
           buildWhen: (ForgotPasswordState p, ForgotPasswordState c) =>
               p.forgotPasswordStatus != c.forgotPasswordStatus ||

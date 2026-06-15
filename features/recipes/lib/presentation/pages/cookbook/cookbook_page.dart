@@ -254,7 +254,7 @@ class _CookbookGrid extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: AppSpacing.s3,
                 crossAxisSpacing: AppSpacing.s3,
-                childAspectRatio: 0.82,
+                childAspectRatio: 0.95,
               ),
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) => CookbookCard(

@@ -23,7 +23,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     // Cooldown still running — ignore (the UI also disables the button).
     if (state.resendCountdown > 0) return;
 
-    emit(state.copyWith(forgotPasswordStatus: BlocStatus.loading));
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: BlocStatus.loading,
+      ),
+    );
 
     final Either<Failure, Unit> result = await _forgotPassword(
       ForgotPasswordParams(email: email),
@@ -53,7 +57,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   /// Starts the 60-second countdown that gates resending the code.
   void _startResendCooldown() {
     _timer?.cancel();
-    emit(state.copyWith(resendCountdown: _resendCooldown));
+    emit(
+      state.copyWith(
+        resendCountdown: _resendCooldown,
+      ),
+    );
 
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (isClosed) {
@@ -61,7 +69,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         return;
       }
       final int next = state.resendCountdown - 1;
-      emit(state.copyWith(resendCountdown: next));
+      emit(
+        state.copyWith(
+          resendCountdown: next,
+        ),
+      );
       if (next <= 0) timer.cancel();
     });
   }

@@ -34,7 +34,7 @@ class ForgotPasswordPage extends StatelessWidget {
           child: GestureDetector(
             onTap: () => context.read<AppNavigator>().goToSignIn(),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: .center,
               children: <Widget>[
                 const Icon(Icons.chevron_left, color: AppColors.primaryText),
                 Text(

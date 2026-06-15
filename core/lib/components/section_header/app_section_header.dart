@@ -24,7 +24,7 @@ class AppSectionHeader extends StatelessWidget {
     final bool hasAction = actionLabel != null && onActionPressed != null;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: .spaceBetween,
       children: <Widget>[
         Flexible(
           child: Text(

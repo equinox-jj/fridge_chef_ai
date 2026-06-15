@@ -117,7 +117,7 @@ class _AppAiLoaderState extends State<AppAiLoader>
                 minHeight: 6,
                 backgroundColor: AppDarkPalette.neutral200,
                 color: AppColors.ai,
-                borderRadius: BorderRadius.all(AppRadius.brFull),
+                borderRadius: .all(AppRadius.brFull),
               ),
             ),
           ],

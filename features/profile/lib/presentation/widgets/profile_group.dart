@@ -25,7 +25,7 @@ class ProfileGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: .start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(
@@ -46,7 +46,7 @@ class ProfileGroup extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             border: Border.all(color: AppColors.borderDefault),
-            borderRadius: const BorderRadius.all(AppRadius.brLg),
+            borderRadius: const .all(AppRadius.brLg),
             boxShadow: AppShadows.xs,
           ),
           child: Column(

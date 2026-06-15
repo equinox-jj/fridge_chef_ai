@@ -17,7 +17,7 @@ class AppIconTile extends StatelessWidget {
     this.iconSize,
     this.backgroundColor = AppColors.primaryTint,
     this.foregroundColor = AppColors.primary,
-    this.borderRadius = const BorderRadius.all(AppRadius.brSm),
+    this.borderRadius = const .all(AppRadius.brSm),
     this.boxShadow,
   });
 

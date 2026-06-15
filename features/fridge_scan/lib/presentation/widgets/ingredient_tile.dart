@@ -42,7 +42,7 @@ class IngredientTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surfaceCard,
         border: Border.all(color: AppColors.borderDefault),
-        borderRadius: const BorderRadius.all(AppRadius.brMd),
+        borderRadius: const .all(AppRadius.brMd),
       ),
       child: Row(
         spacing: AppSpacing.s3,

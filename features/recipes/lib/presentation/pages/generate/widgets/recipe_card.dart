@@ -30,19 +30,19 @@ class RecipeCard extends StatelessWidget {
 
     return Material(
       color: AppColors.surfaceCard,
-      borderRadius: const BorderRadius.all(AppRadius.brLg),
+      borderRadius: const .all(AppRadius.brLg),
       child: InkWell(
-        borderRadius: const BorderRadius.all(AppRadius.brLg),
+        borderRadius: const .all(AppRadius.brLg),
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
-            borderRadius: const BorderRadius.all(AppRadius.brLg),
+            borderRadius: const .all(AppRadius.brLg),
             border: Border.all(color: AppColors.borderDefault),
             boxShadow: AppShadows.sm,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: .stretch,
             children: <Widget>[
               Stack(
                 children: <Widget>[
@@ -61,7 +61,7 @@ class RecipeCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(AppSpacing.s4),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: <Widget>[
                     Text(
                       recipe.title,

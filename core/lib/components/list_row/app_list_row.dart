@@ -47,7 +47,10 @@ class AppListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _ToneColors colors = isDestructive
-        ? const _ToneColors(AppColors.dangerTint, AppColors.danger)
+        ? const _ToneColors(
+            AppColors.dangerTint,
+            AppColors.danger,
+          )
         : _colorsFor(tone);
     final Color titleColor = isDestructive
         ? AppColors.dangerText
@@ -67,34 +70,45 @@ class AppListRow extends StatelessWidget {
             children: <Widget>[
               AppIconTile(
                 icon: icon,
-                size: AppSpacing.s9, // 48
+                size: AppSpacing.s9,
                 backgroundColor: colors.background,
                 foregroundColor: colors.foreground,
               ),
-              Expanded(
-                child: Text(
-                  title,
-                  style: context.textTheme.titleMedium?.copyWith(
-                    color: titleColor,
-                  ),
-                ),
-              ),
               if (trailing != null)
                 trailing!
-              else ...<Widget>[
-                if (value != null)
-                  Text(
-                    value!,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textMuted,
-                    ),
+              else
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: .spaceBetween,
+                    spacing: 10,
+                    children: <Widget>[
+                      Text(
+                        title,
+                        maxLines: 2,
+                        style: context.textTheme.titleMedium?.copyWith(
+                          color: titleColor,
+                          overflow: .ellipsis,
+                        ),
+                      ),
+                      if (value != null)
+                        Flexible(
+                          child: Text(
+                            value!,
+                            textAlign: .end,
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: AppColors.textMuted,
+                              overflow: .ellipsis,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                if (showChevron)
-                  const Icon(
-                    Icons.chevron_right_rounded,
-                    color: AppColors.textFaint,
-                  ),
-              ],
+                ),
+              if (showChevron)
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.textFaint,
+                ),
             ],
           ),
         ),

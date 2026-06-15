@@ -255,7 +255,7 @@ class _RecentScansSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         spacing: AppSpacing.s3,
         children: <Widget>[
           for (int i = 0; i < 3; i++) ScanHistoryTile(scan: _placeholder),

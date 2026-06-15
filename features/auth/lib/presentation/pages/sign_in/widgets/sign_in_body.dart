@@ -54,7 +54,7 @@ class _SignInBodyState extends State<SignInBody> {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         children: <Widget>[
           const SizedBox(height: AppSpacing.s8),
 
@@ -65,7 +65,7 @@ class _SignInBodyState extends State<SignInBody> {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppRadius.lg),
+                borderRadius: .circular(AppRadius.lg),
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -117,7 +117,7 @@ class _SignInBodyState extends State<SignInBody> {
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.dangerTint,
-                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    borderRadius: .circular(AppRadius.md),
                   ),
                   child: Row(
                     children: <Widget>[

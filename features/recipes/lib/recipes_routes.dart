@@ -1,7 +1,7 @@
 import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/di/di.dart';
 import 'package:core/router/app_route.dart';
-import 'package:core/router/arguments/recipe_generation_args.dart';
+import 'package:core/router/args/recipe_generation_args.dart';
 import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:dependencies/bloc/bloc.dart';
 import 'package:dependencies/go_router/go_router.dart';

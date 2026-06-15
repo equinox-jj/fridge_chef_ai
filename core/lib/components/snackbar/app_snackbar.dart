@@ -92,7 +92,7 @@ abstract final class AppSnackbar {
       padding: const EdgeInsets.all(AppSpacing.s3),
       duration: const Duration(seconds: 4),
       shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(AppRadius.brLg),
+        borderRadius: const .all(AppRadius.brLg),
         side: const BorderSide(color: AppColors.borderSubtle),
       ),
       content: Row(
@@ -104,7 +104,7 @@ abstract final class AppSnackbar {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: style.tint,
-              borderRadius: const BorderRadius.all(AppRadius.brMd),
+              borderRadius: const .all(AppRadius.brMd),
             ),
             child: Icon(
               style.icon,
@@ -115,7 +115,7 @@ abstract final class AppSnackbar {
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: .start,
               children: <Widget>[
                 if (title != null)
                   Text(

@@ -59,8 +59,6 @@ class ProfilePage extends StatelessWidget {
     }
   }
 
-  /// Confirms before signing out — a destructive action that drops the session,
-  /// so we ask first rather than acting on a single tap.
   Future<void> _confirmSignOut(BuildContext context) async {
     final ProfileCubit cubit = context.read<ProfileCubit>();
     final bool confirmed = await AppConfirmDialog.show(
@@ -95,9 +93,7 @@ class ProfilePage extends StatelessWidget {
             p.avatarStatus != c.avatarStatus,
         listener: _onStateChanged,
         builder: (BuildContext context, ProfileState state) {
-          final bool isLoading =
-              state.loadStatus == BlocStatus.loading ||
-              state.loadStatus == BlocStatus.initial;
+          final bool isLoading = state.loadStatus == BlocStatus.loading;
           return SafeArea(
             child: Skeletonizer(
               enabled: isLoading,
@@ -109,7 +105,7 @@ class ProfilePage extends StatelessWidget {
                   AppSpacing.s8,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: .stretch,
                   spacing: AppSpacing.s6,
                   children: <Widget>[
                     _ProfileHeader(

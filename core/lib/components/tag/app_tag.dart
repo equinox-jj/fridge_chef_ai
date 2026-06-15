@@ -44,7 +44,7 @@ class AppTag extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: colors.background,
-        borderRadius: const BorderRadius.all(AppRadius.brFull),
+        borderRadius: const .all(AppRadius.brFull),
         border: Border.all(color: colors.border),
       ),
       child: Row(

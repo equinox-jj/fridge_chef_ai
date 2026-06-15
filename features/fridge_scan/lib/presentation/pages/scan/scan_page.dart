@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:core/components/ai_loader/app_ai_loader.dart';
 import 'package:core/components/dialog/app_confirm_dialog.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
+import 'package:core/components/image_source_sheet/pick_image_source_sheet.dart';
 import 'package:core/components/loader/app_loading_indicator.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/constants/image_source_option/image_source_option.dart';
+import 'package:core/constants/image_source_option/photo_source_choice.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
@@ -22,8 +24,6 @@ import '../../../domain/entities/ingredient_entity.dart';
 import '../../../domain/entities/scan_entity.dart';
 import '../../../domain/entities/scan_result_entity.dart';
 import '../../../fridge_scan_routes.dart';
-import 'package:core/components/image_source_sheet/pick_image_source_sheet.dart';
-import 'package:core/constants/image_source_option/photo_source_choice.dart';
 import 'bloc/scan_bloc.dart';
 
 /// Preview & confirm step of the fridge scan.
@@ -211,7 +211,7 @@ class _ScanPreview extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: AppColors.surfaceInverse,
-                borderRadius: const BorderRadius.all(AppRadius.brLg),
+                borderRadius: const .all(AppRadius.brLg),
                 image: DecorationImage(
                   image: FileImage(File(image.path)),
                   fit: BoxFit.contain,

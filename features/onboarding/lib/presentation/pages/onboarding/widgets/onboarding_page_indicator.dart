@@ -22,7 +22,7 @@ class OnboardingPageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: .center,
       children: List<Widget>.generate(count, (int index) {
         final bool isActive = index == activeIndex;
         return AnimatedContainer(
@@ -33,7 +33,7 @@ class OnboardingPageIndicator extends StatelessWidget {
           height: _dotSize,
           decoration: BoxDecoration(
             color: isActive ? AppColors.primary : AppColors.borderPrimary,
-            borderRadius: const BorderRadius.all(AppRadius.brFull),
+            borderRadius: const .all(AppRadius.brFull),
           ),
         );
       }),

@@ -17,7 +17,7 @@ class ScanFridgeCard extends StatelessWidget {
 
   final VoidCallback? onTap;
 
-  static const BorderRadius _radius = BorderRadius.all(AppRadius.brLg);
+  static const BorderRadius _radius = .all(AppRadius.brLg);
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +47,14 @@ class ScanFridgeCard extends StatelessWidget {
                   const AppIconTile(
                     icon: Icons.photo_camera_rounded,
                     size: 50,
-                    borderRadius: BorderRadius.all(AppRadius.brMd),
+                    borderRadius: .all(AppRadius.brMd),
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.onPrimary,
                     boxShadow: AppShadows.primary,
                   ),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: .start,
                       spacing: AppSpacing.s1,
                       children: <Widget>[
                         Text(

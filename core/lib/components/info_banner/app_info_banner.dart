@@ -61,7 +61,7 @@ class AppInfoBanner extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: tone.background,
-        borderRadius: const BorderRadius.all(AppRadius.brMd),
+        borderRadius: const .all(AppRadius.brMd),
       ),
       child: Row(
         children: <Widget>[

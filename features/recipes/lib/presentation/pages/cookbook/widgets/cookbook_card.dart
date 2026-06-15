@@ -32,24 +32,24 @@ class CookbookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.surfaceCard,
-      borderRadius: const BorderRadius.all(AppRadius.brLg),
+      borderRadius: const .all(AppRadius.brLg),
       child: InkWell(
-        borderRadius: const BorderRadius.all(AppRadius.brLg),
+        borderRadius: const .all(AppRadius.brLg),
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
-            borderRadius: const BorderRadius.all(AppRadius.brLg),
+            borderRadius: const .all(AppRadius.brLg),
             border: Border.all(color: AppColors.borderDefault),
             boxShadow: AppShadows.sm,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: .stretch,
             children: <Widget>[
               Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: AppRadius.brLg),
+                  borderRadius: .vertical(top: AppRadius.brLg),
                 ),
                 child: RecipePhoto(
                   mood: RecipeMood.fromValue(recipe.mood),
@@ -59,7 +59,7 @@ class CookbookCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(AppSpacing.s3),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   children: <Widget>[
                     Text(
                       recipe.title,
@@ -72,7 +72,7 @@ class CookbookCard extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.s2),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: .spaceBetween,
                       children: <Widget>[
                         if (recipe.cookTimeMinutes != null)
                           Flexible(

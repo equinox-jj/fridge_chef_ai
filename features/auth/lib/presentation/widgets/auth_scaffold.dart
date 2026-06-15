@@ -40,6 +40,7 @@ class AuthScaffold extends StatelessWidget {
                 ),
               ),
               ?footer,
+              SizedBox(height: AppSpacing.s3),
             ],
           ),
         ),

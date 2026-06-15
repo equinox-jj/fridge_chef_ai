@@ -120,7 +120,7 @@ class _PulsingBrandMarkState extends State<_PulsingBrandMark>
             end: Alignment.bottomRight,
             colors: <Color>[AppPalette.green500, AppPalette.green700],
           ),
-          borderRadius: BorderRadius.all(AppRadius.brXl),
+          borderRadius: .all(AppRadius.brXl),
           boxShadow: AppShadows.primary,
         ),
         child: const Icon(

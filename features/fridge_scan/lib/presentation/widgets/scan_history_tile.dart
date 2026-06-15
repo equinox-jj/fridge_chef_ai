@@ -40,13 +40,13 @@ class ScanHistoryTile extends StatelessWidget {
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
-        borderRadius: const BorderRadius.all(AppRadius.brMd),
+        borderRadius: const .all(AppRadius.brMd),
         onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             border: Border.all(color: AppColors.borderDefault),
-            borderRadius: const BorderRadius.all(AppRadius.brMd),
+            borderRadius: const .all(AppRadius.brMd),
             boxShadow: AppShadows.xs,
           ),
           padding: const EdgeInsets.all(AppSpacing.s3),
@@ -56,7 +56,7 @@ class ScanHistoryTile extends StatelessWidget {
               const AppIconTile(icon: Icons.photo_outlined),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: .start,
                   spacing: AppSpacing.s1,
                   children: <Widget>[
                     Text(

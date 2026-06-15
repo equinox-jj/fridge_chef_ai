@@ -60,7 +60,7 @@ class AppBottomSheet extends StatelessWidget {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: .stretch,
             spacing: spacing,
             children: <Widget>[
               _Header(
