@@ -4,8 +4,6 @@ import 'package:core/logger/app_logger.dart';
 import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/supabase_service.dart';
 
-import 'data/datasources/ai/recipe_ai_data_source.dart';
-import 'data/datasources/ai/recipe_ai_data_source_impl.dart';
 import 'data/datasources/local/recipe_local_data_source.dart';
 import 'data/datasources/local/recipe_local_data_source_impl.dart';
 import 'data/datasources/remote/recipe_remote_data_source.dart';
@@ -30,12 +28,10 @@ import 'domain/usecases/save_recipe_usecase.dart';
 void initRecipesInjector() {
   getIt
     // Data sources
-    ..registerLazySingleton<RecipeAiDataSource>(
-      () => RecipeAiDataSourceImpl(getIt<AppLogger>()),
-    )
     ..registerLazySingleton<RecipeRemoteDataSource>(
       () => RecipeRemoteDataSourceImpl(
         supabaseService: getIt<SupabaseService>(),
+        logger: getIt<AppLogger>(),
       ),
     )
     ..registerLazySingleton<RecipeLocalDataSource>(
@@ -47,7 +43,6 @@ void initRecipesInjector() {
     // Repository
     ..registerLazySingleton<RecipeRepository>(
       () => RecipeRepositoryImpl(
-        aiDataSource: getIt<RecipeAiDataSource>(),
         remoteDataSource: getIt<RecipeRemoteDataSource>(),
         localDataSource: getIt<RecipeLocalDataSource>(),
         connectivity: getIt<ConnectivityService>(),

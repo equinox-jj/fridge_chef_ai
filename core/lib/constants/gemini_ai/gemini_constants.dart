@@ -1,6 +1,8 @@
 abstract final class GeminiConstants {
   static const int signedUrlTtl = 60 * 60 * 24 * 365;
   static const String geminiModel = 'gemini-2.5-flash';
+  static const int recipeCount = 3;
+  static const String defaultDiet = 'none';
   static const String ingredientScanPrompt = '''
 You are a kitchen assistant expert. First decide whether this photo actually
 shows food, ingredients, or the inside of a fridge.

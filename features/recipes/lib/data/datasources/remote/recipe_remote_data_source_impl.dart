@@ -1,23 +1,41 @@
+import 'dart:convert';
+
 import 'package:core/constants/exceptions/app_exceptions.dart';
+import 'package:core/constants/gemini_ai/gemini_constants.dart';
 import 'package:core/constants/supabase_table/supabase_table.dart';
+import 'package:core/logger/app_logger.dart';
 import 'package:core/services/supabase_service.dart';
+import 'package:dependencies/firebase/firebase_ai.dart' hide ServerException;
 import 'package:dependencies/supabase_flutter/supabase_flutter.dart';
 
 import '../../models/recipe_ingredient_model.dart';
 import '../../models/recipe_model.dart';
 import '../../models/recipe_step_model.dart';
 import '../../models/saved_recipe_model.dart';
+import '../../scheme/recipes_schema.dart';
 import 'recipe_remote_data_source.dart';
 
 class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
-  RecipeRemoteDataSourceImpl({required this._supabaseService});
-
-  final SupabaseService _supabaseService;
-
-  /// Value stored for a user who has not set a dietary preference.
-  static const String _defaultDiet = 'none';
+  RecipeRemoteDataSourceImpl({
+    required this._supabaseService,
+    required this._logger,
+  });
 
   SupabaseClient get _client => _supabaseService.client;
+
+  final SupabaseService _supabaseService;
+  final AppLogger _logger;
+
+  final GenerativeModel _model = FirebaseAI.googleAI().generativeModel(
+    model: GeminiConstants.geminiModel,
+    generationConfig: GenerationConfig(
+      responseMimeType: 'application/json',
+      // Enforce the output shape so every recipe always carries all its
+      // fields (no dropped keys when the model is unsure) — substitutes
+      // and step timers in particular must always be present.
+      responseSchema: RecipesSchema.responseSchema,
+    ),
+  );
 
   @override
   Future<String> getDietaryPreference() {
@@ -28,7 +46,9 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
           .eq('id', _requireUserId())
           .maybeSingle();
       final String? value = row?['dietary_preference'] as String?;
-      return (value == null || value.isEmpty) ? _defaultDiet : value;
+      return (value == null || value.isEmpty)
+          ? GeminiConstants.defaultDiet
+          : value;
     });
   }
 
@@ -91,8 +111,10 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
       final String recipeId = inserted['id'] as String;
 
       // 2 & 3. Batch-insert the steps and ingredients against that recipe.
-      await _insertSteps(recipeId, recipe.steps);
-      await _insertIngredients(recipeId, recipe.ingredients);
+      await Future.wait(<Future<void>>[
+        _insertSteps(recipeId, recipe.steps),
+        _insertIngredients(recipeId, recipe.ingredients),
+      ]);
 
       // 4. Link the recipe into the user's cookbook. The unique(user_id,
       //    recipe_id) constraint makes this safe against accidental dupes.
@@ -118,6 +140,124 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
         savedAt: DateTime.parse(link['saved_at'] as String),
       );
     });
+  }
+
+  @override
+  Future<List<RecipeModel>> generateRecipes({
+    required List<String> ingredientLines,
+    required String mood,
+    required String dietaryPreference,
+  }) async {
+    final String prompt = _buildPrompt(
+      ingredientLines: ingredientLines,
+      mood: mood,
+      dietaryPreference: dietaryPreference,
+    );
+
+    _logger.debug(
+      'AI recipe generation requested (${GeminiConstants.geminiModel}, mood: $mood, '
+      'diet: $dietaryPreference, ${ingredientLines.length} ingredient(s)).',
+    );
+
+    final String raw;
+    try {
+      final GenerateContentResponse response = await _model.generateContent(
+        <Content>[Content.text(prompt)],
+      );
+      raw = response.text ?? '';
+    } on AppException {
+      rethrow;
+    } catch (e, stackTrace) {
+      _logger.error(
+        'AI recipe generation request failed.',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw const ServerException(
+        "We couldn't write your recipes right now. Please try again.",
+      );
+    }
+
+    _logger.info('AI recipe generation response:\n$raw');
+
+    final List<RecipeModel> recipes = _parseRecipes(raw, mood);
+    _logger.debug('Parsed ${recipes.length} recipe(s) from AI response.');
+    return recipes;
+  }
+
+  /// Builds the generation prompt (PRD §11.2). The dietary line is only added
+  /// when a real preference is set, so "none" never leaks into the prompt.
+  String _buildPrompt({
+    required List<String> ingredientLines,
+    required String mood,
+    required String dietaryPreference,
+  }) {
+    final String ingredientList = ingredientLines
+        .map((String l) => '- $l')
+        .join('\n');
+    final bool hasDiet =
+        dietaryPreference.isNotEmpty &&
+        dietaryPreference.toLowerCase() != 'none';
+    final String dietRule = hasDiet
+        ? 'All recipes must be suitable for a $dietaryPreference diet.\n'
+        : '';
+    final String recipesPrompt =
+        '''
+You are a creative chef. Given these fridge ingredients:
+$ingredientList
+
+Generate exactly ${GeminiConstants.recipeCount} recipes matching the "$mood" mood.
+$dietRule
+Rules:
+- Exactly ${GeminiConstants.recipeCount} recipes.
+- Use the provided ingredients plus common pantry items (salt, oil, water, spices).
+- Set "timer_seconds" for any timed step; use 0 when the step is not timed.
+- Set "is_substitute" to true when an ingredient replaces a missing item.
+- "step_number" starts at 1 and increases in order.
+''';
+
+    return recipesPrompt;
+  }
+
+  /// Parses the model's JSON into [RecipeModel]s, attaching the requested
+  /// [mood] to each (it is a generation input, not part of the response).
+  List<RecipeModel> _parseRecipes(String raw, String mood) {
+    if (raw.trim().isEmpty) {
+      throw const ServerException(
+        'The AI returned an empty response. Please try again.',
+      );
+    }
+
+    try {
+      final dynamic decoded = jsonDecode(raw);
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Expected a JSON object.');
+      }
+      final dynamic items = decoded['recipes'];
+      final List<RecipeModel> recipes = items is List
+          ? items
+                .whereType<Map<String, dynamic>>()
+                .map(RecipeModel.fromJson)
+                .map((RecipeModel r) => r.copyWith(mood: mood))
+                .toList()
+          : <RecipeModel>[];
+
+      if (recipes.isEmpty) {
+        throw const ServerException(
+          'No recipes could be written from those ingredients. Please try again.',
+        );
+      }
+      return recipes;
+    } on FormatException catch (e, stackTrace) {
+      _logger.error(
+        'Failed to parse AI recipe response.',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      throw const ServerException(
+        "We couldn't read the recipes we generated. Please try again.",
+      );
+    }
   }
 
   Future<void> _insertSteps(

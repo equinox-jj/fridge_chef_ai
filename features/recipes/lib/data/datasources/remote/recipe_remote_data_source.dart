@@ -28,4 +28,13 @@ abstract class RecipeRemoteDataSource {
     String? note,
     String? scanId,
   });
+
+  /// Generates exactly three recipes from [ingredientLines] (one human-readable
+  /// line per ingredient, e.g. "2 pcs egg") tuned to [mood], constrained to
+  /// [dietaryPreference] when it is anything other than `none`.
+  Future<List<RecipeModel>> generateRecipes({
+    required List<String> ingredientLines,
+    required String mood,
+    required String dietaryPreference,
+  });
 }

@@ -9,7 +9,6 @@ import 'package:dependencies/fpdart/fpdart.dart';
 import '../../domain/entities/recipe_entity.dart';
 import '../../domain/entities/saved_recipe_entity.dart';
 import '../../domain/repositories/recipe_repository.dart';
-import '../datasources/ai/recipe_ai_data_source.dart';
 import '../datasources/local/recipe_local_data_source.dart';
 import '../datasources/remote/recipe_remote_data_source.dart';
 import '../mapper/recipe_mapper.dart';
@@ -19,14 +18,12 @@ import '../models/saved_recipe_model.dart';
 
 class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
   RecipeRepositoryImpl({
-    required this._aiDataSource,
     required this._remoteDataSource,
     required this._localDataSource,
     required this._connectivity,
     required this.logger,
   });
 
-  final RecipeAiDataSource _aiDataSource;
   final RecipeRemoteDataSource _remoteDataSource;
   final RecipeLocalDataSource _localDataSource;
   final ConnectivityService _connectivity;
@@ -94,7 +91,7 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
     required String dietaryPreference,
   }) {
     return guard(() async {
-      final List<RecipeModel> recipes = await _aiDataSource.generateRecipes(
+      final List<RecipeModel> recipes = await _remoteDataSource.generateRecipes(
         ingredientLines: ingredients.map(_describe).toList(),
         mood: mood,
         dietaryPreference: dietaryPreference,
