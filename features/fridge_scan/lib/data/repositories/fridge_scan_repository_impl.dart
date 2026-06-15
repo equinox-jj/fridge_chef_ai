@@ -5,6 +5,7 @@ import 'package:core/constants/network/failure.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
 import 'package:core/services/connectivity_service.dart';
+import 'package:core/services/image_compression_service_impl.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/scan_result_entity.dart';
@@ -23,12 +24,14 @@ class FridgeScanRepositoryImpl
     required this._remoteDataSource,
     required this._localDataSource,
     required this._connectivity,
+    required this._compressionService,
     required this.logger,
   });
 
   final FridgeScanRemoteDataSource _remoteDataSource;
   final FridgeScanLocalDataSource _localDataSource;
   final ConnectivityService _connectivity;
+  final ImageCompressionService _compressionService;
 
   @override
   final AppLogger logger;
@@ -38,14 +41,18 @@ class FridgeScanRepositoryImpl
     required Uint8List bytes,
   }) {
     return guard(() async {
+      final Uint8List compressed = await _compressionService.compress(bytes);
+
       // 1. Analyse the image first — this throws (e.g. NoFoodDetectedException)
       //    for a non-food photo, so nothing is uploaded or persisted below.
       final AiAnalysisResult analysis = await _remoteDataSource.analyzeImage(
-        imageBytes: bytes,
+        imageBytes: compressed,
       );
 
       // 2. Upload the validated image to storage and get a signed URL.
-      final String imageUrl = await _remoteDataSource.uploadImage(bytes: bytes);
+      final String imageUrl = await _remoteDataSource.uploadImage(
+        bytes: compressed,
+      );
 
       // 3. Persist the scan header.
       final ScanModel scan = await _remoteDataSource.insertScan(

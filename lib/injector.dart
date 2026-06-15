@@ -5,6 +5,7 @@ import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/services/connectivity_service.dart';
+import 'package:core/services/image_compression_service_impl.dart';
 import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/pending_dietary_preference_store.dart';
 import 'package:core/services/permission_service.dart';
@@ -36,6 +37,9 @@ void configureDependencies() {
   );
   getIt.registerLazySingleton<ImagePickerService>(
     ImagePickerService.new,
+  );
+  getIt.registerLazySingleton<ImageCompressionService>(
+    ImageCompressionServiceImpl.new,
   );
   getIt.registerLazySingleton<ConnectivityService>(
     ConnectivityServiceImpl.new,

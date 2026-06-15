@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:core/constants/network/failure.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
+import 'package:core/services/image_compression_service_impl.dart';
 import 'package:dependencies/fpdart/fpdart.dart';
 
 import '../../domain/entities/profile_entity.dart';
@@ -14,11 +15,13 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
   ProfileRepositoryImpl({
     required this._remoteDataSource,
     required this._localDataSource,
+    required this._compressionService,
     required this.logger,
   });
 
   final ProfileRemoteDataSource _remoteDataSource;
   final ProfileLocalDataSource _localDataSource;
+  final ImageCompressionService _compressionService;
 
   @override
   final AppLogger logger;
@@ -59,9 +62,12 @@ class ProfileRepositoryImpl with RepositoryGuard implements ProfileRepository {
   @override
   Future<Either<Failure, String>> updateAvatar({required Uint8List bytes}) {
     return guard(() async {
+      final Uint8List compressed = await _compressionService.compress(bytes);
       // Upload first, then write the resulting URL remotely (source of truth),
       // then mirror it into the cache so the header updates immediately.
-      final String url = await _remoteDataSource.uploadAvatar(bytes: bytes);
+      final String url = await _remoteDataSource.uploadAvatar(
+        bytes: compressed,
+      );
       await Future.wait(<Future<void>>[
         _remoteDataSource.updateAvatarUrl(url: url),
         _localDataSource.updateAvatarUrl(url: url),

@@ -1,6 +1,7 @@
 import 'package:core/database/app_database.dart';
 import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
+import 'package:core/services/image_compression_service_impl.dart';
 import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
@@ -41,6 +42,7 @@ void initProfileInjector() {
       () => ProfileRepositoryImpl(
         remoteDataSource: getIt<ProfileRemoteDataSource>(),
         localDataSource: getIt<ProfileLocalDataSource>(),
+        compressionService: getIt<ImageCompressionService>(),
         logger: getIt<AppLogger>(),
       ),
     )
