@@ -58,12 +58,12 @@ class _SignUpBodyState extends State<SignUpBody> {
 
           Text(
             'Create your account',
-            style: Theme.of(context).textTheme.displayMedium,
+            style: context.textTheme.displayMedium,
           ),
           const SizedBox(height: AppSpacing.s1),
           Text(
             'Free to start — 15 scans a day.',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            style: context.textTheme.bodySmall?.copyWith(
               color: AppColors.textMuted,
             ),
           ),
@@ -74,8 +74,8 @@ class _SignUpBodyState extends State<SignUpBody> {
           TextFormField(
             controller: _nameController,
             keyboardType: TextInputType.name,
-            textCapitalization: TextCapitalization.words,
-            textInputAction: TextInputAction.next,
+            textCapitalization: .words,
+            textInputAction: .next,
             autofillHints: const <String>[AutofillHints.name],
             validator: (String? value) => Validators.required(
               value,
@@ -119,10 +119,10 @@ class _SignUpBodyState extends State<SignUpBody> {
             width: double.infinity,
             child: Text(
               'By continuing you agree to our Terms and Privacy Policy.',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: context.textTheme.bodySmall?.copyWith(
                 color: AppColors.textFaint,
               ),
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
           ),
         ],

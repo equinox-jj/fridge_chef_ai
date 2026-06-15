@@ -40,9 +40,6 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _unitController = TextEditingController();
-
-  /// Selected category and live name-emptiness, kept as notifiers so only the
-  /// category chips and the confirm button rebuild — the text fields don't.
   final ValueNotifier<IngredientCategory> _category =
       ValueNotifier<IngredientCategory>(
         IngredientCategory.produce,
@@ -89,8 +86,8 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
       children: <Widget>[
         TextField(
           controller: _nameController,
-          textCapitalization: TextCapitalization.sentences,
-          textInputAction: TextInputAction.next,
+          textCapitalization: .sentences,
+          textInputAction: .next,
           autofocus: true,
           decoration: const InputDecoration(
             labelText: 'Name',
@@ -108,7 +105,7 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                textInputAction: TextInputAction.next,
+                textInputAction: .next,
                 decoration: const InputDecoration(
                   labelText: 'Quantity',
                   hintText: 'e.g. 200',
@@ -118,7 +115,7 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
             Expanded(
               child: TextField(
                 controller: _unitController,
-                textInputAction: TextInputAction.done,
+                textInputAction: .done,
                 onSubmitted: (_) => _submit(),
                 decoration: const InputDecoration(
                   labelText: 'Unit',

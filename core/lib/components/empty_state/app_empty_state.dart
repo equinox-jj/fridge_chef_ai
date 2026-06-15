@@ -21,7 +21,7 @@ class AppEmptyState extends StatelessWidget {
     this.actionLabel,
     this.actionIcon,
     this.onAction,
-    this.padding = const EdgeInsets.symmetric(vertical: AppSpacing.s8),
+    this.padding = const .symmetric(vertical: AppSpacing.s8),
   });
 
   final IconData icon;
@@ -39,7 +39,7 @@ class AppEmptyState extends StatelessWidget {
     return Padding(
       padding: padding,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: <Widget>[
           Icon(
             icon,
@@ -49,14 +49,14 @@ class AppEmptyState extends StatelessWidget {
           const SizedBox(height: AppSpacing.s3),
           Text(
             title,
-            textAlign: TextAlign.center,
+            textAlign: .center,
             style: context.textTheme.titleMedium,
           ),
           if (message != null) ...<Widget>[
             const SizedBox(height: AppSpacing.s2),
             Text(
               message!,
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: context.textTheme.bodySmall?.copyWith(
                 color: AppColors.textMuted,
               ),

@@ -22,7 +22,7 @@ class RecipeStepTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
+      padding: const .symmetric(
         horizontal: AppSpacing.s5,
         vertical: AppSpacing.s3,
       ),
@@ -67,10 +67,10 @@ class _StepNumber extends StatelessWidget {
     return Container(
       width: _size,
       height: _size,
-      alignment: Alignment.center,
+      alignment: .center,
       decoration: const BoxDecoration(
         color: AppColors.primary,
-        shape: BoxShape.circle,
+        shape: .circle,
       ),
       child: Text(
         '$number',

@@ -98,14 +98,14 @@ class _AppStepTimerState extends State<AppStepTimer> {
         widget.label != null && widget.label!.trim().isNotEmpty;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: const .symmetric(
         horizontal: AppSpacing.s3,
         vertical: AppSpacing.s2 + 2,
       ),
       decoration: BoxDecoration(
         color: AppColors.successTint,
         borderRadius: const .all(AppRadius.brMd),
-        border: Border.all(color: AppDarkPalette.green100),
+        border: .all(color: AppDarkPalette.green100),
       ),
       child: ListenableBuilder(
         listenable: Listenable.merge(<Listenable>[_remaining, _running]),
@@ -133,7 +133,7 @@ class _AppStepTimerState extends State<AppStepTimer> {
                   child: Text(
                     widget.label!,
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: .ellipsis,
                     style: context.textTheme.labelLarge?.copyWith(
                       color: AppColors.primaryText,
                       fontWeight: AppFontWeight.semiBold,
@@ -196,7 +196,7 @@ class _TimerButton extends StatelessWidget {
       elevation: 0,
       child: Ink(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: .circle,
           boxShadow: primary && enabled ? AppShadows.primary : AppShadows.xs,
         ),
         child: InkWell(

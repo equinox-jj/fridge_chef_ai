@@ -28,7 +28,7 @@ class OnboardingPageIndicator extends StatelessWidget {
         return AnimatedContainer(
           duration: AppMotion.base,
           curve: AppMotion.easeOut,
-          margin: const EdgeInsets.symmetric(horizontal: AppSpacing.s1 / 2),
+          margin: const .symmetric(horizontal: AppSpacing.s1 / 2),
           width: isActive ? _activeWidth : _dotSize,
           height: _dotSize,
           decoration: BoxDecoration(

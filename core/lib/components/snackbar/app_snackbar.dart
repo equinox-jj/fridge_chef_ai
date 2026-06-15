@@ -88,8 +88,8 @@ abstract final class AppSnackbar {
       behavior: SnackBarBehavior.floating,
       backgroundColor: AppColors.surfaceCard,
       elevation: 0,
-      margin: const EdgeInsets.all(AppSpacing.s4),
-      padding: const EdgeInsets.all(AppSpacing.s3),
+      margin: const .all(AppSpacing.s4),
+      padding: const .all(AppSpacing.s3),
       duration: const Duration(seconds: 4),
       shape: RoundedRectangleBorder(
         borderRadius: const .all(AppRadius.brLg),
@@ -101,7 +101,7 @@ abstract final class AppSnackbar {
           Container(
             width: AppSpacing.s8, // 40
             height: AppSpacing.s8,
-            alignment: Alignment.center,
+            alignment: .center,
             decoration: BoxDecoration(
               color: style.tint,
               borderRadius: const .all(AppRadius.brMd),
@@ -114,7 +114,7 @@ abstract final class AppSnackbar {
           ),
           Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: .min,
               crossAxisAlignment: .start,
               children: <Widget>[
                 if (title != null)

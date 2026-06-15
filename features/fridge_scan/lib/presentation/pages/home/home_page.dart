@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                   slivers: <Widget>[
                     // Fixed-height top content + the "Recent scans" heading.
                     SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
+                      padding: const .fromLTRB(
                         AppSpacing.s5,
                         AppSpacing.s2,
                         AppSpacing.s5,
@@ -190,7 +190,7 @@ class _RecentScansSliver extends StatelessWidget {
   });
 
   /// Horizontal page gutter plus the bottom inset that clears the FAB.
-  static const EdgeInsets _padding = EdgeInsets.fromLTRB(
+  static const EdgeInsets _padding = .fromLTRB(
     AppSpacing.s5,
     0,
     AppSpacing.s5,
@@ -225,7 +225,7 @@ class _RecentScansSliver extends StatelessWidget {
               final ScanResultEntity scan = scans[index];
               return Padding(
                 // Gap between rows; skip it after the last one.
-                padding: EdgeInsets.only(
+                padding: .only(
                   bottom: index == scans.length - 1 ? 0 : AppSpacing.s3,
                 ),
                 child: ScanHistoryTile(
@@ -273,7 +273,7 @@ class _EmptyRecentScansSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SliverPadding(
-      padding: EdgeInsets.fromLTRB(
+      padding: .fromLTRB(
         AppSpacing.s5,
         0,
         AppSpacing.s5,
@@ -306,10 +306,10 @@ class _ScanFab extends StatelessWidget {
       opacity: enabled ? 1 : 0.4,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: .circle,
           gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: .topLeft,
+            end: .bottomRight,
             colors: <Color>[
               AppPalette.green500,
               AppPalette.green700,

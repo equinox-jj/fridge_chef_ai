@@ -19,7 +19,7 @@ class AppInlineLink extends StatelessWidget {
     super.key,
     this.textStyle,
     this.linkStyle,
-    this.textAlign = TextAlign.center,
+    this.textAlign = .center,
   });
 
   final String text;
@@ -49,10 +49,13 @@ class AppInlineLink extends StatelessWidget {
         children: <InlineSpan>[
           TextSpan(text: '${text.trimRight()} '),
           WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
+            alignment: .middle,
             child: GestureDetector(
               onTap: onTap,
-              child: Text(linkLabel, style: resolvedLinkStyle),
+              child: Text(
+                linkLabel,
+                style: resolvedLinkStyle,
+              ),
             ),
           ),
         ],

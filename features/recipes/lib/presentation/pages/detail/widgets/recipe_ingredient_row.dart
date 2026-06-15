@@ -23,7 +23,7 @@ class RecipeIngredientRow extends StatelessWidget {
     final bool isSubstitute = ingredient.isSubstitute;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: const .symmetric(
         horizontal: AppSpacing.s5,
         vertical: AppSpacing.s2 + 2,
       ),

@@ -38,7 +38,7 @@ class RecipeDetailPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: const Padding(
-          padding: EdgeInsets.only(left: AppSpacing.s2),
+          padding: .only(left: AppSpacing.s2),
           child: RecipeDetailBackButton(),
         ),
       ),
@@ -90,7 +90,7 @@ class _SaveBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s3,
         AppSpacing.s5,

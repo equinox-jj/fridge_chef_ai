@@ -28,7 +28,7 @@ class ProfileGroup extends StatelessWidget {
       crossAxisAlignment: .start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(
+          padding: const .only(
             left: AppSpacing.s1,
             bottom: AppSpacing.s2,
           ),
@@ -45,7 +45,7 @@ class ProfileGroup extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
-            border: Border.all(color: AppColors.borderDefault),
+            border: .all(color: AppColors.borderDefault),
             borderRadius: const .all(AppRadius.brLg),
             boxShadow: AppShadows.xs,
           ),

@@ -25,7 +25,7 @@ class MoodPickerView extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
+            padding: const .fromLTRB(
               AppSpacing.s5,
               AppSpacing.s3,
               AppSpacing.s5,
@@ -120,7 +120,7 @@ class _DietBanner extends StatelessWidget {
       builder: (BuildContext context, DietaryPreference diet) {
         final bool hasDiet = diet != DietaryPreference.none;
         return Container(
-          padding: const EdgeInsets.all(AppSpacing.s4),
+          padding: const .all(AppSpacing.s4),
           decoration: BoxDecoration(
             color: AppColors.aiTint,
             borderRadius: const .all(AppRadius.brMd),
@@ -178,7 +178,7 @@ class _GenerateBar extends StatelessWidget {
       selector: (RecipeGenerationState state) => state.mood != null,
       builder: (BuildContext context, bool canGenerate) {
         return Container(
-          padding: const EdgeInsets.fromLTRB(
+          padding: const .fromLTRB(
             AppSpacing.s5,
             AppSpacing.s3,
             AppSpacing.s5,

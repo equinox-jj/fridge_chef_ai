@@ -1,7 +1,7 @@
 import 'package:core/components/ai_loader/app_ai_loader.dart';
 import 'package:core/components/empty_state/app_empty_state.dart';
-import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/components/tag/app_tag.dart';
+import 'package:core/constants/dietary/dietary_preference.dart';
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_font_family.dart';
@@ -46,7 +46,7 @@ class GenerateRecipesPage extends StatelessWidget {
             ),
         actions: const <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: AppSpacing.s4),
+            padding: .only(right: AppSpacing.s4),
             child: Center(
               child: AppTag(
                 label: 'Gemini',

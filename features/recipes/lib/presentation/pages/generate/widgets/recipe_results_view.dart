@@ -28,7 +28,7 @@ class RecipeResultsView extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.fromLTRB(
+            padding: const .fromLTRB(
               AppSpacing.s5,
               AppSpacing.s3,
               AppSpacing.s5,
@@ -59,7 +59,7 @@ class _RegenerateBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s3,
         AppSpacing.s5,

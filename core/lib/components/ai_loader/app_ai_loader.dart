@@ -63,9 +63,11 @@ class _AppAiLoaderState extends State<AppAiLoader>
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s8),
+        padding: const .symmetric(
+          horizontal: AppSpacing.s8,
+        ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: .min,
           children: <Widget>[
             RepaintBoundary(
               child: ScaleTransition(
@@ -73,12 +75,12 @@ class _AppAiLoaderState extends State<AppAiLoader>
                 child: Container(
                   width: _orbSize,
                   height: _orbSize,
-                  alignment: Alignment.center,
+                  alignment: .center,
                   decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
+                    shape: .circle,
                     gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: .topLeft,
+                      end: .bottomRight,
                       colors: <Color>[
                         AppDarkPalette.purple400,
                         AppDarkPalette.purple600,
@@ -97,14 +99,14 @@ class _AppAiLoaderState extends State<AppAiLoader>
             const SizedBox(height: AppSpacing.s6),
             Text(
               widget.title,
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: context.textTheme.displaySmall,
             ),
             if (widget.subtitle != null) ...<Widget>[
               const SizedBox(height: AppSpacing.s2),
               Text(
                 widget.subtitle!,
-                textAlign: TextAlign.center,
+                textAlign: .center,
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: AppColors.textMuted,
                 ),

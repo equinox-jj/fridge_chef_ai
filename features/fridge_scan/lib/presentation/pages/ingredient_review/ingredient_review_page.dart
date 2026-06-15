@@ -86,7 +86,7 @@ class IngredientReviewPage extends StatelessWidget {
             selector: (IngredientReviewState state) => state.items.length,
             builder: (BuildContext context, int count) {
               return Padding(
-                padding: const EdgeInsets.only(right: AppSpacing.s4),
+                padding: const .only(right: AppSpacing.s4),
                 child: AppTag(
                   label: '$count found',
                   icon: Icons.check_rounded,
@@ -141,7 +141,7 @@ class _IngredientList extends StatelessWidget {
     final List<_CategoryGroup> groups = _groupByCategory(items);
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s2,
         AppSpacing.s5,
@@ -197,7 +197,7 @@ class _CategorySection extends StatelessWidget {
     final IngredientReviewCubit cubit = context.read<IngredientReviewCubit>();
 
     return Padding(
-      padding: const EdgeInsets.only(top: AppSpacing.s4),
+      padding: const .only(top: AppSpacing.s4),
       child: Column(
         crossAxisAlignment: .stretch,
         spacing: AppSpacing.s2,
@@ -252,10 +252,10 @@ class _AddMissingRow extends StatelessWidget {
         borderRadius: const .all(AppRadius.brMd),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(AppSpacing.s4),
+          padding: const .all(AppSpacing.s4),
           decoration: BoxDecoration(
             borderRadius: const .all(AppRadius.brMd),
-            border: Border.all(color: AppDarkPalette.green300, width: 1.5),
+            border: .all(color: AppDarkPalette.green300, width: 1.5),
           ),
           child: Row(
             mainAxisAlignment: .center,
@@ -314,7 +314,7 @@ class _ContinueBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s3,
         AppSpacing.s5,
@@ -329,7 +329,7 @@ class _ContinueBar extends StatelessWidget {
       child: FilledButton.icon(
         onPressed: enabled ? onContinue : null,
         icon: const Icon(Icons.arrow_forward_rounded),
-        iconAlignment: IconAlignment.end,
+        iconAlignment: .end,
         label: const Text('Choose a mood'),
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(

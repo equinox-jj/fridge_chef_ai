@@ -48,18 +48,18 @@ class AppBottomSheet extends StatelessWidget {
     final double bottomInset = context.viewInsets.bottom;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: bottomInset),
+      padding: .only(bottom: bottomInset),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(
+          padding: const .fromLTRB(
             AppSpacing.s5,
             AppSpacing.s0,
             AppSpacing.s5,
             AppSpacing.s6,
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: .min,
             crossAxisAlignment: .stretch,
             spacing: spacing,
             children: <Widget>[
@@ -94,7 +94,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final Text titleText = Text(
       title,
-      textAlign: centerTitle ? TextAlign.center : TextAlign.start,
+      textAlign: centerTitle ? .center : .start,
       style: context.textTheme.headlineMedium?.copyWith(
         fontFamily: AppFontFamily.display,
         fontWeight: AppFontWeight.bold,

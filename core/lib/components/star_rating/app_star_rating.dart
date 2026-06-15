@@ -44,7 +44,7 @@ class AppStarRating extends StatelessWidget {
     return Semantics(
       label: '$value of $max stars',
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: List<Widget>.generate(max, (int index) {
           final int starValue = index + 1;
           final bool on = starValue <= value;

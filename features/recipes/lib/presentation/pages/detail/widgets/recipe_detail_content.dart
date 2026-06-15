@@ -32,11 +32,11 @@ class RecipeDetailContent extends StatelessWidget {
 
     return ListView(
       // Leave room for the floating app bar at the top and the save bar below.
-      padding: const EdgeInsets.only(bottom: AppSpacing.s6),
+      padding: const .only(bottom: AppSpacing.s6),
       children: <Widget>[
         RecipePhoto(mood: mood, height: 220),
         Padding(
-          padding: const EdgeInsets.fromLTRB(
+          padding: const .fromLTRB(
             AppSpacing.s5,
             AppSpacing.s4,
             AppSpacing.s5,
@@ -65,7 +65,7 @@ class RecipeDetailContent extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(
+          padding: const .fromLTRB(
             AppSpacing.s5,
             AppSpacing.s3,
             AppSpacing.s5,
@@ -81,7 +81,7 @@ class RecipeDetailContent extends StatelessWidget {
         ),
         if (recipe.description != null)
           Padding(
-            padding: const EdgeInsets.fromLTRB(
+            padding: const .fromLTRB(
               AppSpacing.s5,
               AppSpacing.s2,
               AppSpacing.s5,
@@ -118,7 +118,7 @@ class _SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s6,
         AppSpacing.s5,

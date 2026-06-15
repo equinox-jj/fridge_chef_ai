@@ -93,10 +93,10 @@ class PickImageSourceSheet extends StatelessWidget {
           ),
         if (caption != null)
           Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.s1),
+            padding: const .only(top: AppSpacing.s1),
             child: Text(
               caption!,
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: context.textTheme.bodySmall?.copyWith(
                 color: AppColors.textFaint,
               ),

@@ -1,5 +1,6 @@
 import 'package:core/components/snackbar/app_snackbar.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
+import 'package:core/extensions/context_ext.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
@@ -24,10 +25,12 @@ class ForgotPasswordPage extends StatelessWidget {
           p.forgotPasswordStatus != c.forgotPasswordStatus,
       listener: _onStateChanged,
       child: AuthScaffold(
-        header: const AuthTitledHeader(title: 'Reset password'),
+        header: const AuthTitledHeader(
+          title: 'Reset password',
+        ),
         body: const ForgotPasswordBody(),
         footer: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: const .symmetric(
             horizontal: AppSpacing.s5,
             vertical: AppSpacing.s3,
           ),
@@ -36,10 +39,13 @@ class ForgotPasswordPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: .center,
               children: <Widget>[
-                const Icon(Icons.chevron_left, color: AppColors.primaryText),
+                const Icon(
+                  Icons.chevron_left,
+                  color: AppColors.primaryText,
+                ),
                 Text(
                   'Back to sign in',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  style: context.textTheme.bodySmall?.copyWith(
                     color: AppColors.primaryText,
                     fontWeight: AppFontWeight.semiBold,
                   ),

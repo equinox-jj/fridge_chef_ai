@@ -61,8 +61,8 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
         const SizedBox(height: AppSpacing.s4),
         Text(
           'Forgot your password?',
-          style: Theme.of(context).textTheme.displaySmall,
-          textAlign: TextAlign.center,
+          style: context.textTheme.displaySmall,
+          textAlign: .center,
         ),
         const SizedBox(height: AppSpacing.s2),
         Center(
@@ -70,10 +70,10 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
             constraints: const BoxConstraints(maxWidth: 240),
             child: Text(
               "Enter your email and we'll send a link to reset it.",
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: context.textTheme.bodySmall?.copyWith(
                 color: AppColors.textMuted,
               ),
-              textAlign: TextAlign.center,
+              textAlign: .center,
             ),
           ),
         ),

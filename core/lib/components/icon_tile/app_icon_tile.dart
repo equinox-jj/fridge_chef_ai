@@ -36,7 +36,7 @@ class AppIconTile extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      alignment: Alignment.center,
+      alignment: .center,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: borderRadius,

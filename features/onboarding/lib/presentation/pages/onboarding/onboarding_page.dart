@@ -106,9 +106,9 @@ class _OnboardingViewState extends State<_OnboardingView> {
             SizedBox(
               height: AppLayout.headerHeight,
               child: Align(
-                alignment: Alignment.centerRight,
+                alignment: .centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: const .symmetric(
                     horizontal: AppSpacing.s3,
                   ),
                   child: TextButton(
@@ -134,7 +134,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(
+              padding: const .fromLTRB(
                 AppSpacing.s5,
                 AppSpacing.s0,
                 AppSpacing.s5,

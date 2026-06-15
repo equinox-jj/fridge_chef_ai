@@ -81,7 +81,7 @@ abstract final class AppTheme {
         color: scheme.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        margin: EdgeInsets.zero,
+        margin: .zero,
         clipBehavior: Clip.antiAlias,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.all(AppRadius.brMd),
@@ -90,7 +90,7 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: scheme.surface,
-        contentPadding: const EdgeInsets.symmetric(
+        contentPadding: const .symmetric(
           horizontal: 16,
           vertical: 14,
         ),
@@ -202,7 +202,7 @@ abstract final class AppTheme {
   static ButtonStyle _buttonStyle(TextTheme textTheme) {
     return FilledButton.styleFrom(
       minimumSize: const Size(0, AppLayout.tapTarget),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const .symmetric(horizontal: 20, vertical: 12),
       textStyle: textTheme.labelLarge,
       shape: RoundedRectangleBorder(
         borderRadius: .all(AppRadius.brFull),

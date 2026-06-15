@@ -40,7 +40,7 @@ class CookbookCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             borderRadius: const .all(AppRadius.brLg),
-            border: Border.all(color: AppColors.borderDefault),
+            border: .all(color: AppColors.borderDefault),
             boxShadow: AppShadows.sm,
           ),
           child: Column(
@@ -57,14 +57,14 @@ class CookbookCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(AppSpacing.s3),
+                padding: const .all(AppSpacing.s3),
                 child: Column(
                   crossAxisAlignment: .start,
                   children: <Widget>[
                     Text(
                       recipe.title,
                       maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      overflow: .ellipsis,
                       style: context.textTheme.titleSmall?.copyWith(
                         fontWeight: AppFontWeight.bold,
                         height: 1.25,
@@ -79,7 +79,7 @@ class CookbookCard extends StatelessWidget {
                             child: Text(
                               '${recipe.cookTimeMinutes} min',
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              overflow: .ellipsis,
                               style: context.textTheme.labelMedium?.copyWith(
                                 fontFamily: AppFontFamily.mono,
                                 color: AppColors.textMuted,

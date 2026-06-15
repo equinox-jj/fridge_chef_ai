@@ -26,11 +26,11 @@ class ScanFridgeCard extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
+            begin: .topRight,
+            end: .bottomLeft,
             colors: <Color>[AppDarkPalette.green50, AppColors.surfaceCard],
           ),
-          border: Border.all(color: AppDarkPalette.green100),
+          border: .all(color: AppDarkPalette.green100),
           borderRadius: _radius,
           boxShadow: AppShadows.sm,
         ),
@@ -40,7 +40,7 @@ class ScanFridgeCard extends StatelessWidget {
             borderRadius: _radius,
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.s4),
+              padding: const .all(AppSpacing.s4),
               child: Row(
                 spacing: AppSpacing.s4,
                 children: <Widget>[

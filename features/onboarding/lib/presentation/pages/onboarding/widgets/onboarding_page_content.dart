@@ -58,12 +58,12 @@ class OnboardingPageContent extends StatelessWidget {
             constraints: BoxConstraints(minHeight: constraints.maxHeight),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
+                padding: const .symmetric(
                   horizontal: AppSpacing.s7,
                   vertical: AppSpacing.s6,
                 ),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: .min,
                   children: <Widget>[
                     _Artwork(
                       icon: step.icon,
@@ -73,15 +73,17 @@ class OnboardingPageContent extends StatelessWidget {
                     const SizedBox(height: AppSpacing.s6),
                     Text(
                       step.title,
-                      textAlign: TextAlign.center,
+                      textAlign: .center,
                       style: context.textTheme.displaySmall,
                     ),
                     const SizedBox(height: AppSpacing.s3),
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 300),
+                      constraints: const BoxConstraints(
+                        maxWidth: 300,
+                      ),
                       child: Text(
                         step.body,
-                        textAlign: TextAlign.center,
+                        textAlign: .center,
                         style: context.textTheme.bodyLarge?.copyWith(
                           color: AppColors.textMuted,
                         ),
@@ -92,7 +94,7 @@ class OnboardingPageContent extends StatelessWidget {
                       DietaryPreferenceChips(
                         selected: dietarySelected,
                         onSelected: onDietarySelected ?? (_) {},
-                        alignment: WrapAlignment.center,
+                        alignment: .center,
                       ),
                     ],
                   ],

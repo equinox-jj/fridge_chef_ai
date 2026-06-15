@@ -27,13 +27,13 @@ class AppStepper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.s1 - 1),
+      padding: const .all(AppSpacing.s1 - 1),
       decoration: const BoxDecoration(
         color: AppColors.surfaceSunken,
         borderRadius: .all(AppRadius.brFull),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: <Widget>[
           _StepButton(
             icon: Icons.remove_rounded,
@@ -44,7 +44,7 @@ class AppStepper extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: 52),
             child: Text(
               label,
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: AppTypography.mono.copyWith(
                 fontSize: AppTextSize.sm,
                 color: AppColors.textBody,
@@ -86,7 +86,7 @@ class _StepButton extends StatelessWidget {
       shadowColor: Colors.transparent,
       child: Ink(
         decoration: const BoxDecoration(
-          shape: BoxShape.circle,
+          shape: .circle,
           boxShadow: AppShadows.xs,
         ),
         child: InkWell(

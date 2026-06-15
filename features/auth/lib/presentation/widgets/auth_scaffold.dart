@@ -1,6 +1,7 @@
 import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
+import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
 /// Slim slot-based scaffold for the auth flow.
@@ -33,7 +34,7 @@ class AuthScaffold extends StatelessWidget {
               ?header,
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
+                  padding: const .symmetric(
                     horizontal: AppSpacing.s5,
                   ),
                   child: body,
@@ -62,7 +63,7 @@ class AuthBackHeader extends StatelessWidget {
           const SizedBox(width: AppSpacing.s2),
           IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
           ),
         ],
       ),
@@ -85,12 +86,12 @@ class AuthTitledHeader extends StatelessWidget {
           const SizedBox(width: AppSpacing.s2),
           IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
           ),
           Expanded(
             child: Text(
               title,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: context.textTheme.headlineMedium,
             ),
           ),
         ],

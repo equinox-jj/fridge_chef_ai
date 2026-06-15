@@ -50,7 +50,7 @@ class ScanHistoryPage extends StatelessWidget {
             builder: (BuildContext context, ScanHistoryState state) {
               if (state.scans.isEmpty) return const SizedBox.shrink();
               return Padding(
-                padding: const EdgeInsets.only(right: AppSpacing.s4),
+                padding: const .only(right: AppSpacing.s4),
                 child: AppTag(
                   tone: AppTagTone.blue,
                   icon: Icons.history_rounded,
@@ -93,7 +93,7 @@ class _ScanHistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s2,
         AppSpacing.s5,
@@ -104,7 +104,7 @@ class _ScanHistoryList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: AppSpacing.s1),
+            padding: const .only(bottom: AppSpacing.s1),
             child: Text(
               'Tap a scan to reopen its ingredients and cook again.',
               style: context.textTheme.bodySmall?.copyWith(
@@ -140,7 +140,7 @@ class _ScanHistorySkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(
+        padding: const .fromLTRB(
           AppSpacing.s5,
           AppSpacing.s4,
           AppSpacing.s5,

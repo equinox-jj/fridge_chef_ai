@@ -207,7 +207,7 @@ class _ScanPreview extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.s5),
+            padding: const .all(AppSpacing.s5),
             child: Container(
               decoration: BoxDecoration(
                 color: AppColors.surfaceInverse,
@@ -242,7 +242,7 @@ class _PreviewActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s5,
         AppSpacing.s0,
         AppSpacing.s5,
@@ -304,16 +304,16 @@ class _ScanError extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.s8),
+        padding: const .all(AppSpacing.s8),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: .min,
           children: <Widget>[
             Container(
               width: _iconCircle,
               height: _iconCircle,
-              alignment: Alignment.center,
+              alignment: .center,
               decoration: const BoxDecoration(
-                shape: BoxShape.circle,
+                shape: .circle,
                 color: AppColors.dangerTint,
               ),
               child: const Icon(
@@ -325,7 +325,7 @@ class _ScanError extends StatelessWidget {
             const SizedBox(height: AppSpacing.s5),
             Text(
               "We couldn't read that photo",
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: context.textTheme.displaySmall,
             ),
             const SizedBox(height: AppSpacing.s2),
@@ -333,7 +333,7 @@ class _ScanError extends StatelessWidget {
               message ??
                   'We couldn\'t find any ingredients. Try better lighting, '
                       'or step back so more of the fridge is visible.',
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: AppColors.textMuted,
               ),
@@ -360,7 +360,7 @@ class _ScanError extends StatelessWidget {
             const SizedBox(height: AppSpacing.s4),
             Text(
               "Your photo wasn't saved · no quota used",
-              textAlign: TextAlign.center,
+              textAlign: .center,
               style: AppTypography.mono.copyWith(
                 fontSize: AppTextSize.xs,
                 color: AppColors.textFaint,
@@ -384,7 +384,7 @@ class _PhotoPrompt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.s8),
+        padding: const .all(AppSpacing.s8),
         child: AppEmptyState(
           icon: Icons.photo_camera_back_rounded,
           title: 'Add a fridge photo',
@@ -392,7 +392,7 @@ class _PhotoPrompt extends StatelessWidget {
           actionLabel: 'Add a photo',
           actionIcon: Icons.add_a_photo_rounded,
           onAction: onAddPhoto,
-          padding: EdgeInsets.zero,
+          padding: .zero,
         ),
       ),
     );

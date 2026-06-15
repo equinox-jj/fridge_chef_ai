@@ -38,17 +38,17 @@ class AppTag extends StatelessWidget {
     final _TagColors colors = _colorsFor(tone);
 
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: const .symmetric(
         horizontal: AppSpacing.s3,
         vertical: AppSpacing.s1,
       ),
       decoration: BoxDecoration(
         color: colors.background,
         borderRadius: const .all(AppRadius.brFull),
-        border: Border.all(color: colors.border),
+        border: .all(color: colors.border),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: <Widget>[
           if (icon != null) ...<Widget>[
             Icon(icon, size: AppTextSize.sm, color: colors.foreground),

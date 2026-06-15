@@ -1,3 +1,4 @@
+import 'package:core/extensions/context_ext.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:dependencies/bloc/bloc.dart';
@@ -26,7 +27,7 @@ class ForgotPasswordConfirmationPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s5),
+            padding: const .symmetric(horizontal: AppSpacing.s5),
             child: Column(
               mainAxisAlignment: .center,
               children: <Widget>[
@@ -36,7 +37,7 @@ class ForgotPasswordConfirmationPage extends StatelessWidget {
                   height: 92,
                   decoration: const BoxDecoration(
                     color: AppColors.primaryTint,
-                    shape: BoxShape.circle,
+                    shape: .circle,
                   ),
                   child: const Icon(
                     Icons.mail_outline,
@@ -49,23 +50,23 @@ class ForgotPasswordConfirmationPage extends StatelessWidget {
 
                 Text(
                   'Check your email',
-                  style: Theme.of(context).textTheme.displayMedium,
-                  textAlign: TextAlign.center,
+                  style: context.textTheme.displayMedium,
+                  textAlign: .center,
                 ),
 
                 const SizedBox(height: AppSpacing.s2),
 
                 RichText(
-                  textAlign: TextAlign.center,
+                  textAlign: .center,
                   text: TextSpan(
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    style: context.textTheme.bodySmall?.copyWith(
                       color: AppColors.textMuted,
                     ),
                     children: <TextSpan>[
                       const TextSpan(text: 'We sent a reset link to '),
                       TextSpan(
                         text: email,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        style: context.textTheme.bodySmall?.copyWith(
                           color: AppColors.textBody,
                           fontWeight: FontWeight.w600,
                         ),
@@ -116,20 +117,20 @@ class ForgotPasswordConfirmationPage extends StatelessWidget {
                           children: <TextSpan>[
                             TextSpan(
                               text: "Didn't get it? ",
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: AppColors.textMuted),
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: AppColors.textMuted,
+                              ),
                             ),
                             TextSpan(
                               text: isCooling
                                   ? 'Resend in ${state.resendCountdown}s'
                                   : 'Resend',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(
-                                    color: isCooling
-                                        ? AppColors.textFaint
-                                        : AppColors.primaryText,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: isCooling
+                                    ? AppColors.textFaint
+                                    : AppColors.primaryText,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),

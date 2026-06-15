@@ -45,11 +45,11 @@ class ScanHistoryTile extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
-            border: Border.all(color: AppColors.borderDefault),
+            border: .all(color: AppColors.borderDefault),
             borderRadius: const .all(AppRadius.brMd),
             boxShadow: AppShadows.xs,
           ),
-          padding: const EdgeInsets.all(AppSpacing.s3),
+          padding: const .all(AppSpacing.s3),
           child: Row(
             spacing: AppSpacing.s4,
             children: <Widget>[

@@ -61,7 +61,7 @@ class AppListRow extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: const .symmetric(
             horizontal: AppSpacing.s4,
             vertical: AppSpacing.s3,
           ),

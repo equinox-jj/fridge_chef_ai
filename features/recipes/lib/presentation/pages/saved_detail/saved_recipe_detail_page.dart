@@ -27,7 +27,7 @@ class SavedRecipeDetailPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: const Padding(
-          padding: EdgeInsets.only(left: AppSpacing.s2),
+          padding: .only(left: AppSpacing.s2),
           child: RecipeDetailBackButton(),
         ),
       ),

@@ -53,7 +53,7 @@ class _SaveRateSheetState extends State<SaveRateSheet> {
       children: <Widget>[
         Text(
           'How did it turn out?',
-          textAlign: TextAlign.center,
+          textAlign: .center,
           style: context.textTheme.bodyMedium?.copyWith(
             color: AppColors.textMuted,
           ),
@@ -70,10 +70,10 @@ class _SaveRateSheetState extends State<SaveRateSheet> {
         ),
         TextField(
           controller: _noteController,
-          textCapitalization: TextCapitalization.sentences,
+          textCapitalization: .sentences,
           minLines: 1,
           maxLines: 3,
-          textInputAction: TextInputAction.done,
+          textInputAction: .done,
           onSubmitted: (_) => _submit(),
           decoration: const InputDecoration(
             labelText: 'Add a note (optional)',

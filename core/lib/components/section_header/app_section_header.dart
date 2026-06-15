@@ -38,7 +38,7 @@ class AppSectionHeader extends StatelessWidget {
           TextButton(
             onPressed: onActionPressed,
             style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
+              padding: .zero,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               textStyle: context.textTheme.labelLarge?.copyWith(

@@ -130,7 +130,7 @@ class _CookbookPageState extends State<CookbookPage> {
                 children: <Widget>[
                   if (isOffline)
                     const Padding(
-                      padding: EdgeInsets.fromLTRB(
+                      padding: .fromLTRB(
                         AppSpacing.s5,
                         AppSpacing.s2,
                         AppSpacing.s5,
@@ -226,7 +226,7 @@ class _CookbookGrid extends StatelessWidget {
       child: CustomScrollView(
         slivers: <Widget>[
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
+            padding: const .fromLTRB(
               AppSpacing.s5,
               AppSpacing.s2,
               AppSpacing.s5,
@@ -243,7 +243,7 @@ class _CookbookGrid extends StatelessWidget {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
+            padding: const .fromLTRB(
               AppSpacing.s5,
               0,
               AppSpacing.s5,
@@ -290,10 +290,10 @@ class _ScanFab extends StatelessWidget {
       opacity: enabled ? 1 : 0.4,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: .circle,
           gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: .topLeft,
+            end: .bottomRight,
             colors: <Color>[AppPalette.green500, AppPalette.green700],
           ),
           boxShadow: enabled ? AppShadows.primary : null,

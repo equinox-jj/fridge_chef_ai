@@ -17,7 +17,7 @@ class DietaryPreferenceChips extends StatelessWidget {
   const DietaryPreferenceChips({
     required this.selected,
     required this.onSelected,
-    this.alignment = WrapAlignment.start,
+    this.alignment = .start,
     super.key,
   });
 

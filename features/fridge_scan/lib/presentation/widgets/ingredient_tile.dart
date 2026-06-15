@@ -33,7 +33,7 @@ class IngredientTile extends StatelessWidget {
     );
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(
+      padding: const .fromLTRB(
         AppSpacing.s3,
         AppSpacing.s2,
         AppSpacing.s2,
@@ -41,18 +41,22 @@ class IngredientTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.surfaceCard,
-        border: Border.all(color: AppColors.borderDefault),
+        border: .all(color: AppColors.borderDefault),
         borderRadius: const .all(AppRadius.brMd),
       ),
       child: Row(
         spacing: AppSpacing.s3,
         children: <Widget>[
-          AppIconTile(icon: category.icon, size: 38, iconSize: AppTextSize.h3),
+          AppIconTile(
+            icon: category.icon,
+            size: 38,
+            iconSize: AppTextSize.h3,
+          ),
           Expanded(
             child: Text(
               _displayName,
               maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              overflow: .ellipsis,
               style: context.textTheme.titleMedium,
             ),
           ),

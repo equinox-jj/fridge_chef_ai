@@ -55,7 +55,7 @@ class AppInfoBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: const .symmetric(
         horizontal: AppSpacing.s4,
         vertical: AppSpacing.s3,
       ),

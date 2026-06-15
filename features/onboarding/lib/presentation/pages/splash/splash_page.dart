@@ -31,9 +31,9 @@ class SplashPage extends StatelessWidget {
             children: <Widget>[
               Center(child: _SplashBrand()),
               Align(
-                alignment: Alignment.bottomCenter,
+                alignment: .bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: AppSpacing.s8),
+                  padding: .only(bottom: AppSpacing.s8),
                   child: _VersionLabel(),
                 ),
               ),
@@ -64,7 +64,7 @@ class _SplashBrand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: .min,
       children: <Widget>[
         const _PulsingBrandMark(),
         const SizedBox(height: AppSpacing.s5),
@@ -116,8 +116,8 @@ class _PulsingBrandMarkState extends State<_PulsingBrandMark>
         height: AppSpacing.s12,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: .topLeft,
+            end: .bottomRight,
             colors: <Color>[AppPalette.green500, AppPalette.green700],
           ),
           borderRadius: .all(AppRadius.brXl),

@@ -60,15 +60,15 @@ class _SignInBodyState extends State<SignInBody> {
 
           // Brand mark — 64×64 green gradient tile
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: .centerLeft,
             child: Container(
               width: 64,
               height: 64,
               decoration: BoxDecoration(
                 borderRadius: .circular(AppRadius.lg),
                 gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: .topLeft,
+                  end: .bottomRight,
                   colors: <Color>[
                     AppDarkPalette.green500,
                     AppDarkPalette.green800,
@@ -88,12 +88,12 @@ class _SignInBodyState extends State<SignInBody> {
 
           Text(
             'Welcome back',
-            style: Theme.of(context).textTheme.displayMedium,
+            style: context.textTheme.displayMedium,
           ),
           const SizedBox(height: AppSpacing.s1),
           Text(
             'Sign in to start cooking',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            style: context.textTheme.bodySmall?.copyWith(
               color: AppColors.textMuted,
             ),
           ),
@@ -109,9 +109,9 @@ class _SignInBodyState extends State<SignInBody> {
                 return const SizedBox.shrink();
               }
               return Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.s4),
+                padding: const .only(bottom: AppSpacing.s4),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: const .symmetric(
                     horizontal: 14,
                     vertical: 11,
                   ),
@@ -130,10 +130,9 @@ class _SignInBodyState extends State<SignInBody> {
                       Expanded(
                         child: Text(
                           "That didn't match. Check your details and try again.",
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: AppColors.dangerText,
-                              ),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.dangerText,
+                          ),
                         ),
                       ),
                     ],
@@ -153,12 +152,12 @@ class _SignInBodyState extends State<SignInBody> {
 
           // Forgot password link
           Align(
-            alignment: Alignment.centerRight,
+            alignment: .centerRight,
             child: GestureDetector(
               onTap: () => context.read<AppNavigator>().pushToForgotPassword(),
               child: Text(
                 'Forgot password?',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                style: context.textTheme.bodySmall?.copyWith(
                   color: AppColors.primaryText,
                   fontWeight: AppFontWeight.semiBold,
                 ),

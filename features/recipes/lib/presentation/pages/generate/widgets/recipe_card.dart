@@ -38,7 +38,7 @@ class RecipeCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             borderRadius: const .all(AppRadius.brLg),
-            border: Border.all(color: AppColors.borderDefault),
+            border: .all(color: AppColors.borderDefault),
             boxShadow: AppShadows.sm,
           ),
           child: Column(
@@ -59,7 +59,7 @@ class RecipeCard extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(AppSpacing.s4),
+                padding: const .all(AppSpacing.s4),
                 child: Column(
                   crossAxisAlignment: .start,
                   children: <Widget>[

@@ -86,99 +86,116 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocConsumer<ProfileCubit, ProfileState>(
-        listenWhen: (ProfileState p, ProfileState c) =>
-            p.signOutStatus != c.signOutStatus ||
-            p.dietaryStatus != c.dietaryStatus ||
-            p.avatarStatus != c.avatarStatus,
-        listener: _onStateChanged,
-        builder: (BuildContext context, ProfileState state) {
-          final bool isLoading = state.loadStatus == BlocStatus.loading;
-          return SafeArea(
-            child: Skeletonizer(
-              enabled: isLoading,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
-                  AppSpacing.s5,
-                  AppSpacing.s2,
-                  AppSpacing.s5,
-                  AppSpacing.s8,
-                ),
-                child: Column(
-                  crossAxisAlignment: .stretch,
-                  spacing: AppSpacing.s6,
-                  children: <Widget>[
-                    _ProfileHeader(
-                      profile: state.profile,
-                      isUpdating: state.avatarStatus == BlocStatus.loading,
-                      onEditTap: () => _editAvatar(
-                        context,
-                        hasAvatar:
-                            state.profile?.avatarUrl?.isNotEmpty ?? false,
+      body: MultiBlocListener(
+        listeners: <BlocListener<ProfileCubit, ProfileState>>[
+          BlocListener<ProfileCubit, ProfileState>(
+            listenWhen: (ProfileState p, ProfileState c) =>
+                p.signOutStatus != c.signOutStatus,
+            listener: _onSignOutChanged,
+          ),
+          BlocListener<ProfileCubit, ProfileState>(
+            listenWhen: (ProfileState p, ProfileState c) =>
+                p.dietaryStatus != c.dietaryStatus,
+            listener: _onDietaryChanged,
+          ),
+          BlocListener<ProfileCubit, ProfileState>(
+            listenWhen: (ProfileState p, ProfileState c) =>
+                p.avatarStatus != c.avatarStatus,
+            listener: _onAvatarChanged,
+          ),
+        ],
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (BuildContext context, ProfileState state) {
+            final bool isLoading = state.loadStatus == BlocStatus.loading;
+            return SafeArea(
+              child: Skeletonizer(
+                enabled: isLoading,
+                child: SingleChildScrollView(
+                  padding: const .fromLTRB(
+                    AppSpacing.s5,
+                    AppSpacing.s2,
+                    AppSpacing.s5,
+                    AppSpacing.s8,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: .stretch,
+                    spacing: AppSpacing.s6,
+                    children: <Widget>[
+                      _ProfileHeader(
+                        profile: state.profile,
+                        isUpdating: state.avatarStatus == BlocStatus.loading,
+                        onEditTap: () => _editAvatar(
+                          context,
+                          hasAvatar:
+                              state.profile?.avatarUrl?.isNotEmpty ?? false,
+                        ),
                       ),
-                    ),
-                    ProfileGroup(
-                      label: 'Preferences',
-                      rows: <Widget>[
-                        AppListRow(
-                          icon: Icons.restaurant_menu_rounded,
-                          title: 'Dietary preference',
-                          value: state.dietaryPreference.label,
-                          onTap: () => _editDietaryPreference(
-                            context,
-                            state.dietaryPreference,
+                      ProfileGroup(
+                        label: 'Preferences',
+                        rows: <Widget>[
+                          AppListRow(
+                            icon: Icons.restaurant_menu_rounded,
+                            title: 'Dietary preference',
+                            value: state.dietaryPreference.label,
+                            onTap: () => _editDietaryPreference(
+                              context,
+                              state.dietaryPreference,
+                            ),
                           ),
-                        ),
-                        AppListRow(
-                          icon: Icons.history_rounded,
-                          tone: AppListRowTone.blue,
-                          title: 'Scan history',
-                          value: state.scanCount == null
-                              ? null
-                              : '${state.scanCount} scans',
-                          onTap: () =>
-                              context.read<AppNavigator>().pushToScanHistory(),
-                        ),
-                      ],
-                    ),
-                    ProfileGroup(
-                      label: 'Account',
-                      rows: <Widget>[
-                        AppListRow(
-                          icon: Icons.notifications_none_rounded,
-                          title: 'Notifications',
-                          onTap: () => AppSnackbar.info(context, 'Coming soon'),
-                        ),
-                        AppListRow(
-                          icon: Icons.help_outline_rounded,
-                          title: 'Help & feedback',
-                          onTap: () => AppSnackbar.info(context, 'Coming soon'),
-                        ),
-                        AppListRow(
-                          icon: Icons.logout_rounded,
-                          title: 'Sign out',
-                          isDestructive: true,
-                          onTap: state.signOutStatus == BlocStatus.loading
-                              ? null
-                              : () => _confirmSignOut(context),
-                        ),
-                      ],
-                    ),
-                  ],
+                          AppListRow(
+                            icon: Icons.history_rounded,
+                            tone: AppListRowTone.blue,
+                            title: 'Scan history',
+                            value: state.scanCount == null
+                                ? null
+                                : '${state.scanCount} scans',
+                            onTap: () => context
+                                .read<AppNavigator>()
+                                .pushToScanHistory(),
+                          ),
+                        ],
+                      ),
+                      ProfileGroup(
+                        label: 'Account',
+                        rows: <Widget>[
+                          AppListRow(
+                            icon: Icons.notifications_none_rounded,
+                            title: 'Notifications',
+                            onTap: () =>
+                                AppSnackbar.info(context, 'Coming soon'),
+                          ),
+                          AppListRow(
+                            icon: Icons.help_outline_rounded,
+                            title: 'Help & feedback',
+                            onTap: () =>
+                                AppSnackbar.info(context, 'Coming soon'),
+                          ),
+                          AppListRow(
+                            icon: Icons.logout_rounded,
+                            title: 'Sign out',
+                            isDestructive: true,
+                            onTap: state.signOutStatus == BlocStatus.loading
+                                ? null
+                                : () => _confirmSignOut(context),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
 
-  void _onStateChanged(BuildContext context, ProfileState state) {
+  void _onSignOutChanged(BuildContext context, ProfileState state) {
     switch (state.signOutStatus) {
       case BlocStatus.success:
         context.read<AppNavigator>().goToSignIn();
-        return;
+        break;
       case BlocStatus.error:
         AppSnackbar.error(
           context,
@@ -188,7 +205,9 @@ class ProfilePage extends StatelessWidget {
       default:
         break;
     }
+  }
 
+  void _onDietaryChanged(BuildContext context, ProfileState state) {
     switch (state.dietaryStatus) {
       case BlocStatus.success:
         AppSnackbar.success(context, 'Dietary preference updated.');
@@ -202,7 +221,9 @@ class ProfilePage extends StatelessWidget {
       default:
         break;
     }
+  }
 
+  void _onAvatarChanged(BuildContext context, ProfileState state) {
     switch (state.avatarStatus) {
       case BlocStatus.success:
         AppSnackbar.success(context, 'Profile photo updated.');
@@ -264,7 +285,7 @@ class _ProfileHeader extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Color(0x66000000),
-                    shape: BoxShape.circle,
+                    shape: .circle,
                   ),
                   child: Center(
                     child: SizedBox(
@@ -288,7 +309,7 @@ class _ProfileHeader extends StatelessWidget {
                   customBorder: const CircleBorder(),
                   onTap: isUpdating ? null : onEditTap,
                   child: const Padding(
-                    padding: EdgeInsets.all(AppSpacing.s2),
+                    padding: .all(AppSpacing.s2),
                     child: Icon(
                       Icons.photo_camera_rounded,
                       size: 16,

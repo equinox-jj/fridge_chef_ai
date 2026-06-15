@@ -8,7 +8,7 @@ class AppEmailField extends StatelessWidget {
   const AppEmailField({
     required this.controller,
     super.key,
-    this.textInputAction = TextInputAction.next,
+    this.textInputAction = .next,
     this.onFieldSubmitted,
     this.validator,
   });
@@ -24,7 +24,7 @@ class AppEmailField extends StatelessWidget {
       controller: controller,
       keyboardType: TextInputType.emailAddress,
       autocorrect: false,
-      textCapitalization: TextCapitalization.none,
+      textCapitalization: .none,
       textInputAction: textInputAction,
       autofillHints: const <String>[AutofillHints.email],
       validator: validator ?? Validators.email,

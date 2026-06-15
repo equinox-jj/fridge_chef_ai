@@ -21,11 +21,11 @@ class RecipePhotoPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      alignment: Alignment.center,
+      alignment: .center,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: .topLeft,
+          end: .bottomRight,
           colors: <Color>[
             AppColors.backgroundTertiary,
             AppColors.borderSecondary,
@@ -33,7 +33,7 @@ class RecipePhotoPlaceholder extends StatelessWidget {
         ),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: .min,
         children: <Widget>[
           Icon(
             Icons.restaurant_rounded,
