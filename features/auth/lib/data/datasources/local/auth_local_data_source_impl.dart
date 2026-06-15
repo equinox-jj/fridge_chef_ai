@@ -7,7 +7,10 @@ import '../../models/user_model.dart';
 import 'auth_local_data_source.dart';
 
 class AuthLocalDataSourceImpl with CacheGuard implements AuthLocalDataSource {
-  AuthLocalDataSourceImpl(this._database, this.logger);
+  AuthLocalDataSourceImpl(
+    this._database,
+    this.logger,
+  );
 
   final AppDatabase _database;
 
@@ -16,11 +19,12 @@ class AuthLocalDataSourceImpl with CacheGuard implements AuthLocalDataSource {
 
   @override
   Future<void> cacheUser(UserModel user) {
-    // Replace-then-insert keeps exactly one cached profile: the current user.
     return cacheGuard(
       () => _database.transaction(() async {
-        await _database.delete(_database.userProfiles).go();
-        await _database.into(_database.userProfiles).insert(user.toCompanion());
+        await Future.wait(<Future<int>>[
+          _database.delete(_database.userProfiles).go(),
+          _database.into(_database.userProfiles).insert(user.toCompanion()),
+        ]);
       }),
     );
   }
@@ -28,14 +32,18 @@ class AuthLocalDataSourceImpl with CacheGuard implements AuthLocalDataSource {
   @override
   Future<UserModel?> getCachedUser() {
     return cacheGuard(() async {
-      final UserProfile? row = await _database.select(_database.userProfiles).getSingleOrNull();
+      final UserProfile? row = await _database
+          .select(_database.userProfiles)
+          .getSingleOrNull();
       return row?.toModel();
     });
   }
 
   @override
   Future<void> clear() {
-    return cacheGuard(() => _database.delete(_database.userProfiles).go());
+    return cacheGuard(
+      () => _database.delete(_database.userProfiles).go(),
+    );
   }
 }
 

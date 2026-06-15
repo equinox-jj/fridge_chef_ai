@@ -19,50 +19,63 @@ class AppNavigatorImpl implements AppNavigator {
   final GoRouter _router;
 
   @override
-  void toOnboarding() => _router.go(const OnboardingRoute().location);
+  void goToOnboarding() => _router.go(
+    const OnboardingRoute().location,
+  );
 
   @override
-  void toSignIn() => _router.go(const SignInRoute().location);
+  void goToSignIn() => _router.go(
+    const SignInRoute().location,
+  );
 
   @override
-  void toSignUp() => _router.push(const SignUpRoute().location);
+  void pushToSignUp() => _router.push(
+    const SignUpRoute().location,
+  );
 
   @override
-  void toForgotPassword() => _router.push(const ForgotPasswordRoute().location);
+  void pushToForgotPassword() => _router.push(
+    const ForgotPasswordRoute().location,
+  );
 
   @override
-  void toForgotPasswordConfirmation(String email) =>
-      _router.push(ForgotPasswordConfirmationRoute(email: email).location);
-
-  // Lands on the shell's default branch (the home/scan tab). Targets the
-  // branch root [HomeRoute] rather than [FridgeScanRoute]: the latter now
-  // presents full-screen on the root navigator, so going there directly would
-  // drop the user onto the camera with no bottom navigation.
-  @override
-  void toDashboard() => _router.go(const HomeRoute().location);
+  void pushToForgotPasswordConfirmation(String email) => _router.push(
+    ForgotPasswordConfirmationRoute(email: email).location,
+  );
 
   @override
-  void toFridgeScan() => _router.push(const FridgeScanRoute().location);
+  void goToDashboard() => _router.go(
+    const HomeRoute().location,
+  );
 
   @override
-  void toRecipes() => _router.go(const RecipesRoute().location);
+  void pushToFridgeScan() => _router.push(
+    const FridgeScanRoute().location,
+  );
 
-  // Pushed by path + in-memory args (a generated recipe has no addressable id),
-  // so the flow presents full-screen over the launching tab.
   @override
-  void toRecipeGeneration(RecipeGenerationArgs args) => _router.push(
+  void goToRecipes() => _router.go(
+    const RecipesRoute().location,
+  );
+
+  @override
+  void pushToRecipeGeneration(RecipeGenerationArgs args) => _router.push(
     RecipeGenerationRoute().location,
     extra: args,
   );
 
   @override
-  void toProfile() => _router.go(const ProfileRoute().location);
-
-  // Pushed (not `go`) so it presents full-screen over the launching tab and
-  // backs out to where it was opened from (the profile tab).
-  @override
-  void toScanHistory() => _router.push(const ScanHistoryRoute().location);
+  void goToProfile() => _router.go(
+    const ProfileRoute().location,
+  );
 
   @override
-  void toHome() => _router.go(const HomeRoute().location);
+  void pushToScanHistory() => _router.push(
+    const ScanHistoryRoute().location,
+  );
+
+  @override
+  void goToHome() => _router.go(
+    const HomeRoute().location,
+  );
 }

@@ -10,7 +10,6 @@ import 'package:core/theme/app_radius.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:core/theme/app_typography.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/ingredient_entity.dart';
@@ -18,6 +17,18 @@ import '../../ingredient_category.dart';
 import '../../widgets/add_ingredient_sheet.dart';
 import '../../widgets/ingredient_tile.dart';
 import 'cubit/ingredient_review_cubit.dart';
+
+/// An ingredient paired with its index in the cubit's flat list.
+typedef _IndexedIngredient = ({
+  int index,
+  IngredientEntity item,
+});
+
+/// A category and the ingredients that fall under it.
+typedef _CategoryGroup = ({
+  IngredientCategory category,
+  List<_IndexedIngredient> entries,
+});
 
 /// Review step (PRD §4.2.4): the AI's detected ingredients, grouped by
 /// category, with per-item quantity steppers, removal, and a way to add
@@ -55,7 +66,7 @@ class IngredientReviewPage extends StatelessWidget {
           .where((RecipeSeedIngredient seed) => seed.name.isNotEmpty)
           .toList(),
     );
-    GetIt.I<AppNavigator>().toRecipeGeneration(args);
+    context.read<AppNavigator>().pushToRecipeGeneration(args);
   }
 
   @override
@@ -139,10 +150,13 @@ class _IngredientList extends StatelessWidget {
       children: <Widget>[
         Text(
           'Adjust a quantity or remove anything the AI got wrong.',
-          style: context.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+          style: context.textTheme.bodySmall?.copyWith(
+            color: AppColors.textMuted,
+          ),
         ),
         const SizedBox(height: AppSpacing.s2),
-        for (final _CategoryGroup group in groups) _CategorySection(group: group),
+        for (final _CategoryGroup group in groups)
+          _CategorySection(group: group),
         const SizedBox(height: AppSpacing.s2),
         _AddMissingRow(onTap: onAdd),
       ],
@@ -153,14 +167,21 @@ class _IngredientList extends StatelessWidget {
   /// preserving each item's index in the original list so edits map back to the
   /// cubit unambiguously.
   List<_CategoryGroup> _groupByCategory(List<IngredientEntity> items) {
-    final Map<IngredientCategory, List<_IndexedIngredient>> buckets = <IngredientCategory, List<_IndexedIngredient>>{};
+    final Map<IngredientCategory, List<_IndexedIngredient>> buckets =
+        <IngredientCategory, List<_IndexedIngredient>>{};
     for (int i = 0; i < items.length; i++) {
-      final IngredientCategory category = IngredientCategory.fromValue(items[i].category);
-      buckets.putIfAbsent(category, () => <_IndexedIngredient>[]).add((index: i, item: items[i]));
+      final IngredientCategory category = IngredientCategory.fromValue(
+        items[i].category,
+      );
+      buckets.putIfAbsent(category, () => <_IndexedIngredient>[]).add((
+        index: i,
+        item: items[i],
+      ));
     }
     return <_CategoryGroup>[
       for (final IngredientCategory category in IngredientCategory.values)
-        if (buckets[category] case final List<_IndexedIngredient> entries?) (category: category, entries: entries),
+        if (buckets[category] case final List<_IndexedIngredient> entries?)
+          (category: category, entries: entries),
     ];
   }
 }
@@ -240,7 +261,11 @@ class _AddMissingRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: AppSpacing.s2,
             children: <Widget>[
-              const Icon(Icons.add_rounded, size: AppTextSize.lg, color: AppColors.primaryText),
+              const Icon(
+                Icons.add_rounded,
+                size: AppTextSize.lg,
+                color: AppColors.primaryText,
+              ),
               Text(
                 'Add an ingredient the AI missed',
                 style: context.textTheme.titleSmall?.copyWith(
@@ -297,7 +322,9 @@ class _ContinueBar extends StatelessWidget {
       ),
       decoration: const BoxDecoration(
         color: AppColors.surfaceCanvas,
-        border: Border(top: BorderSide(color: AppColors.borderSubtle)),
+        border: Border(
+          top: BorderSide(color: AppColors.borderSubtle),
+        ),
       ),
       child: FilledButton.icon(
         onPressed: enabled ? onContinue : null,
@@ -305,15 +332,11 @@ class _ContinueBar extends StatelessWidget {
         iconAlignment: IconAlignment.end,
         label: const Text('Choose a mood'),
         style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(AppLayout.tapTarget),
+          minimumSize: const Size.fromHeight(
+            AppLayout.tapTarget,
+          ),
         ),
       ),
     );
   }
 }
-
-/// An ingredient paired with its index in the cubit's flat list.
-typedef _IndexedIngredient = ({int index, IngredientEntity item});
-
-/// A category and the ingredients that fall under it.
-typedef _CategoryGroup = ({IngredientCategory category, List<_IndexedIngredient> entries});

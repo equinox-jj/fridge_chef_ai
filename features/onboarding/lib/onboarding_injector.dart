@@ -1,6 +1,6 @@
+import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/pending_dietary_preference_store.dart';
-import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/shared_preferences/shared_preferences.dart';
 
 import 'data/datasources/local/onboarding_local_data_source.dart';
@@ -16,7 +16,7 @@ import 'presentation/pages/splash/cubit/splash_cubit.dart';
 ///
 /// Expects a [SharedPreferencesAsync] to already be registered (the app's
 /// shared key-value store).
-void initOnboardingInjector(GetIt getIt) {
+void initOnboardingInjector() {
   getIt
     // Data source
     ..registerLazySingleton<OnboardingLocalDataSource>(

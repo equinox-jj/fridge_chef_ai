@@ -23,15 +23,20 @@ abstract interface class ConnectivityService {
 }
 
 class ConnectivityServiceImpl implements ConnectivityService {
-  ConnectivityServiceImpl([Connectivity? connectivity]) : _connectivity = connectivity ?? Connectivity();
+  ConnectivityServiceImpl([
+    Connectivity? connectivity,
+  ]) : _connectivity = connectivity ?? Connectivity();
 
   final Connectivity _connectivity;
 
   @override
-  Future<bool> get isOnline async => _isOnline(await _connectivity.checkConnectivity());
+  Future<bool> get isOnline async => _isOnline(
+    await _connectivity.checkConnectivity(),
+  );
 
   @override
-  Stream<bool> get onStatusChanged => _connectivity.onConnectivityChanged.map(_isOnline).distinct();
+  Stream<bool> get onStatusChanged =>
+      _connectivity.onConnectivityChanged.map(_isOnline).distinct();
 
   /// A device is online when any reported interface is something other than
   /// [ConnectivityResult.none].

@@ -50,17 +50,18 @@ class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
     required String password,
   }) {
     return guard(() async {
-      // Adopt the dietary preference picked during onboarding (pre-auth) onto
-      // the profile row this sign-up creates, then drop the parked value.
-      final DietaryPreference? pending = await _pendingDietaryPreferenceStore.read();
+      final DietaryPreference? pending = await _pendingDietaryPreferenceStore
+          .read();
       final UserModel model = await _remoteDataSource.signUp(
         name: name,
         email: email,
         password: password,
         dietaryPreference: pending?.value,
       );
-      await _localDataSource.cacheUser(model);
-      await _pendingDietaryPreferenceStore.clear();
+      await Future.wait(<Future<void>>[
+        _localDataSource.cacheUser(model),
+        _pendingDietaryPreferenceStore.clear(),
+      ]);
       return model.toEntity();
     });
   }
@@ -78,12 +79,9 @@ class AuthRepositoryImpl with RepositoryGuard implements AuthRepository {
     return guard(() async {
       try {
         final UserModel? model = await _remoteDataSource.getCurrentUser();
-        if (model != null) {
-          await _localDataSource.cacheUser(model);
-        }
+        if (model != null) await _localDataSource.cacheUser(model);
         return model?.toEntity();
       } on NetworkException {
-        // Offline: serve the last profile we cached locally.
         final UserModel? cached = await _localDataSource.getCachedUser();
         return cached?.toEntity();
       }

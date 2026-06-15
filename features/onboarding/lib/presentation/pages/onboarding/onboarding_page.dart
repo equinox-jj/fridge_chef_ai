@@ -43,7 +43,8 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<OnboardingCubit, OnboardingState>(
-        listenWhen: (OnboardingState p, OnboardingState c) => p.finishStatus != c.finishStatus,
+        listenWhen: (OnboardingState p, OnboardingState c) =>
+            p.finishStatus != c.finishStatus,
         listener: _onFinishStatusChanged,
         child: const SafeArea(child: _OnboardingView()),
       ),
@@ -53,7 +54,7 @@ class OnboardingPage extends StatelessWidget {
   void _onFinishStatusChanged(BuildContext context, OnboardingState state) {
     switch (state.finishStatus) {
       case BlocStatus.success:
-        context.read<AppNavigator>().toDashboard();
+        context.read<AppNavigator>().goToDashboard();
       case BlocStatus.error:
         AppSnackbar.error(context, state.finishFailure?.message ?? '');
       default:
@@ -107,7 +108,9 @@ class _OnboardingViewState extends State<_OnboardingView> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.s3,
+                  ),
                   child: TextButton(
                     onPressed: isBusy ? null : _cubit.finishSkipping,
                     child: const Text('Skip'),
@@ -146,7 +149,9 @@ class _OnboardingViewState extends State<_OnboardingView> {
                   const SizedBox(height: AppSpacing.s5),
                   AppSubmitButton(
                     label: isLast ? 'Get started' : 'Next',
-                    icon: isLast ? Icons.check_rounded : Icons.arrow_forward_rounded,
+                    icon: isLast
+                        ? Icons.check_rounded
+                        : Icons.arrow_forward_rounded,
                     isLoading: isBusy,
                     onPressed: () => _onPrimaryPressed(state.pageIndex),
                   ),

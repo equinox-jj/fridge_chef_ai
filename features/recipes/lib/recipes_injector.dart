@@ -1,8 +1,8 @@
 import 'package:core/database/app_database.dart';
+import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/supabase_service.dart';
-import 'package:dependencies/get_it/get_it.dart';
 
 import 'data/datasources/ai/recipe_ai_data_source.dart';
 import 'data/datasources/ai/recipe_ai_data_source_impl.dart';
@@ -27,7 +27,7 @@ import 'domain/usecases/save_recipe_usecase.dart';
 /// cubit is built.
 ///
 /// Call after `Supabase.initialize(...)` and `Firebase.initializeApp(...)`.
-void initRecipesInjector(GetIt getIt) {
+void initRecipesInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<RecipeAiDataSource>(

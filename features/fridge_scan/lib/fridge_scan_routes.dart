@@ -1,7 +1,7 @@
+import 'package:core/di/di.dart';
 import 'package:core/router/app_route.dart';
 import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,7 +17,6 @@ import 'presentation/pages/scan_history/scan_history_page.dart';
 
 part 'fridge_scan_routes.g.dart';
 
-/// Every route owned by the fridge-scan feature, exposed for app composition.
 List<RouteBase> get fridgeScanRoutes => $appRoutes;
 
 @TypedGoRoute<HomeRoute>(
@@ -44,7 +43,7 @@ class HomeRoute extends GoRouteData with $HomeRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<HomeBloc>(
-      create: (_) => GetIt.I<HomeBloc>()..add(const HomeEvent.started()),
+      create: (_) => getIt<HomeBloc>()..add(const HomeEvent.started()),
       child: const HomePage(),
     );
   }
@@ -53,22 +52,17 @@ class HomeRoute extends GoRouteData with $HomeRoute {
 class FridgeScanRoute extends GoRouteData with $FridgeScanRoute {
   const FridgeScanRoute();
 
-  /// Presents full-screen on the root navigator, above the dashboard shell, so
-  /// the camera scan takes the whole screen with no bottom navigation.
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ScanBloc>(
-      create: (_) => GetIt.I<ScanBloc>(),
+      create: (_) => getIt<ScanBloc>(),
       child: const ScanPage(),
     );
   }
 }
 
-/// The full scan-history list, reached from the profile tab. Nested under
-/// [HomeRoute] but presents full-screen on the root navigator (above the
-/// dashboard shell) so it backs out cleanly to where it was opened from.
 class ScanHistoryRoute extends GoRouteData with $ScanHistoryRoute {
   const ScanHistoryRoute();
 
@@ -77,22 +71,15 @@ class ScanHistoryRoute extends GoRouteData with $ScanHistoryRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ScanHistoryCubit>(
-      create: (_) => GetIt.I<ScanHistoryCubit>()..load(),
+      create: (_) => getIt<ScanHistoryCubit>()..load(),
       child: const ScanHistoryPage(),
     );
   }
 }
 
-/// Reviews the ingredients of a completed scan. The [ScanResultEntity] is
-/// handed over in memory via `$extra` since it is a transient, non-linkable
-/// step in the scan flow.
 class IngredientReviewRoute extends GoRouteData with $IngredientReviewRoute {
   const IngredientReviewRoute({required this.$extra});
 
-  /// Stays on the root navigator alongside [FridgeScanRoute] — the scan page
-  /// `pushReplacement`s into review, so both must share the same (root)
-  /// navigator for the full-screen flow to remain coherent and for backing out
-  /// of review to return home rather than under the shell.
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final ScanResultEntity $extra;

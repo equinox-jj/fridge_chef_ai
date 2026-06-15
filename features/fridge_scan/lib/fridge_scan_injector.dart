@@ -1,10 +1,10 @@
 import 'package:core/database/app_database.dart';
+import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
-import 'package:dependencies/get_it/get_it.dart';
 
 import 'data/datasources/ai/fridge_ai_data_source.dart';
 import 'data/datasources/ai/fridge_ai_data_source_impl.dart';
@@ -26,7 +26,7 @@ import 'presentation/pages/scan_history/cubit/scan_history_cubit.dart';
 ///
 /// Call this after `Supabase.initialize(...)` and `Firebase.initializeApp(...)`
 /// have completed.
-void initFridgeScanInjector(GetIt getIt) {
+void initFridgeScanInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<FridgeScanRemoteDataSource>(
@@ -36,7 +36,10 @@ void initFridgeScanInjector(GetIt getIt) {
       () => FridgeAiDataSourceImpl(getIt<AppLogger>()),
     )
     ..registerLazySingleton<FridgeScanLocalDataSource>(
-      () => FridgeScanLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
+      () => FridgeScanLocalDataSourceImpl(
+        getIt<AppDatabase>(),
+        getIt<AppLogger>(),
+      ),
     )
     // Repositories
     ..registerLazySingleton<FridgeScanRepository>(

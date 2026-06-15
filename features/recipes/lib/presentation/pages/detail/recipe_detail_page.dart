@@ -5,7 +5,6 @@ import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/recipe_entity.dart';
@@ -44,7 +43,8 @@ class RecipeDetailPage extends StatelessWidget {
         ),
       ),
       body: BlocListener<SaveRecipeCubit, SaveRecipeState>(
-        listenWhen: (SaveRecipeState p, SaveRecipeState c) => p.status != c.status,
+        listenWhen: (SaveRecipeState p, SaveRecipeState c) =>
+            p.status != c.status,
         listener: _onSaveStateChanged,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,8 +67,7 @@ class RecipeDetailPage extends StatelessWidget {
           'Saved to your cookbook',
           title: 'Recipe saved',
         );
-        // Land the user on the cookbook tab, clearing the generation flow.
-        GetIt.I<AppNavigator>().toRecipes();
+        context.read<AppNavigator>().goToRecipes();
         break;
       case BlocStatus.error:
         AppSnackbar.error(
@@ -91,7 +90,12 @@ class _SaveBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(AppSpacing.s5, AppSpacing.s3, AppSpacing.s5, AppSpacing.s4),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.s5,
+        AppSpacing.s3,
+        AppSpacing.s5,
+        AppSpacing.s4,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.surfaceCanvas,
         border: Border(top: BorderSide(color: AppColors.borderSubtle)),
@@ -99,7 +103,8 @@ class _SaveBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: BlocSelector<SaveRecipeCubit, SaveRecipeState, bool>(
-          selector: (SaveRecipeState state) => state.status == BlocStatus.loading,
+          selector: (SaveRecipeState state) =>
+              state.status == BlocStatus.loading,
           builder: (BuildContext context, bool isSaving) {
             return AppSubmitButton(
               label: 'Save to cookbook',

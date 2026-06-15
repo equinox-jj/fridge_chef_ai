@@ -1,5 +1,5 @@
-import 'package:core/components/text/app_inline_link.dart';
 import 'package:core/components/snackbar/app_snackbar.dart';
+import 'package:core/components/text/app_inline_link.dart';
 import 'package:core/constants/bloc/bloc_status.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:dependencies/bloc/bloc.dart';
@@ -17,7 +17,8 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignUpCubit, SignUpState>(
-      listenWhen: (SignUpState p, SignUpState c) => p.signUpStatus != c.signUpStatus,
+      listenWhen: (SignUpState p, SignUpState c) =>
+          p.signUpStatus != c.signUpStatus,
       listener: _onStateChanged,
       child: AuthScaffold(
         header: const AuthBackHeader(),
@@ -25,7 +26,7 @@ class SignUpPage extends StatelessWidget {
         footer: AppInlineLink(
           text: 'Already have an account? ',
           linkLabel: 'Sign in',
-          onTap: () => context.read<AppNavigator>().toSignIn(),
+          onTap: () => context.read<AppNavigator>().goToSignIn(),
         ),
       ),
     );
@@ -34,7 +35,7 @@ class SignUpPage extends StatelessWidget {
   void _onStateChanged(BuildContext context, SignUpState state) {
     switch (state.signUpStatus) {
       case BlocStatus.success:
-        context.read<AppNavigator>().toDashboard();
+        context.read<AppNavigator>().goToDashboard();
         break;
       case BlocStatus.error:
         AppSnackbar.error(

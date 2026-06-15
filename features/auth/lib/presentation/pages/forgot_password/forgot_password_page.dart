@@ -20,7 +20,8 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
-      listenWhen: (ForgotPasswordState p, ForgotPasswordState c) => p.forgotPasswordStatus != c.forgotPasswordStatus,
+      listenWhen: (ForgotPasswordState p, ForgotPasswordState c) =>
+          p.forgotPasswordStatus != c.forgotPasswordStatus,
       listener: _onStateChanged,
       child: AuthScaffold(
         header: const AuthTitledHeader(title: 'Reset password'),
@@ -31,7 +32,7 @@ class ForgotPasswordPage extends StatelessWidget {
             vertical: AppSpacing.s3,
           ),
           child: GestureDetector(
-            onTap: () => context.read<AppNavigator>().toSignIn(),
+            onTap: () => context.read<AppNavigator>().goToSignIn(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -54,7 +55,9 @@ class ForgotPasswordPage extends StatelessWidget {
   void _onStateChanged(BuildContext context, ForgotPasswordState state) {
     switch (state.forgotPasswordStatus) {
       case BlocStatus.success:
-        context.read<AppNavigator>().toForgotPasswordConfirmation(state.email!);
+        context.read<AppNavigator>().pushToForgotPasswordConfirmation(
+          state.email!,
+        );
         break;
       case BlocStatus.error:
         AppSnackbar.error(

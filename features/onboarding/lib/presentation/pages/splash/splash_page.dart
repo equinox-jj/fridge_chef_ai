@@ -23,7 +23,8 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<SplashCubit, SplashState>(
-        listenWhen: (SplashState p, SplashState c) => p.destination != c.destination,
+        listenWhen: (SplashState p, SplashState c) =>
+            p.destination != c.destination,
         listener: _onDestinationResolved,
         child: const SafeArea(
           child: Stack(
@@ -47,9 +48,9 @@ class SplashPage extends StatelessWidget {
     final AppNavigator navigator = context.read<AppNavigator>();
     switch (state.destination) {
       case SplashDestination.onboarding:
-        navigator.toOnboarding();
+        navigator.goToOnboarding();
       case SplashDestination.home:
-        navigator.toDashboard();
+        navigator.goToDashboard();
       case null:
         break;
     }
@@ -71,7 +72,9 @@ class _SplashBrand extends StatelessWidget {
         const SizedBox(height: AppSpacing.s1),
         Text(
           'Cook what you have',
-          style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: AppColors.textMuted,
+          ),
         ),
       ],
     );
@@ -86,15 +89,17 @@ class _PulsingBrandMark extends StatefulWidget {
   State<_PulsingBrandMark> createState() => _PulsingBrandMarkState();
 }
 
-class _PulsingBrandMarkState extends State<_PulsingBrandMark> with SingleTickerProviderStateMixin {
+class _PulsingBrandMarkState extends State<_PulsingBrandMark>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1800),
   )..repeat(reverse: true);
 
-  late final Animation<double> _scale = Tween<double>(begin: 1, end: 1.06).animate(
-    CurvedAnimation(parent: _controller, curve: AppMotion.easeInOut),
-  );
+  late final Animation<double> _scale = Tween<double>(begin: 1, end: 1.06)
+      .animate(
+        CurvedAnimation(parent: _controller, curve: AppMotion.easeInOut),
+      );
 
   @override
   void dispose() {

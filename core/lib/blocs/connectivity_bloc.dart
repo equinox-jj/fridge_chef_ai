@@ -36,7 +36,10 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
 
   /// Seeds the current verdict, then forwards every subsequent change as a
   /// [ConnectivityEvent.statusChanged].
-  Future<void> _onStarted(_Started event, Emitter<ConnectivityState> emit) async {
+  Future<void> _onStarted(
+    _Started event,
+    Emitter<ConnectivityState> emit,
+  ) async {
     final bool isOnline = await _connectivity.isOnline;
 
     emit(
@@ -52,7 +55,10 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
     );
   }
 
-  void _onStatusChanged(_StatusChanged event, Emitter<ConnectivityState> emit) {
+  void _onStatusChanged(
+    _StatusChanged event,
+    Emitter<ConnectivityState> emit,
+  ) {
     emit(
       state.copyWith(
         isOnline: event.isOnline,

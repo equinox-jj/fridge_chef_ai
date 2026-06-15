@@ -24,15 +24,24 @@ import 'cubit/profile_cubit.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  Future<void> _editDietaryPreference(BuildContext context, DietaryPreference current) async {
+  Future<void> _editDietaryPreference(
+    BuildContext context,
+    DietaryPreference current,
+  ) async {
     final ProfileCubit cubit = context.read<ProfileCubit>();
-    final DietaryPreference? chosen = await DietaryPreferenceSheet.openSheet(context, current: current);
+    final DietaryPreference? chosen = await DietaryPreferenceSheet.openSheet(
+      context,
+      current: current,
+    );
     if (chosen != null && chosen != current) {
       await cubit.updateDietaryPreference(chosen);
     }
   }
 
-  Future<void> _editAvatar(BuildContext context, {required bool hasAvatar}) async {
+  Future<void> _editAvatar(
+    BuildContext context, {
+    required bool hasAvatar,
+  }) async {
     final ProfileCubit cubit = context.read<ProfileCubit>();
     final PhotoSourceChoice? choice = await PickImageSourceSheet.openSheet(
       context,
@@ -86,7 +95,9 @@ class ProfilePage extends StatelessWidget {
             p.avatarStatus != c.avatarStatus,
         listener: _onStateChanged,
         builder: (BuildContext context, ProfileState state) {
-          final bool isLoading = state.loadStatus == BlocStatus.loading || state.loadStatus == BlocStatus.initial;
+          final bool isLoading =
+              state.loadStatus == BlocStatus.loading ||
+              state.loadStatus == BlocStatus.initial;
           return SafeArea(
             child: Skeletonizer(
               enabled: isLoading,
@@ -106,7 +117,8 @@ class ProfilePage extends StatelessWidget {
                       isUpdating: state.avatarStatus == BlocStatus.loading,
                       onEditTap: () => _editAvatar(
                         context,
-                        hasAvatar: state.profile?.avatarUrl?.isNotEmpty ?? false,
+                        hasAvatar:
+                            state.profile?.avatarUrl?.isNotEmpty ?? false,
                       ),
                     ),
                     ProfileGroup(
@@ -116,14 +128,20 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.restaurant_menu_rounded,
                           title: 'Dietary preference',
                           value: state.dietaryPreference.label,
-                          onTap: () => _editDietaryPreference(context, state.dietaryPreference),
+                          onTap: () => _editDietaryPreference(
+                            context,
+                            state.dietaryPreference,
+                          ),
                         ),
                         AppListRow(
                           icon: Icons.history_rounded,
                           tone: AppListRowTone.blue,
                           title: 'Scan history',
-                          value: state.scanCount == null ? null : '${state.scanCount} scans',
-                          onTap: () => context.read<AppNavigator>().toScanHistory(),
+                          value: state.scanCount == null
+                              ? null
+                              : '${state.scanCount} scans',
+                          onTap: () =>
+                              context.read<AppNavigator>().pushToScanHistory(),
                         ),
                       ],
                     ),
@@ -144,7 +162,9 @@ class ProfilePage extends StatelessWidget {
                           icon: Icons.logout_rounded,
                           title: 'Sign out',
                           isDestructive: true,
-                          onTap: state.signOutStatus == BlocStatus.loading ? null : () => _confirmSignOut(context),
+                          onTap: state.signOutStatus == BlocStatus.loading
+                              ? null
+                              : () => _confirmSignOut(context),
                         ),
                       ],
                     ),
@@ -161,10 +181,13 @@ class ProfilePage extends StatelessWidget {
   void _onStateChanged(BuildContext context, ProfileState state) {
     switch (state.signOutStatus) {
       case BlocStatus.success:
-        context.read<AppNavigator>().toSignIn();
+        context.read<AppNavigator>().goToSignIn();
         return;
       case BlocStatus.error:
-        AppSnackbar.error(context, state.signOutFailure?.message ?? 'Could not sign out.');
+        AppSnackbar.error(
+          context,
+          state.signOutFailure?.message ?? 'Could not sign out.',
+        );
         break;
       default:
         break;
@@ -175,7 +198,10 @@ class ProfilePage extends StatelessWidget {
         AppSnackbar.success(context, 'Dietary preference updated.');
         break;
       case BlocStatus.error:
-        AppSnackbar.error(context, state.dietaryFailure?.message ?? 'Could not update preference.');
+        AppSnackbar.error(
+          context,
+          state.dietaryFailure?.message ?? 'Could not update preference.',
+        );
         break;
       default:
         break;
@@ -186,7 +212,10 @@ class ProfilePage extends StatelessWidget {
         AppSnackbar.success(context, 'Profile photo updated.');
         break;
       case BlocStatus.error:
-        AppSnackbar.error(context, state.avatarFailure?.message ?? 'Could not update your photo.');
+        AppSnackbar.error(
+          context,
+          state.avatarFailure?.message ?? 'Could not update your photo.',
+        );
         break;
       default:
         break;
@@ -208,7 +237,9 @@ class _ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String name = (profile?.name?.trim().isNotEmpty ?? false) ? profile!.name!.trim() : 'There';
+    final String name = (profile?.name?.trim().isNotEmpty ?? false)
+        ? profile!.name!.trim()
+        : 'There';
     final String? email = profile?.email;
     final String? avatarUrl = profile?.avatarUrl;
 
@@ -220,7 +251,9 @@ class _ProfileHeader extends StatelessWidget {
             CircleAvatar(
               radius: AppSpacing.s9, // 48
               backgroundColor: AppColors.primaryTint,
-              foregroundImage: (avatarUrl != null && avatarUrl.isNotEmpty) ? NetworkImage(avatarUrl) : null,
+              foregroundImage: (avatarUrl != null && avatarUrl.isNotEmpty)
+                  ? NetworkImage(avatarUrl)
+                  : null,
               child: Text(
                 name.characters.first.toUpperCase(),
                 style: context.textTheme.headlineMedium?.copyWith(
@@ -241,7 +274,10 @@ class _ProfileHeader extends StatelessWidget {
                     child: SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -257,7 +293,11 @@ class _ProfileHeader extends StatelessWidget {
                   onTap: isUpdating ? null : onEditTap,
                   child: const Padding(
                     padding: EdgeInsets.all(AppSpacing.s2),
-                    child: Icon(Icons.photo_camera_rounded, size: 16, color: AppColors.onPrimary),
+                    child: Icon(
+                      Icons.photo_camera_rounded,
+                      size: 16,
+                      color: AppColors.onPrimary,
+                    ),
                   ),
                 ),
               ),
@@ -276,7 +316,9 @@ class _ProfileHeader extends StatelessWidget {
           const SizedBox(height: AppSpacing.s1),
           Text(
             email,
-            style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: AppColors.textMuted,
+            ),
           ),
         ],
       ],

@@ -1,9 +1,9 @@
 import 'package:core/database/app_database.dart';
+import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/image_picker_service.dart';
 import 'package:core/services/permission_service.dart';
 import 'package:core/services/supabase_service.dart';
-import 'package:dependencies/get_it/get_it.dart';
 
 import 'data/datasources/local/profile_local_data_source.dart';
 import 'data/datasources/local/profile_local_data_source_impl.dart';
@@ -22,14 +22,15 @@ import 'presentation/pages/profile/cubit/profile_cubit.dart';
 /// Registers the profile feature's dependencies on [getIt].
 ///
 /// Call this after `Supabase.initialize(...)` has completed.
-void initProfileInjector(GetIt getIt) {
+void initProfileInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSourceImpl(getIt<SupabaseService>()),
     )
     ..registerLazySingleton<ProfileLocalDataSource>(
-      () => ProfileLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
+      () =>
+          ProfileLocalDataSourceImpl(getIt<AppDatabase>(), getIt<AppLogger>()),
     )
     // Repository
     ..registerLazySingleton<ProfileRepository>(

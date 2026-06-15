@@ -1,8 +1,8 @@
 import 'package:core/database/app_database.dart';
+import 'package:core/di/di.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/pending_dietary_preference_store.dart';
 import 'package:core/services/supabase_service.dart';
-import 'package:dependencies/get_it/get_it.dart';
 
 import 'data/datasources/local/auth_local_data_source.dart';
 import 'data/datasources/local/auth_local_data_source_impl.dart';
@@ -22,7 +22,7 @@ import 'presentation/pages/sign_up/cubit/sign_up_cubit.dart';
 /// Registers the auth feature's dependencies on [getIt].
 ///
 /// Call this after `Supabase.initialize(...)` has completed.
-void initAuthInjector(GetIt getIt) {
+void initAuthInjector() {
   getIt
     // Data sources
     ..registerLazySingleton<AuthRemoteDataSource>(

@@ -11,42 +11,23 @@ import 'arguments/recipe_generation_args.dart';
 /// *how*:
 ///
 /// ```dart
-/// Getit.I<AppNavigator>().toDashboard();
+/// context.read<AppNavigator>().toDashboard();
 /// ```
 abstract interface class AppNavigator {
-  /// Replaces the stack with the onboarding screen.
-  void toOnboarding();
-
-  /// Replaces the stack with the sign-in screen.
-  void toSignIn();
-
-  /// Replaces the stack with the sign-up screen.
-  void toSignUp();
-
-  /// Replaces the stack with the forgot-password screen.
-  void toForgotPassword();
-
-  /// Pushes the forgot-password confirmation screen with the provided email.
-  void toForgotPasswordConfirmation(String email);
-
-  /// Enters the main app shell, landing on its default (scan) tab.
-  void toDashboard();
-
-  /// Switches to the scan tab of the main shell.
-  void toFridgeScan();
-
-  /// Switches to the recipes tab of the main shell.
-  void toRecipes();
-
-  /// Pushes the full-screen recipe-generation flow (mood → AI → results) over
-  /// the current screen, seeded with [args].
-  void toRecipeGeneration(RecipeGenerationArgs args);
-
-  /// Switches to the profile tab of the main shell.
-  void toProfile();
-
-  /// Pushes the full-screen scan-history list over the current screen.
-  void toScanHistory();
-
-  void toHome();
+  void goToOnboarding();
+  void goToSignIn();
+  void pushToSignUp();
+  void pushToForgotPassword();
+  void pushToForgotPasswordConfirmation(
+    String email,
+  );
+  void goToDashboard();
+  void pushToFridgeScan();
+  void goToRecipes();
+  void pushToRecipeGeneration(
+    RecipeGenerationArgs args,
+  );
+  void goToProfile();
+  void pushToScanHistory();
+  void goToHome();
 }

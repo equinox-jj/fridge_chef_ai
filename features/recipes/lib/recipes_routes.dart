@@ -1,9 +1,9 @@
 import 'package:core/blocs/connectivity_bloc.dart';
+import 'package:core/di/di.dart';
 import 'package:core/router/app_route.dart';
 import 'package:core/router/arguments/recipe_generation_args.dart';
 import 'package:core/router/nav_keys/navigator_keys.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -24,20 +24,6 @@ import 'presentation/pages/saved_detail/saved_recipe_detail_page.dart';
 
 part 'recipes_routes.g.dart';
 
-/// Every route owned by the recipes feature, exposed for app composition.
-///
-/// Mounted as the recipes branch of the dashboard's bottom-navigation shell.
-/// The branch carries three routes: the URL-addressable Recipes tab
-/// ([RecipesRoute]) plus the recipe-generation flow ([RecipeGenerationRoute],
-/// [RecipeDetailRoute]). The flow routes set `$parentNavigatorKey` to the
-/// [rootNavigatorKey], so although they live in the branch list they present
-/// full-screen *above* the shell — no bottom navigation — over whichever tab
-/// launched them.
-///
-/// Each flow screen is addressed by an in-memory `$extra` argument — a
-/// generated recipe has no id to put in the URL — so the typed routes carry
-/// the args as a `$extra` field and build their blocs per-navigation from it,
-/// mirroring the ingredient-review hand-off.
 List<RouteBase> get recipesRoutes => $appRoutes;
 
 @TypedGoRoute<RecipesRoute>(
@@ -69,8 +55,8 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<CookbookBloc>(
       create: (_) => CookbookBloc(
-        GetIt.I<GetCookbookUseCase>(),
-        GetIt.I<ConnectivityBloc>(),
+        getIt<GetCookbookUseCase>(),
+        getIt<ConnectivityBloc>(),
       )..add(const CookbookEvent.started()),
       child: const CookbookPage(),
     );
@@ -80,7 +66,6 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
 class RecipeGenerationRoute extends GoRouteData with $RecipeGenerationRoute {
   const RecipeGenerationRoute({this.$extra});
 
-  /// Presents full-screen on the root navigator, above the dashboard shell.
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final RecipeGenerationArgs? $extra;
@@ -91,8 +76,8 @@ class RecipeGenerationRoute extends GoRouteData with $RecipeGenerationRoute {
     if (args == null) return const _MissingArgs();
     return BlocProvider<RecipeGenerationBloc>(
       create: (_) => RecipeGenerationBloc(
-        GetIt.I<GenerateRecipesUseCase>(),
-        GetIt.I<GetDietaryPreferenceUseCase>(),
+        getIt<GenerateRecipesUseCase>(),
+        getIt<GetDietaryPreferenceUseCase>(),
         args: args,
       )..add(const RecipeGenerationEvent.started()),
       child: const GenerateRecipesPage(),
@@ -103,7 +88,6 @@ class RecipeGenerationRoute extends GoRouteData with $RecipeGenerationRoute {
 class RecipeDetailRoute extends GoRouteData with $RecipeDetailRoute {
   const RecipeDetailRoute({this.$extra});
 
-  /// Presents full-screen on the root navigator, above the dashboard shell.
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final RecipeDetailArgs? $extra;
@@ -114,7 +98,7 @@ class RecipeDetailRoute extends GoRouteData with $RecipeDetailRoute {
     if (args == null) return const _MissingArgs();
     return BlocProvider<SaveRecipeCubit>(
       create: (_) => SaveRecipeCubit(
-        GetIt.I<SaveRecipeUseCase>(),
+        getIt<SaveRecipeUseCase>(),
         args.recipe,
         args.scanId,
       ),
@@ -131,7 +115,6 @@ class RecipeDetailRoute extends GoRouteData with $RecipeDetailRoute {
 class RecipeDetailViewRoute extends GoRouteData with $RecipeDetailViewRoute {
   const RecipeDetailViewRoute({required this.id});
 
-  /// Presents full-screen on the root navigator, above the dashboard shell.
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   final String id;
@@ -140,7 +123,7 @@ class RecipeDetailViewRoute extends GoRouteData with $RecipeDetailViewRoute {
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<RecipeDetailCubit>(
       create: (_) => RecipeDetailCubit(
-        GetIt.I<GetRecipeDetailUseCase>(),
+        getIt<GetRecipeDetailUseCase>(),
         id,
       )..load(),
       child: const SavedRecipeDetailPage(),
@@ -158,7 +141,9 @@ class _MissingArgs extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: const Center(
-        child: Text('This recipe is no longer available. Start a new scan to cook again.'),
+        child: Text(
+          'This recipe is no longer available. Start a new scan to cook again.',
+        ),
       ),
     );
   }

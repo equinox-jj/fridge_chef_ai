@@ -46,13 +46,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       final User? user = response.user;
       if (user == null) {
-        throw const ServerException('Sign up failed. Please try again.');
+        throw const ServerException(
+          'Sign up failed. Please try again.',
+        );
       }
 
-      // Upsert (not insert) keyed on the primary key: a Postgres trigger on
-      // `auth.users` may already have created this row, so a plain insert would
-      // collide with `users_pkey` (23505). Upsert writes the profile fields
-      // idempotently whether or not the trigger ran first.
       final Map<String, dynamic> payload = <String, dynamic>{
         'id': user.id,
         'name': name,
@@ -80,16 +78,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel?> getCurrentUser() {
     return _supabaseService.safeCall(() async {
       final User? user = _client.auth.currentUser;
-      if (user == null) {
-        return null;
-      }
+      if (user == null) return null;
       return _fetchProfile(user.id);
     });
   }
 
-  /// Fetches the `users` profile row for the given auth [id].
   Future<UserModel> _fetchProfile(String id) async {
-    final Map<String, dynamic> data = await _client.from(SupabaseTable.usersTable).select().eq('id', id).single();
+    final Map<String, dynamic> data = await _client
+        .from(SupabaseTable.usersTable)
+        .select()
+        .eq('id', id)
+        .single();
     return UserModel.fromJson(data);
   }
 }

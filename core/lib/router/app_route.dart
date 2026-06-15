@@ -27,8 +27,10 @@ abstract final class AppRoute {
   static const String forgotPasswordName = 'forgotPassword';
   static const String forgotPasswordPath = '/forgot-password';
 
-  static const String forgotPasswordConfirmationName = 'forgotPasswordConfirmation';
-  static const String forgotPasswordConfirmationPath = '/forgot-password/confirmation';
+  static const String forgotPasswordConfirmationName =
+      'forgotPasswordConfirmation';
+  static const String forgotPasswordConfirmationPath =
+      '/forgot-password/confirmation';
 
   // ── Main shell tabs (hosted by the dashboard bottom navigation) ──────────
   // The scan tab doubles as the app's post-login home.

@@ -1,5 +1,6 @@
 import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/constants/env/env.dart';
+import 'package:core/di/di.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_theme.dart';
 import 'package:core/utils/app_utils.dart';
@@ -33,11 +34,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: <Widget>[
-        RepositoryProvider<AppNavigator>.value(value: getIt<AppNavigator>()),
-        BlocProvider<ConnectivityBloc>.value(value: getIt<ConnectivityBloc>()),
+        RepositoryProvider<AppNavigator>.value(
+          value: getIt<AppNavigator>(),
+        ),
+        BlocProvider<ConnectivityBloc>.value(
+          value: getIt<ConnectivityBloc>(),
+        ),
       ].cast(),
       child: MaterialApp.router(
-        title: 'Fridge Chef AI',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.dark,
         routerConfig: getIt<AppRouter>().config,

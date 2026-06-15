@@ -16,14 +16,15 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignInCubit, SignInState>(
-      listenWhen: (SignInState p, SignInState c) => p.signInStatus != c.signInStatus,
+      listenWhen: (SignInState p, SignInState c) =>
+          p.signInStatus != c.signInStatus,
       listener: _onStateChanged,
       child: AuthScaffold(
         body: const SignInBody(),
         footer: AppInlineLink(
           text: 'New here? ',
           linkLabel: 'Create an account',
-          onTap: () => context.read<AppNavigator>().toSignUp(),
+          onTap: () => context.read<AppNavigator>().pushToSignUp(),
         ),
       ),
     );
@@ -32,7 +33,7 @@ class SignInPage extends StatelessWidget {
   void _onStateChanged(BuildContext context, SignInState state) {
     switch (state.signInStatus) {
       case BlocStatus.success:
-        context.read<AppNavigator>().toDashboard();
+        context.read<AppNavigator>().goToDashboard();
         break;
       default:
     }

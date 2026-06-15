@@ -1,6 +1,6 @@
+import 'package:core/di/di.dart';
 import 'package:core/router/app_route.dart';
 import 'package:dependencies/bloc/bloc.dart';
-import 'package:dependencies/get_it/get_it.dart';
 import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,7 +9,6 @@ import 'presentation/pages/profile/profile_page.dart';
 
 part 'profile_routes.g.dart';
 
-/// Every route owned by the profile feature, exposed for app composition.
 List<RouteBase> get profileRoutes => $appRoutes;
 
 @TypedGoRoute<ProfileRoute>(
@@ -22,7 +21,7 @@ class ProfileRoute extends GoRouteData with $ProfileRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BlocProvider<ProfileCubit>(
-      create: (_) => GetIt.I<ProfileCubit>()..load(),
+      create: (_) => getIt<ProfileCubit>()..load(),
       child: const ProfilePage(),
     );
   }

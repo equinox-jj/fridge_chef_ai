@@ -69,11 +69,18 @@ class _SignInBodyState extends State<SignInBody> {
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: <Color>[AppDarkPalette.green500, AppDarkPalette.green800],
+                  colors: <Color>[
+                    AppDarkPalette.green500,
+                    AppDarkPalette.green800,
+                  ],
                 ),
                 boxShadow: AppShadows.primary,
               ),
-              child: const Icon(Icons.kitchen_outlined, size: 32, color: Colors.white),
+              child: const Icon(
+                Icons.kitchen_outlined,
+                size: 32,
+                color: Colors.white,
+              ),
             ),
           ),
 
@@ -95,27 +102,37 @@ class _SignInBodyState extends State<SignInBody> {
 
           // Error banner — shown only when signInStatus == BlocStatus.error
           BlocBuilder<SignInCubit, SignInState>(
-            buildWhen: (SignInState p, SignInState c) => p.signInStatus != c.signInStatus,
+            buildWhen: (SignInState p, SignInState c) =>
+                p.signInStatus != c.signInStatus,
             builder: (BuildContext context, SignInState state) {
-              if (state.signInStatus != BlocStatus.error) return const SizedBox.shrink();
+              if (state.signInStatus != BlocStatus.error)
+                return const SizedBox.shrink();
               return Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.s4),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 11,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.dangerTint,
                     borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
                   child: Row(
                     children: <Widget>[
-                      const Icon(Icons.error_outline, color: AppColors.dangerText, size: 20),
+                      const Icon(
+                        Icons.error_outline,
+                        color: AppColors.dangerText,
+                        size: 20,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           "That didn't match. Check your details and try again.",
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.dangerText,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: AppColors.dangerText,
+                              ),
                         ),
                       ),
                     ],
@@ -137,7 +154,7 @@ class _SignInBodyState extends State<SignInBody> {
           Align(
             alignment: Alignment.centerRight,
             child: GestureDetector(
-              onTap: () => context.read<AppNavigator>().toForgotPassword(),
+              onTap: () => context.read<AppNavigator>().pushToForgotPassword(),
               child: Text(
                 'Forgot password?',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -151,7 +168,8 @@ class _SignInBodyState extends State<SignInBody> {
           const SizedBox(height: AppSpacing.s4),
 
           BlocBuilder<SignInCubit, SignInState>(
-            buildWhen: (SignInState p, SignInState c) => p.signInStatus != c.signInStatus,
+            buildWhen: (SignInState p, SignInState c) =>
+                p.signInStatus != c.signInStatus,
             builder: (BuildContext context, SignInState state) {
               final bool isLoading = state.signInStatus == BlocStatus.loading;
 

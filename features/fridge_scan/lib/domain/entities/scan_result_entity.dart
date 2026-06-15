@@ -5,8 +5,6 @@ import 'scan_entity.dart';
 
 part 'scan_result_entity.freezed.dart';
 
-/// The outcome of a completed fridge scan: the persisted scan header plus the
-/// ingredients detected in it.
 @freezed
 abstract class ScanResultEntity with _$ScanResultEntity {
   factory ScanResultEntity({
