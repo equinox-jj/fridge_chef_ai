@@ -26,6 +26,9 @@ abstract interface class AppNavigator {
   /// Replaces the stack with the forgot-password screen.
   void toForgotPassword();
 
+  /// Pushes the forgot-password confirmation screen with the provided email.
+  void toForgotPasswordConfirmation(String email);
+
   /// Enters the main app shell, landing on its default (scan) tab.
   void toDashboard();
 

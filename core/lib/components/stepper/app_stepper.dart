@@ -98,7 +98,7 @@ class _StepButton extends StatelessWidget {
             child: Icon(
               icon,
               size: AppTextSize.lg,
-              color: enabled ? AppPalette.neutral600 : AppColors.textFaint,
+              color: enabled ? AppDarkPalette.neutral600 : AppColors.textFaint,
             ),
           ),
         ),

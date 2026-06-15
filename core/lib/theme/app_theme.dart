@@ -6,71 +6,49 @@ import 'app_layout.dart';
 import 'app_radius.dart';
 import 'app_typography.dart';
 
-/// Base application theme for FridgeScan AI.
+/// Dark-only application theme for FridgeScan AI.
 ///
-/// Translates the design tokens (colors, typography, radius, layout) into a
-/// Material 3 [ThemeData]. The light theme maps the semantic tokens directly;
-/// the dark theme is derived from the brand seed since the tokens are
-/// light-first. Wire into `MaterialApp(theme: AppTheme.light, darkTheme: ...)`.
+/// Wire into `MaterialApp(theme: AppTheme.dark)`.
 abstract final class AppTheme {
-  static ThemeData get light => _build(_lightScheme);
-
   static ThemeData get dark => _build(_darkScheme);
 
-  /// Light color scheme mapped straight from the semantic tokens.
-  static const ColorScheme _lightScheme = ColorScheme(
-    brightness: Brightness.light,
-    // Primary — brand green.
+  static const ColorScheme _darkScheme = ColorScheme(
+    brightness: Brightness.dark,
     primary: AppColors.primary,
     onPrimary: AppColors.onPrimary,
     primaryContainer: AppColors.primaryTint,
     onPrimaryContainer: AppColors.primaryText,
-    // Secondary — AI purple.
     secondary: AppColors.ai,
-    onSecondary: AppColors.textOnAccent,
+    onSecondary: AppColors.onPrimary,
     secondaryContainer: AppColors.aiTint,
     onSecondaryContainer: AppColors.aiText,
-    // Tertiary — action amber.
     tertiary: AppColors.action,
-    onTertiary: AppColors.textOnAccent,
+    onTertiary: AppColors.onPrimary,
     tertiaryContainer: AppColors.actionTint,
     onTertiaryContainer: AppColors.actionText,
-    // Error — coral.
     error: AppColors.danger,
-    onError: AppColors.textOnAccent,
+    onError: AppColors.onPrimary,
     errorContainer: AppColors.dangerTint,
     onErrorContainer: AppColors.dangerText,
-    // Surfaces / neutrals.
     surface: AppColors.surfaceCard,
-    onSurface: AppColors.textPrimary,
-    surfaceContainerLowest: AppPalette.neutral0,
-    surfaceContainerLow: AppPalette.neutral50,
-    surfaceContainer: AppPalette.neutral100,
-    surfaceContainerHigh: AppPalette.neutral200,
-    surfaceContainerHighest: AppPalette.neutral300,
-    onSurfaceVariant: AppColors.textSecondary,
+    onSurface: AppColors.textStrong,
+    surfaceContainerLowest: AppDarkPalette.page,
+    surfaceContainerLow: AppColors.surfaceCanvas,
+    surfaceContainer: AppColors.surfaceSunken,
+    surfaceContainerHigh: AppDarkPalette.neutral200,
+    surfaceContainerHighest: AppDarkPalette.neutral300,
+    onSurfaceVariant: AppColors.textMuted,
     outline: AppColors.borderStrong,
     outlineVariant: AppColors.borderDefault,
     inverseSurface: AppColors.surfaceInverse,
     onInverseSurface: AppColors.textInverse,
-    inversePrimary: AppPalette.green300,
+    inversePrimary: AppDarkPalette.green600,
     surfaceTint: AppColors.primary,
-    shadow: AppPalette.neutral900,
-    scrim: AppPalette.neutral900,
-  );
-
-  /// Dark scheme derived from the brand seed (no dark tokens are defined).
-  static final ColorScheme _darkScheme = ColorScheme.fromSeed(
-    seedColor: AppColors.primary,
-    brightness: Brightness.dark,
-    primary: AppPalette.green300,
-    secondary: AppPalette.purple300,
-    tertiary: AppPalette.amber300,
-    error: AppPalette.coral300,
+    shadow: AppDarkPalette.page,
+    scrim: AppDarkPalette.page,
   );
 
   static ThemeData _build(ColorScheme scheme) {
-    final bool isLight = scheme.brightness == Brightness.light;
     final TextTheme textTheme = AppTypography.textTheme.apply(
       bodyColor: scheme.onSurface,
       displayColor: scheme.onSurface,
@@ -81,7 +59,7 @@ abstract final class AppTheme {
       colorScheme: scheme,
       fontFamily: AppFontFamily.body,
       textTheme: textTheme,
-      scaffoldBackgroundColor: isLight ? AppColors.surfaceCanvas : scheme.surface,
+      scaffoldBackgroundColor: AppColors.surfaceCanvas,
       splashFactory: InkSparkle.splashFactory,
       focusColor: AppColors.focusRing,
       dividerTheme: DividerThemeData(
@@ -90,7 +68,7 @@ abstract final class AppTheme {
         space: AppBorderWidth.hairline,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: isLight ? AppColors.surfaceCanvas : scheme.surface,
+        backgroundColor: AppColors.surfaceCanvas,
         foregroundColor: scheme.onSurface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -111,7 +89,7 @@ abstract final class AppTheme {
         filled: true,
         fillColor: scheme.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+        hintStyle: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.outlineVariant),
@@ -169,14 +147,17 @@ abstract final class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brLg)),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: isLight ? AppColors.surfaceSunken : scheme.surface,
+        backgroundColor: scheme.surfaceContainer,
         side: BorderSide(color: scheme.outlineVariant),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
         labelStyle: textTheme.labelLarge,
       ),
-      bottomSheetTheme: const BottomSheetThemeData(
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: scheme.surface,
+        surfaceTintColor: Colors.transparent,
         showDragHandle: true,
-        shape: RoundedRectangleBorder(
+        dragHandleColor: scheme.outlineVariant,
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
         ),
       ),
@@ -194,10 +175,7 @@ abstract final class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         height: AppLayout.navHeight,
         backgroundColor: scheme.surface,
-        indicatorColor: isLight ? AppColors.focusRing.withValues(alpha: .3) : scheme.primaryContainer,
-        labelTextStyle: WidgetStatePropertyAll<TextStyle?>(
-          textTheme.labelMedium?.copyWith(color: AppColors.primaryText),
-        ),
+        indicatorColor: scheme.primaryContainer,
       ),
     );
   }

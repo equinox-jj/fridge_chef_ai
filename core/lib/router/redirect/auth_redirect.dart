@@ -7,6 +7,7 @@ const Set<String> _publicPaths = <String>{
   AppRoute.signInPath,
   AppRoute.signUpPath,
   AppRoute.forgotPasswordPath,
+  AppRoute.forgotPasswordConfirmationPath,
 };
 
 /// Auth-flow routes that an already-authenticated user should be bounced away
@@ -15,6 +16,7 @@ const Set<String> _authPaths = <String>{
   AppRoute.signInPath,
   AppRoute.signUpPath,
   AppRoute.forgotPasswordPath,
+  AppRoute.forgotPasswordConfirmationPath,
 };
 
 /// Pure, dependency-free guard used by the app's `GoRouter.redirect`.

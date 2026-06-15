@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
   $signInRoute,
   $signUpRoute,
   $forgotPasswordRoute,
+  $forgotPasswordConfirmationRoute,
 ];
 
 RouteBase get $signInRoute => GoRouteData.$route(
@@ -73,6 +74,38 @@ mixin $ForgotPasswordRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/forgot-password');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $forgotPasswordConfirmationRoute => GoRouteData.$route(
+  path: '/forgot-password/confirmation',
+  name: 'forgotPasswordConfirmation',
+  factory: $ForgotPasswordConfirmationRoute._fromState,
+);
+
+mixin $ForgotPasswordConfirmationRoute on GoRouteData {
+  static ForgotPasswordConfirmationRoute _fromState(GoRouterState state) => ForgotPasswordConfirmationRoute(
+    email: state.uri.queryParameters['email']!,
+  );
+
+  ForgotPasswordConfirmationRoute get _self => this as ForgotPasswordConfirmationRoute;
+
+  @override
+  String get location => GoRouteData.$location(
+    '/forgot-password/confirmation',
+    queryParams: {'email': _self.email},
+  );
 
   @override
   void go(BuildContext context) => context.go(location);

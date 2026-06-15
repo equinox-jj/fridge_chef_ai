@@ -1,4 +1,3 @@
-import 'package:core/blocs/theme_mode_cubit.dart';
 import 'package:core/components/dialog/app_confirm_dialog.dart';
 import 'package:core/components/image_source_sheet/pick_image_source_sheet.dart';
 import 'package:core/components/list_row/app_list_row.dart';
@@ -125,15 +124,6 @@ class ProfilePage extends StatelessWidget {
                           title: 'Scan history',
                           value: state.scanCount == null ? null : '${state.scanCount} scans',
                           onTap: () => context.read<AppNavigator>().toScanHistory(),
-                        ),
-                        AppListRow(
-                          icon: Icons.dark_mode_rounded,
-                          title: 'Dark mode',
-                          showChevron: false,
-                          trailing: Switch(
-                            value: context.watch<ThemeModeCubit>().state == ThemeMode.dark,
-                            onChanged: (bool value) => context.read<ThemeModeCubit>().setDark(value),
-                          ),
                         ),
                       ],
                     ),

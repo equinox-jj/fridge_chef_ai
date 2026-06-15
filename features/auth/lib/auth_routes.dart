@@ -5,6 +5,7 @@ import 'package:dependencies/go_router/go_router.dart';
 import 'package:flutter/widgets.dart';
 
 import 'presentation/pages/forgot_password/cubit/forgot_password_cubit.dart';
+import 'presentation/pages/forgot_password/forgot_password_confirmation_page.dart';
 import 'presentation/pages/forgot_password/forgot_password_page.dart';
 import 'presentation/pages/sign_in/cubit/sign_in_cubit.dart';
 import 'presentation/pages/sign_in/sign_in_page.dart';
@@ -60,6 +61,24 @@ class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
     return BlocProvider<ForgotPasswordCubit>(
       create: (_) => GetIt.I<ForgotPasswordCubit>(),
       child: const ForgotPasswordPage(),
+    );
+  }
+}
+
+@TypedGoRoute<ForgotPasswordConfirmationRoute>(
+  path: AppRoute.forgotPasswordConfirmationPath,
+  name: AppRoute.forgotPasswordConfirmationName,
+)
+class ForgotPasswordConfirmationRoute extends GoRouteData with $ForgotPasswordConfirmationRoute {
+  const ForgotPasswordConfirmationRoute({required this.email});
+
+  final String email;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlocProvider<ForgotPasswordCubit>(
+      create: (_) => GetIt.I<ForgotPasswordCubit>(),
+      child: ForgotPasswordConfirmationPage(email: email),
     );
   }
 }

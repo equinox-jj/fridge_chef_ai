@@ -30,6 +30,10 @@ class AppNavigatorImpl implements AppNavigator {
   @override
   void toForgotPassword() => _router.push(const ForgotPasswordRoute().location);
 
+  @override
+  void toForgotPasswordConfirmation(String email) =>
+      _router.push(ForgotPasswordConfirmationRoute(email: email).location);
+
   // Lands on the shell's default branch (the home/scan tab). Targets the
   // branch root [HomeRoute] rather than [FridgeScanRoute]: the latter now
   // presents full-screen on the root navigator, so going there directly would

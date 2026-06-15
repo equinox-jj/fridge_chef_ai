@@ -28,9 +28,9 @@ class ScanFridgeCard extends StatelessWidget {
           gradient: const LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: <Color>[AppPalette.green50, AppColors.surfaceCard],
+            colors: <Color>[AppDarkPalette.green50, AppColors.surfaceCard],
           ),
-          border: Border.all(color: AppPalette.green100),
+          border: Border.all(color: AppDarkPalette.green100),
           borderRadius: _radius,
           boxShadow: AppShadows.sm,
         ),

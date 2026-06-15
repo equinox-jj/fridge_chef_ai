@@ -77,7 +77,7 @@ class _AppAiLoaderState extends State<AppAiLoader> with SingleTickerProviderStat
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: <Color>[AppPalette.purple400, AppPalette.purple600],
+                      colors: <Color>[AppDarkPalette.purple400, AppDarkPalette.purple600],
                     ),
                     boxShadow: AppShadows.ai,
                   ),
@@ -110,7 +110,7 @@ class _AppAiLoaderState extends State<AppAiLoader> with SingleTickerProviderStat
               width: _progressWidth,
               child: LinearProgressIndicator(
                 minHeight: 6,
-                backgroundColor: AppPalette.neutral200,
+                backgroundColor: AppDarkPalette.neutral200,
                 color: AppColors.ai,
                 borderRadius: BorderRadius.all(AppRadius.brFull),
               ),

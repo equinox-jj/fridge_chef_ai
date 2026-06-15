@@ -10,5 +10,6 @@ abstract class ForgotPasswordState with _$ForgotPasswordState {
     @Default(BlocStatus.initial) BlocStatus forgotPasswordStatus,
     Failure? forgotPasswordFailure,
     @Default(0) int resendCountdown,
+    String? email,
   }) = _ForgotPasswordState;
 }

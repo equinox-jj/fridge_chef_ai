@@ -104,7 +104,7 @@ class _AppStepTimerState extends State<AppStepTimer> {
       decoration: BoxDecoration(
         color: AppColors.successTint,
         borderRadius: const BorderRadius.all(AppRadius.brMd),
-        border: Border.all(color: AppPalette.green100),
+        border: Border.all(color: AppDarkPalette.green100),
       ),
       child: ListenableBuilder(
         listenable: Listenable.merge(<Listenable>[_remaining, _running]),

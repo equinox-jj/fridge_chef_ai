@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Raw color palette for FridgeScan AI.
+/// Raw light color palette — base tokens from the design system CSS.
 ///
-/// These are the base tokens — prefer the semantic aliases in [AppColors] for
-/// product code so intent stays readable and theming stays consistent.
+/// Use [AppColors] (dark semantic aliases) or [AppPalette] by name for one-off
+/// light-mode overrides. Prefer semantic names in product code.
 abstract final class AppPalette {
   // ---- Brand green (fresh produce, primary) ----
   static const Color green50 = Color(0xFFE1F5EE);
@@ -71,7 +71,72 @@ abstract final class AppPalette {
   static const Color neutral900 = Color(0xFF15140F);
 }
 
-/// Semantic color aliases — reference these in product code.
+/// Dark-adapted raw palette — mirrors the design-system dark tokens.
+///
+/// Reference in dark-specific one-off overrides. Prefer [AppColors] semantic
+/// aliases for product code.
+abstract final class AppDarkPalette {
+  // ---- Brand green (dark-adapted) ----
+  static const Color green50 = Color(0xFF11271F);
+  static const Color green100 = Color(0xFF173628);
+  static const Color green200 = Color(0xFF1F4434);
+  static const Color green300 = Color(0xFF3FB389);
+  static const Color green400 = Color(0xFF2BA17C);
+  static const Color green500 = Color(0xFF2BA17C);
+  static const Color green600 = Color(0xFF2FAE86);
+  static const Color green700 = Color(0xFF34B98E);
+  static const Color green800 = Color(0xFF0A4537);
+  static const Color green900 = Color(0xFF073028);
+
+  // ---- AI purple (dark-adapted) ----
+  static const Color purple50 = Color(0xFF1B1840);
+  static const Color purple100 = Color(0xFF241F4F);
+  static const Color purple300 = Color(0xFF9C95EC);
+  static const Color purple400 = Color(0xFF8B82E4);
+  static const Color purple500 = Color(0xFF6E64CE);
+  static const Color purple600 = Color(0xFF9A92E8);
+
+  // ---- Amber (dark-adapted) ----
+  static const Color amber50 = Color(0xFF2E1F08);
+  static const Color amber100 = Color(0xFF3D2A0C);
+  static const Color amber300 = Color(0xFFDDA23F);
+  static const Color amber400 = Color(0xFFC8881C);
+  static const Color amber600 = Color(0xFFE0A53A);
+  static const Color amber700 = Color(0xFFE9B658);
+
+  // ---- Coral (dark-adapted) ----
+  static const Color coral50 = Color(0xFF331409);
+  static const Color coral100 = Color(0xFF43200F);
+  static const Color coral300 = Color(0xFFDC7E5E);
+  static const Color coral600 = Color(0xFFE06A45);
+  static const Color coral700 = Color(0xFFE8835F);
+
+  // ---- Blue (dark-adapted) ----
+  static const Color blue50 = Color(0xFF0E2238);
+  static const Color blue100 = Color(0xFF14304D);
+  static const Color blue300 = Color(0xFF5E97D4);
+  static const Color blue500 = Color(0xFF5E97D4);
+  static const Color blue600 = Color(0xFF7DB0E4);
+
+  // ---- Warm neutral ramp (dark-tuned) ----
+  static const Color neutral0 = Color(0xFF221D13); // raised card
+  static const Color neutral50 = Color(0xFF181308); // canvas
+  static const Color neutral100 = Color(0xFF251F14); // sunken / fills
+  static const Color neutral200 = Color(0xFF322B1C);
+  static const Color neutral300 = Color(0xFF423A27);
+  static const Color neutral400 = Color(0xFF847C66); // faint text
+  static const Color neutral500 = Color(0xFFA49C87); // muted text
+  static const Color neutral600 = Color(0xFFC4BCA7);
+  static const Color neutral700 = Color(0xFFDAD3C3); // body
+  static const Color neutral800 = Color(0xFFE9E4D7);
+  static const Color neutral900 = Color(0xFFF4F1E7); // strongest text
+
+  // ---- Additional dark surfaces ----
+  static const Color page = Color(0xFF0E0B06); // behind device / deepest
+  static const Color sunken = Color(0xFF2B2417); // inset rows, tracks
+}
+
+/// Semantic color aliases — dark-first, reference these in product code.
 ///
 /// The accent system mirrors the product flow:
 ///   • Green  — primary / fresh / results & data
@@ -81,65 +146,65 @@ abstract final class AppPalette {
 ///   • Blue   — informational / selected
 abstract final class AppColors {
   // ---- Surfaces ----
-  static const Color backgroundPrimary = AppPalette.neutral0; // cards, sheets
-  static const Color backgroundSecondary = AppPalette.neutral50; // app canvas
-  static const Color backgroundTertiary = AppPalette.neutral100; // inset rows
-  static const Color surfaceCard = AppPalette.neutral0;
-  static const Color surfaceCanvas = AppPalette.neutral50;
-  static const Color surfaceSunken = AppPalette.neutral100;
-  static const Color surfaceInverse = AppPalette.neutral900;
+  static const Color backgroundPrimary = AppDarkPalette.neutral0; // cards, sheets
+  static const Color backgroundSecondary = AppDarkPalette.neutral50; // app canvas
+  static const Color backgroundTertiary = AppDarkPalette.neutral100; // inset rows
+  static const Color surfaceCard = AppDarkPalette.neutral0;
+  static const Color surfaceCanvas = AppDarkPalette.neutral50;
+  static const Color surfaceSunken = AppDarkPalette.neutral100;
+  static const Color surfaceInverse = AppDarkPalette.neutral900;
 
   // ---- Text ----
-  static const Color textPrimary = AppPalette.neutral900;
-  static const Color textSecondary = AppPalette.neutral600;
-  static const Color textTertiary = AppPalette.neutral400;
-  static const Color textInverse = AppPalette.neutral0;
-  static const Color textStrong = AppPalette.neutral900;
-  static const Color textBody = AppPalette.neutral700;
-  static const Color textMuted = AppPalette.neutral500;
-  static const Color textFaint = AppPalette.neutral400;
-  static const Color textOnAccent = AppPalette.neutral0;
+  static const Color textPrimary = AppDarkPalette.neutral900;
+  static const Color textSecondary = AppDarkPalette.neutral600;
+  static const Color textTertiary = AppDarkPalette.neutral400;
+  static const Color textInverse = AppDarkPalette.neutral50;
+  static const Color textStrong = AppDarkPalette.neutral900;
+  static const Color textBody = AppDarkPalette.neutral700;
+  static const Color textMuted = AppDarkPalette.neutral500;
+  static const Color textFaint = AppDarkPalette.neutral400;
+  static const Color textOnAccent = AppDarkPalette.neutral900;
 
   // ---- Borders ----
-  static const Color borderPrimary = AppPalette.neutral300;
-  static const Color borderSecondary = AppPalette.neutral200;
-  static const Color borderTertiary = AppPalette.neutral100;
-  static const Color borderStrong = AppPalette.neutral300;
-  static const Color borderDefault = AppPalette.neutral200;
-  static const Color borderSubtle = AppPalette.neutral100;
+  static const Color borderPrimary = AppDarkPalette.neutral300;
+  static const Color borderSecondary = AppDarkPalette.neutral200;
+  static const Color borderTertiary = AppDarkPalette.neutral100;
+  static const Color borderStrong = AppDarkPalette.neutral300;
+  static const Color borderDefault = AppDarkPalette.neutral200;
+  static const Color borderSubtle = AppDarkPalette.neutral100;
 
   // ---- Primary (green) ----
-  static const Color primary = AppPalette.green600;
-  static const Color primaryHover = AppPalette.green700;
-  static const Color primaryActive = AppPalette.green800;
-  static const Color primaryTint = AppPalette.green50;
-  static const Color primaryText = AppPalette.green700;
-  static const Color onPrimary = AppPalette.neutral0;
+  static const Color primary = Color(0xFF138062); // button bg — white text safe on dark
+  static const Color primaryHover = AppPalette.green600;
+  static const Color primaryActive = AppPalette.green700;
+  static const Color primaryTint = AppDarkPalette.green50;
+  static const Color primaryText = AppDarkPalette.green700; // bright green for text on dark
+  static const Color onPrimary = Color(0xFFFFFFFF);
 
   // ---- AI (purple) ----
-  static const Color ai = AppPalette.purple500;
-  static const Color aiStrong = AppPalette.purple600;
-  static const Color aiTint = AppPalette.purple50;
-  static const Color aiText = AppPalette.purple600;
+  static const Color ai = Color(0xFF5F56C4);
+  static const Color aiStrong = AppDarkPalette.purple600;
+  static const Color aiTint = AppDarkPalette.purple50;
+  static const Color aiText = AppDarkPalette.purple600;
 
   // ---- Action (amber) — save / rate ----
-  static const Color action = AppPalette.amber600;
-  static const Color actionTint = AppPalette.amber50;
-  static const Color actionText = AppPalette.amber700;
+  static const Color action = AppDarkPalette.amber600; // bright amber on dark
+  static const Color actionTint = AppDarkPalette.amber50;
+  static const Color actionText = AppDarkPalette.amber700;
 
   // ---- Danger (coral) — destructive / loop ----
-  static const Color danger = AppPalette.coral600;
-  static const Color dangerTint = AppPalette.coral50;
-  static const Color dangerText = AppPalette.coral700;
+  static const Color danger = AppDarkPalette.coral600; // bright coral on dark
+  static const Color dangerTint = AppDarkPalette.coral50;
+  static const Color dangerText = AppDarkPalette.coral700;
 
   // ---- Info (blue) ----
-  static const Color info = AppPalette.blue500;
-  static const Color infoTint = AppPalette.blue50;
-  static const Color infoText = AppPalette.blue600;
+  static const Color info = AppDarkPalette.blue500;
+  static const Color infoTint = AppDarkPalette.blue50;
+  static const Color infoText = AppDarkPalette.blue600;
 
   // ---- Success (green) ----
-  static const Color success = AppPalette.green600;
-  static const Color successTint = AppPalette.green50;
+  static const Color success = AppDarkPalette.green600;
+  static const Color successTint = AppDarkPalette.green50;
 
   // ---- Focus ring ----
   static const Color focusRing = AppPalette.green400;

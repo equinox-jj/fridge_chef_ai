@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ForgotPasswordState {
 
- BlocStatus get forgotPasswordStatus; Failure? get forgotPasswordFailure; int get resendCountdown;
+ BlocStatus get forgotPasswordStatus; Failure? get forgotPasswordFailure; int get resendCountdown; String? get email;
 /// Create a copy of ForgotPasswordState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ForgotPasswordStateCopyWith<ForgotPasswordState> get copyWith => _$ForgotPasswo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordState&&(identical(other.forgotPasswordStatus, forgotPasswordStatus) || other.forgotPasswordStatus == forgotPasswordStatus)&&(identical(other.forgotPasswordFailure, forgotPasswordFailure) || other.forgotPasswordFailure == forgotPasswordFailure)&&(identical(other.resendCountdown, resendCountdown) || other.resendCountdown == resendCountdown));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForgotPasswordState&&(identical(other.forgotPasswordStatus, forgotPasswordStatus) || other.forgotPasswordStatus == forgotPasswordStatus)&&(identical(other.forgotPasswordFailure, forgotPasswordFailure) || other.forgotPasswordFailure == forgotPasswordFailure)&&(identical(other.resendCountdown, resendCountdown) || other.resendCountdown == resendCountdown)&&(identical(other.email, email) || other.email == email));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,forgotPasswordStatus,forgotPasswordFailure,resendCountdown);
+int get hashCode => Object.hash(runtimeType,forgotPasswordStatus,forgotPasswordFailure,resendCountdown,email);
 
 @override
 String toString() {
-  return 'ForgotPasswordState(forgotPasswordStatus: $forgotPasswordStatus, forgotPasswordFailure: $forgotPasswordFailure, resendCountdown: $resendCountdown)';
+  return 'ForgotPasswordState(forgotPasswordStatus: $forgotPasswordStatus, forgotPasswordFailure: $forgotPasswordFailure, resendCountdown: $resendCountdown, email: $email)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ForgotPasswordStateCopyWith<$Res>  {
   factory $ForgotPasswordStateCopyWith(ForgotPasswordState value, $Res Function(ForgotPasswordState) _then) = _$ForgotPasswordStateCopyWithImpl;
 @useResult
 $Res call({
- BlocStatus forgotPasswordStatus, Failure? forgotPasswordFailure, int resendCountdown
+ BlocStatus forgotPasswordStatus, Failure? forgotPasswordFailure, int resendCountdown, String? email
 });
 
 
@@ -62,12 +62,13 @@ class _$ForgotPasswordStateCopyWithImpl<$Res>
 
 /// Create a copy of ForgotPasswordState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? forgotPasswordStatus = null,Object? forgotPasswordFailure = freezed,Object? resendCountdown = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? forgotPasswordStatus = null,Object? forgotPasswordFailure = freezed,Object? resendCountdown = null,Object? email = freezed,}) {
   return _then(_self.copyWith(
 forgotPasswordStatus: null == forgotPasswordStatus ? _self.forgotPasswordStatus : forgotPasswordStatus // ignore: cast_nullable_to_non_nullable
 as BlocStatus,forgotPasswordFailure: freezed == forgotPasswordFailure ? _self.forgotPasswordFailure : forgotPasswordFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,resendCountdown: null == resendCountdown ? _self.resendCountdown : resendCountdown // ignore: cast_nullable_to_non_nullable
-as int,
+as int,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -152,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown,  String? email)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ForgotPasswordState() when $default != null:
-return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown);case _:
+return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown,_that.email);case _:
   return orElse();
 
 }
@@ -173,10 +174,10 @@ return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.res
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown,  String? email)  $default,) {final _that = this;
 switch (_that) {
 case _ForgotPasswordState():
-return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown);case _:
+return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown,_that.email);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +194,10 @@ return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.res
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( BlocStatus forgotPasswordStatus,  Failure? forgotPasswordFailure,  int resendCountdown,  String? email)?  $default,) {final _that = this;
 switch (_that) {
 case _ForgotPasswordState() when $default != null:
-return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown);case _:
+return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.resendCountdown,_that.email);case _:
   return null;
 
 }
@@ -208,12 +209,13 @@ return $default(_that.forgotPasswordStatus,_that.forgotPasswordFailure,_that.res
 
 
 class _ForgotPasswordState implements ForgotPasswordState {
-  const _ForgotPasswordState({this.forgotPasswordStatus = BlocStatus.initial, this.forgotPasswordFailure, this.resendCountdown = 0});
+  const _ForgotPasswordState({this.forgotPasswordStatus = BlocStatus.initial, this.forgotPasswordFailure, this.resendCountdown = 0, this.email});
   
 
 @override@JsonKey() final  BlocStatus forgotPasswordStatus;
 @override final  Failure? forgotPasswordFailure;
 @override@JsonKey() final  int resendCountdown;
+@override final  String? email;
 
 /// Create a copy of ForgotPasswordState
 /// with the given fields replaced by the non-null parameter values.
@@ -225,16 +227,16 @@ _$ForgotPasswordStateCopyWith<_ForgotPasswordState> get copyWith => __$ForgotPas
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForgotPasswordState&&(identical(other.forgotPasswordStatus, forgotPasswordStatus) || other.forgotPasswordStatus == forgotPasswordStatus)&&(identical(other.forgotPasswordFailure, forgotPasswordFailure) || other.forgotPasswordFailure == forgotPasswordFailure)&&(identical(other.resendCountdown, resendCountdown) || other.resendCountdown == resendCountdown));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ForgotPasswordState&&(identical(other.forgotPasswordStatus, forgotPasswordStatus) || other.forgotPasswordStatus == forgotPasswordStatus)&&(identical(other.forgotPasswordFailure, forgotPasswordFailure) || other.forgotPasswordFailure == forgotPasswordFailure)&&(identical(other.resendCountdown, resendCountdown) || other.resendCountdown == resendCountdown)&&(identical(other.email, email) || other.email == email));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,forgotPasswordStatus,forgotPasswordFailure,resendCountdown);
+int get hashCode => Object.hash(runtimeType,forgotPasswordStatus,forgotPasswordFailure,resendCountdown,email);
 
 @override
 String toString() {
-  return 'ForgotPasswordState(forgotPasswordStatus: $forgotPasswordStatus, forgotPasswordFailure: $forgotPasswordFailure, resendCountdown: $resendCountdown)';
+  return 'ForgotPasswordState(forgotPasswordStatus: $forgotPasswordStatus, forgotPasswordFailure: $forgotPasswordFailure, resendCountdown: $resendCountdown, email: $email)';
 }
 
 
@@ -245,7 +247,7 @@ abstract mixin class _$ForgotPasswordStateCopyWith<$Res> implements $ForgotPassw
   factory _$ForgotPasswordStateCopyWith(_ForgotPasswordState value, $Res Function(_ForgotPasswordState) _then) = __$ForgotPasswordStateCopyWithImpl;
 @override @useResult
 $Res call({
- BlocStatus forgotPasswordStatus, Failure? forgotPasswordFailure, int resendCountdown
+ BlocStatus forgotPasswordStatus, Failure? forgotPasswordFailure, int resendCountdown, String? email
 });
 
 
@@ -262,12 +264,13 @@ class __$ForgotPasswordStateCopyWithImpl<$Res>
 
 /// Create a copy of ForgotPasswordState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? forgotPasswordStatus = null,Object? forgotPasswordFailure = freezed,Object? resendCountdown = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? forgotPasswordStatus = null,Object? forgotPasswordFailure = freezed,Object? resendCountdown = null,Object? email = freezed,}) {
   return _then(_ForgotPasswordState(
 forgotPasswordStatus: null == forgotPasswordStatus ? _self.forgotPasswordStatus : forgotPasswordStatus // ignore: cast_nullable_to_non_nullable
 as BlocStatus,forgotPasswordFailure: freezed == forgotPasswordFailure ? _self.forgotPasswordFailure : forgotPasswordFailure // ignore: cast_nullable_to_non_nullable
 as Failure?,resendCountdown: null == resendCountdown ? _self.resendCountdown : resendCountdown // ignore: cast_nullable_to_non_nullable
-as int,
+as int,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

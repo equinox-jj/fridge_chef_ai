@@ -51,7 +51,7 @@ class AppStarRating extends StatelessWidget {
           final Widget star = Icon(
             on ? Icons.star_rounded : Icons.star_outline_rounded,
             size: iconSize,
-            color: on ? AppPalette.amber400 : AppPalette.neutral300,
+            color: on ? AppDarkPalette.amber400 : AppDarkPalette.neutral300,
           );
 
           if (readOnly || onChanged == null) return star;

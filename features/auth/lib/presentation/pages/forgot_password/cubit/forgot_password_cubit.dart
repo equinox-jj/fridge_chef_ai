@@ -38,7 +38,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         ),
       ),
       (_) {
-        emit(state.copyWith(forgotPasswordStatus: BlocStatus.success));
+        emit(
+          state.copyWith(
+            forgotPasswordStatus: BlocStatus.success,
+            email: email,
+          ),
+        );
         _startResendCooldown();
       },
     );

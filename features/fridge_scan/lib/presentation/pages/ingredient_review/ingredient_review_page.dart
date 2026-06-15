@@ -234,7 +234,7 @@ class _AddMissingRow extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.s4),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(AppRadius.brMd),
-            border: Border.all(color: AppPalette.green300, width: 1.5),
+            border: Border.all(color: AppDarkPalette.green300, width: 1.5),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

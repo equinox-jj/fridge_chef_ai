@@ -3,72 +3,96 @@ import 'package:core/theme/app_colors.dart';
 import 'package:core/theme/app_spacing.dart';
 import 'package:flutter/material.dart';
 
-import 'auth_hero_section.dart';
-
-/// Shared scaffold for the auth flow (sign-in / sign-up / forgot-password).
+/// Slim slot-based scaffold for the auth flow.
 ///
-/// Renders the green gradient hero with [card] pinned to the bottom. The body
-/// scrolls and resizes when the keyboard opens so the focused field is never
-/// hidden behind it, and a tap on any empty area dismisses the keyboard — which
-/// iOS does not do on its own.
+/// Renders a dark canvas background with optional [header], a scrollable
+/// [body], and an optional [footer] pinned to the bottom. Tapping any empty
+/// area dismisses the keyboard.
 class AuthScaffold extends StatelessWidget {
   const AuthScaffold({
-    required this.card,
+    required this.body,
+    this.header,
+    this.footer,
     super.key,
   });
 
-  /// The form card shown at the bottom of the hero.
-  final Widget card;
+  final Widget? header;
+  final Widget body;
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Default (true) so SafeArea reports the keyboard inset and the scroll
-      // view can lift the focused field above the keyboard.
+      backgroundColor: AppColors.surfaceCanvas,
       body: GestureDetector(
         onTap: () => context.unfocus(),
         behavior: HitTestBehavior.opaque,
-        child: DecoratedBox(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment(-0.2, -1),
-              end: Alignment(0.2, 1),
-              stops: <double>[0, 0.46, 1],
-              colors: <Color>[
-                AppPalette.green600,
-                AppPalette.green800,
-                AppPalette.neutral900,
-              ],
-            ),
-          ),
-          child: SafeArea(
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                    child: IntrinsicHeight(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          AppSpacing.s7,
-                          AppSpacing.s0,
-                          AppSpacing.s7,
-                          AppSpacing.s8,
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            const Expanded(child: AuthHeroSection()),
-                            card,
-                          ],
-                        ),
-                      ),
-                    ),
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              ?header,
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.s5,
                   ),
-                );
-              },
-            ),
+                  child: body,
+                ),
+              ),
+              ?footer,
+            ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// A simple back-button header for auth screens.
+class AuthBackHeader extends StatelessWidget {
+  const AuthBackHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: AppSpacing.s10,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(width: AppSpacing.s2),
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A back-button header with a centred title for auth screens.
+class AuthTitledHeader extends StatelessWidget {
+  const AuthTitledHeader({required this.title, super.key});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: AppSpacing.s10,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(width: AppSpacing.s2),
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ),
+        ],
       ),
     );
   }

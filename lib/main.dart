@@ -1,5 +1,4 @@
 import 'package:core/blocs/connectivity_bloc.dart';
-import 'package:core/blocs/theme_mode_cubit.dart';
 import 'package:core/constants/env/env.dart';
 import 'package:core/router/app_navigator.dart';
 import 'package:core/theme/app_theme.dart';
@@ -24,7 +23,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   configureDependencies();
-  await getIt<ThemeModeCubit>().loadPersisted();
   runApp(const MainApp());
 }
 
@@ -37,19 +35,12 @@ class MainApp extends StatelessWidget {
       providers: <Widget>[
         RepositoryProvider<AppNavigator>.value(value: getIt<AppNavigator>()),
         BlocProvider<ConnectivityBloc>.value(value: getIt<ConnectivityBloc>()),
-        BlocProvider<ThemeModeCubit>.value(value: getIt<ThemeModeCubit>()),
       ].cast(),
-      child: BlocBuilder<ThemeModeCubit, ThemeMode>(
-        builder: (BuildContext context, ThemeMode themeMode) {
-          return MaterialApp.router(
-            title: 'Fridge Chef AI',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
-            themeMode: themeMode,
-            routerConfig: getIt<AppRouter>().config,
-          );
-        },
+      child: MaterialApp.router(
+        title: 'Fridge Chef AI',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.dark,
+        routerConfig: getIt<AppRouter>().config,
       ),
     );
   }
