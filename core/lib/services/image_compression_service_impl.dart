@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dependencies/flutter_image_compress/flutter_image_compress.dart';
@@ -24,7 +25,7 @@ class ImageCompressionServiceImpl implements ImageCompressionService {
       minWidth: minWidth,
       minHeight: minHeight,
       quality: quality,
-      format: CompressFormat.jpeg,
+      format: Platform.isAndroid ? CompressFormat.webp : CompressFormat.heic,
     );
   }
 }
