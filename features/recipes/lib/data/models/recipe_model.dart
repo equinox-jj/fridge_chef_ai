@@ -19,11 +19,16 @@ abstract class RecipeModel with _$RecipeModel {
     @JsonKey(name: 'servings') int? servings,
     @JsonKey(name: 'cook_time_minutes') int? cookTimeMinutes,
     @JsonKey(name: 'mood', includeFromJson: false) String? mood,
-    @JsonKey(name: 'ingredients') @Default(<RecipeIngredientModel>[]) List<RecipeIngredientModel> ingredients,
-    @JsonKey(name: 'steps') @Default(<RecipeStepModel>[]) List<RecipeStepModel> steps,
+    @JsonKey(name: 'ingredients')
+    @Default(<RecipeIngredientModel>[])
+    List<RecipeIngredientModel> ingredients,
+    @JsonKey(name: 'steps')
+    @Default(<RecipeStepModel>[])
+    List<RecipeStepModel> steps,
   }) = _RecipeModel;
 
-  factory RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);
+  factory RecipeModel.fromJson(Map<String, dynamic> json) =>
+      _$RecipeModelFromJson(json);
 
   /// Builds a full recipe from a `recipes` row with its embedded
   /// `recipe_steps` and `recipe_ingredients`, as returned by the detail query.
@@ -33,16 +38,27 @@ abstract class RecipeModel with _$RecipeModel {
   /// flattens the row explicitly rather than reusing [fromJson]. Steps and
   /// ingredients reuse their own `fromJson` since their column names match.
   factory RecipeModel.fromSupabaseRow(Map<String, dynamic> row) {
-    final List<dynamic> steps = (row['recipe_steps'] as List<dynamic>?) ?? const <dynamic>[];
-    final List<dynamic> ingredients = (row['recipe_ingredients'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> steps =
+        (row['recipe_steps'] as List<dynamic>?) ?? const <dynamic>[];
+    final List<dynamic> ingredients =
+        (row['recipe_ingredients'] as List<dynamic>?) ?? const <dynamic>[];
     return RecipeModel(
       title: row['title'] as String?,
       description: row['description'] as String?,
       servings: row['servings'] as int?,
       cookTimeMinutes: row['cook_time_minutes'] as int?,
       mood: row['mood'] as String?,
-      steps: steps.map((dynamic e) => RecipeStepModel.fromJson(e as Map<String, dynamic>)).toList(),
-      ingredients: ingredients.map((dynamic e) => RecipeIngredientModel.fromJson(e as Map<String, dynamic>)).toList(),
+      steps: steps
+          .map(
+            (dynamic e) => RecipeStepModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      ingredients: ingredients
+          .map(
+            (dynamic e) =>
+                RecipeIngredientModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
     );
   }
 }

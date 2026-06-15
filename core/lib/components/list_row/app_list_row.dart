@@ -49,7 +49,9 @@ class AppListRow extends StatelessWidget {
     final _ToneColors colors = isDestructive
         ? const _ToneColors(AppColors.dangerTint, AppColors.danger)
         : _colorsFor(tone);
-    final Color titleColor = isDestructive ? AppColors.dangerText : AppColors.textStrong;
+    final Color titleColor = isDestructive
+        ? AppColors.dangerText
+        : AppColors.textStrong;
 
     return Material(
       type: MaterialType.transparency,
@@ -72,7 +74,9 @@ class AppListRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: context.textTheme.titleMedium?.copyWith(color: titleColor),
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: titleColor,
+                  ),
                 ),
               ),
               if (trailing != null)
@@ -81,7 +85,9 @@ class AppListRow extends StatelessWidget {
                 if (value != null)
                   Text(
                     value!,
-                    style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textMuted,
+                    ),
                   ),
                 if (showChevron)
                   const Icon(

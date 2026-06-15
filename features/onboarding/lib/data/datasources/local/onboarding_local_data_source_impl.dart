@@ -10,7 +10,9 @@ import 'onboarding_local_data_source.dart';
 /// key-value storage rather than the user-scoped database. [CacheGuard]
 /// converts any low-level storage error into a [CacheException] so the
 /// repository can map it to a `Failure` without per-call try/catch.
-class OnboardingLocalDataSourceImpl with CacheGuard implements OnboardingLocalDataSource {
+class OnboardingLocalDataSourceImpl
+    with CacheGuard
+    implements OnboardingLocalDataSource {
   OnboardingLocalDataSourceImpl(this._prefs, this.logger);
 
   final SharedPreferencesAsync _prefs;

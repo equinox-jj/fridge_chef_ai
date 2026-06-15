@@ -15,7 +15,11 @@ class IngredientReviewCubit extends Cubit<IngredientReviewState> {
   IngredientReviewCubit({
     required List<IngredientEntity> initialItems,
     this.scanId,
-  }) : super(IngredientReviewState(items: List<IngredientEntity>.unmodifiable(initialItems)));
+  }) : super(
+         IngredientReviewState(
+           items: List<IngredientEntity>.unmodifiable(initialItems),
+         ),
+       );
 
   /// The scan these ingredients came from, threaded through to recipe
   /// generation so a saved recipe can be linked back to it. Null when the
@@ -34,7 +38,8 @@ class IngredientReviewCubit extends Cubit<IngredientReviewState> {
   void _stepQuantity(int index, int delta) {
     if (index < 0 || index >= state.items.length) return;
     final IngredientEntity current = state.items[index];
-    final int currentQty = int.tryParse(current.quantity?.trim() ?? '') ?? _minQuantity;
+    final int currentQty =
+        int.tryParse(current.quantity?.trim() ?? '') ?? _minQuantity;
     final int next = (currentQty + delta).clamp(_minQuantity, _maxQuantity);
     if (next == currentQty) return;
 
@@ -45,7 +50,8 @@ class IngredientReviewCubit extends Cubit<IngredientReviewState> {
 
   void remove(int index) {
     if (index < 0 || index >= state.items.length) return;
-    final List<IngredientEntity> items = List<IngredientEntity>.of(state.items)..removeAt(index);
+    final List<IngredientEntity> items = List<IngredientEntity>.of(state.items)
+      ..removeAt(index);
     emit(state.copyWith(items: items));
   }
 

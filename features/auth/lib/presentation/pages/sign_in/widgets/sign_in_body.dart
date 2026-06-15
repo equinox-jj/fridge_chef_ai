@@ -105,8 +105,9 @@ class _SignInBodyState extends State<SignInBody> {
             buildWhen: (SignInState p, SignInState c) =>
                 p.signInStatus != c.signInStatus,
             builder: (BuildContext context, SignInState state) {
-              if (state.signInStatus != BlocStatus.error)
+              if (state.signInStatus != BlocStatus.error) {
                 return const SizedBox.shrink();
+              }
               return Padding(
                 padding: const EdgeInsets.only(bottom: AppSpacing.s4),
                 child: Container(

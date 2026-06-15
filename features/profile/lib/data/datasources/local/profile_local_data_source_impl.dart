@@ -8,7 +8,9 @@ import 'package:dependencies/drift/drift.dart';
 import '../../../domain/entities/profile_entity.dart';
 import 'profile_local_data_source.dart';
 
-class ProfileLocalDataSourceImpl with CacheGuard implements ProfileLocalDataSource {
+class ProfileLocalDataSourceImpl
+    with CacheGuard
+    implements ProfileLocalDataSource {
   ProfileLocalDataSourceImpl(this._database, this.logger);
 
   final db.AppDatabase _database;
@@ -19,7 +21,9 @@ class ProfileLocalDataSourceImpl with CacheGuard implements ProfileLocalDataSour
   @override
   Future<ProfileEntity?> getProfile() {
     return cacheGuard(() async {
-      final db.UserProfile? row = await (_database.select(_database.userProfiles)..limit(1)).getSingleOrNull();
+      final db.UserProfile? row = await (_database.select(
+        _database.userProfiles,
+      )..limit(1)).getSingleOrNull();
       if (row == null) {
         return null;
       }
@@ -40,7 +44,9 @@ class ProfileLocalDataSourceImpl with CacheGuard implements ProfileLocalDataSour
       () => _database
           .update(_database.userProfiles)
           .write(
-            db.UserProfilesCompanion(dietaryPreferences: Value<String?>(preference)),
+            db.UserProfilesCompanion(
+              dietaryPreferences: Value<String?>(preference),
+            ),
           ),
     );
   }

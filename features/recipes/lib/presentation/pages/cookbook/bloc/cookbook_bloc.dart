@@ -28,7 +28,8 @@ part 'cookbook_state.dart';
 /// disabled scan) is read straight from [ConnectivityBloc] by the page; this
 /// bloc no longer mirrors it, it only reacts to reconnects to refresh data.
 class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
-  CookbookBloc(this._getCookbook, this._connectivity) : super(const CookbookState()) {
+  CookbookBloc(this._getCookbook, this._connectivity)
+    : super(const CookbookState()) {
     on<_Started>(_onStarted);
     on<_Refreshed>(_onRefreshed);
     on<_ConnectivityChanged>(_onConnectivityChanged);
@@ -41,13 +42,16 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
 
   Future<void> _onStarted(_Started event, Emitter<CookbookState> emit) async {
     // The global bloc only emits on real flips, so each event is a transition.
-    _connectivitySub ??= _connectivity.stream.listen((ConnectivityState status) {
+    _connectivitySub ??= _connectivity.stream.listen((
+      ConnectivityState status,
+    ) {
       add(CookbookEvent.connectivityChanged(isOnline: status.isOnline));
     });
     await _load(emit);
   }
 
-  Future<void> _onRefreshed(_Refreshed event, Emitter<CookbookState> emit) => _load(emit);
+  Future<void> _onRefreshed(_Refreshed event, Emitter<CookbookState> emit) =>
+      _load(emit);
 
   Future<void> _onConnectivityChanged(
     _ConnectivityChanged event,
@@ -64,11 +68,14 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
   Future<void> _load(Emitter<CookbookState> emit) async {
     emit(state.copyWith(status: BlocStatus.loading, failure: null));
 
-    final Either<Failure, List<SavedRecipeEntity>> result = await _getCookbook(const NoParams());
+    final Either<Failure, List<SavedRecipeEntity>> result = await _getCookbook(
+      const NoParams(),
+    );
 
     emit(
       result.fold(
-        (Failure failure) => state.copyWith(status: BlocStatus.error, failure: failure),
+        (Failure failure) =>
+            state.copyWith(status: BlocStatus.error, failure: failure),
         (List<SavedRecipeEntity> recipes) => state.copyWith(
           status: recipes.isEmpty ? BlocStatus.empty : BlocStatus.success,
           recipes: recipes,

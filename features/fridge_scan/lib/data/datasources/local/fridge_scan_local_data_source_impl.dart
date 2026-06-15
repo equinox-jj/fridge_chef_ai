@@ -12,7 +12,9 @@ import '../../models/ingredient_model.dart';
 import '../../models/scan_model.dart';
 import 'fridge_scan_local_data_source.dart';
 
-class FridgeScanLocalDataSourceImpl with CacheGuard implements FridgeScanLocalDataSource {
+class FridgeScanLocalDataSourceImpl
+    with CacheGuard
+    implements FridgeScanLocalDataSource {
   FridgeScanLocalDataSourceImpl(this._database, this.logger);
 
   final db.AppDatabase _database;
@@ -23,7 +25,9 @@ class FridgeScanLocalDataSourceImpl with CacheGuard implements FridgeScanLocalDa
   @override
   Stream<UserProfile?> watchUserProfile() {
     return cacheGuardStream(
-      (_database.select(_database.userProfiles)..limit(1)).watchSingleOrNull().map((db.UserProfile? row) {
+      (_database.select(
+        _database.userProfiles,
+      )..limit(1)).watchSingleOrNull().map((db.UserProfile? row) {
         if (row == null) {
           return null;
         }
@@ -76,7 +80,9 @@ class FridgeScanLocalDataSourceImpl with CacheGuard implements FridgeScanLocalDa
       payload: Value<String>(
         jsonEncode(<String, dynamic>{
           'scan': item.scan.toJson(),
-          'ingredients': item.ingredients.map((IngredientModel i) => i.toJson()).toList(),
+          'ingredients': item.ingredients
+              .map((IngredientModel i) => i.toJson())
+              .toList(),
         }),
       ),
       scannedAt: Value<DateTime>(item.scan.scannedAt ?? DateTime.now()),
@@ -86,11 +92,16 @@ class FridgeScanLocalDataSourceImpl with CacheGuard implements FridgeScanLocalDa
   /// Inverse of [_toCompanion]: rebuilds the scan/ingredients composite from a
   /// cached row's JSON payload.
   ScanWithIngredients _decode(db.CachedScanRow row) {
-    final Map<String, dynamic> json = jsonDecode(row.payload) as Map<String, dynamic>;
-    final List<dynamic> rawIngredients = json['ingredients'] as List<dynamic>? ?? <dynamic>[];
+    final Map<String, dynamic> json =
+        jsonDecode(row.payload) as Map<String, dynamic>;
+    final List<dynamic> rawIngredients =
+        json['ingredients'] as List<dynamic>? ?? <dynamic>[];
     return (
       scan: ScanModel.fromJson(json['scan'] as Map<String, dynamic>),
-      ingredients: rawIngredients.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).toList(),
+      ingredients: rawIngredients
+          .whereType<Map<String, dynamic>>()
+          .map(IngredientModel.fromJson)
+          .toList(),
     );
   }
 }

@@ -28,7 +28,9 @@ class IngredientTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final IngredientCategory category = IngredientCategory.fromValue(ingredient.category);
+    final IngredientCategory category = IngredientCategory.fromValue(
+      ingredient.category,
+    );
 
     return Container(
       padding: const EdgeInsets.fromLTRB(
@@ -83,7 +85,10 @@ class IngredientTile extends StatelessWidget {
   String get _quantityLabel {
     final String qty = ingredient.quantity?.trim() ?? '';
     final String unit = ingredient.unit?.trim() ?? '';
-    final String label = <String>[qty, unit].where((String s) => s.isNotEmpty).join(' ');
+    final String label = <String>[
+      qty,
+      unit,
+    ].where((String s) => s.isNotEmpty).join(' ');
     return label.isEmpty ? '1' : label;
   }
 }

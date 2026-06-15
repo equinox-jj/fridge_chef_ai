@@ -51,7 +51,10 @@ class CookbookCard extends StatelessWidget {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(top: AppRadius.brLg),
                 ),
-                child: RecipePhoto(mood: RecipeMood.fromValue(recipe.mood), height: 88),
+                child: RecipePhoto(
+                  mood: RecipeMood.fromValue(recipe.mood),
+                  height: 88,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(AppSpacing.s3),

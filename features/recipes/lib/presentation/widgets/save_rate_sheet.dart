@@ -16,7 +16,10 @@ class SaveRateSheet extends StatefulWidget {
   const SaveRateSheet({super.key});
 
   static Future<RecipeRating?> openSheet(BuildContext context) {
-    return AppBottomSheet.show<RecipeRating>(context, child: const SaveRateSheet());
+    return AppBottomSheet.show<RecipeRating>(
+      context,
+      child: const SaveRateSheet(),
+    );
   }
 
   @override
@@ -51,7 +54,9 @@ class _SaveRateSheetState extends State<SaveRateSheet> {
         Text(
           'How did it turn out?',
           textAlign: TextAlign.center,
-          style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: AppColors.textMuted,
+          ),
         ),
         Center(
           child: ValueListenableBuilder<int>(

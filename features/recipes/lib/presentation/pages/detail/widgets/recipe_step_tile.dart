@@ -37,7 +37,9 @@ class RecipeStepTile extends StatelessWidget {
               children: <Widget>[
                 Text(
                   step.instruction,
-                  style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textBody),
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textBody,
+                  ),
                 ),
                 if (_hasTimer) ...<Widget>[
                   const SizedBox(height: AppSpacing.s3),

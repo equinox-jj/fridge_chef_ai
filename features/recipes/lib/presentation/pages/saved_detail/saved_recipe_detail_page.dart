@@ -44,7 +44,9 @@ class SavedRecipeDetailPage extends StatelessWidget {
                 child: AppEmptyState(
                   icon: Icons.cloud_off_rounded,
                   title: "Couldn't open this recipe",
-                  message: state.failure?.message ?? 'Something went wrong. Please try again.',
+                  message:
+                      state.failure?.message ??
+                      'Something went wrong. Please try again.',
                   actionLabel: 'Try again',
                   actionIcon: Icons.refresh_rounded,
                   onAction: () => context.read<RecipeDetailCubit>().load(),

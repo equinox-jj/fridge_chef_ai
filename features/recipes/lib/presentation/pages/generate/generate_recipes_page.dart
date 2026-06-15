@@ -27,18 +27,23 @@ class GenerateRecipesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.surfaceCanvas,
       appBar: AppBar(
-        title: BlocSelector<RecipeGenerationBloc, RecipeGenerationState, RecipeGenStatus>(
-          selector: (RecipeGenerationState state) => state.status,
-          builder: (BuildContext context, RecipeGenStatus status) {
-            return Text(
-              _titleFor(status),
-              style: context.textTheme.headlineMedium?.copyWith(
-                fontFamily: AppFontFamily.display,
-                fontWeight: AppFontWeight.bold,
-              ),
-            );
-          },
-        ),
+        title:
+            BlocSelector<
+              RecipeGenerationBloc,
+              RecipeGenerationState,
+              RecipeGenStatus
+            >(
+              selector: (RecipeGenerationState state) => state.status,
+              builder: (BuildContext context, RecipeGenStatus status) {
+                return Text(
+                  _titleFor(status),
+                  style: context.textTheme.headlineMedium?.copyWith(
+                    fontFamily: AppFontFamily.display,
+                    fontWeight: AppFontWeight.bold,
+                  ),
+                );
+              },
+            ),
         actions: const <Widget>[
           Padding(
             padding: EdgeInsets.only(right: AppSpacing.s4),
@@ -78,7 +83,9 @@ class GenerateRecipesPage extends StatelessWidget {
                 );
               case RecipeGenStatus.error:
                 return _ErrorView(
-                  message: state.failure?.message ?? 'Something went wrong while writing your recipes.',
+                  message:
+                      state.failure?.message ??
+                      'Something went wrong while writing your recipes.',
                   onRetry: () => context.read<RecipeGenerationBloc>().add(
                     const RecipeGenerationEvent.generateRequested(),
                   ),
@@ -114,12 +121,15 @@ class _GeneratingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final String mood = state.mood?.label.toLowerCase() ?? 'tasty';
     final bool hasDiet = state.dietaryPreference != DietaryPreference.none;
-    final String dietPhrase = hasDiet ? '${state.dietaryPreference.label.toLowerCase()} ' : '';
+    final String dietPhrase = hasDiet
+        ? '${state.dietaryPreference.label.toLowerCase()} '
+        : '';
     final int count = state.ingredients.length;
 
     return AppAiLoader(
       title: 'Writing recipes…',
-      subtitle: 'Gemini is creating 3 $dietPhrase$mood recipes from your $count ingredients.',
+      subtitle:
+          'Gemini is creating 3 $dietPhrase$mood recipes from your $count ingredients.',
     );
   }
 }

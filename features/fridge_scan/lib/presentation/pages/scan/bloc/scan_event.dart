@@ -4,7 +4,8 @@ part of 'scan_bloc.dart';
 abstract class ScanEvent with _$ScanEvent {
   /// The user picked a capture source in the photo-source sheet. Resolves the
   /// required OS permission, then opens the camera or gallery.
-  const factory ScanEvent.sourceSelected(ImageSourceOption source) = _SourceSelected;
+  const factory ScanEvent.sourceSelected(ImageSourceOption source) =
+      _SourceSelected;
 
   /// The user confirmed the previewed photo — start the AI scan.
   const factory ScanEvent.confirmed() = _ScanConfirmed;

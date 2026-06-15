@@ -80,7 +80,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       // otherwise fall back to the idle prompt.
       emit(
         state.copyWith(
-          pickStatus: state.pickedImage == null ? ScanPickStatus.idle : ScanPickStatus.ready,
+          pickStatus: state.pickedImage == null
+              ? ScanPickStatus.idle
+              : ScanPickStatus.ready,
         ),
       );
       return;

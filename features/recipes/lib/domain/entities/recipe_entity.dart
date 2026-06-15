@@ -19,7 +19,8 @@ abstract class RecipeEntity with _$RecipeEntity {
     int? servings,
     int? cookTimeMinutes,
     String? mood,
-    @Default(<RecipeIngredientEntity>[]) List<RecipeIngredientEntity> ingredients,
+    @Default(<RecipeIngredientEntity>[])
+    List<RecipeIngredientEntity> ingredients,
     @Default(<RecipeStepEntity>[]) List<RecipeStepEntity> steps,
   }) = _RecipeEntity;
 }

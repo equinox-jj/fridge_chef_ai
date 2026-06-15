@@ -24,7 +24,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     // Header-only exact count: the user's scan rows are tallied server-side,
     // none are transferred.
     return _supabaseService.safeCall(
-      () => _client.from(SupabaseTable.fridgeScansTable).count(CountOption.exact).eq('user_id', _requireUserId()),
+      () => _client
+          .from(SupabaseTable.fridgeScansTable)
+          .count(CountOption.exact)
+          .eq('user_id', _requireUserId()),
     );
   }
 
@@ -63,7 +66,9 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
               upsert: true,
             ),
           );
-      return _client.storage.from(_avatarBucket).createSignedUrl(path, _avatarSignedUrlTtl);
+      return _client.storage
+          .from(_avatarBucket)
+          .createSignedUrl(path, _avatarSignedUrlTtl);
     });
   }
 
@@ -80,7 +85,9 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   @override
   Future<void> deleteAvatar() {
     return _supabaseService.safeCall(
-      () => _client.storage.from(_avatarBucket).remove(<String>['${_requireUserId()}/avatar.jpg']),
+      () => _client.storage.from(_avatarBucket).remove(<String>[
+        '${_requireUserId()}/avatar.jpg',
+      ]),
     );
   }
 

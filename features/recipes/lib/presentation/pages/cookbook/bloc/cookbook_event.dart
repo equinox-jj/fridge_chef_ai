@@ -9,5 +9,6 @@ abstract class CookbookEvent with _$CookbookEvent {
   const factory CookbookEvent.refreshed() = _Refreshed;
 
   /// The device's online state flipped.
-  const factory CookbookEvent.connectivityChanged({required bool isOnline}) = _ConnectivityChanged;
+  const factory CookbookEvent.connectivityChanged({required bool isOnline}) =
+      _ConnectivityChanged;
 }

@@ -52,7 +52,10 @@ class RecipeDetailContent extends StatelessWidget {
                 tone: mood.tone,
               ),
               if (recipe.cookTimeMinutes != null)
-                AppTag(label: '${recipe.cookTimeMinutes} min', icon: Icons.schedule_rounded),
+                AppTag(
+                  label: '${recipe.cookTimeMinutes} min',
+                  icon: Icons.schedule_rounded,
+                ),
               if (recipe.servings != null)
                 AppTag(
                   label: 'Serves ${recipe.servings}',
@@ -86,7 +89,9 @@ class RecipeDetailContent extends StatelessWidget {
             ),
             child: Text(
               recipe.description!,
-              style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: AppColors.textMuted,
+              ),
             ),
           ),
         if (recipe.ingredients.isNotEmpty) ...<Widget>[
@@ -96,7 +101,8 @@ class RecipeDetailContent extends StatelessWidget {
         ],
         if (recipe.steps.isNotEmpty) ...<Widget>[
           const _SectionTitle('Steps'),
-          for (final RecipeStepEntity step in recipe.steps) RecipeStepTile(step: step),
+          for (final RecipeStepEntity step in recipe.steps)
+            RecipeStepTile(step: step),
         ],
       ],
     );
@@ -112,7 +118,12 @@ class _SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(AppSpacing.s5, AppSpacing.s6, AppSpacing.s5, AppSpacing.s2),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.s5,
+        AppSpacing.s6,
+        AppSpacing.s5,
+        AppSpacing.s2,
+      ),
       child: Text(
         title,
         style: context.textTheme.headlineSmall?.copyWith(

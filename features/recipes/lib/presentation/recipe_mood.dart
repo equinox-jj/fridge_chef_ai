@@ -11,8 +11,18 @@ enum RecipeMood {
   quick('quick', 'Quick', Icons.bolt_rounded, AppTagTone.blue),
   comfort('comfort', 'Comfort', Icons.ramen_dining_rounded, AppTagTone.amber),
   healthy('healthy', 'Healthy', Icons.spa_rounded, AppTagTone.green),
-  adventurous('adventurous', 'Adventurous', Icons.explore_rounded, AppTagTone.purple),
-  simple('simple', 'Simple', Icons.radio_button_checked_rounded, AppTagTone.neutral);
+  adventurous(
+    'adventurous',
+    'Adventurous',
+    Icons.explore_rounded,
+    AppTagTone.purple,
+  ),
+  simple(
+    'simple',
+    'Simple',
+    Icons.radio_button_checked_rounded,
+    AppTagTone.neutral,
+  );
 
   const RecipeMood(this.value, this.label, this.icon, this.tone);
 

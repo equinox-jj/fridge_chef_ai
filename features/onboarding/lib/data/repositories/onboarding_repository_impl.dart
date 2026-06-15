@@ -8,7 +8,9 @@ import 'package:dependencies/fpdart/fpdart.dart';
 import '../../domain/repositories/onboarding_repository.dart';
 import '../datasources/local/onboarding_local_data_source.dart';
 
-class OnboardingRepositoryImpl with RepositoryGuard implements OnboardingRepository {
+class OnboardingRepositoryImpl
+    with RepositoryGuard
+    implements OnboardingRepository {
   OnboardingRepositoryImpl(
     this._localDataSource,
     this._pendingDietaryPreferenceStore,

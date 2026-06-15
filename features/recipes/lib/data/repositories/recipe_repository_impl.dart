@@ -45,7 +45,8 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
       if (await _connectivity.isOnline) {
         await _refreshCookbookCache();
       }
-      final List<SavedRecipeModel> cached = await _localDataSource.getCookbook();
+      final List<SavedRecipeModel> cached = await _localDataSource
+          .getCookbook();
       return cached.map((SavedRecipeModel m) => m.toEntity()).toList();
     });
   }
@@ -62,7 +63,11 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
           await _cacheRecipeDetail(id, remote);
           return remote.toEntity();
         } on AppException catch (e, stackTrace) {
-          logger.warning('Recipe detail fetch failed; serving cache', error: e, stackTrace: stackTrace);
+          logger.warning(
+            'Recipe detail fetch failed; serving cache',
+            error: e,
+            stackTrace: stackTrace,
+          );
         }
       }
 
@@ -70,7 +75,9 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
       if (cached == null) {
         // Offline (or the fetch failed) with nothing cached: this recipe was
         // never opened online, so there's nothing to show.
-        throw const CacheException("This recipe isn't available offline yet. Reconnect to open it.");
+        throw const CacheException(
+          "This recipe isn't available offline yet. Reconnect to open it.",
+        );
       }
       return cached.toEntity();
     });
@@ -117,7 +124,11 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
       try {
         await _localDataSource.upsert(saved);
       } on CacheException catch (e, stackTrace) {
-        logger.warning('Failed to cache saved recipe', error: e, stackTrace: stackTrace);
+        logger.warning(
+          'Failed to cache saved recipe',
+          error: e,
+          stackTrace: stackTrace,
+        );
       }
       return unit;
     });
@@ -130,7 +141,11 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
     try {
       await _localDataSource.cacheRecipeDetail(id, recipe);
     } on CacheException catch (e, stackTrace) {
-      logger.warning('Failed to cache recipe detail', error: e, stackTrace: stackTrace);
+      logger.warning(
+        'Failed to cache recipe detail',
+        error: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -138,10 +153,15 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
   /// Swallows failures so an offline read still falls through to the cache.
   Future<void> _refreshCookbookCache() async {
     try {
-      final List<SavedRecipeModel> remote = await _remoteDataSource.getSavedRecipes();
+      final List<SavedRecipeModel> remote = await _remoteDataSource
+          .getSavedRecipes();
       await _localDataSource.replaceCookbook(remote);
     } on AppException catch (e, stackTrace) {
-      logger.warning('Cookbook refresh failed; serving cache', error: e, stackTrace: stackTrace);
+      logger.warning(
+        'Cookbook refresh failed; serving cache',
+        error: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -151,6 +171,10 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
     final String quantity = ingredient.quantity?.trim() ?? '';
     final String unit = ingredient.unit?.trim() ?? '';
     final String name = ingredient.name.trim();
-    return <String>[quantity, unit, name].where((String s) => s.isNotEmpty).join(' ');
+    return <String>[
+      quantity,
+      unit,
+      name,
+    ].where((String s) => s.isNotEmpty).join(' ');
   }
 }

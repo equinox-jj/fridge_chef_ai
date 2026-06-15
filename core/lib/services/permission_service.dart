@@ -60,7 +60,8 @@ class PermissionService {
     PermissionStatusResolver? checkStatus,
     PermissionRequester? request,
     AppSettingsOpener? openSettings,
-  }) : _checkStatus = checkStatus ?? ((Permission permission) => permission.status),
+  }) : _checkStatus =
+           checkStatus ?? ((Permission permission) => permission.status),
        _request = request ?? ((Permission permission) => permission.request()),
        _openSettings = openSettings ?? openAppSettings;
 
@@ -90,7 +91,8 @@ class PermissionService {
   Future<Map<Permission, PermissionResult>> ensureAll(
     Iterable<Permission> permissions,
   ) async {
-    final Map<Permission, PermissionResult> results = <Permission, PermissionResult>{};
+    final Map<Permission, PermissionResult> results =
+        <Permission, PermissionResult>{};
     for (final Permission permission in permissions) {
       results[permission] = await ensure(permission);
     }

@@ -26,17 +26,26 @@ class RecipePhotoPlaceholder extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[AppColors.backgroundTertiary, AppColors.borderSecondary],
+          colors: <Color>[
+            AppColors.backgroundTertiary,
+            AppColors.borderSecondary,
+          ],
         ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Icon(Icons.restaurant_rounded, size: AppTextSize.h1, color: AppColors.textTertiary),
+          Icon(
+            Icons.restaurant_rounded,
+            size: AppTextSize.h1,
+            color: AppColors.textTertiary,
+          ),
           const SizedBox(height: AppSpacing.s1),
           Text(
             'PHOTO PLACEHOLDER',
-            style: context.textTheme.labelSmall?.copyWith(color: AppColors.textTertiary),
+            style: context.textTheme.labelSmall?.copyWith(
+              color: AppColors.textTertiary,
+            ),
           ),
         ],
       ),

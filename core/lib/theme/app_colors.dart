@@ -146,9 +146,12 @@ abstract final class AppDarkPalette {
 ///   • Blue   — informational / selected
 abstract final class AppColors {
   // ---- Surfaces ----
-  static const Color backgroundPrimary = AppDarkPalette.neutral0; // cards, sheets
-  static const Color backgroundSecondary = AppDarkPalette.neutral50; // app canvas
-  static const Color backgroundTertiary = AppDarkPalette.neutral100; // inset rows
+  static const Color backgroundPrimary =
+      AppDarkPalette.neutral0; // cards, sheets
+  static const Color backgroundSecondary =
+      AppDarkPalette.neutral50; // app canvas
+  static const Color backgroundTertiary =
+      AppDarkPalette.neutral100; // inset rows
   static const Color surfaceCard = AppDarkPalette.neutral0;
   static const Color surfaceCanvas = AppDarkPalette.neutral50;
   static const Color surfaceSunken = AppDarkPalette.neutral100;
@@ -174,11 +177,14 @@ abstract final class AppColors {
   static const Color borderSubtle = AppDarkPalette.neutral100;
 
   // ---- Primary (green) ----
-  static const Color primary = Color(0xFF138062); // button bg — white text safe on dark
+  static const Color primary = Color(
+    0xFF138062,
+  ); // button bg — white text safe on dark
   static const Color primaryHover = AppPalette.green600;
   static const Color primaryActive = AppPalette.green700;
   static const Color primaryTint = AppDarkPalette.green50;
-  static const Color primaryText = AppDarkPalette.green700; // bright green for text on dark
+  static const Color primaryText =
+      AppDarkPalette.green700; // bright green for text on dark
   static const Color onPrimary = Color(0xFFFFFFFF);
 
   // ---- AI (purple) ----

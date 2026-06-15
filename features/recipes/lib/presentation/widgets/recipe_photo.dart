@@ -25,8 +25,9 @@ class RecipePhoto extends StatelessWidget {
       height: height,
       width: double.infinity,
       fit: BoxFit.cover,
-      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) =>
-          RecipePhotoPlaceholder(height: height),
+      errorBuilder:
+          (BuildContext context, Object error, StackTrace? stackTrace) =>
+              RecipePhotoPlaceholder(height: height),
     );
   }
 }

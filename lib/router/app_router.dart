@@ -39,9 +39,10 @@ class AppRouter {
       ...onboardingRoutes,
       ...authRoutes,
       StatefulShellRoute.indexedStack(
-        builder: (_, _, StatefulNavigationShell navigationShell) => DashboardShell(
-          navigationShell: navigationShell,
-        ),
+        builder: (_, _, StatefulNavigationShell navigationShell) =>
+            DashboardShell(
+              navigationShell: navigationShell,
+            ),
         branches: <StatefulShellBranch>[
           StatefulShellBranch(routes: fridgeScanRoutes),
           StatefulShellBranch(routes: recipesRoutes),

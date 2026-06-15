@@ -12,14 +12,17 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
   email: json['email'] as String?,
   avatarUrl: json['avatar_url'] as String?,
   dietaryPreferences: json['dietary_preference'] as String?,
-  createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
+  createdAt: json['created_at'] == null
+      ? null
+      : DateTime.parse(json['created_at'] as String),
 );
 
-Map<String, dynamic> _$UserModelToJson(_UserModel instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'email': instance.email,
-  'avatar_url': instance.avatarUrl,
-  'dietary_preference': instance.dietaryPreferences,
-  'created_at': instance.createdAt?.toIso8601String(),
-};
+Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'email': instance.email,
+      'avatar_url': instance.avatarUrl,
+      'dietary_preference': instance.dietaryPreferences,
+      'created_at': instance.createdAt?.toIso8601String(),
+    };

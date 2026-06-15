@@ -83,13 +83,20 @@ abstract final class AppTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(AppRadius.brMd)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.all(AppRadius.brMd),
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: scheme.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        hintStyle: textTheme.bodyMedium?.copyWith(
+          color: scheme.onSurfaceVariant,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(AppRadius.brMd),
           borderSide: BorderSide(color: scheme.outlineVariant),
@@ -137,19 +144,25 @@ abstract final class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: scheme.primary,
           textStyle: textTheme.labelLarge,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(AppRadius.brFull),
+          ),
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: scheme.primary,
         foregroundColor: scheme.onPrimary,
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brLg)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(AppRadius.brLg),
+        ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: scheme.surfaceContainer,
         side: BorderSide(color: scheme.outlineVariant),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(AppRadius.brFull),
+        ),
         labelStyle: textTheme.labelLarge,
       ),
       bottomSheetTheme: BottomSheetThemeData(
@@ -158,15 +171,21 @@ abstract final class AppTheme {
         showDragHandle: true,
         dragHandleColor: scheme.outlineVariant,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadius.lg),
+          ),
         ),
       ),
       dialogTheme: const DialogThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brLg)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(AppRadius.brLg),
+        ),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brSm)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(AppRadius.brSm),
+        ),
         backgroundColor: scheme.inverseSurface,
         contentTextStyle: textTheme.bodyMedium?.copyWith(
           color: scheme.onInverseSurface,
@@ -185,7 +204,9 @@ abstract final class AppTheme {
       minimumSize: const Size(0, AppLayout.tapTarget),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       textStyle: textTheme.labelLarge,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(AppRadius.brFull)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(AppRadius.brFull),
+      ),
     );
   }
 }

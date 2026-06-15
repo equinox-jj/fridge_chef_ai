@@ -23,7 +23,8 @@ abstract class SavedRecipeModel with _$SavedRecipeModel {
   /// returned by `select('rating, saved_at, recipes(id, title,
   /// cook_time_minutes, mood)')`.
   factory SavedRecipeModel.fromSupabaseRow(Map<String, dynamic> row) {
-    final Map<String, dynamic> recipe = (row['recipes'] as Map<String, dynamic>?) ?? const <String, dynamic>{};
+    final Map<String, dynamic> recipe =
+        (row['recipes'] as Map<String, dynamic>?) ?? const <String, dynamic>{};
     return SavedRecipeModel(
       id: recipe['id'] as String,
       title: (recipe['title'] as String?) ?? 'Untitled recipe',

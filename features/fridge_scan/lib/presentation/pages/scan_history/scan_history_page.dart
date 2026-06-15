@@ -45,7 +45,8 @@ class ScanHistoryPage extends StatelessWidget {
         ),
         actions: <Widget>[
           BlocBuilder<ScanHistoryCubit, ScanHistoryState>(
-            buildWhen: (ScanHistoryState p, ScanHistoryState c) => p.scans.length != c.scans.length,
+            buildWhen: (ScanHistoryState p, ScanHistoryState c) =>
+                p.scans.length != c.scans.length,
             builder: (BuildContext context, ScanHistoryState state) {
               if (state.scans.isEmpty) return const SizedBox.shrink();
               return Padding(
@@ -63,7 +64,8 @@ class ScanHistoryPage extends StatelessWidget {
       body: BlocBuilder<ScanHistoryCubit, ScanHistoryState>(
         builder: (BuildContext context, ScanHistoryState state) {
           return switch (state.status) {
-            BlocStatus.loading || BlocStatus.initial => const _ScanHistorySkeleton(),
+            BlocStatus.loading ||
+            BlocStatus.initial => const _ScanHistorySkeleton(),
             BlocStatus.empty || BlocStatus.error => _ScanHistoryEmpty(
               onScan: () => _startScan(context),
             ),
@@ -105,7 +107,9 @@ class _ScanHistoryList extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: AppSpacing.s1),
             child: Text(
               'Tap a scan to reopen its ingredients and cook again.',
-              style: context.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+              style: context.textTheme.bodySmall?.copyWith(
+                color: AppColors.textMuted,
+              ),
             ),
           );
         }

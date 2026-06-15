@@ -45,7 +45,9 @@ class MoodPickerView extends StatelessWidget {
                 const SizedBox(height: AppSpacing.s1),
                 Text(
                   "We'll tune the 3 recipes to match.",
-                  style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textMuted,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.s5),
                 const _MoodChips(),
@@ -67,7 +69,11 @@ class _MoodChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<RecipeGenerationBloc, RecipeGenerationState, RecipeMood?>(
+    return BlocSelector<
+      RecipeGenerationBloc,
+      RecipeGenerationState,
+      RecipeMood?
+    >(
       selector: (RecipeGenerationState state) => state.mood,
       builder: (BuildContext context, RecipeMood? selected) {
         return Wrap(
@@ -77,7 +83,9 @@ class _MoodChips extends StatelessWidget {
             final bool isSelected = mood == selected;
             return ChoiceChip(
               selected: isSelected,
-              onSelected: (_) => context.read<RecipeGenerationBloc>().add(RecipeGenerationEvent.moodSelected(mood)),
+              onSelected: (_) => context.read<RecipeGenerationBloc>().add(
+                RecipeGenerationEvent.moodSelected(mood),
+              ),
               avatar: Icon(
                 mood.icon,
                 size: AppTextSize.base,
@@ -104,7 +112,11 @@ class _DietBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<RecipeGenerationBloc, RecipeGenerationState, DietaryPreference>(
+    return BlocSelector<
+      RecipeGenerationBloc,
+      RecipeGenerationState,
+      DietaryPreference
+    >(
       selector: (RecipeGenerationState state) => state.dietaryPreference,
       builder: (BuildContext context, DietaryPreference diet) {
         final bool hasDiet = diet != DietaryPreference.none;
@@ -117,7 +129,11 @@ class _DietBanner extends StatelessWidget {
           child: Row(
             spacing: AppSpacing.s3,
             children: <Widget>[
-              const Icon(Icons.eco_rounded, size: AppTextSize.h3, color: AppColors.ai),
+              const Icon(
+                Icons.eco_rounded,
+                size: AppTextSize.h3,
+                color: AppColors.ai,
+              ),
               Expanded(
                 child: Text.rich(
                   hasDiet
@@ -126,13 +142,22 @@ class _DietBanner extends StatelessWidget {
                           children: <TextSpan>[
                             TextSpan(
                               text: diet.label,
-                              style: const TextStyle(fontWeight: AppFontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: AppFontWeight.bold,
+                              ),
                             ),
-                            const TextSpan(text: ' preference from your profile.'),
+                            const TextSpan(
+                              text: ' preference from your profile.',
+                            ),
                           ],
                         )
-                      : const TextSpan(text: 'No dietary preference set — recipes can use anything.'),
-                  style: context.textTheme.bodySmall?.copyWith(color: AppColors.aiText),
+                      : const TextSpan(
+                          text:
+                              'No dietary preference set — recipes can use anything.',
+                        ),
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: AppColors.aiText,
+                  ),
                 ),
               ),
             ],
@@ -166,7 +191,9 @@ class _GenerateBar extends StatelessWidget {
           ),
           child: FilledButton.icon(
             onPressed: canGenerate
-                ? () => context.read<RecipeGenerationBloc>().add(const RecipeGenerationEvent.generateRequested())
+                ? () => context.read<RecipeGenerationBloc>().add(
+                    const RecipeGenerationEvent.generateRequested(),
+                  )
                 : null,
             icon: const Icon(Icons.auto_awesome_rounded),
             label: const Text('Generate recipes'),

@@ -11,5 +11,6 @@ abstract class RecipeStepModel with _$RecipeStepModel {
     @JsonKey(name: 'timer_seconds') int? timerSeconds,
   }) = _RecipeStepModel;
 
-  factory RecipeStepModel.fromJson(Map<String, dynamic> json) => _$RecipeStepModelFromJson(json);
+  factory RecipeStepModel.fromJson(Map<String, dynamic> json) =>
+      _$RecipeStepModelFromJson(json);
 }

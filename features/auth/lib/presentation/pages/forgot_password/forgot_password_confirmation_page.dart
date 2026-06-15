@@ -106,20 +106,30 @@ class ForgotPasswordConfirmationPage extends StatelessWidget {
                   builder: (BuildContext context, ForgotPasswordState state) {
                     final bool isCooling = state.resendCountdown > 0;
                     return GestureDetector(
-                      onTap: isCooling ? null : () => context.read<ForgotPasswordCubit>().forgotPassword(email: email),
+                      onTap: isCooling
+                          ? null
+                          : () => context
+                                .read<ForgotPasswordCubit>()
+                                .forgotPassword(email: email),
                       child: RichText(
                         text: TextSpan(
                           children: <TextSpan>[
                             TextSpan(
                               text: "Didn't get it? ",
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: AppColors.textMuted),
                             ),
                             TextSpan(
-                              text: isCooling ? 'Resend in ${state.resendCountdown}s' : 'Resend',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: isCooling ? AppColors.textFaint : AppColors.primaryText,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              text: isCooling
+                                  ? 'Resend in ${state.resendCountdown}s'
+                                  : 'Resend',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: isCooling
+                                        ? AppColors.textFaint
+                                        : AppColors.primaryText,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
                           ],
                         ),

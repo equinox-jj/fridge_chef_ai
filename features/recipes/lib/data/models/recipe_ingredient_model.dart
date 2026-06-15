@@ -12,5 +12,6 @@ abstract class RecipeIngredientModel with _$RecipeIngredientModel {
     @JsonKey(name: 'is_substitute') @Default(false) bool isSubstitute,
   }) = _RecipeIngredientModel;
 
-  factory RecipeIngredientModel.fromJson(Map<String, dynamic> json) => _$RecipeIngredientModelFromJson(json);
+  factory RecipeIngredientModel.fromJson(Map<String, dynamic> json) =>
+      _$RecipeIngredientModelFromJson(json);
 }

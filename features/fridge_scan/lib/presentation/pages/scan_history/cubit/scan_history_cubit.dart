@@ -21,7 +21,8 @@ class ScanHistoryCubit extends Cubit<ScanHistoryState> {
   Future<void> load() async {
     emit(state.copyWith(status: BlocStatus.loading));
 
-    final Either<Failure, List<ScanResultEntity>> result = await _getScanHistory(const NoParams());
+    final Either<Failure, List<ScanResultEntity>> result =
+        await _getScanHistory(const NoParams());
 
     if (isClosed) return;
 

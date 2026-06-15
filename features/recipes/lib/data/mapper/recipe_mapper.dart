@@ -14,7 +14,9 @@ extension RecipeModelMapper on RecipeModel {
       servings: servings,
       cookTimeMinutes: cookTimeMinutes,
       mood: mood,
-      ingredients: ingredients.map((RecipeIngredientModel m) => m.toEntity()).toList(),
+      ingredients: ingredients
+          .map((RecipeIngredientModel m) => m.toEntity())
+          .toList(),
       steps: steps.map((RecipeStepModel m) => m.toEntity()).toList(),
     );
   }
@@ -50,7 +52,9 @@ extension RecipeEntityMapper on RecipeEntity {
       servings: servings,
       cookTimeMinutes: cookTimeMinutes,
       mood: mood,
-      ingredients: ingredients.map((RecipeIngredientEntity e) => e.toModel()).toList(),
+      ingredients: ingredients
+          .map((RecipeIngredientEntity e) => e.toModel())
+          .toList(),
       steps: steps.map((RecipeStepEntity e) => e.toModel()).toList(),
     );
   }

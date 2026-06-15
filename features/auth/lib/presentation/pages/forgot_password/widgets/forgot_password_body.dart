@@ -95,13 +95,17 @@ class _ForgotPasswordBodyState extends State<ForgotPasswordBody> {
 
         BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
           buildWhen: (ForgotPasswordState p, ForgotPasswordState c) =>
-              p.forgotPasswordStatus != c.forgotPasswordStatus || p.resendCountdown != c.resendCountdown,
+              p.forgotPasswordStatus != c.forgotPasswordStatus ||
+              p.resendCountdown != c.resendCountdown,
           builder: (BuildContext context, ForgotPasswordState state) {
             final bool isCoolingDown = state.resendCountdown > 0;
-            final bool isLoading = state.forgotPasswordStatus == BlocStatus.loading;
+            final bool isLoading =
+                state.forgotPasswordStatus == BlocStatus.loading;
 
             return AppSubmitButton(
-              label: isCoolingDown ? 'Resend in ${state.resendCountdown}s' : 'Send reset link',
+              label: isCoolingDown
+                  ? 'Resend in ${state.resendCountdown}s'
+                  : 'Send reset link',
               icon: Icons.mark_email_read_outlined,
               isLoading: isLoading,
               onPressed: isCoolingDown ? null : () => _submit(context),

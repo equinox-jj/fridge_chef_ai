@@ -41,7 +41,9 @@ class RecipeIngredientRow extends StatelessWidget {
               _displayName,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: isSubstitute ? AppColors.infoText : AppColors.textBody,
-                fontWeight: isSubstitute ? AppFontWeight.medium : AppFontWeight.regular,
+                fontWeight: isSubstitute
+                    ? AppFontWeight.medium
+                    : AppFontWeight.regular,
               ),
             ),
           ),

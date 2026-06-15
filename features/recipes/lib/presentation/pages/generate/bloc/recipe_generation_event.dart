@@ -6,7 +6,8 @@ abstract class RecipeGenerationEvent with _$RecipeGenerationEvent {
   const factory RecipeGenerationEvent.started() = _Started;
 
   /// The user picked a mood chip.
-  const factory RecipeGenerationEvent.moodSelected(RecipeMood mood) = _MoodSelected;
+  const factory RecipeGenerationEvent.moodSelected(RecipeMood mood) =
+      _MoodSelected;
 
   /// Generate (or regenerate) recipes from the current mood and ingredients.
   const factory RecipeGenerationEvent.generateRequested() = _GenerateRequested;

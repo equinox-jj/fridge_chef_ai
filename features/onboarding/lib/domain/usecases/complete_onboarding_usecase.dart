@@ -7,7 +7,8 @@ import '../repositories/onboarding_repository.dart';
 
 /// Finishes onboarding, persisting the completion flag and the optionally
 /// chosen [CompleteOnboardingParams.dietaryPreference].
-class CompleteOnboardingUseCase implements UseCase<Unit, CompleteOnboardingParams> {
+class CompleteOnboardingUseCase
+    implements UseCase<Unit, CompleteOnboardingParams> {
   const CompleteOnboardingUseCase(this._repository);
 
   final OnboardingRepository _repository;

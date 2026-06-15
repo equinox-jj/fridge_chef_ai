@@ -69,17 +69,41 @@ class AppTag extends StatelessWidget {
   _TagColors _colorsFor(AppTagTone tone) {
     switch (tone) {
       case AppTagTone.green:
-        return const _TagColors(AppColors.successTint, AppDarkPalette.green100, AppColors.primaryText);
+        return const _TagColors(
+          AppColors.successTint,
+          AppDarkPalette.green100,
+          AppColors.primaryText,
+        );
       case AppTagTone.purple:
-        return const _TagColors(AppColors.aiTint, AppDarkPalette.purple100, AppColors.aiText);
+        return const _TagColors(
+          AppColors.aiTint,
+          AppDarkPalette.purple100,
+          AppColors.aiText,
+        );
       case AppTagTone.amber:
-        return const _TagColors(AppColors.actionTint, AppDarkPalette.amber100, AppColors.actionText);
+        return const _TagColors(
+          AppColors.actionTint,
+          AppDarkPalette.amber100,
+          AppColors.actionText,
+        );
       case AppTagTone.coral:
-        return const _TagColors(AppColors.dangerTint, AppDarkPalette.coral100, AppColors.dangerText);
+        return const _TagColors(
+          AppColors.dangerTint,
+          AppDarkPalette.coral100,
+          AppColors.dangerText,
+        );
       case AppTagTone.blue:
-        return const _TagColors(AppColors.infoTint, AppDarkPalette.blue100, AppColors.infoText);
+        return const _TagColors(
+          AppColors.infoTint,
+          AppDarkPalette.blue100,
+          AppColors.infoText,
+        );
       case AppTagTone.neutral:
-        return const _TagColors(AppColors.surfaceSunken, AppColors.borderDefault, AppColors.textBody);
+        return const _TagColors(
+          AppColors.surfaceSunken,
+          AppColors.borderDefault,
+          AppColors.textBody,
+        );
     }
   }
 }

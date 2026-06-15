@@ -37,7 +37,8 @@ class AppAiLoader extends StatefulWidget {
   State<AppAiLoader> createState() => _AppAiLoaderState();
 }
 
-class _AppAiLoaderState extends State<AppAiLoader> with SingleTickerProviderStateMixin {
+class _AppAiLoaderState extends State<AppAiLoader>
+    with SingleTickerProviderStateMixin {
   static const Duration _pulseDuration = Duration(milliseconds: 1800);
   static const double _orbSize = 96;
   static const double _progressWidth = 200;
@@ -47,9 +48,10 @@ class _AppAiLoaderState extends State<AppAiLoader> with SingleTickerProviderStat
     duration: _pulseDuration,
   )..repeat(reverse: true);
 
-  late final Animation<double> _pulse = Tween<double>(begin: 1, end: 1.08).animate(
-    CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-  );
+  late final Animation<double> _pulse = Tween<double>(begin: 1, end: 1.08)
+      .animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      );
 
   @override
   void dispose() {
@@ -77,7 +79,10 @@ class _AppAiLoaderState extends State<AppAiLoader> with SingleTickerProviderStat
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: <Color>[AppDarkPalette.purple400, AppDarkPalette.purple600],
+                      colors: <Color>[
+                        AppDarkPalette.purple400,
+                        AppDarkPalette.purple600,
+                      ],
                     ),
                     boxShadow: AppShadows.ai,
                   ),

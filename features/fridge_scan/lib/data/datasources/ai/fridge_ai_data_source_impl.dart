@@ -63,7 +63,8 @@ class FridgeAiDataSourceImpl implements FridgeAiDataSource {
         items: Schema.object(
           properties: <String, Schema>{
             'name': Schema.string(
-              description: 'Ingredient name, lowercase singular (e.g. "tomato").',
+              description:
+                  'Ingredient name, lowercase singular (e.g. "tomato").',
             ),
             'quantity': Schema.string(
               description:
@@ -136,7 +137,9 @@ can see. For each ingredient:
     _logger.info('AI ingredient analysis response:\n$raw');
 
     final List<IngredientModel> ingredients = _parseIngredients(raw);
-    _logger.debug('Parsed ${ingredients.length} ingredient(s) from AI response.');
+    _logger.debug(
+      'Parsed ${ingredients.length} ingredient(s) from AI response.',
+    );
 
     return AiAnalysisResult(
       ingredients: ingredients,
@@ -166,7 +169,11 @@ can see. For each ingredient:
       isFood = decoded['is_food'] == true;
       final dynamic items = decoded['ingredients'];
       ingredients = items is List
-          ? items.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).map(_withSafeCategory).toList()
+          ? items
+                .whereType<Map<String, dynamic>>()
+                .map(IngredientModel.fromJson)
+                .map(_withSafeCategory)
+                .toList()
           : <IngredientModel>[];
     } on FormatException catch (e, stackTrace) {
       _logger.error(

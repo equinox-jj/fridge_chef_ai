@@ -11,7 +11,8 @@ abstract class AppException implements Exception {
   final String? code;
 
   @override
-  String toString() => 'AppException: $message ${code != null ? '(Code: $code)' : ''}';
+  String toString() =>
+      'AppException: $message ${code != null ? '(Code: $code)' : ''}';
 }
 
 class ServerException extends AppException {
@@ -22,7 +23,8 @@ class ServerException extends AppException {
 
 class NetworkException extends AppException {
   const NetworkException([
-    super.message = 'A network error occurred. Please check your internet connection.',
+    super.message =
+        'A network error occurred. Please check your internet connection.',
   ]);
 }
 
@@ -77,7 +79,8 @@ class TooManyRequestsException extends AppException {
 
 class NoFoodDetectedException extends AppException {
   const NoFoodDetectedException([
-    super.message = "We couldn't find any food in that photo. Try a clear photo of the inside of your fridge.",
+    super.message =
+        "We couldn't find any food in that photo. Try a clear photo of the inside of your fridge.",
     super.code = 'no_food_detected',
   ]);
 }

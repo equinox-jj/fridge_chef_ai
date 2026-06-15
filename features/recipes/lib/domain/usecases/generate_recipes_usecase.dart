@@ -20,13 +20,16 @@ class GenerateRecipesParams {
 
 /// Generates three recipes from the reviewed ingredients, mood and dietary
 /// preference.
-class GenerateRecipesUseCase implements UseCase<List<RecipeEntity>, GenerateRecipesParams> {
+class GenerateRecipesUseCase
+    implements UseCase<List<RecipeEntity>, GenerateRecipesParams> {
   const GenerateRecipesUseCase(this._repository);
 
   final RecipeRepository _repository;
 
   @override
-  Future<Either<Failure, List<RecipeEntity>>> call(GenerateRecipesParams params) {
+  Future<Either<Failure, List<RecipeEntity>>> call(
+    GenerateRecipesParams params,
+  ) {
     return _repository.generateRecipes(
       ingredients: params.ingredients,
       mood: params.mood,

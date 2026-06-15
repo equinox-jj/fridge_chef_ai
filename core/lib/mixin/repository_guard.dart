@@ -67,18 +67,23 @@ mixin RepositoryGuard {
         handleData: (T data, EventSink<Either<Failure, T>> sink) {
           sink.add(Right<Failure, T>(data));
         },
-        handleError: (Object error, StackTrace stackTrace, EventSink<Either<Failure, T>> sink) {
-          if (error is AppException) {
-            logger.error(
-              'Repository stream failed: ${error.runtimeType}',
-              error: error,
-              stackTrace: stackTrace,
-            );
-            sink.add(Left<Failure, T>(error.toFailure()));
-          } else {
-            sink.addError(error, stackTrace);
-          }
-        },
+        handleError:
+            (
+              Object error,
+              StackTrace stackTrace,
+              EventSink<Either<Failure, T>> sink,
+            ) {
+              if (error is AppException) {
+                logger.error(
+                  'Repository stream failed: ${error.runtimeType}',
+                  error: error,
+                  stackTrace: stackTrace,
+                );
+                sink.add(Left<Failure, T>(error.toFailure()));
+              } else {
+                sink.addError(error, stackTrace);
+              }
+            },
       ),
     );
   }

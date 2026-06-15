@@ -10,7 +10,12 @@ import 'package:flutter/material.dart';
 import '../ingredient_category.dart';
 
 /// The data a user enters when manually adding an ingredient the AI missed.
-typedef NewIngredient = ({String name, String quantity, String unit, String category});
+typedef NewIngredient = ({
+  String name,
+  String quantity,
+  String unit,
+  String category,
+});
 
 /// Bottom sheet for adding an ingredient by hand (PRD OQ-1): a name, an
 /// optional quantity + unit, and one of the eight ingredient categories.
@@ -21,7 +26,10 @@ class AddIngredientSheet extends StatefulWidget {
   const AddIngredientSheet({super.key});
 
   static Future<NewIngredient?> openSheet(BuildContext context) {
-    return AppBottomSheet.show<NewIngredient>(context, child: const AddIngredientSheet());
+    return AppBottomSheet.show<NewIngredient>(
+      context,
+      child: const AddIngredientSheet(),
+    );
   }
 
   @override
@@ -35,9 +43,10 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
 
   /// Selected category and live name-emptiness, kept as notifiers so only the
   /// category chips and the confirm button rebuild — the text fields don't.
-  final ValueNotifier<IngredientCategory> _category = ValueNotifier<IngredientCategory>(
-    IngredientCategory.produce,
-  );
+  final ValueNotifier<IngredientCategory> _category =
+      ValueNotifier<IngredientCategory>(
+        IngredientCategory.produce,
+      );
   final ValueNotifier<bool> _canSubmit = ValueNotifier<bool>(false);
 
   @override
@@ -96,7 +105,9 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
               flex: 2,
               child: TextField(
                 controller: _quantityController,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(
                   labelText: 'Quantity',
@@ -121,7 +132,8 @@ class _AddIngredientSheetState extends State<AddIngredientSheet> {
           valueListenable: _category,
           builder: (_, IngredientCategory category, _) => _CategoryPicker(
             selected: category,
-            onSelected: (IngredientCategory selected) => _category.value = selected,
+            onSelected: (IngredientCategory selected) =>
+                _category.value = selected,
           ),
         ),
         ValueListenableBuilder<bool>(
@@ -166,20 +178,26 @@ class _CategoryPicker extends StatelessWidget {
         Wrap(
           spacing: AppSpacing.s2,
           runSpacing: AppSpacing.s2,
-          children: IngredientCategory.values.map((IngredientCategory category) {
+          children: IngredientCategory.values.map((
+            IngredientCategory category,
+          ) {
             return ChoiceChip(
               selected: category == selected,
               onSelected: (_) => onSelected(category),
               avatar: Icon(
                 category.icon,
                 size: AppTextSize.base,
-                color: category == selected ? AppColors.onPrimary : AppColors.textMuted,
+                color: category == selected
+                    ? AppColors.onPrimary
+                    : AppColors.textMuted,
               ),
               label: Text(category.label),
               showCheckmark: false,
               selectedColor: AppColors.primary,
               labelStyle: context.textTheme.labelLarge?.copyWith(
-                color: category == selected ? AppColors.onPrimary : AppColors.textBody,
+                color: category == selected
+                    ? AppColors.onPrimary
+                    : AppColors.textBody,
                 fontWeight: AppFontWeight.semiBold,
               ),
             );

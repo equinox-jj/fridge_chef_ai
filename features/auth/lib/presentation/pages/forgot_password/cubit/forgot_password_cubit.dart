@@ -9,7 +9,8 @@ import '../../../../domain/usecases/forgot_password_usecase.dart';
 import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
-  ForgotPasswordCubit(this._forgotPassword) : super(const ForgotPasswordState());
+  ForgotPasswordCubit(this._forgotPassword)
+    : super(const ForgotPasswordState());
 
   final ForgotPasswordUseCase _forgotPassword;
 

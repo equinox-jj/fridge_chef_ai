@@ -15,7 +15,8 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc(this._getUserProfile, this._getRecentScans) : super(const HomeState()) {
+  HomeBloc(this._getUserProfile, this._getRecentScans)
+    : super(const HomeState()) {
     on<_Started>(_onStarted);
     on<_Refreshed>(_onRefreshed);
   }
@@ -53,7 +54,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _loadRecentScans(Emitter<HomeState> emit) async {
     emit(state.copyWith(recentScansStatus: BlocStatus.loading));
 
-    final Either<Failure, List<ScanResultEntity>> result = await _getRecentScans(const NoParams());
+    final Either<Failure, List<ScanResultEntity>> result =
+        await _getRecentScans(const NoParams());
     emit(
       result.fold(
         (Failure _) => state.copyWith(
@@ -61,7 +63,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
         (List<ScanResultEntity> scans) => state.copyWith(
           recentScans: scans,
-          recentScansStatus: scans.isEmpty ? BlocStatus.empty : BlocStatus.success,
+          recentScansStatus: scans.isEmpty
+              ? BlocStatus.empty
+              : BlocStatus.success,
         ),
       ),
     );

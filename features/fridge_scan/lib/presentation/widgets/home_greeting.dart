@@ -28,7 +28,9 @@ class HomeGreeting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String greeting = _greetingFor(DateTime.now());
-    final String eyebrow = (name == null || name!.isEmpty) ? greeting : '$greeting, $name';
+    final String eyebrow = (name == null || name!.isEmpty)
+        ? greeting
+        : '$greeting, $name';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

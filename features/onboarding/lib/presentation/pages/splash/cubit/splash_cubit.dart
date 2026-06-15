@@ -24,7 +24,9 @@ class SplashCubit extends Cubit<SplashState> {
 
   Future<void> resolveStartDestination() async {
     final Future<void> minDuration = Future<void>.delayed(minBrandDuration);
-    final Either<Failure, bool> result = await _hasCompletedOnboarding(const NoParams());
+    final Either<Failure, bool> result = await _hasCompletedOnboarding(
+      const NoParams(),
+    );
     await minDuration;
 
     if (isClosed) return;
@@ -35,7 +37,9 @@ class SplashCubit extends Cubit<SplashState> {
 
     emit(
       state.copyWith(
-        destination: completed ? SplashDestination.home : SplashDestination.onboarding,
+        destination: completed
+            ? SplashDestination.home
+            : SplashDestination.onboarding,
       ),
     );
   }

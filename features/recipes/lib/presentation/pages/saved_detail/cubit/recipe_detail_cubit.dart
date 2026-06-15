@@ -17,7 +17,8 @@ part 'recipe_detail_state.dart';
 /// has been opened online. [load] is also the retry entry point for the error
 /// state.
 class RecipeDetailCubit extends Cubit<RecipeDetailState> {
-  RecipeDetailCubit(this._getRecipeDetail, this._id) : super(const RecipeDetailState());
+  RecipeDetailCubit(this._getRecipeDetail, this._id)
+    : super(const RecipeDetailState());
 
   final GetRecipeDetailUseCase _getRecipeDetail;
   final String _id;
@@ -30,8 +31,10 @@ class RecipeDetailCubit extends Cubit<RecipeDetailState> {
 
     emit(
       result.fold(
-        (Failure failure) => state.copyWith(status: BlocStatus.error, failure: failure),
-        (RecipeEntity recipe) => state.copyWith(status: BlocStatus.success, recipe: recipe),
+        (Failure failure) =>
+            state.copyWith(status: BlocStatus.error, failure: failure),
+        (RecipeEntity recipe) =>
+            state.copyWith(status: BlocStatus.success, recipe: recipe),
       ),
     );
   }

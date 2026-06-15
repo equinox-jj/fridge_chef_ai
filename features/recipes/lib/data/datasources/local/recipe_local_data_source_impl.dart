@@ -9,7 +9,9 @@ import '../../models/recipe_model.dart';
 import '../../models/saved_recipe_model.dart';
 import 'recipe_local_data_source.dart';
 
-class RecipeLocalDataSourceImpl with CacheGuard implements RecipeLocalDataSource {
+class RecipeLocalDataSourceImpl
+    with CacheGuard
+    implements RecipeLocalDataSource {
   RecipeLocalDataSourceImpl(this._database, this.logger);
 
   final AppDatabase _database;
@@ -21,9 +23,10 @@ class RecipeLocalDataSourceImpl with CacheGuard implements RecipeLocalDataSource
   Future<List<SavedRecipeModel>> getCookbook() {
     return cacheGuard(() async {
       final List<SavedRecipeRow> rows =
-          await (_database.select(_database.savedRecipeRows)..orderBy(<OrderingTerm Function($SavedRecipeRowsTable)>[
-                ($SavedRecipeRowsTable t) => OrderingTerm.desc(t.savedAt),
-              ]))
+          await (_database.select(_database.savedRecipeRows)
+                ..orderBy(<OrderingTerm Function($SavedRecipeRowsTable)>[
+                  ($SavedRecipeRowsTable t) => OrderingTerm.desc(t.savedAt),
+                ]))
               .get();
       return rows.map((SavedRecipeRow row) => row.toModel()).toList();
     });
@@ -49,18 +52,23 @@ class RecipeLocalDataSourceImpl with CacheGuard implements RecipeLocalDataSource
   @override
   Future<void> upsert(SavedRecipeModel recipe) {
     return cacheGuard(
-      () => _database.into(_database.savedRecipeRows).insertOnConflictUpdate(recipe.toCompanion()),
+      () => _database
+          .into(_database.savedRecipeRows)
+          .insertOnConflictUpdate(recipe.toCompanion()),
     );
   }
 
   @override
   Future<RecipeModel?> getRecipeDetail(String id) {
     return cacheGuard(() async {
-      final RecipeDetailRow? row = await (_database.select(
-        _database.recipeDetailRows,
-      )..where(($RecipeDetailRowsTable t) => t.id.equals(id))).getSingleOrNull();
+      final RecipeDetailRow? row =
+          await (_database.select(
+                _database.recipeDetailRows,
+              )..where(($RecipeDetailRowsTable t) => t.id.equals(id)))
+              .getSingleOrNull();
       if (row == null) return null;
-      final Map<String, dynamic> json = jsonDecode(row.payload) as Map<String, dynamic>;
+      final Map<String, dynamic> json =
+          jsonDecode(row.payload) as Map<String, dynamic>;
       // `mood` is excluded from RecipeModel.fromJson (it's a generation input),
       // so re-attach it from the stored payload, where toJson did write it.
       return RecipeModel.fromJson(json).copyWith(mood: json['mood'] as String?);

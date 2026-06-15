@@ -50,7 +50,11 @@ class RecipeCard extends StatelessWidget {
                   Positioned(
                     top: AppSpacing.s3,
                     left: AppSpacing.s3,
-                    child: AppTag(label: mood.label, icon: mood.icon, tone: mood.tone),
+                    child: AppTag(
+                      label: mood.label,
+                      icon: mood.icon,
+                      tone: mood.tone,
+                    ),
                   ),
                 ],
               ),
@@ -70,7 +74,9 @@ class RecipeCard extends StatelessWidget {
                       const SizedBox(height: AppSpacing.s2),
                       Text(
                         recipe.description!,
-                        style: context.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: AppColors.textMuted,
+                        ),
                       ),
                     ],
                     const SizedBox(height: AppSpacing.s3),
@@ -79,9 +85,15 @@ class RecipeCard extends StatelessWidget {
                       runSpacing: AppSpacing.s2,
                       children: <Widget>[
                         if (recipe.cookTimeMinutes != null)
-                          AppTag(label: '${recipe.cookTimeMinutes} min', icon: Icons.schedule_rounded),
+                          AppTag(
+                            label: '${recipe.cookTimeMinutes} min',
+                            icon: Icons.schedule_rounded,
+                          ),
                         if (recipe.servings != null)
-                          AppTag(label: 'Serves ${recipe.servings}', icon: Icons.group_rounded),
+                          AppTag(
+                            label: 'Serves ${recipe.servings}',
+                            icon: Icons.group_rounded,
+                          ),
                       ],
                     ),
                   ],

@@ -37,7 +37,9 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
     return _supabaseService.safeCall(() async {
       final List<Map<String, dynamic>> rows = await _client
           .from(SupabaseTable.savedRecipesTable)
-          .select('rating, saved_at, recipes(id, title, cook_time_minutes, mood)')
+          .select(
+            'rating, saved_at, recipes(id, title, cook_time_minutes, mood)',
+          )
           .eq('user_id', _requireUserId())
           .order('saved_at', ascending: false);
       return rows.map(SavedRecipeModel.fromSupabaseRow).toList();
@@ -118,7 +120,10 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
     });
   }
 
-  Future<void> _insertSteps(String recipeId, List<RecipeStepModel> steps) async {
+  Future<void> _insertSteps(
+    String recipeId,
+    List<RecipeStepModel> steps,
+  ) async {
     if (steps.isEmpty) return;
     final List<Map<String, dynamic>> rows = steps
         .map(
@@ -134,7 +139,10 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
     await _client.from(SupabaseTable.recipeStepsTable).insert(rows);
   }
 
-  Future<void> _insertIngredients(String recipeId, List<RecipeIngredientModel> ingredients) async {
+  Future<void> _insertIngredients(
+    String recipeId,
+    List<RecipeIngredientModel> ingredients,
+  ) async {
     if (ingredients.isEmpty) return;
     final List<Map<String, dynamic>> rows = ingredients
         .map(

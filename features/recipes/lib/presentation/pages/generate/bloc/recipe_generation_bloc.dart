@@ -23,7 +23,8 @@ part 'recipe_generation_state.dart';
 /// the bloc (seeded from the route's [RecipeGenerationArgs]); the dietary
 /// preference is loaded once on [RecipeGenerationEvent.started] and folded into
 /// every prompt.
-class RecipeGenerationBloc extends Bloc<RecipeGenerationEvent, RecipeGenerationState> {
+class RecipeGenerationBloc
+    extends Bloc<RecipeGenerationEvent, RecipeGenerationState> {
   RecipeGenerationBloc(
     this._generateRecipes,
     this._getDietaryPreference, {
@@ -42,8 +43,13 @@ class RecipeGenerationBloc extends Bloc<RecipeGenerationEvent, RecipeGenerationS
   final GenerateRecipesUseCase _generateRecipes;
   final GetDietaryPreferenceUseCase _getDietaryPreference;
 
-  Future<void> _onStarted(_Started event, Emitter<RecipeGenerationState> emit) async {
-    final Either<Failure, String> result = await _getDietaryPreference(const NoParams());
+  Future<void> _onStarted(
+    _Started event,
+    Emitter<RecipeGenerationState> emit,
+  ) async {
+    final Either<Failure, String> result = await _getDietaryPreference(
+      const NoParams(),
+    );
     // A failed read is non-fatal — fall back to "none" so the user can still
     // pick a mood and generate.
     final DietaryPreference diet = result.fold(
@@ -53,11 +59,17 @@ class RecipeGenerationBloc extends Bloc<RecipeGenerationEvent, RecipeGenerationS
     emit(state.copyWith(dietaryPreference: diet));
   }
 
-  void _onMoodSelected(_MoodSelected event, Emitter<RecipeGenerationState> emit) {
+  void _onMoodSelected(
+    _MoodSelected event,
+    Emitter<RecipeGenerationState> emit,
+  ) {
     emit(state.copyWith(mood: event.mood));
   }
 
-  Future<void> _onGenerate(_GenerateRequested event, Emitter<RecipeGenerationState> emit) async {
+  Future<void> _onGenerate(
+    _GenerateRequested event,
+    Emitter<RecipeGenerationState> emit,
+  ) async {
     final RecipeMood? mood = state.mood;
     if (mood == null) return;
 
@@ -73,8 +85,10 @@ class RecipeGenerationBloc extends Bloc<RecipeGenerationEvent, RecipeGenerationS
 
     emit(
       result.fold(
-        (Failure l) => state.copyWith(status: RecipeGenStatus.error, failure: l),
-        (List<RecipeEntity> r) => state.copyWith(status: RecipeGenStatus.results, recipes: r),
+        (Failure l) =>
+            state.copyWith(status: RecipeGenStatus.error, failure: l),
+        (List<RecipeEntity> r) =>
+            state.copyWith(status: RecipeGenStatus.results, recipes: r),
       ),
     );
   }

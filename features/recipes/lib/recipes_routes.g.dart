@@ -47,7 +47,8 @@ mixin $RecipesRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);
@@ -66,13 +67,16 @@ mixin $RecipeGenerationRoute on GoRouteData {
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
   @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location, extra: _self.$extra);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location, extra: _self.$extra);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
 
   @override
-  void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
 }
 
 mixin $RecipeDetailRoute on GoRouteData {
@@ -88,13 +92,16 @@ mixin $RecipeDetailRoute on GoRouteData {
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
   @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location, extra: _self.$extra);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location, extra: _self.$extra);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
 
   @override
-  void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
 }
 
 mixin $RecipeDetailViewRoute on GoRouteData {
@@ -104,7 +111,8 @@ mixin $RecipeDetailViewRoute on GoRouteData {
   RecipeDetailViewRoute get _self => this as RecipeDetailViewRoute;
 
   @override
-  String get location => GoRouteData.$location('/recipes/saved/${Uri.encodeComponent(_self.id)}');
+  String get location =>
+      GoRouteData.$location('/recipes/saved/${Uri.encodeComponent(_self.id)}');
 
   @override
   void go(BuildContext context) => context.go(location);
@@ -113,7 +121,8 @@ mixin $RecipeDetailViewRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);

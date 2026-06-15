@@ -47,14 +47,16 @@ mixin $HomeRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);
 }
 
 mixin $FridgeScanRoute on GoRouteData {
-  static FridgeScanRoute _fromState(GoRouterState state) => const FridgeScanRoute();
+  static FridgeScanRoute _fromState(GoRouterState state) =>
+      const FridgeScanRoute();
 
   @override
   String get location => GoRouteData.$location('/home/fridge-scan');
@@ -66,7 +68,8 @@ mixin $FridgeScanRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);
@@ -85,17 +88,21 @@ mixin $IngredientReviewRoute on GoRouteData {
   void go(BuildContext context) => context.go(location, extra: _self.$extra);
 
   @override
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location, extra: _self.$extra);
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: _self.$extra);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location, extra: _self.$extra);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: _self.$extra);
 
   @override
-  void replace(BuildContext context) => context.replace(location, extra: _self.$extra);
+  void replace(BuildContext context) =>
+      context.replace(location, extra: _self.$extra);
 }
 
 mixin $ScanHistoryRoute on GoRouteData {
-  static ScanHistoryRoute _fromState(GoRouterState state) => const ScanHistoryRoute();
+  static ScanHistoryRoute _fromState(GoRouterState state) =>
+      const ScanHistoryRoute();
 
   @override
   String get location => GoRouteData.$location('/home/scan-history');
@@ -107,7 +114,8 @@ mixin $ScanHistoryRoute on GoRouteData {
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   @override
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   @override
   void replace(BuildContext context) => context.replace(location);

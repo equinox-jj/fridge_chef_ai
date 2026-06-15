@@ -7,5 +7,6 @@ abstract class ConnectivityEvent with _$ConnectivityEvent {
   const factory ConnectivityEvent.started() = _Started;
 
   /// The device's online state flipped (from the service stream).
-  const factory ConnectivityEvent.statusChanged({required bool isOnline}) = _StatusChanged;
+  const factory ConnectivityEvent.statusChanged({required bool isOnline}) =
+      _StatusChanged;
 }

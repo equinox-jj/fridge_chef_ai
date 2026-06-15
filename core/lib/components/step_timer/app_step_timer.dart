@@ -94,7 +94,8 @@ class _AppStepTimerState extends State<AppStepTimer> {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasLabel = widget.label != null && widget.label!.trim().isNotEmpty;
+    final bool hasLabel =
+        widget.label != null && widget.label!.trim().isNotEmpty;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -121,7 +122,9 @@ class _AppStepTimerState extends State<AppStepTimer> {
                   fontSize: AppTextSize.h2,
                   fontWeight: AppFontWeight.bold,
                   color: done ? AppColors.actionText : AppColors.primaryText,
-                  fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+                  fontFeatures: const <FontFeature>[
+                    FontFeature.tabularFigures(),
+                  ],
                 ),
               ),
               if (hasLabel) ...<Widget>[
@@ -149,7 +152,9 @@ class _AppStepTimerState extends State<AppStepTimer> {
               _TimerButton(
                 icon: Icons.refresh_rounded,
                 tooltip: 'Reset timer',
-                onPressed: remaining == widget.seconds && !running ? null : _reset,
+                onPressed: remaining == widget.seconds && !running
+                    ? null
+                    : _reset,
               ),
             ],
           );
@@ -178,8 +183,12 @@ class _TimerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool enabled = onPressed != null;
-    final Color background = primary ? AppColors.primary : AppColors.surfaceCard;
-    final Color foreground = primary ? AppColors.onPrimary : AppColors.primaryText;
+    final Color background = primary
+        ? AppColors.primary
+        : AppColors.surfaceCard;
+    final Color foreground = primary
+        ? AppColors.onPrimary
+        : AppColors.primaryText;
 
     return Material(
       color: enabled ? background : AppColors.surfaceSunken,

@@ -17,7 +17,8 @@ class ServerFailure extends Failure {
 
 class NetworkFailure extends Failure {
   const NetworkFailure([
-    super.message = 'A network error occurred. Please check your internet connection.',
+    super.message =
+        'A network error occurred. Please check your internet connection.',
   ]);
 }
 
@@ -72,7 +73,8 @@ class TooManyRequestsFailure extends Failure {
 
 class NoFoodDetectedFailure extends Failure {
   const NoFoodDetectedFailure([
-    super.message = "We couldn't find any food in that photo. Try a clear photo of the inside of your fridge.",
+    super.message =
+        "We couldn't find any food in that photo. Try a clear photo of the inside of your fridge.",
     super.code = 'no_food_detected',
   ]);
 }
@@ -86,7 +88,8 @@ class UnknownFailure extends Failure {
 
 class PermissionFailure extends Failure {
   const PermissionFailure([
-    super.message = 'Permission denied. Please allow access in Settings to continue.',
+    super.message =
+        'Permission denied. Please allow access in Settings to continue.',
     super.code = 'permission_denied',
   ]);
 }

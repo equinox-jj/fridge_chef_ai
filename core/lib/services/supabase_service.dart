@@ -73,10 +73,12 @@ class SupabaseService {
       // Fallback mapping based on status code
       if (status == '400') {
         final String lowerMessage = message.toLowerCase();
-        if (lowerMessage.contains('credentials') || lowerMessage.contains('invalid')) {
+        if (lowerMessage.contains('credentials') ||
+            lowerMessage.contains('invalid')) {
           return const InvalidCredentialsException();
         }
-        if (lowerMessage.contains('already exists') || lowerMessage.contains('already registered')) {
+        if (lowerMessage.contains('already exists') ||
+            lowerMessage.contains('already registered')) {
           return const UserAlreadyExistsException();
         }
         if (lowerMessage.contains('password')) {
@@ -110,9 +112,15 @@ class SupabaseService {
       // the user. Translate the few SQLSTATE codes we can phrase plainly and
       // fall back to a generic, friendly server error for everything else.
       return switch (error.code) {
-        '23505' => const ServerException('That already exists. Please try a different value.'),
-        '23503' => const ServerException('That action references something that no longer exists.'),
-        '42501' => const ServerException("You don't have permission to do that."),
+        '23505' => const ServerException(
+          'That already exists. Please try a different value.',
+        ),
+        '23503' => const ServerException(
+          'That action references something that no longer exists.',
+        ),
+        '42501' => const ServerException(
+          "You don't have permission to do that.",
+        ),
         _ => const ServerException(),
       };
     }

@@ -133,11 +133,13 @@ class _ScanPageState extends State<ScanPage> {
       body: MultiBlocListener(
         listeners: <BlocListener<ScanBloc, ScanState>>[
           BlocListener<ScanBloc, ScanState>(
-            listenWhen: (ScanState p, ScanState c) => p.pickStatus != c.pickStatus,
+            listenWhen: (ScanState p, ScanState c) =>
+                p.pickStatus != c.pickStatus,
             listener: _onPickStatusChanged,
           ),
           BlocListener<ScanBloc, ScanState>(
-            listenWhen: (ScanState p, ScanState c) => p.scanState != c.scanState,
+            listenWhen: (ScanState p, ScanState c) =>
+                p.scanState != c.scanState,
             listener: _onScanSucceeded,
           ),
         ],
@@ -149,7 +151,8 @@ class _ScanPageState extends State<ScanPage> {
               if (state.scanState == BlocStatus.loading) {
                 return const AppAiLoader(
                   title: 'Reading your fridge…',
-                  subtitle: 'AI vision is identifying ingredients in your photo.',
+                  subtitle:
+                      'AI vision is identifying ingredients in your photo.',
                   icon: Icons.psychology_rounded,
                 );
               }
@@ -331,7 +334,9 @@ class _ScanError extends StatelessWidget {
                   'We couldn\'t find any ingredients. Try better lighting, '
                       'or step back so more of the fridge is visible.',
               textAlign: TextAlign.center,
-              style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textMuted),
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: AppColors.textMuted,
+              ),
             ),
             const SizedBox(height: AppSpacing.s6),
             FilledButton.icon(

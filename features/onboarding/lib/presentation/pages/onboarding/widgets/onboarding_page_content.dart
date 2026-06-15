@@ -82,7 +82,9 @@ class OnboardingPageContent extends StatelessWidget {
                       child: Text(
                         step.body,
                         textAlign: TextAlign.center,
-                        style: context.textTheme.bodyLarge?.copyWith(color: AppColors.textMuted),
+                        style: context.textTheme.bodyLarge?.copyWith(
+                          color: AppColors.textMuted,
+                        ),
                       ),
                     ),
                     if (step.isDietarySetup) ...<Widget>[

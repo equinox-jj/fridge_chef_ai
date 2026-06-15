@@ -18,5 +18,6 @@ abstract class ProfileState with _$ProfileState {
 
   /// The user's saved dietary preference, resolved to its enum (defaults to
   /// [DietaryPreference.none] when unset).
-  DietaryPreference get dietaryPreference => DietaryPreference.fromValue(profile?.dietaryPreference);
+  DietaryPreference get dietaryPreference =>
+      DietaryPreference.fromValue(profile?.dietaryPreference);
 }

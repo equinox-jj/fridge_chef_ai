@@ -17,7 +17,9 @@ import '../mapper/scan_mapper.dart';
 import '../models/ingredient_model.dart';
 import '../models/scan_model.dart';
 
-class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanRepository {
+class FridgeScanRepositoryImpl
+    with RepositoryGuard
+    implements FridgeScanRepository {
   FridgeScanRepositoryImpl(
     this._remoteDataSource,
     this._localDataSource,
@@ -51,14 +53,17 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
       );
 
       // 4. Batch-persist the detected ingredients against the scan.
-      final List<IngredientModel> ingredients = await _remoteDataSource.insertIngredients(
-        scanId: scan.id ?? '',
-        items: analysis.ingredients,
-      );
+      final List<IngredientModel> ingredients = await _remoteDataSource
+          .insertIngredients(
+            scanId: scan.id ?? '',
+            items: analysis.ingredients,
+          );
 
       return ScanResultEntity(
         scan: scan.toEntity(),
-        ingredients: ingredients.map((IngredientModel model) => model.toEntity()).toList(),
+        ingredients: ingredients
+            .map((IngredientModel model) => model.toEntity())
+            .toList(),
       );
     });
   }
@@ -69,7 +74,9 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
   }
 
   @override
-  Future<Either<Failure, List<ScanResultEntity>>> getRecentScans({int limit = 10}) {
+  Future<Either<Failure, List<ScanResultEntity>>> getRecentScans({
+    int limit = 10,
+  }) {
     return guard(() async {
       // Offline-first: when online, refresh the on-device mirror from the
       // backend; then always read from the cache so the home list renders the
@@ -79,12 +86,15 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
       if (await _connectivity.isOnline) {
         await _refreshRecentScansCache(limit);
       }
-      final List<ScanWithIngredients> cached = await _localDataSource.getRecentScans(limit: limit);
+      final List<ScanWithIngredients> cached = await _localDataSource
+          .getRecentScans(limit: limit);
       return cached
           .map(
             (ScanWithIngredients row) => ScanResultEntity(
               scan: row.scan.toEntity(),
-              ingredients: row.ingredients.map((IngredientModel model) => model.toEntity()).toList(),
+              ingredients: row.ingredients
+                  .map((IngredientModel model) => model.toEntity())
+                  .toList(),
             ),
           )
           .toList();
@@ -96,10 +106,15 @@ class FridgeScanRepositoryImpl with RepositoryGuard implements FridgeScanReposit
   /// cache.
   Future<void> _refreshRecentScansCache(int limit) async {
     try {
-      final List<ScanWithIngredients> remote = await _remoteDataSource.getRecentScans(limit: limit);
+      final List<ScanWithIngredients> remote = await _remoteDataSource
+          .getRecentScans(limit: limit);
       await _localDataSource.replaceRecentScans(remote);
     } on AppException catch (e, stackTrace) {
-      logger.warning('Recent scans refresh failed; serving cache', error: e, stackTrace: stackTrace);
+      logger.warning(
+        'Recent scans refresh failed; serving cache',
+        error: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 }

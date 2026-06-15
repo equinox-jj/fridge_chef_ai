@@ -99,7 +99,8 @@ class _SignUpBodyState extends State<SignUpBody> {
           const SizedBox(height: AppSpacing.s4),
 
           BlocBuilder<SignUpCubit, SignUpState>(
-            buildWhen: (SignUpState p, SignUpState c) => p.signUpStatus != c.signUpStatus,
+            buildWhen: (SignUpState p, SignUpState c) =>
+                p.signUpStatus != c.signUpStatus,
             builder: (BuildContext context, SignUpState state) {
               final bool isLoading = state.signUpStatus == BlocStatus.loading;
 

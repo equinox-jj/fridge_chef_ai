@@ -40,18 +40,33 @@ class RecipeAiDataSourceImpl implements RecipeAiDataSource {
       'recipes': Schema.array(
         items: Schema.object(
           properties: <String, Schema>{
-            'title': Schema.string(description: 'Short, appetising recipe name.'),
-            'description': Schema.string(description: 'One-sentence description of the dish.'),
-            'servings': Schema.integer(description: 'How many people it serves.'),
-            'cook_time_minutes': Schema.integer(description: 'Total cook time in minutes.'),
+            'title': Schema.string(
+              description: 'Short, appetising recipe name.',
+            ),
+            'description': Schema.string(
+              description: 'One-sentence description of the dish.',
+            ),
+            'servings': Schema.integer(
+              description: 'How many people it serves.',
+            ),
+            'cook_time_minutes': Schema.integer(
+              description: 'Total cook time in minutes.',
+            ),
             'ingredients': Schema.array(
               items: Schema.object(
                 properties: <String, Schema>{
                   'name': Schema.string(description: 'Ingredient name.'),
-                  'quantity': Schema.string(description: 'Amount, e.g. "1", "250"; "" if not applicable.'),
-                  'unit': Schema.string(description: 'Unit, e.g. "g", "ml", "cup", "can"; "" if none.'),
+                  'quantity': Schema.string(
+                    description:
+                        'Amount, e.g. "1", "250"; "" if not applicable.',
+                  ),
+                  'unit': Schema.string(
+                    description:
+                        'Unit, e.g. "g", "ml", "cup", "can"; "" if none.',
+                  ),
                   'is_substitute': Schema.boolean(
-                    description: 'True when this ingredient replaces one the user does not have.',
+                    description:
+                        'True when this ingredient replaces one the user does not have.',
                   ),
                 },
               ),
@@ -59,10 +74,15 @@ class RecipeAiDataSourceImpl implements RecipeAiDataSource {
             'steps': Schema.array(
               items: Schema.object(
                 properties: <String, Schema>{
-                  'step_number': Schema.integer(description: 'Order of the step, starting at 1.'),
-                  'instruction': Schema.string(description: 'What to do in this step.'),
+                  'step_number': Schema.integer(
+                    description: 'Order of the step, starting at 1.',
+                  ),
+                  'instruction': Schema.string(
+                    description: 'What to do in this step.',
+                  ),
                   'timer_seconds': Schema.integer(
-                    description: 'Seconds for a timed step (e.g. "simmer 10 min" = 600); 0 if untimed.',
+                    description:
+                        'Seconds for a timed step (e.g. "simmer 10 min" = 600); 0 if untimed.',
                   ),
                 },
               ),
@@ -123,9 +143,15 @@ class RecipeAiDataSourceImpl implements RecipeAiDataSource {
     required String mood,
     required String dietaryPreference,
   }) {
-    final String ingredientList = ingredientLines.map((String l) => '- $l').join('\n');
-    final bool hasDiet = dietaryPreference.isNotEmpty && dietaryPreference.toLowerCase() != 'none';
-    final String dietRule = hasDiet ? 'All recipes must be suitable for a $dietaryPreference diet.\n' : '';
+    final String ingredientList = ingredientLines
+        .map((String l) => '- $l')
+        .join('\n');
+    final bool hasDiet =
+        dietaryPreference.isNotEmpty &&
+        dietaryPreference.toLowerCase() != 'none';
+    final String dietRule = hasDiet
+        ? 'All recipes must be suitable for a $dietaryPreference diet.\n'
+        : '';
 
     return '''
 You are a creative chef. Given these fridge ingredients:
@@ -146,7 +172,9 @@ Rules:
   /// [mood] to each (it is a generation input, not part of the response).
   List<RecipeModel> _parseRecipes(String raw, String mood) {
     if (raw.trim().isEmpty) {
-      throw const ServerException('The AI returned an empty response. Please try again.');
+      throw const ServerException(
+        'The AI returned an empty response. Please try again.',
+      );
     }
 
     try {
@@ -164,7 +192,9 @@ Rules:
           : <RecipeModel>[];
 
       if (recipes.isEmpty) {
-        throw const ServerException('No recipes could be written from those ingredients. Please try again.');
+        throw const ServerException(
+          'No recipes could be written from those ingredients. Please try again.',
+        );
       }
       return recipes;
     } on FormatException catch (e, stackTrace) {

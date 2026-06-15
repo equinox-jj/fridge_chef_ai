@@ -7,7 +7,8 @@ import '../repositories/fridge_scan_repository.dart';
 
 /// Returns the signed-in user's most recent fridge scans, newest first, for the
 /// home screen's "Recent scans" list.
-class GetRecentScansUseCase implements UseCase<List<ScanResultEntity>, NoParams> {
+class GetRecentScansUseCase
+    implements UseCase<List<ScanResultEntity>, NoParams> {
   const GetRecentScansUseCase(this._repository);
 
   final FridgeScanRepository _repository;

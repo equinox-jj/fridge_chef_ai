@@ -57,7 +57,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> _loadProfile() async {
-    final Either<Failure, ProfileEntity?> result = await _getProfile(const NoParams());
+    final Either<Failure, ProfileEntity?> result = await _getProfile(
+      const NoParams(),
+    );
     if (isClosed) return;
     emit(
       result.fold(
@@ -84,7 +86,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> updateDietaryPreference(DietaryPreference preference) async {
     emit(state.copyWith(dietaryStatus: BlocStatus.loading));
 
-    final Either<Failure, Unit> result = await _updateDietaryPreference(preference.value);
+    final Either<Failure, Unit> result = await _updateDietaryPreference(
+      preference.value,
+    );
 
     if (isClosed) return;
 
@@ -131,7 +135,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     // Camera needs a runtime grant; the gallery's system picker doesn't.
     final Permission? required = source.permission;
     if (required != null) {
-      final PermissionResult permission = await _permissionService.ensure(required);
+      final PermissionResult permission = await _permissionService.ensure(
+        required,
+      );
       if (isClosed) return;
       if (!permission.isGranted) {
         emit(
@@ -163,7 +169,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
         (String url) => state.copyWith(
           avatarStatus: BlocStatus.success,
-          profile: (state.profile ?? const ProfileEntity()).copyWith(avatarUrl: url),
+          profile: (state.profile ?? const ProfileEntity()).copyWith(
+            avatarUrl: url,
+          ),
         ),
       ),
     );
@@ -183,7 +191,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
         (_) => state.copyWith(
           avatarStatus: BlocStatus.success,
-          profile: (state.profile ?? const ProfileEntity()).copyWith(avatarUrl: null),
+          profile: (state.profile ?? const ProfileEntity()).copyWith(
+            avatarUrl: null,
+          ),
         ),
       ),
     );

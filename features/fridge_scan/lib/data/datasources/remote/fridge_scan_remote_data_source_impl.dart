@@ -25,7 +25,8 @@ class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
   Future<String> uploadImage(Uint8List bytes) {
     return _supabaseService.safeCall(() async {
       final String userId = _requireUserId();
-      final String path = '$userId/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final String path =
+          '$userId/${DateTime.now().millisecondsSinceEpoch}.jpg';
       await _client.storage
           .from(_bucket)
           .uploadBinary(
@@ -100,10 +101,15 @@ class FridgeScanRemoteDataSourceImpl implements FridgeScanRemoteDataSource {
           .limit(limit);
 
       return rows.map((Map<String, dynamic> row) {
-        final List<dynamic> rawIngredients = row[SupabaseTable.ingredientsTable] as List<dynamic>? ?? <dynamic>[];
+        final List<dynamic> rawIngredients =
+            row[SupabaseTable.ingredientsTable] as List<dynamic>? ??
+            <dynamic>[];
         return (
           scan: ScanModel.fromJson(row),
-          ingredients: rawIngredients.whereType<Map<String, dynamic>>().map(IngredientModel.fromJson).toList(),
+          ingredients: rawIngredients
+              .whereType<Map<String, dynamic>>()
+              .map(IngredientModel.fromJson)
+              .toList(),
         );
       }).toList();
     });

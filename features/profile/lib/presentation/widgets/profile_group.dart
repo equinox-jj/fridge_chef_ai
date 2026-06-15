@@ -28,7 +28,10 @@ class ProfileGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(left: AppSpacing.s1, bottom: AppSpacing.s2),
+          padding: const EdgeInsets.only(
+            left: AppSpacing.s1,
+            bottom: AppSpacing.s2,
+          ),
           child: Text(
             label.toUpperCase(),
             style: context.textTheme.labelSmall?.copyWith(
@@ -49,7 +52,12 @@ class ProfileGroup extends StatelessWidget {
           child: Column(
             children: <Widget>[
               for (int i = 0; i < rows.length; i++) ...<Widget>[
-                if (i > 0) const Divider(height: 1, thickness: 1, color: AppColors.borderSubtle),
+                if (i > 0)
+                  const Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: AppColors.borderSubtle,
+                  ),
                 rows[i],
               ],
             ],
