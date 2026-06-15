@@ -29,7 +29,9 @@ class SplashPage extends StatelessWidget {
         child: const SafeArea(
           child: Stack(
             children: <Widget>[
-              Center(child: _SplashBrand()),
+              Center(
+                child: _SplashBrand(),
+              ),
               Align(
                 alignment: .bottomCenter,
                 child: Padding(
@@ -49,8 +51,10 @@ class SplashPage extends StatelessWidget {
     switch (state.destination) {
       case SplashDestination.onboarding:
         navigator.goToOnboarding();
+        break;
       case SplashDestination.home:
         navigator.goToDashboard();
+        break;
       case null:
         break;
     }

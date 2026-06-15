@@ -56,13 +56,16 @@ mixin CacheGuard {
   /// [CacheException] so the repository can map it to a `Failure`. The stream
   /// stays open after a recoverable error so later updates still arrive.
   Stream<T> cacheGuardStream<T>(Stream<T> source) {
-    return source.handleError((Object e, StackTrace stackTrace) {
-      logger.warning(
-        'Local cache stream failed',
-        error: e,
-        stackTrace: stackTrace,
-      );
-      throw const CacheException();
-    }, test: (Object? e) => e is! AppException);
+    return source.handleError(
+      (Object e, StackTrace stackTrace) {
+        logger.warning(
+          'Local cache stream failed',
+          error: e,
+          stackTrace: stackTrace,
+        );
+        throw const CacheException();
+      },
+      test: (Object? e) => e is! AppException,
+    );
   }
 }
