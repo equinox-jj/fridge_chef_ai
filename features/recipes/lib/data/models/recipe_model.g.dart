@@ -31,6 +31,7 @@ Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) =>
       'description': instance.description,
       'servings': instance.servings,
       'cook_time_minutes': instance.cookTimeMinutes,
+      'mood': instance.mood,
       'ingredients': instance.ingredients,
       'steps': instance.steps,
     };

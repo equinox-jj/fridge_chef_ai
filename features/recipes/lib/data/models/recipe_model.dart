@@ -18,7 +18,11 @@ abstract class RecipeModel with _$RecipeModel {
     @JsonKey(name: 'description') String? description,
     @JsonKey(name: 'servings') int? servings,
     @JsonKey(name: 'cook_time_minutes') int? cookTimeMinutes,
-    @JsonKey(name: 'mood', includeFromJson: false) String? mood,
+    // `mood` is a generation *input*, not part of the model's response JSON, so
+    // it's excluded from fromJson. It IS written to toJson, though, so the
+    // detail cache (which persists toJson and re-reads it) keeps the mood.
+    @JsonKey(name: 'mood', includeFromJson: false, includeToJson: true)
+    String? mood,
     @JsonKey(name: 'ingredients')
     @Default(<RecipeIngredientModel>[])
     List<RecipeIngredientModel> ingredients,

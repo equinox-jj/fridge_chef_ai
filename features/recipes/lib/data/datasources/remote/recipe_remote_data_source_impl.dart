@@ -15,10 +15,16 @@ import '../../models/saved_recipe_model.dart';
 import '../../scheme/recipes_schema.dart';
 import 'recipe_remote_data_source.dart';
 
+/// Produces the raw model text for a generation [prompt]. A seam over the
+/// Firebase [GenerativeModel] (which is `final` and so can't be mocked
+/// directly) so the generation path is drivable in tests.
+typedef RecipeContentGenerator = Future<String?> Function(String prompt);
+
 class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
   RecipeRemoteDataSourceImpl({
     required this._supabaseService,
     required this._logger,
+    this._contentGenerator,
   });
 
   SupabaseClient get _client => _supabaseService.client;
@@ -26,16 +32,35 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
   final SupabaseService _supabaseService;
   final AppLogger _logger;
 
-  final GenerativeModel _model = FirebaseAI.googleAI().generativeModel(
-    model: GeminiConstants.geminiModel,
-    generationConfig: GenerationConfig(
-      responseMimeType: 'application/json',
-      // Enforce the output shape so every recipe always carries all its
-      // fields (no dropped keys when the model is unsure) — substitutes
-      // and step timers in particular must always be present.
-      responseSchema: RecipesSchema.responseSchema,
-    ),
-  );
+  /// Test seam over the model call; `null` in production, where the real
+  /// Firebase model is built lazily on first use (see [_model]).
+  final RecipeContentGenerator? _contentGenerator;
+
+  /// Lazily built so merely constructing this data source never touches
+  /// Firebase — only an actual generation call does.
+  GenerativeModel? _modelCache;
+
+  GenerativeModel get _model =>
+      _modelCache ??= FirebaseAI.googleAI().generativeModel(
+        model: GeminiConstants.geminiModel,
+        generationConfig: GenerationConfig(
+          responseMimeType: 'application/json',
+          // Enforce the output shape so every recipe always carries all its
+          // fields (no dropped keys when the model is unsure) — substitutes
+          // and step timers in particular must always be present.
+          responseSchema: RecipesSchema.responseSchema,
+        ),
+      );
+
+  /// Routes generation through the injected [_contentGenerator] when present,
+  /// otherwise the real model.
+  Future<String?> _generateContent(String prompt) {
+    final RecipeContentGenerator? generator = _contentGenerator;
+    if (generator != null) return generator(prompt);
+    return _model
+        .generateContent(<Content>[Content.text(prompt)])
+        .then((GenerateContentResponse r) => r.text);
+  }
 
   @override
   Future<String> getDietaryPreference() {
@@ -161,10 +186,7 @@ class RecipeRemoteDataSourceImpl implements RecipeRemoteDataSource {
 
     final String raw;
     try {
-      final GenerateContentResponse response = await _model.generateContent(
-        <Content>[Content.text(prompt)],
-      );
-      raw = response.text ?? '';
+      raw = await _generateContent(prompt) ?? '';
     } on AppException {
       rethrow;
     } catch (e, stackTrace) {

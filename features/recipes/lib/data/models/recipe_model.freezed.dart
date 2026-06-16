@@ -15,7 +15,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RecipeModel {
 
-@JsonKey(name: 'title') String? get title;@JsonKey(name: 'description') String? get description;@JsonKey(name: 'servings') int? get servings;@JsonKey(name: 'cook_time_minutes') int? get cookTimeMinutes;@JsonKey(name: 'mood', includeFromJson: false) String? get mood;@JsonKey(name: 'ingredients') List<RecipeIngredientModel> get ingredients;@JsonKey(name: 'steps') List<RecipeStepModel> get steps;
+@JsonKey(name: 'title') String? get title;@JsonKey(name: 'description') String? get description;@JsonKey(name: 'servings') int? get servings;@JsonKey(name: 'cook_time_minutes') int? get cookTimeMinutes;// `mood` is a generation *input*, not part of the model's response JSON, so
+// it's excluded from fromJson. It IS written to toJson, though, so the
+// detail cache (which persists toJson and re-reads it) keeps the mood.
+@JsonKey(name: 'mood', includeFromJson: false, includeToJson: true) String? get mood;@JsonKey(name: 'ingredients') List<RecipeIngredientModel> get ingredients;@JsonKey(name: 'steps') List<RecipeStepModel> get steps;
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +51,7 @@ abstract mixin class $RecipeModelCopyWith<$Res>  {
   factory $RecipeModelCopyWith(RecipeModel value, $Res Function(RecipeModel) _then) = _$RecipeModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'title') String? title,@JsonKey(name: 'description') String? description,@JsonKey(name: 'servings') int? servings,@JsonKey(name: 'cook_time_minutes') int? cookTimeMinutes,@JsonKey(name: 'mood', includeFromJson: false) String? mood,@JsonKey(name: 'ingredients') List<RecipeIngredientModel> ingredients,@JsonKey(name: 'steps') List<RecipeStepModel> steps
+@JsonKey(name: 'title') String? title,@JsonKey(name: 'description') String? description,@JsonKey(name: 'servings') int? servings,@JsonKey(name: 'cook_time_minutes') int? cookTimeMinutes,@JsonKey(name: 'mood', includeFromJson: false, includeToJson: true) String? mood,@JsonKey(name: 'ingredients') List<RecipeIngredientModel> ingredients,@JsonKey(name: 'steps') List<RecipeStepModel> steps
 });
 
 
@@ -159,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'title')  String? title, @JsonKey(name: 'description')  String? description, @JsonKey(name: 'servings')  int? servings, @JsonKey(name: 'cook_time_minutes')  int? cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false)  String? mood, @JsonKey(name: 'ingredients')  List<RecipeIngredientModel> ingredients, @JsonKey(name: 'steps')  List<RecipeStepModel> steps)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'title')  String? title, @JsonKey(name: 'description')  String? description, @JsonKey(name: 'servings')  int? servings, @JsonKey(name: 'cook_time_minutes')  int? cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false, includeToJson: true)  String? mood, @JsonKey(name: 'ingredients')  List<RecipeIngredientModel> ingredients, @JsonKey(name: 'steps')  List<RecipeStepModel> steps)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RecipeModel() when $default != null:
 return $default(_that.title,_that.description,_that.servings,_that.cookTimeMinutes,_that.mood,_that.ingredients,_that.steps);case _:
@@ -180,7 +183,7 @@ return $default(_that.title,_that.description,_that.servings,_that.cookTimeMinut
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'title')  String? title, @JsonKey(name: 'description')  String? description, @JsonKey(name: 'servings')  int? servings, @JsonKey(name: 'cook_time_minutes')  int? cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false)  String? mood, @JsonKey(name: 'ingredients')  List<RecipeIngredientModel> ingredients, @JsonKey(name: 'steps')  List<RecipeStepModel> steps)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'title')  String? title, @JsonKey(name: 'description')  String? description, @JsonKey(name: 'servings')  int? servings, @JsonKey(name: 'cook_time_minutes')  int? cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false, includeToJson: true)  String? mood, @JsonKey(name: 'ingredients')  List<RecipeIngredientModel> ingredients, @JsonKey(name: 'steps')  List<RecipeStepModel> steps)  $default,) {final _that = this;
 switch (_that) {
 case _RecipeModel():
 return $default(_that.title,_that.description,_that.servings,_that.cookTimeMinutes,_that.mood,_that.ingredients,_that.steps);case _:
@@ -200,7 +203,7 @@ return $default(_that.title,_that.description,_that.servings,_that.cookTimeMinut
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'title')  String? title, @JsonKey(name: 'description')  String? description, @JsonKey(name: 'servings')  int? servings, @JsonKey(name: 'cook_time_minutes')  int? cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false)  String? mood, @JsonKey(name: 'ingredients')  List<RecipeIngredientModel> ingredients, @JsonKey(name: 'steps')  List<RecipeStepModel> steps)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'title')  String? title, @JsonKey(name: 'description')  String? description, @JsonKey(name: 'servings')  int? servings, @JsonKey(name: 'cook_time_minutes')  int? cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false, includeToJson: true)  String? mood, @JsonKey(name: 'ingredients')  List<RecipeIngredientModel> ingredients, @JsonKey(name: 'steps')  List<RecipeStepModel> steps)?  $default,) {final _that = this;
 switch (_that) {
 case _RecipeModel() when $default != null:
 return $default(_that.title,_that.description,_that.servings,_that.cookTimeMinutes,_that.mood,_that.ingredients,_that.steps);case _:
@@ -215,14 +218,17 @@ return $default(_that.title,_that.description,_that.servings,_that.cookTimeMinut
 @JsonSerializable()
 
 class _RecipeModel implements RecipeModel {
-   _RecipeModel({@JsonKey(name: 'title') this.title, @JsonKey(name: 'description') this.description, @JsonKey(name: 'servings') this.servings, @JsonKey(name: 'cook_time_minutes') this.cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false) this.mood, @JsonKey(name: 'ingredients') final  List<RecipeIngredientModel> ingredients = const <RecipeIngredientModel>[], @JsonKey(name: 'steps') final  List<RecipeStepModel> steps = const <RecipeStepModel>[]}): _ingredients = ingredients,_steps = steps;
+   _RecipeModel({@JsonKey(name: 'title') this.title, @JsonKey(name: 'description') this.description, @JsonKey(name: 'servings') this.servings, @JsonKey(name: 'cook_time_minutes') this.cookTimeMinutes, @JsonKey(name: 'mood', includeFromJson: false, includeToJson: true) this.mood, @JsonKey(name: 'ingredients') final  List<RecipeIngredientModel> ingredients = const <RecipeIngredientModel>[], @JsonKey(name: 'steps') final  List<RecipeStepModel> steps = const <RecipeStepModel>[]}): _ingredients = ingredients,_steps = steps;
   factory _RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);
 
 @override@JsonKey(name: 'title') final  String? title;
 @override@JsonKey(name: 'description') final  String? description;
 @override@JsonKey(name: 'servings') final  int? servings;
 @override@JsonKey(name: 'cook_time_minutes') final  int? cookTimeMinutes;
-@override@JsonKey(name: 'mood', includeFromJson: false) final  String? mood;
+// `mood` is a generation *input*, not part of the model's response JSON, so
+// it's excluded from fromJson. It IS written to toJson, though, so the
+// detail cache (which persists toJson and re-reads it) keeps the mood.
+@override@JsonKey(name: 'mood', includeFromJson: false, includeToJson: true) final  String? mood;
  final  List<RecipeIngredientModel> _ingredients;
 @override@JsonKey(name: 'ingredients') List<RecipeIngredientModel> get ingredients {
   if (_ingredients is EqualUnmodifiableListView) return _ingredients;
@@ -271,7 +277,7 @@ abstract mixin class _$RecipeModelCopyWith<$Res> implements $RecipeModelCopyWith
   factory _$RecipeModelCopyWith(_RecipeModel value, $Res Function(_RecipeModel) _then) = __$RecipeModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'title') String? title,@JsonKey(name: 'description') String? description,@JsonKey(name: 'servings') int? servings,@JsonKey(name: 'cook_time_minutes') int? cookTimeMinutes,@JsonKey(name: 'mood', includeFromJson: false) String? mood,@JsonKey(name: 'ingredients') List<RecipeIngredientModel> ingredients,@JsonKey(name: 'steps') List<RecipeStepModel> steps
+@JsonKey(name: 'title') String? title,@JsonKey(name: 'description') String? description,@JsonKey(name: 'servings') int? servings,@JsonKey(name: 'cook_time_minutes') int? cookTimeMinutes,@JsonKey(name: 'mood', includeFromJson: false, includeToJson: true) String? mood,@JsonKey(name: 'ingredients') List<RecipeIngredientModel> ingredients,@JsonKey(name: 'steps') List<RecipeStepModel> steps
 });
 
 
