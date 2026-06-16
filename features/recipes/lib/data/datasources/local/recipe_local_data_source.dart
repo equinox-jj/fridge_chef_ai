@@ -9,6 +9,10 @@ abstract class RecipeLocalDataSource {
   /// Returns the cached cookbook, newest first.
   Future<List<SavedRecipeModel>> getCookbook();
 
+  /// Emits the cached cookbook (newest first) and re-emits whenever it changes,
+  /// so the cookbook grid stays in sync in real time.
+  Stream<List<SavedRecipeModel>> watchCookbook();
+
   /// Replaces the whole cached cookbook with [recipes] (the offline mirror of
   /// the backend, refreshed when online).
   Future<void> replaceCookbook(List<SavedRecipeModel> recipes);

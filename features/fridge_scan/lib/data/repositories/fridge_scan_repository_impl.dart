@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/constants/network/failure.dart';
+import 'package:core/events/app_event_bus.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
 import 'package:core/services/connectivity_service.dart';
@@ -25,6 +26,7 @@ class FridgeScanRepositoryImpl
     required this._localDataSource,
     required this._connectivity,
     required this._compressionService,
+    required this._eventBus,
     required this.logger,
   });
 
@@ -32,6 +34,7 @@ class FridgeScanRepositoryImpl
   final FridgeScanLocalDataSource _localDataSource;
   final ConnectivityService _connectivity;
   final ImageCompressionService _compressionService;
+  final AppEventBus _eventBus;
 
   @override
   final AppLogger logger;
@@ -66,6 +69,19 @@ class FridgeScanRepositoryImpl
             scanId: scan.id ?? '',
             items: analysis.ingredients,
           );
+
+      // Write-through: drop the new scan into the cache so the home list shows
+      // it instantly (offline included). A cache hiccup mustn't fail the scan
+      // the user just completed — log and move on. Mirrors saveRecipe.
+      final ScanWithIngredients cacheRow = (
+        scan: scan,
+        ingredients: ingredients,
+      );
+      await _writeScanThrough(cacheRow);
+
+      // Announce the new scan so the home tab resyncs from the backend even if
+      // it's not the visible tab.
+      _eventBus.publish(const ScanCreated());
 
       return ScanResultEntity(
         scan: scan.toEntity(),
@@ -120,6 +136,42 @@ class FridgeScanRepositoryImpl
     } on AppException catch (e, stackTrace) {
       logger.warning(
         'Recent scans refresh failed; serving cache',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  @override
+  Stream<Either<Failure, List<ScanResultEntity>>> watchRecentScans({
+    int limit = 10,
+  }) {
+    return guardStream(
+      _localDataSource
+          .watchRecentScans(limit: limit)
+          .map(
+            (List<ScanWithIngredients> rows) => rows
+                .map(
+                  (ScanWithIngredients row) => ScanResultEntity(
+                    scan: row.scan.toEntity(),
+                    ingredients: row.ingredients
+                        .map((IngredientModel model) => model.toEntity())
+                        .toList(),
+                  ),
+                )
+                .toList(),
+          ),
+    );
+  }
+
+  /// Best-effort write-through of a freshly completed scan. A cache failure is
+  /// logged but never fails the scan the user just finished.
+  Future<void> _writeScanThrough(ScanWithIngredients scan) async {
+    try {
+      await _localDataSource.upsertScan(scan);
+    } on CacheException catch (e, stackTrace) {
+      logger.warning(
+        'Failed to cache scan',
         error: e,
         stackTrace: stackTrace,
       );

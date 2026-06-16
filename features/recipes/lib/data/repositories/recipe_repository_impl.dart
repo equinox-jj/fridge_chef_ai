@@ -1,5 +1,6 @@
 import 'package:core/constants/exceptions/app_exceptions.dart';
 import 'package:core/constants/network/failure.dart';
+import 'package:core/events/app_event_bus.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/mixin/repository_guard.dart';
 import 'package:core/router/args/recipe_generation_args.dart';
@@ -21,12 +22,14 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
     required this._remoteDataSource,
     required this._localDataSource,
     required this._connectivity,
+    required this._eventBus,
     required this.logger,
   });
 
   final RecipeRemoteDataSource _remoteDataSource;
   final RecipeLocalDataSource _localDataSource;
   final ConnectivityService _connectivity;
+  final AppEventBus _eventBus;
 
   @override
   final AppLogger logger;
@@ -46,6 +49,16 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
           .getCookbook();
       return cached.map((SavedRecipeModel m) => m.toEntity()).toList();
     });
+  }
+
+  @override
+  Stream<Either<Failure, List<SavedRecipeEntity>>> watchCookbook() {
+    return guardStream(
+      _localDataSource.watchCookbook().map(
+        (List<SavedRecipeModel> rows) =>
+            rows.map((SavedRecipeModel m) => m.toEntity()).toList(),
+      ),
+    );
   }
 
   @override
@@ -131,6 +144,8 @@ class RecipeRepositoryImpl with RepositoryGuard implements RecipeRepository {
           stackTrace: stackTrace,
         );
       }
+      // Announce the save so the cookbook tab resyncs even if it's not visible.
+      _eventBus.publish(const RecipeSaved());
       return unit;
     });
   }

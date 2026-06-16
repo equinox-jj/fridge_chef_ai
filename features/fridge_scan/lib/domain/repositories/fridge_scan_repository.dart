@@ -21,4 +21,11 @@ abstract class FridgeScanRepository {
   /// Returns the user's most recent scans (newest first), each with its
   /// detected ingredients, capped at [limit].
   Future<Either<Failure, List<ScanResultEntity>>> getRecentScans({int limit});
+
+  /// Emits the user's recent scans (newest first, with ingredients) and
+  /// re-emits whenever the on-device cache changes — the real-time feed for the
+  /// home list. Capped at [limit].
+  Stream<Either<Failure, List<ScanResultEntity>>> watchRecentScans({
+    int limit,
+  });
 }

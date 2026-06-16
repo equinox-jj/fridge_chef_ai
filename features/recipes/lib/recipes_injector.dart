@@ -1,5 +1,6 @@
 import 'package:core/database/app_database.dart';
 import 'package:core/di/di.dart';
+import 'package:core/events/app_event_bus.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/supabase_service.dart';
@@ -15,6 +16,7 @@ import 'domain/usecases/get_cookbook_usecase.dart';
 import 'domain/usecases/get_dietary_preference_usecase.dart';
 import 'domain/usecases/get_recipe_detail_usecase.dart';
 import 'domain/usecases/save_recipe_usecase.dart';
+import 'domain/usecases/watch_cookbook_usecase.dart';
 
 /// Registers the recipes feature's data sources, repository and use cases on
 /// [getIt].
@@ -46,6 +48,7 @@ void initRecipesInjector() {
         remoteDataSource: getIt<RecipeRemoteDataSource>(),
         localDataSource: getIt<RecipeLocalDataSource>(),
         connectivity: getIt<ConnectivityService>(),
+        eventBus: getIt<AppEventBus>(),
         logger: getIt<AppLogger>(),
       ),
     )
@@ -55,6 +58,9 @@ void initRecipesInjector() {
     )
     ..registerLazySingleton<GetCookbookUseCase>(
       () => GetCookbookUseCase(getIt<RecipeRepository>()),
+    )
+    ..registerLazySingleton<WatchCookbookUseCase>(
+      () => WatchCookbookUseCase(getIt<RecipeRepository>()),
     )
     ..registerLazySingleton<GetRecipeDetailUseCase>(
       () => GetRecipeDetailUseCase(getIt<RecipeRepository>()),

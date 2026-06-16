@@ -42,26 +42,23 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  /// Opens the scan flow, then refreshes recent scans on return so a freshly
-  /// completed scan shows up without a manual reload.
+  /// Opens the scan flow. The recent-scans list updates on its own — a new scan
+  /// is written through to the cache (watched here) and announced on the event
+  /// bus, which triggers a backend resync.
   Future<void> _startScan(BuildContext context) async {
-    final HomeBloc bloc = context.read<HomeBloc>();
     await const FridgeScanRoute().push<void>(context);
-    if (context.mounted) bloc.add(const HomeEvent.refreshed());
   }
 
   void _openScan(BuildContext context, ScanResultEntity scan) {
     IngredientReviewRoute($extra: scan).push<void>(context);
   }
 
-  /// Reloads recent scans and keeps the pull-to-refresh spinner alive until the
-  /// load settles (leaves [BlocStatus.loading]).
+  /// Triggers a backend resync and keeps the pull-to-refresh spinner alive until
+  /// it settles.
   Future<void> _refresh() async {
     final HomeBloc bloc = context.read<HomeBloc>();
-    bloc.add(const HomeEvent.refreshed());
-    await bloc.stream.firstWhere(
-      (HomeState state) => state.recentScansStatus != BlocStatus.loading,
-    );
+    bloc.add(const HomeEvent.synced());
+    await bloc.stream.firstWhere((HomeState state) => !state.isSyncing);
   }
 
   /// Shows the FAB when the user scrolls up and hides it when scrolling down.

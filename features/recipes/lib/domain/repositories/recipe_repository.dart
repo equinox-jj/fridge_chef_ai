@@ -15,6 +15,10 @@ abstract class RecipeRepository {
   /// first (PRD §4.4).
   Future<Either<Failure, List<SavedRecipeEntity>>> getCookbook();
 
+  /// Emits the user's cookbook (newest first) and re-emits whenever the
+  /// on-device cache changes — the real-time feed for the cookbook grid.
+  Stream<Either<Failure, List<SavedRecipeEntity>>> watchCookbook();
+
   /// Reads the full detail (header, steps, ingredients) of the saved recipe
   /// [id], for the detail screen opened from the cookbook.
   ///

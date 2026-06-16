@@ -58,6 +58,21 @@ class FridgeScanLocalDataSourceImpl
   }
 
   @override
+  Stream<List<ScanWithIngredients>> watchRecentScans({int limit = 10}) {
+    return cacheGuardStream(
+      (_database.select(_database.cachedScanRows)
+            ..orderBy(<OrderingTerm Function(db.$CachedScanRowsTable)>[
+              (db.$CachedScanRowsTable t) => OrderingTerm.desc(t.scannedAt),
+            ])
+            ..limit(limit))
+          .watch()
+          .map(
+            (List<db.CachedScanRow> rows) => rows.map(_decode).toList(),
+          ),
+    );
+  }
+
+  @override
   Future<void> replaceRecentScans({required List<ScanWithIngredients> scans}) {
     // Replace-then-insert keeps the cache an exact mirror of the backend, so a
     // scan deleted remotely doesn't linger offline.
@@ -71,6 +86,15 @@ class FridgeScanLocalDataSourceImpl
           );
         });
       }),
+    );
+  }
+
+  @override
+  Future<void> upsertScan(ScanWithIngredients scan) {
+    return cacheGuard(
+      () => _database
+          .into(_database.cachedScanRows)
+          .insertOnConflictUpdate(_toCompanion(scan)),
     );
   }
 

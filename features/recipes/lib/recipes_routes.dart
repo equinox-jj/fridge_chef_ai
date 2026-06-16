@@ -1,5 +1,6 @@
 import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/di/di.dart';
+import 'package:core/events/app_event_bus.dart';
 import 'package:core/router/app_route.dart';
 import 'package:core/router/args/recipe_generation_args.dart';
 import 'package:core/router/nav_keys/navigator_keys.dart';
@@ -12,6 +13,7 @@ import 'domain/usecases/get_cookbook_usecase.dart';
 import 'domain/usecases/get_dietary_preference_usecase.dart';
 import 'domain/usecases/get_recipe_detail_usecase.dart';
 import 'domain/usecases/save_recipe_usecase.dart';
+import 'domain/usecases/watch_cookbook_usecase.dart';
 import 'presentation/args/recipe_detail_args.dart';
 import 'presentation/pages/cookbook/bloc/cookbook_bloc.dart';
 import 'presentation/pages/cookbook/cookbook_page.dart';
@@ -56,7 +58,9 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
     return BlocProvider<CookbookBloc>(
       create: (_) => CookbookBloc(
         getIt<GetCookbookUseCase>(),
+        getIt<WatchCookbookUseCase>(),
         getIt<ConnectivityBloc>(),
+        getIt<AppEventBus>(),
       )..add(const CookbookEvent.started()),
       child: const CookbookPage(),
     );

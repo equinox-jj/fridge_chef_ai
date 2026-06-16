@@ -1,5 +1,6 @@
 import 'package:core/database/app_database.dart';
 import 'package:core/di/di.dart';
+import 'package:core/events/app_event_bus.dart';
 import 'package:core/logger/app_logger.dart';
 import 'package:core/services/connectivity_service.dart';
 import 'package:core/services/image_compression_service_impl.dart';
@@ -17,6 +18,7 @@ import 'domain/usecases/get_recent_scans_usecase.dart';
 import 'domain/usecases/get_scan_history_usecase.dart';
 import 'domain/usecases/get_user_profile_usecase.dart';
 import 'domain/usecases/scan_fridge_usecase.dart';
+import 'domain/usecases/watch_recent_scans_usecase.dart';
 import 'presentation/pages/home/bloc/home_bloc.dart';
 import 'presentation/pages/scan/bloc/scan_bloc.dart';
 import 'presentation/pages/scan_history/cubit/scan_history_cubit.dart';
@@ -47,6 +49,7 @@ void initFridgeScanInjector() {
         localDataSource: getIt<FridgeScanLocalDataSource>(),
         connectivity: getIt<ConnectivityService>(),
         compressionService: getIt<ImageCompressionService>(),
+        eventBus: getIt<AppEventBus>(),
         logger: getIt<AppLogger>(),
       ),
     )
@@ -60,6 +63,9 @@ void initFridgeScanInjector() {
     ..registerLazySingleton<GetRecentScansUseCase>(
       () => GetRecentScansUseCase(getIt<FridgeScanRepository>()),
     )
+    ..registerLazySingleton<WatchRecentScansUseCase>(
+      () => WatchRecentScansUseCase(getIt<FridgeScanRepository>()),
+    )
     ..registerLazySingleton<GetScanHistoryUseCase>(
       () => GetScanHistoryUseCase(getIt<FridgeScanRepository>()),
     )
@@ -67,7 +73,9 @@ void initFridgeScanInjector() {
     ..registerFactory<HomeBloc>(
       () => HomeBloc(
         getIt<GetUserProfileUseCase>(),
+        getIt<WatchRecentScansUseCase>(),
         getIt<GetRecentScansUseCase>(),
+        getIt<AppEventBus>(),
       ),
     )
     ..registerFactory<ScanBloc>(

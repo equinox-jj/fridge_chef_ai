@@ -36,6 +36,21 @@ class RecipeLocalDataSourceImpl
   }
 
   @override
+  Stream<List<SavedRecipeModel>> watchCookbook() {
+    return cacheGuardStream(
+      (_database.select(_database.savedRecipeRows)
+            ..orderBy(<OrderingTerm Function($SavedRecipeRowsTable)>[
+              ($SavedRecipeRowsTable t) => OrderingTerm.desc(t.savedAt),
+            ]))
+          .watch()
+          .map(
+            (List<SavedRecipeRow> rows) =>
+                rows.map((SavedRecipeRow row) => row.toModel()).toList(),
+          ),
+    );
+  }
+
+  @override
   Future<void> replaceCookbook(List<SavedRecipeModel> recipes) {
     // Replace-then-insert keeps the cache an exact mirror of the backend, so a
     // recipe deleted remotely doesn't linger offline.
