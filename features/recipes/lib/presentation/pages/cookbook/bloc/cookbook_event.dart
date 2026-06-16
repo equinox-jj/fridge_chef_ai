@@ -7,8 +7,4 @@ abstract class CookbookEvent with _$CookbookEvent {
 
   /// Re-read the cookbook (e.g. pull-to-refresh, returning to the tab).
   const factory CookbookEvent.refreshed() = _Refreshed;
-
-  /// The device's online state flipped.
-  const factory CookbookEvent.connectivityChanged({required bool isOnline}) =
-      _ConnectivityChanged;
 }

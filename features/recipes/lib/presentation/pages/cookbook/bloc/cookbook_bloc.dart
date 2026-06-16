@@ -31,29 +31,22 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
   CookbookBloc(
     this._getCookbook,
     this._watchCookbook,
-    this._connectivity,
     this._eventBus,
   ) : super(const CookbookState()) {
     on<_Started>(_onStarted);
     on<_Refreshed>(_onRefreshed);
-    on<_ConnectivityChanged>(_onConnectivityChanged);
   }
 
   final GetCookbookUseCase _getCookbook;
   final WatchCookbookUseCase _watchCookbook;
-  final ConnectivityBloc _connectivity;
   final AppEventBus _eventBus;
 
-  StreamSubscription<ConnectivityState>? _connectivitySub;
   StreamSubscription<AppEvent>? _eventSub;
 
-  Future<void> _onStarted(_Started event, Emitter<CookbookState> emit) async {
-    _connectivitySub ??= _connectivity.stream.listen((
-      ConnectivityState status,
-    ) {
-      add(CookbookEvent.connectivityChanged(isOnline: status.isOnline));
-    });
-
+  Future<void> _onStarted(
+    _Started event,
+    Emitter<CookbookState> emit,
+  ) async {
     // Resync whenever a recipe is saved, even from another tab.
     _eventSub ??= _eventBus.stream.listen((AppEvent appEvent) {
       if (appEvent is RecipeSaved) {
@@ -68,18 +61,10 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
     await _watchRecipes(emit);
   }
 
-  Future<void> _onRefreshed(_Refreshed event, Emitter<CookbookState> emit) =>
-      _sync(emit);
-
-  Future<void> _onConnectivityChanged(
-    _ConnectivityChanged event,
+  Future<void> _onRefreshed(
+    _Refreshed event,
     Emitter<CookbookState> emit,
-  ) async {
-    // Coming back online: refresh so the cache catches up with the backend.
-    if (event.isOnline) {
-      await _sync(emit);
-    }
-  }
+  ) => _sync(emit);
 
   /// Subscribes to the cached cookbook and re-emits on every change. Owns the
   /// [recipes] list; status is owned by [_sync] except the natural
@@ -131,7 +116,6 @@ class CookbookBloc extends Bloc<CookbookEvent, CookbookState> {
 
   @override
   Future<void> close() {
-    _connectivitySub?.cancel();
     _eventSub?.cancel();
     return super.close();
   }

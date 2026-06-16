@@ -55,13 +55,12 @@ extension CookbookEventPatterns on CookbookEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Refreshed value)?  refreshed,TResult Function( _ConnectivityChanged value)?  connectivityChanged,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Refreshed value)?  refreshed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _Refreshed() when refreshed != null:
-return refreshed(_that);case _ConnectivityChanged() when connectivityChanged != null:
-return connectivityChanged(_that);case _:
+return refreshed(_that);case _:
   return orElse();
 
 }
@@ -79,13 +78,12 @@ return connectivityChanged(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Refreshed value)  refreshed,required TResult Function( _ConnectivityChanged value)  connectivityChanged,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Refreshed value)  refreshed,}){
 final _that = this;
 switch (_that) {
 case _Started():
 return started(_that);case _Refreshed():
-return refreshed(_that);case _ConnectivityChanged():
-return connectivityChanged(_that);case _:
+return refreshed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +100,12 @@ return connectivityChanged(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Refreshed value)?  refreshed,TResult? Function( _ConnectivityChanged value)?  connectivityChanged,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Refreshed value)?  refreshed,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _Refreshed() when refreshed != null:
-return refreshed(_that);case _ConnectivityChanged() when connectivityChanged != null:
-return connectivityChanged(_that);case _:
+return refreshed(_that);case _:
   return null;
 
 }
@@ -125,12 +122,11 @@ return connectivityChanged(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function()?  refreshed,TResult Function( bool isOnline)?  connectivityChanged,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function()?  refreshed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Refreshed() when refreshed != null:
-return refreshed();case _ConnectivityChanged() when connectivityChanged != null:
-return connectivityChanged(_that.isOnline);case _:
+return refreshed();case _:
   return orElse();
 
 }
@@ -148,12 +144,11 @@ return connectivityChanged(_that.isOnline);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function()  refreshed,required TResult Function( bool isOnline)  connectivityChanged,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function()  refreshed,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _Refreshed():
-return refreshed();case _ConnectivityChanged():
-return connectivityChanged(_that.isOnline);case _:
+return refreshed();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +165,11 @@ return connectivityChanged(_that.isOnline);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function()?  refreshed,TResult? Function( bool isOnline)?  connectivityChanged,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function()?  refreshed,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Refreshed() when refreshed != null:
-return refreshed();case _ConnectivityChanged() when connectivityChanged != null:
-return connectivityChanged(_that.isOnline);case _:
+return refreshed();case _:
   return null;
 
 }
@@ -246,72 +240,6 @@ String toString() {
 
 
 
-
-/// @nodoc
-
-
-class _ConnectivityChanged implements CookbookEvent {
-  const _ConnectivityChanged({required this.isOnline});
-  
-
- final  bool isOnline;
-
-/// Create a copy of CookbookEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$ConnectivityChangedCopyWith<_ConnectivityChanged> get copyWith => __$ConnectivityChangedCopyWithImpl<_ConnectivityChanged>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ConnectivityChanged&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,isOnline);
-
-@override
-String toString() {
-  return 'CookbookEvent.connectivityChanged(isOnline: $isOnline)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$ConnectivityChangedCopyWith<$Res> implements $CookbookEventCopyWith<$Res> {
-  factory _$ConnectivityChangedCopyWith(_ConnectivityChanged value, $Res Function(_ConnectivityChanged) _then) = __$ConnectivityChangedCopyWithImpl;
-@useResult
-$Res call({
- bool isOnline
-});
-
-
-
-
-}
-/// @nodoc
-class __$ConnectivityChangedCopyWithImpl<$Res>
-    implements _$ConnectivityChangedCopyWith<$Res> {
-  __$ConnectivityChangedCopyWithImpl(this._self, this._then);
-
-  final _ConnectivityChanged _self;
-  final $Res Function(_ConnectivityChanged) _then;
-
-/// Create a copy of CookbookEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? isOnline = null,}) {
-  return _then(_ConnectivityChanged(
-isOnline: null == isOnline ? _self.isOnline : isOnline // ignore: cast_nullable_to_non_nullable
-as bool,
-  ));
-}
-
-
-}
 
 /// @nodoc
 mixin _$CookbookState {

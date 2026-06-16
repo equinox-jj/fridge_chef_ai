@@ -1,4 +1,3 @@
-import 'package:core/blocs/connectivity_bloc.dart';
 import 'package:core/di/di.dart';
 import 'package:core/events/app_event_bus.dart';
 import 'package:core/router/app_route.dart';
@@ -59,7 +58,6 @@ class RecipesRoute extends GoRouteData with $RecipesRoute {
       create: (_) => CookbookBloc(
         getIt<GetCookbookUseCase>(),
         getIt<WatchCookbookUseCase>(),
-        getIt<ConnectivityBloc>(),
         getIt<AppEventBus>(),
       )..add(const CookbookEvent.started()),
       child: const CookbookPage(),
